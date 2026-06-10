@@ -171,6 +171,78 @@ export const t = {
       en: "Taste our wines and see for yourself how unique they are",
     },
   },
+  contactsPage: {
+    eyebrow: { ru: "Сотрудничество", en: "Partnership" },
+    title: { ru: "Давайте сотрудничать", en: "Let's work together" },
+    intro: {
+      ru: "Chateau At Mount станет надёжным партнёром для магазина, бара или ресторана, который хочет предложить гостям первоклассные молдавские вина.",
+      en: "Chateau At Mount is a reliable partner for any shop, bar or restaurant that wants to offer its guests first-class Moldovan wines.",
+    },
+    offerTitle: { ru: "Что мы предлагаем", en: "What we offer" },
+    offer: {
+      ru: [
+        "Натуральные вина местного производства",
+        "Гибкую систему цен и бонусов",
+        "Индивидуальные условия сотрудничества",
+        "Быструю доставку",
+        "Помощь в составлении винной карты",
+        "Обучение персонала",
+      ],
+      en: [
+        "Natural, locally made wines",
+        "Flexible pricing and bonus system",
+        "Tailored partnership terms",
+        "Fast delivery",
+        "Help building your wine list",
+        "Staff training",
+      ],
+    },
+    togetherTitle: {
+      ru: "Что можем сделать вместе",
+      en: "What we can do together",
+    },
+    together: {
+      ru: [
+        "Коллаборацию или тематический ужин",
+        "Дегустацию для вашей команды и гостей",
+        "Съёмку или мероприятие на территории винодельни",
+      ],
+      en: [
+        "A collaboration or themed dinner",
+        "A tasting for your team and guests",
+        "A photoshoot or event at the winery",
+      ],
+    },
+    formTitle: { ru: "Оставьте заявку", en: "Send a request" },
+    formNote: {
+      ru: "Заполните форму — и мы свяжемся с вами сами.",
+      en: "Fill in the form and we'll get back to you.",
+    },
+    fields: {
+      name: { ru: "Имя", en: "Name" },
+      topic: {
+        ru: "Интересующий вас вопрос",
+        en: "What are you interested in",
+      },
+      contact: { ru: "Ваш Telegram или почта", en: "Your Telegram or email" },
+      phone: { ru: "Ваш номер телефона", en: "Your phone number" },
+    },
+    submit: { ru: "Отправить", en: "Send" },
+    orTelegram: {
+      ru: "или напишите нам в Telegram",
+      en: "or message us on Telegram",
+    },
+    success: {
+      ru: "Спасибо! Откроется письмо с вашей заявкой — отправьте его, и мы ответим в течение 30 минут.",
+      en: "Thank you! An email with your request will open — send it and we'll reply within 30 minutes.",
+    },
+    contactsTitle: { ru: "Наши контакты", en: "Our contacts" },
+    emailLabel: { ru: "Почта", en: "Email" },
+    phoneLabel: { ru: "Телефон", en: "Phone" },
+    addressLabel: { ru: "Адрес винодельни", en: "Winery address" },
+    showOnMap: { ru: "Показать на карте", en: "Show on map" },
+    backHome: { ru: "На главную", en: "Back home" },
+  },
   footer: {
     brandCol: { ru: "Винодельня", en: "Winery" },
     socialCol: { ru: "Соцсети", en: "Social" },

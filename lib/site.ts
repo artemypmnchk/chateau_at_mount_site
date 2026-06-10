@@ -27,4 +27,13 @@ export const site = {
     longitude: 28.8316,
   },
   social: [links.instagram, links.telegram, links.tiktok],
+  // Контактные данные (из оригинальной страницы /contacts).
+  contacts: {
+    email: "chateauatmount@gmail.com",
+    phone: "0 (76) 007737",
+    phoneHref: "tel:+37376007737",
+    addressLine: "Чадыр-Лунга, Гагаузия, Молдова", // TODO: уточнить улицу и дом
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=Chateau+At+Mount+Ceadir-Lunga",
+  },
 } as const;

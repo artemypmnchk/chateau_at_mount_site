@@ -21,6 +21,9 @@
 
 - Удалён блок-анонс **«24 августа — Фестиваль сбора урожая»** (по просьбе заказчика).
 - Раздел «Мероприятия» теперь ведёт на блок «Место для ваших воспоминаний».
+- Страница **«Контакты и сотрудничество»** (`/contacts`) переработана: оптимизирован
+  текст и визуал. Форма заявки собирает письмо на почту винодельни (без бэкенда),
+  рядом — прямая кнопка в Telegram и блок контактов с картой.
 
 ## Запуск
 
@@ -53,18 +56,23 @@ docker compose up --build   # http://localhost:3000
 
 ```
 app/
-  layout.tsx      # метаданные (SEO/OG), шрифт, <html>, JSON-LD
-  page.tsx        # точка входа
-  globals.css     # дизайн-токены и все стили
-  sitemap.ts      # sitemap.xml
-  robots.ts       # robots.txt
+  layout.tsx        # метаданные (SEO/OG), шрифт, <html>, общие Header/Footer, JSON-LD
+  page.tsx          # главная
+  contacts/page.tsx # страница «Контакты и сотрудничество»
+  globals.css       # дизайн-токены и все стили
+  sitemap.ts        # sitemap.xml
+  robots.ts         # robots.txt
 components/
-  Site.tsx        # клиентский компонент: хедер, секции, слайдер, i18n
-  WinerySchema.tsx# JSON-LD структурированные данные (schema.org Winery)
+  Header.tsx        # общая шапка (навигация, переключатель языка, мобильное меню)
+  Footer.tsx        # общий футер
+  locale.tsx        # контекст языка RU/EN (общий для всех страниц, localStorage)
+  Site.tsx          # секции главной: hero, вина-слайдер и т.д.
+  ContactsPage.tsx  # секции страницы контактов + форма заявки
+  WinerySchema.tsx  # JSON-LD структурированные данные (schema.org Winery)
 lib/
-  content.ts      # весь текст (RU/EN), список вин, ссылки
-  site.ts         # домен, адрес, гео, соцсети (для SEO/sitemap/JSON-LD)
-public/images/    # изображения
+  content.ts        # весь текст (RU/EN), список вин, ссылки
+  site.ts           # домен, адрес, контакты, гео, соцсети (для SEO/sitemap/JSON-LD)
+public/images/      # изображения
 ```
 
 ## Тексты и ссылки

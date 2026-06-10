@@ -3,6 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
 import { WinerySchema } from "@/components/WinerySchema";
+import { LocaleProvider } from "@/components/locale";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -74,7 +77,11 @@ export default function RootLayout({
   return (
     <html lang="ru" className={inter.variable}>
       <body>
-        {children}
+        <LocaleProvider>
+          <Header />
+          {children}
+          <Footer />
+        </LocaleProvider>
         <WinerySchema />
       </body>
     </html>
