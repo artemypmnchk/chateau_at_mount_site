@@ -1,16 +1,28 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
 import { WinerySchema } from "@/components/WinerySchema";
 import { LocaleProvider } from "@/components/locale";
+import { BookingModalProvider } from "@/components/BookingModal";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import AgeGate from "@/components/AgeGate";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
   display: "swap",
   variable: "--font-inter",
+});
+
+// Антиквенный шрифт для заголовков — задаёт «винодельческий» характер,
+// поддерживает кириллицу и румынскую диакритику.
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin", "cyrillic", "latin-ext"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-serif",
 });
 
 export const metadata: Metadata = {
@@ -75,12 +87,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ru" className={inter.variable}>
+    <html lang="ru" className={`${inter.variable} ${cormorant.variable}`}>
       <body>
         <LocaleProvider>
-          <Header />
-          {children}
-          <Footer />
+          <BookingModalProvider>
+            <Header />
+            {children}
+            <Footer />
+            <AgeGate />
+          </BookingModalProvider>
         </LocaleProvider>
         <WinerySchema />
       </body>

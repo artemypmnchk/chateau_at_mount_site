@@ -10,7 +10,9 @@
 - Шрифт **Inter** через `next/font`
 - Все изображения сохранены локально в `public/images/` (фото, логотип, 7 этикеток вин)
 - Оптимизация картинок через **`next/image`**: AVIF/WebP, адаптивные размеры, blur-заглушки, ленивая загрузка (`sharp`)
-- Переключатель языка **RU / EN** в навигации (как в оригинале)
+- Переключатель языка **RU / EN / RO** в навигации
+- Страница **«Дегустации и визиты»** (`/visit`): форматы дегустаций, как проходит визит, как добраться
+- **Возрастное подтверждение 18+** (модальное окно, выбор хранится в localStorage)
 - Адаптивная вёрстка (десктоп / планшет / мобайл), мобильное меню, слайдер вин
 - **SEO**: `sitemap.xml`, `robots.txt`, Open Graph / Twitter-метаданные, JSON-LD `Winery` (schema.org)
 - **Безопасность**: CSP и security-заголовки в `next.config.mjs`
@@ -58,6 +60,7 @@ docker compose up --build   # http://localhost:3000
 app/
   layout.tsx        # метаданные (SEO/OG), шрифт, <html>, общие Header/Footer, JSON-LD
   page.tsx          # главная
+  visit/page.tsx    # страница «Дегустации и визиты»
   contacts/page.tsx # страница «Контакты и сотрудничество»
   globals.css       # дизайн-токены и все стили
   sitemap.ts        # sitemap.xml
@@ -65,9 +68,11 @@ app/
 components/
   Header.tsx        # общая шапка (навигация, переключатель языка, мобильное меню)
   Footer.tsx        # общий футер
-  locale.tsx        # контекст языка RU/EN (общий для всех страниц, localStorage)
+  locale.tsx        # контекст языка RU/EN/RO (общий для всех страниц, localStorage)
   Site.tsx          # секции главной: hero, вина-слайдер и т.д.
+  VisitPage.tsx     # секции страницы дегустаций и визитов
   ContactsPage.tsx  # секции страницы контактов + форма заявки
+  AgeGate.tsx       # возрастное подтверждение 18+
   WinerySchema.tsx  # JSON-LD структурированные данные (schema.org Winery)
 lib/
   content.ts        # весь текст (RU/EN), список вин, ссылки

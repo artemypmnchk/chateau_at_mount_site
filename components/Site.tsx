@@ -4,6 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import { t, wines, links } from "@/lib/content";
 import { useLocale } from "./locale";
+import { useBookingModal } from "./BookingModal";
 
 // Статические импорты больших фото → next/image сам генерирует размеры
 // и blur-заглушку, отдаёт AVIF/WebP и ленивую загрузку.
@@ -33,6 +34,7 @@ function Chevron({ dir }: { dir: "left" | "right" }) {
 
 export default function Site() {
   const { L } = useLocale();
+  const { openBooking } = useBookingModal();
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const slide = (dir: 1 | -1) => {
@@ -57,24 +59,35 @@ export default function Site() {
           />
         </div>
         <div className="container hero-content">
+          <span className="hero-eyebrow">{L(t.hero.location)}</span>
           <h1>{t.hero.brand}</h1>
           <p className="tagline">{L(t.hero.tagline)}</p>
           <div className="hero-actions">
             <a href="#wines" className="btn btn-accent">
               {L(t.cta.learn)}
             </a>
-            <a href="/contacts" className="btn btn-outline">
+            <button onClick={openBooking} className="btn btn-outline">
               {L(t.cta.book)}
-            </a>
+            </button>
           </div>
         </div>
+        <span className="hero-scroll" aria-hidden />
       </section>
 
       {/* ---------- About ---------- */}
       <section id="about" className="about">
         <div className="container">
+          <span className="eyebrow">{L(t.nav.about)}</span>
           <h2>{L(t.about.line1)}</h2>
           <p>{L(t.about.line2)}</p>
+          <div className="stats">
+            {t.stats.map((s) => (
+              <div className="stat" key={s.value}>
+                <span className="stat-value">{s.value}</span>
+                <span className="stat-label">{L(s.label)}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -140,8 +153,11 @@ export default function Site() {
             </div>
           </div>
           <div className="slider" ref={sliderRef}>
-            {wines.map((w) => (
-              <article className="wine-card" key={w.name}>
+            {wines.map((w, i) => (
+              <a className="wine-card" href={`/wines/${w.slug}`} key={w.slug}>
+                <span className="wine-no">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
                 <div className="wine-img">
                   <Image
                     src={w.image}
@@ -153,7 +169,8 @@ export default function Site() {
                 </div>
                 <h3>{w.name}</h3>
                 <p>{L(w.desc)}</p>
-              </article>
+                <span className="wine-more">{L(t.winesSection.more)} →</span>
+              </a>
             ))}
           </div>
         </div>
@@ -222,9 +239,9 @@ export default function Site() {
             ))}
           </div>
           <div className="contact-actions">
-            <a href="/contacts" className="btn btn-accent">
+            <button onClick={openBooking} className="btn btn-accent">
               {L(t.contactsPage.formTitle)}
-            </a>
+            </button>
             <a
               href={links.telegram}
               target="_blank"
@@ -245,9 +262,9 @@ export default function Site() {
             <a href="#wines" className="btn btn-primary">
               {L(t.cta.learn)}
             </a>
-            <a href="/contacts" className="btn btn-ghost-dark">
+            <button onClick={openBooking} className="btn btn-ghost-dark">
               {L(t.cta.book)}
-            </a>
+            </button>
           </div>
         </div>
       </section>

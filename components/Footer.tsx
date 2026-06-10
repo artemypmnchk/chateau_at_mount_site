@@ -22,7 +22,7 @@ export default function Footer() {
           <div className="footer-col">
             <h4>{L(t.footer.brandCol)}</h4>
             <a href="/#about">{L(t.nav.about)}</a>
-            <a href="/#wines">{L(t.nav.wines)}</a>
+            <a href="/wines">{L(t.nav.wines)}</a>
             <a href="/#events">{L(t.nav.events)}</a>
           </div>
           <div className="footer-col">
@@ -39,6 +39,7 @@ export default function Footer() {
           </div>
           <div className="footer-col">
             <h4>{L(t.footer.extraCol)}</h4>
+            <a href="/visit">{L(t.nav.visit)}</a>
             <a href="/contacts">{L(t.nav.contacts)}</a>
           </div>
         </div>

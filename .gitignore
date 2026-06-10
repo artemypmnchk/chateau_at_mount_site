@@ -6,5 +6,8 @@ out/
 .env*.local
 next-env.d.ts
 
+# служебный файл инкрементальной сборки TypeScript
+tsconfig.tsbuildinfo
+
 # исходные ассеты, выгруженные из оригинала (рабочая копия)
 /assets/

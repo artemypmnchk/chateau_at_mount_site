@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { t } from "@/lib/content";
+import { t, locales } from "@/lib/content";
 import { useLocale } from "./locale";
 
 const navItems = [
   { href: "/#about", label: t.nav.about },
-  { href: "/#wines", label: t.nav.wines },
+  { href: "/wines", label: t.nav.wines },
+  { href: "/visit", label: t.nav.visit },
   { href: "/#events", label: t.nav.events },
   { href: "/contacts", label: t.nav.contacts },
 ];
@@ -15,18 +16,15 @@ function LangToggle({ style }: { style?: React.CSSProperties }) {
   const { locale, setLocale } = useLocale();
   return (
     <div className="lang" role="group" aria-label="Language" style={style}>
-      <button
-        className={locale === "ru" ? "active" : ""}
-        onClick={() => setLocale("ru")}
-      >
-        RU
-      </button>
-      <button
-        className={locale === "en" ? "active" : ""}
-        onClick={() => setLocale("en")}
-      >
-        EN
-      </button>
+      {locales.map((l) => (
+        <button
+          key={l}
+          className={locale === l ? "active" : ""}
+          onClick={() => setLocale(l)}
+        >
+          {l.toUpperCase()}
+        </button>
+      ))}
     </div>
   );
 }

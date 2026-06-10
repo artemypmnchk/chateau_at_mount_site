@@ -7,12 +7,12 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { Locale } from "@/lib/content";
+import { locales, type Locale } from "@/lib/content";
 
 interface LocaleCtx {
   locale: Locale;
   setLocale: (l: Locale) => void;
-  /** Хелпер: достаёт строку нужного языка из словаря { ru, en }. */
+  /** Хелпер: достаёт строку нужного языка из словаря { ru, en, ro }. */
   L: (s: Record<Locale, string>) => string;
 }
 
@@ -24,7 +24,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   // Восстанавливаем выбор языка из localStorage на клиенте (один раз при монтировании).
   useEffect(() => {
     const saved = window.localStorage.getItem("locale");
-    if (saved === "ru" || saved === "en") setLocaleState(saved);
+    if (locales.includes(saved as Locale)) setLocaleState(saved as Locale);
   }, []);
 
   useEffect(() => {
