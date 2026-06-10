@@ -9,8 +9,13 @@
 - **Next.js 14** (App Router) + **TypeScript**
 - Шрифт **Inter** через `next/font`
 - Все изображения сохранены локально в `public/images/` (фото, логотип, 7 этикеток вин)
+- Оптимизация картинок через **`next/image`**: AVIF/WebP, адаптивные размеры, blur-заглушки, ленивая загрузка (`sharp`)
 - Переключатель языка **RU / EN** в навигации (как в оригинале)
 - Адаптивная вёрстка (десктоп / планшет / мобайл), мобильное меню, слайдер вин
+- **SEO**: `sitemap.xml`, `robots.txt`, Open Graph / Twitter-метаданные, JSON-LD `Winery` (schema.org)
+- **Безопасность**: CSP и security-заголовки в `next.config.mjs`
+- **Проверки кода**: ESLint + Prettier + строгий TypeScript (`npm run check`)
+- Готов к деплою в контейнере: `Dockerfile` (standalone) + `docker-compose.yml`
 
 ## Отличия от оригинала
 
@@ -31,17 +36,34 @@ npm run build
 npm start
 ```
 
+Проверки перед коммитом (ESLint + tsc + Prettier):
+
+```bash
+npm run check     # проверить
+npm run format    # автоформат
+```
+
+Деплой в Docker:
+
+```bash
+docker compose up --build   # http://localhost:3000
+```
+
 ## Структура
 
 ```
 app/
-  layout.tsx      # метаданные, шрифт, <html>
+  layout.tsx      # метаданные (SEO/OG), шрифт, <html>, JSON-LD
   page.tsx        # точка входа
   globals.css     # дизайн-токены и все стили
+  sitemap.ts      # sitemap.xml
+  robots.ts       # robots.txt
 components/
   Site.tsx        # клиентский компонент: хедер, секции, слайдер, i18n
+  WinerySchema.tsx# JSON-LD структурированные данные (schema.org Winery)
 lib/
   content.ts      # весь текст (RU/EN), список вин, ссылки
+  site.ts         # домен, адрес, гео, соцсети (для SEO/sitemap/JSON-LD)
 public/images/    # изображения
 ```
 
@@ -49,3 +71,9 @@ public/images/    # изображения
 
 Все строки вынесены в `lib/content.ts` — там же реальные ссылки на соцсети
 (Instagram, Telegram, TikTok), скопированные из оригинала. Меняются в одном месте.
+
+## Перед публикацией
+
+В `lib/site.ts` укажите реальный **домен**, точный **адрес** и **координаты**
+винодельни — сейчас они заполнены ориентировочно (город Чадыр-Лунга). От этих
+данных зависят метаданные, `sitemap.xml`, canonical-URL и JSON-LD.

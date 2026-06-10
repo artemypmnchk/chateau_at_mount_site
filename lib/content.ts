@@ -82,7 +82,10 @@ export const t = {
   },
   hero: {
     brand: "Chateau At Mount",
-    tagline: { ru: "Винные традиции юга Молдовы", en: "Wine traditions of southern Moldova" },
+    tagline: {
+      ru: "Винные традиции юга Молдовы",
+      en: "Wine traditions of southern Moldova",
+    },
   },
   cta: {
     learn: { ru: "Узнать больше о вине", en: "Discover the wine" },
@@ -122,14 +125,20 @@ export const t = {
     },
   },
   control: {
-    title: { ru: "Полный контроль процесса.", en: "Full control of the process." },
+    title: {
+      ru: "Полный контроль процесса.",
+      en: "Full control of the process.",
+    },
     text: {
       ru: "Винодельня в 100м от виноградников позволяет сохранять свежесть винограда, его натуральный вкус и кислотность вин.",
       en: "The winery sits 100 m from the vineyards, preserving the freshness of the grapes, their natural taste and the acidity of the wines.",
     },
   },
   memories: {
-    title: { ru: "Место для ваших воспоминаний.", en: "A place for your memories." },
+    title: {
+      ru: "Место для ваших воспоминаний.",
+      en: "A place for your memories.",
+    },
     text: {
       ru: "Виноградники, закаты, уют и вино — идеальная атмосфера для праздника, фотосессии или ужина с друзьями.",
       en: "Vineyards, sunsets, comfort and wine — the perfect setting for a celebration, a photoshoot or dinner with friends.",
@@ -142,9 +151,18 @@ export const t = {
       en: "We'll help you put together a celebration for your occasion. Just leave a request — we'll reply in chat within 30 minutes.",
     },
     cards: [
-      { label: { ru: "Отвечаем", en: "We reply" }, value: { ru: "В течение 30 минут", en: "Within 30 minutes" } },
-      { label: { ru: "Общаемся", en: "We talk" }, value: { ru: "В чате", en: "In chat" } },
-      { label: { ru: "Работаем", en: "We work" }, value: { ru: "Без выходных", en: "Seven days a week" } },
+      {
+        label: { ru: "Отвечаем", en: "We reply" },
+        value: { ru: "В течение 30 минут", en: "Within 30 minutes" },
+      },
+      {
+        label: { ru: "Общаемся", en: "We talk" },
+        value: { ru: "В чате", en: "In chat" },
+      },
+      {
+        label: { ru: "Работаем", en: "We work" },
+        value: { ru: "Без выходных", en: "Seven days a week" },
+      },
     ],
   },
   finalCta: {

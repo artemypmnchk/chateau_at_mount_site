@@ -1,13 +1,26 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { t, wines, links, type Locale } from "@/lib/content";
+
+// Статические импорты больших фото → next/image сам генерирует размеры
+// и blur-заглушку, отдаёт AVIF/WebP и ленивую загрузку.
+import heroImg from "@/public/images/hero-winery.png";
+import vineyardImg from "@/public/images/vineyard.png";
+import basketImg from "@/public/images/basket.jpeg";
+import tanksImg from "@/public/images/tanks.jpg";
+import familyImg from "@/public/images/family.jpeg";
 
 function Chevron({ dir }: { dir: "left" | "right" }) {
   return (
     <svg width="22" height="22" viewBox="0 0 40 40" fill="none" aria-hidden>
       <path
-        d={dir === "left" ? "M22.5 12.5 15 20l7.5 7.5" : "M17.5 12.5 25 20l-7.5 7.5"}
+        d={
+          dir === "left"
+            ? "M22.5 12.5 15 20l7.5 7.5"
+            : "M17.5 12.5 25 20l-7.5 7.5"
+        }
         stroke="currentColor"
         strokeWidth="2.4"
         strokeLinecap="round"
@@ -55,6 +68,7 @@ export default function Site() {
       <header className={`header${scrolled ? " scrolled" : ""}`}>
         <div className="container header-inner">
           <a href="#top" className="brand" aria-label="Chateau At Mount">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/images/logo.png" alt="Chateau At Mount" />
             <span className="brand-name">Chateau At Mount</span>
           </a>
@@ -126,7 +140,15 @@ export default function Site() {
         {/* ---------- Hero ---------- */}
         <section className="hero">
           <div className="hero-bg">
-            <img src="/images/hero-winery.png" alt="Винодельня Chateau At Mount" />
+            <Image
+              src={heroImg}
+              alt="Винодельня Chateau At Mount"
+              fill
+              priority
+              placeholder="blur"
+              sizes="100vw"
+              style={{ objectFit: "cover" }}
+            />
           </div>
           <div className="container hero-content">
             <h1>{t.hero.brand}</h1>
@@ -155,14 +177,28 @@ export default function Site() {
           <div className="container">
             <div className="features">
               <article className="feature-card">
-                <img src="/images/vineyard.png" alt={L(t.features.vineyard.title)} />
+                <Image
+                  src={vineyardImg}
+                  alt={L(t.features.vineyard.title)}
+                  fill
+                  placeholder="blur"
+                  sizes="(max-width: 900px) 100vw, 50vw"
+                  style={{ objectFit: "cover" }}
+                />
                 <div className="body">
                   <h3>{L(t.features.vineyard.title)}</h3>
                   <p>{L(t.features.vineyard.text)}</p>
                 </div>
               </article>
               <article className="feature-card">
-                <img src="/images/basket.jpeg" alt={L(t.features.taste.title)} />
+                <Image
+                  src={basketImg}
+                  alt={L(t.features.taste.title)}
+                  fill
+                  placeholder="blur"
+                  sizes="(max-width: 900px) 100vw, 50vw"
+                  style={{ objectFit: "cover" }}
+                />
                 <div className="body">
                   <h3>{L(t.features.taste.title)}</h3>
                   <p>{L(t.features.taste.text)}</p>
@@ -201,7 +237,13 @@ export default function Site() {
               {wines.map((w) => (
                 <article className="wine-card" key={w.name}>
                   <div className="wine-img">
-                    <img src={w.image} alt={w.name} />
+                    <Image
+                      src={w.image}
+                      alt={w.name}
+                      fill
+                      sizes="(max-width: 540px) 60vw, 244px"
+                      style={{ objectFit: "contain" }}
+                    />
                   </div>
                   <h3>{w.name}</h3>
                   <p>{L(w.desc)}</p>
@@ -216,7 +258,14 @@ export default function Site() {
           <div className="container">
             <div className="split">
               <div className="split-media">
-                <img src="/images/tanks.jpg" alt={L(t.control.title)} />
+                <Image
+                  src={tanksImg}
+                  alt={L(t.control.title)}
+                  fill
+                  placeholder="blur"
+                  sizes="(max-width: 900px) 100vw, 50vw"
+                  style={{ objectFit: "cover" }}
+                />
               </div>
               <div className="split-body">
                 <h2>{L(t.control.title)}</h2>
@@ -231,7 +280,14 @@ export default function Site() {
           <div className="container">
             <div className="split reverse">
               <div className="split-media">
-                <img src="/images/family.jpeg" alt={L(t.memories.title)} />
+                <Image
+                  src={familyImg}
+                  alt={L(t.memories.title)}
+                  fill
+                  placeholder="blur"
+                  sizes="(max-width: 900px) 100vw, 50vw"
+                  style={{ objectFit: "cover" }}
+                />
               </div>
               <div className="split-body">
                 <span className="eyebrow">{L(t.nav.events)}</span>
@@ -243,7 +299,11 @@ export default function Site() {
         </section>
 
         {/* ---------- Contact ---------- */}
-        <section id="contacts" className="section-dark contact" style={{ paddingTop: 0 }}>
+        <section
+          id="contacts"
+          className="section-dark contact"
+          style={{ paddingTop: 0 }}
+        >
           <div className="container">
             <h2>{L(t.contact.title)}</h2>
             <p>{L(t.contact.text)}</p>
@@ -298,6 +358,7 @@ export default function Site() {
           <div className="footer-top">
             <div className="footer-brand">
               <div className="brand">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/images/logo.png" alt="Chateau At Mount" />
                 <span className="brand-name" style={{ color: "#fff" }}>
                   Chateau At Mount
@@ -313,10 +374,18 @@ export default function Site() {
             </div>
             <div className="footer-col">
               <h4>{L(t.footer.socialCol)}</h4>
-              <a href={links.instagram} target="_blank" rel="noopener noreferrer">
+              <a
+                href={links.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Instagram
               </a>
-              <a href={links.telegram} target="_blank" rel="noopener noreferrer">
+              <a
+                href={links.telegram}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Telegram
               </a>
               <a href={links.tiktok} target="_blank" rel="noopener noreferrer">
