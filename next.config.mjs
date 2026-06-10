@@ -34,7 +34,9 @@ const securityHeaders = [
 
 const nextConfig = {
   reactStrictMode: true,
-  output: "standalone",
+  // standalone-режим нужен только для Docker/self-hosting; на Vercel он ломает
+  // роутинг (404), поэтому включаем его лишь вне окружения Vercel.
+  ...(process.env.VERCEL ? {} : { output: "standalone" }),
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
