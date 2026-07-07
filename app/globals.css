@@ -753,7 +753,7 @@ section {
   display: block;
   font-size: 15px;
   color: rgba(243, 237, 226, 0.78);
-  padding: 6px 0;
+  padding: 11px 0; /* тач-таргет ≥44px */
   transition: color 0.2s ease;
 }
 .footer-col a:hover {
