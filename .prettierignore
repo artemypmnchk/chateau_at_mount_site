@@ -1,18 +1,1 @@
-# Dependencies
-node_modules/
-package-lock.json
-
-# Build outputs
-.next/
-out/
-build/
-
-# Misc
-.DS_Store
-*.log
-
-# Исходные ассеты, выгруженные из оригинала
-assets/
-
-# Markdown-документация (не переформатируем)
-*.md
+.design-audit/
