@@ -236,8 +236,9 @@ a {
 }
 .burger {
   display: none;
-  width: 26px;
-  height: 26px;
+  width: 44px;
+  height: 44px;
+  margin-right: -9px; /* компенсирует расширенную область, иконка на месте */
   background: transparent;
   border: 0;
   cursor: pointer;
@@ -254,7 +255,7 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 28px;
+  gap: 12px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -264,6 +265,7 @@ a {
   pointer-events: auto;
 }
 .mobile-menu a {
+  padding: 8px 24px; /* тач-таргет ≥44px */
   color: #fff;
   font-family: var(--serif);
   font-size: 30px;
