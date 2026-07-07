@@ -418,7 +418,7 @@ export const t = {
         ro: "Podgorii proprii",
       },
       text: {
-        ru: "15 Га виноградников и 7 сортов винограда. Выпуск до 150 тыс. бутылок в год",
+        ru: "15 га виноградников и 7 сортов винограда. Выпуск до 150 000 бутылок в год",
         en: "15 hectares of vineyards and 7 grape varieties. Up to 150,000 bottles a year",
         ro: "15 ha de podgorii și 7 soiuri de struguri. Până la 150 000 de sticle pe an",
       },
