@@ -541,9 +541,9 @@ export const t = {
   },
   finalCta: {
     title: {
-      ru: "Попробуйте наши вина и убедитесь в их уникальности",
-      en: "Taste our wines and see for yourself how unique they are",
-      ro: "Încercați vinurile noastre și convingeți-vă cât sunt de unice",
+      ru: "Приезжайте на дегустацию — попробуйте все семь сортов",
+      en: "Come for a tasting and try all seven varieties",
+      ro: "Veniți la o degustare și încercați toate cele șapte soiuri",
     },
   },
   ageGate: {
