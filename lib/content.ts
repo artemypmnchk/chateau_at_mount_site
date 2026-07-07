@@ -507,9 +507,9 @@ export const t = {
   },
   contact: {
     title: {
-      ru: "Мы рядом ♡",
-      en: "We're here for you ♡",
-      ro: "Suntem aproape ♡",
+      ru: "Мы рядом",
+      en: "We're here for you",
+      ro: "Suntem aproape",
     },
     text: {
       ru: "Поможем подготовить праздник под ваше событие. Просто оставьте заявку — мы ответим вам в чате в течение 30 минут.",
