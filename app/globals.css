@@ -604,7 +604,7 @@ section {
 .wine-card p {
   font-size: 15px;
   line-height: 1.6;
-  color: rgba(243, 237, 226, 0.62);
+  color: rgba(243, 237, 226, 0.78);
 }
 
 /* ---------- Split (control / memories) ---------- */
@@ -723,7 +723,7 @@ section {
 }
 .footer-brand p {
   margin-top: 18px;
-  color: rgba(243, 237, 226, 0.55);
+  color: rgba(243, 237, 226, 0.7);
   font-size: 15px;
   max-width: 300px;
 }
@@ -750,7 +750,7 @@ section {
   padding-top: 28px;
   border-top: 1px solid var(--line-light);
   font-size: 14px;
-  color: rgba(243, 237, 226, 0.45);
+  color: rgba(243, 237, 226, 0.6);
 }
 
 /* ---------- Responsive ---------- */
