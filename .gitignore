@@ -15,3 +15,7 @@ tsconfig.tsbuildinfo
 # исходные ассеты, выгруженные из оригинала (рабочая копия)
 /assets/
 .vercel
+
+# design-review: локальные отчёты и storage state
+.design-audit/reports/
+.design-audit/storageState.json
