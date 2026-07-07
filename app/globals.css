@@ -35,6 +35,8 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   line-height: 1.55;
+  /* 100vw в .slider включает скроллбар — не даём странице уехать вбок */
+  overflow-x: clip;
 }
 
 h1,
@@ -555,6 +557,10 @@ section {
   scroll-snap-type: x mandatory;
   padding-bottom: 6px;
   scrollbar-width: none;
+  /* Слайдер тянется вправо до края вьюпорта: частичная карточка
+     обрезается краем окна (естественный «peek»), а не серединой контейнера */
+  margin-right: calc(50% - 50vw);
+  padding-right: calc(50vw - 50%);
 }
 .slider::-webkit-scrollbar {
   display: none;
