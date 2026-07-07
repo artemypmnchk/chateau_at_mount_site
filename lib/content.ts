@@ -400,9 +400,9 @@ export const t = {
   },
   about: {
     line1: {
-      ru: "Семейная винодельня на самой высокой точке холма на въезде в Чадыр‑Лунгу.",
-      en: "A family winery on the highest point of the hill at the entrance to Ceadîr-Lunga.",
-      ro: "O cramă de familie pe cel mai înalt punct al dealului, la intrarea în Ceadîr-Lunga.",
+      ru: "Семейная винодельня на самой высокой точке холма на въезде в Чадыр‑Лунгу",
+      en: "A family winery on the highest point of the hill at the entrance to Ceadîr-Lunga",
+      ro: "O cramă de familie pe cel mai înalt punct al dealului, la intrarea în Ceadîr-Lunga",
     },
     line2: {
       ru: "Выращиваем виноград с 2019 года для самых аутентичных вин Гагаузии с душой и характером.",
@@ -483,9 +483,9 @@ export const t = {
   },
   control: {
     title: {
-      ru: "Полный контроль процесса.",
-      en: "Full control of the process.",
-      ro: "Control deplin al procesului.",
+      ru: "Полный контроль процесса",
+      en: "Full control of the process",
+      ro: "Control deplin al procesului",
     },
     text: {
       ru: "Винодельня в 100м от виноградников позволяет сохранять свежесть винограда, его натуральный вкус и кислотность вин.",
@@ -495,9 +495,9 @@ export const t = {
   },
   memories: {
     title: {
-      ru: "Место для ваших воспоминаний.",
-      en: "A place for your memories.",
-      ro: "Un loc pentru amintirile voastre.",
+      ru: "Место для ваших воспоминаний",
+      en: "A place for your memories",
+      ro: "Un loc pentru amintirile voastre",
     },
     text: {
       ru: "Виноградники, закаты, уют и вино — идеальная атмосфера для праздника, фотосессии или ужина с друзьями.",
