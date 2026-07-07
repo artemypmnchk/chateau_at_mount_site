@@ -59,6 +59,19 @@ a {
   text-decoration: none;
 }
 
+/* Брендовый фокус вместо дефолтного браузерного кольца */
+:focus-visible {
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 3px;
+}
+.section-dark :focus-visible,
+.hero :focus-visible,
+.header :focus-visible,
+.mobile-menu :focus-visible,
+.footer :focus-visible {
+  outline-color: var(--accent);
+}
+
 .container {
   width: 100%;
   max-width: var(--maxw);
