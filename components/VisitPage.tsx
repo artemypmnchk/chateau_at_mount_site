@@ -6,9 +6,10 @@ import { site } from "@/lib/site";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
 
-import vineyardImg from "@/public/images/vineyard.png";
-import basketImg from "@/public/images/basket.jpeg";
-import familyImg from "@/public/images/family.jpeg";
+import heroImg from "@/public/images/visit-hero.jpg";
+import gastronomyImg from "@/public/images/visit-gastronomy.jpg";
+import tastingImg from "@/public/images/visit-tasting.jpg";
+import tableImg from "@/public/images/visit-table.jpg";
 
 function Check() {
   return (
@@ -38,9 +39,20 @@ export default function VisitPage() {
 
   return (
     <main className="visit">
-      {/* ---------- Hero — текстовый, без фото ---------- */}
-      <section className="visit-hero">
-        <div className="container">
+      {/* ---------- Hero — полноэкранное фото, как на главной ---------- */}
+      <section className="hero visit-hero-photo">
+        <div className="hero-bg">
+          <Image
+            src={heroImg}
+            alt="Дегустация в виноградниках Chateau At Mount"
+            fill
+            priority
+            placeholder="blur"
+            sizes="100vw"
+            style={{ objectFit: "cover", objectPosition: "62% 45%" }}
+          />
+        </div>
+        <div className="container hero-content">
           <span className="hero-eyebrow">{L(v.eyebrow)}</span>
           <h1>{L(v.title)}</h1>
           <p className="lead">{L(v.intro)}</p>
@@ -60,10 +72,49 @@ export default function VisitPage() {
         </div>
       </section>
 
+      {/* ---------- Photo strip ---------- */}
+      <section className="visit-gallery-section">
+        <div className="container">
+          <div className="visit-gallery">
+            <div className="g-item">
+              <Image
+                src={gastronomyImg}
+                alt="Chateau At Mount"
+                fill
+                placeholder="blur"
+                sizes="(max-width: 900px) 100vw, 33vw"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+            <div className="g-item">
+              <Image
+                src={tastingImg}
+                alt="Chateau At Mount"
+                fill
+                placeholder="blur"
+                sizes="(max-width: 900px) 100vw, 33vw"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+            <div className="g-item">
+              <Image
+                src={tableImg}
+                alt="Chateau At Mount"
+                fill
+                placeholder="blur"
+                sizes="(max-width: 900px) 100vw, 33vw"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ---------- Tasting packages ---------- */}
       <section className="section-dark">
         <div className="container">
           <h2 className="visit-h2">{L(v.packagesTitle)}</h2>
+          <p className="pkg-intro">{L(v.packagesIntro)}</p>
           <div className="pkg-grid">
             {v.packages.map((p) => (
               <article
@@ -73,13 +124,15 @@ export default function VisitPage() {
                 {p.popular && (
                   <span className="pkg-tag">{L(v.popularTag)}</span>
                 )}
-                <div className="pkg-wines">
-                  <span className="num">{p.winesNum}</span>
-                  <span className="word">{L(p.winesWord)}</span>
+                <div className="pkg-price">
+                  <span className="num">{p.price}</span>
+                  <span className="word">{L(v.priceUnit)}</span>
                 </div>
                 <div className="pkg-head">
-                  <h3>{L(p.name)}</h3>
-                  <span className="pkg-duration">{L(p.duration)}</span>
+                  <div>
+                    <h3>{L(p.name)}</h3>
+                    <p className="pkg-meta">{L(p.meta)}</p>
+                  </div>
                 </div>
                 <ul className="pkg-list">
                   {p.includes[locale].map((item) => (
@@ -108,44 +161,6 @@ export default function VisitPage() {
                 <p>{L(s.text)}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- Photo strip ---------- */}
-      <section className="visit-gallery-section">
-        <div className="container">
-          <div className="visit-gallery">
-            <div className="g-item">
-              <Image
-                src={basketImg}
-                alt="Chateau At Mount"
-                fill
-                placeholder="blur"
-                sizes="(max-width: 900px) 100vw, 33vw"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-            <div className="g-item">
-              <Image
-                src={familyImg}
-                alt="Chateau At Mount"
-                fill
-                placeholder="blur"
-                sizes="(max-width: 900px) 100vw, 33vw"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-            <div className="g-item">
-              <Image
-                src={vineyardImg}
-                alt="Chateau At Mount"
-                fill
-                placeholder="blur"
-                sizes="(max-width: 900px) 100vw, 33vw"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
           </div>
         </div>
       </section>
