@@ -1053,6 +1053,57 @@ a.info-row:hover .info-value {
 .visit-hero-photo {
   min-height: 86svh;
 }
+/* Медленный Ken Burns: кадр «оседает» из лёгкого зума и замирает */
+.visit-hero-photo .hero-bg img {
+  animation: heroSettle 11s ease-out both;
+}
+/* Каскад: плашка → заголовок → лид → кнопки */
+.visit-hero-photo .hero-content {
+  animation: none;
+}
+.visit-hero-photo .hero-eyebrow,
+.visit-hero-photo h1,
+.visit-hero-photo .lead,
+.visit-hero-photo .hero-actions {
+  animation: heroRise 0.9s ease-out both;
+}
+.visit-hero-photo h1 {
+  animation-delay: 0.15s;
+}
+.visit-hero-photo .lead {
+  animation-delay: 0.3s;
+}
+.visit-hero-photo .hero-actions {
+  animation-delay: 0.45s;
+}
+@keyframes heroSettle {
+  from {
+    transform: scale(1.07);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes heroRise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .visit-hero-photo .hero-bg img,
+  .visit-hero-photo .hero-eyebrow,
+  .visit-hero-photo h1,
+  .visit-hero-photo .lead,
+  .visit-hero-photo .hero-actions {
+    animation: none;
+  }
+}
+
 /* Кадр светлее, чем на главной, — скрим плотнее */
 .visit-hero-photo::after {
   background:
