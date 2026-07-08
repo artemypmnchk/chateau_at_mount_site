@@ -114,7 +114,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
       </section>
 
       {/* ---------- История сорта (редакционно) + гастропары сбоку ---------- */}
-      <section>
+      <section className="wine-story-section">
         <div className="container story-grid">
           <div className="story-main">
             <span className="eyebrow">{L(w.storyTitle)}</span>

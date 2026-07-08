@@ -719,25 +719,10 @@ section {
 
 /* ---------- Footer ---------- */
 .footer {
-  position: relative;
   background: var(--dark);
   color: #f3ede2;
   padding: 76px 0 46px;
-}
-/* Лента-разделитель — мотив цветных лент на фасаде винодельни */
-.footer::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    #8f84bd 0 20%,
-    #d9b84a 20% 40%,
-    #6fb9af 40% 60%,
-    #c06f9f 60% 80%,
-    #c2ae9c 80% 100%
-  );
+  border-top: 1px solid var(--line-light);
 }
 .footer-top {
   display: grid;
@@ -1268,12 +1253,31 @@ a.info-row:hover .info-value {
 }
 
 /* ============ Wine page ============ */
+/* Тёмные секции страницы вина тонируются цветом этикетки,
+   в hero — мягкое свечение за бутылкой */
+.wine-page .wine-hero,
+.wine-page .section-dark {
+  background: color-mix(in oklab, var(--accent) 20%, var(--dark));
+}
 .wine-hero {
   background: var(--dark);
   color: #f3ede2;
   padding-top: 170px;
   padding-bottom: 90px;
   border-bottom: 1px solid var(--line-light);
+}
+.wine-page .wine-hero {
+  background:
+    radial-gradient(
+      ellipse 62% 78% at 30% 46%,
+      color-mix(in oklab, var(--accent) 42%, transparent),
+      transparent 72%
+    ),
+    color-mix(in oklab, var(--accent) 20%, var(--dark));
+}
+/* Светлая секция истории — отсвет того же тона */
+.wine-story-section {
+  background: color-mix(in oklab, var(--accent) 10%, var(--bg));
 }
 .wine-hero .eyebrow {
   color: var(--accent);
