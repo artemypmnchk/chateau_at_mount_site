@@ -8,7 +8,6 @@ import { useBookingModal } from "./BookingModal";
 
 import heroImg from "@/public/images/visit-hero.jpg";
 import gastronomyImg from "@/public/images/visit-gastronomy.jpg";
-import tastingImg from "@/public/images/visit-tasting.jpg";
 import tableImg from "@/public/images/visit-table.jpg";
 
 function Check() {
@@ -49,7 +48,7 @@ export default function VisitPage() {
             priority
             placeholder="blur"
             sizes="100vw"
-            style={{ objectFit: "cover", objectPosition: "62% 45%" }}
+            style={{ objectFit: "cover", objectPosition: "50% 60%" }}
           />
         </div>
         <div className="container hero-content">
@@ -72,39 +71,39 @@ export default function VisitPage() {
         </div>
       </section>
 
-      {/* ---------- Photo strip ---------- */}
-      <section className="visit-gallery-section">
+      {/* ---------- Что вас ждёт: стол и кухня, сплитами как на главной ---------- */}
+      <section>
         <div className="container">
-          <div className="visit-gallery">
-            <div className="g-item">
-              <Image
-                src={gastronomyImg}
-                alt="Chateau At Mount"
-                fill
-                placeholder="blur"
-                sizes="(max-width: 900px) 100vw, 33vw"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-            <div className="g-item">
-              <Image
-                src={tastingImg}
-                alt="Chateau At Mount"
-                fill
-                placeholder="blur"
-                sizes="(max-width: 900px) 100vw, 33vw"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-            <div className="g-item">
+          <div className="split">
+            <div className="split-media">
               <Image
                 src={tableImg}
-                alt="Chateau At Mount"
+                alt={L(v.tableSplit.title)}
                 fill
                 placeholder="blur"
-                sizes="(max-width: 900px) 100vw, 33vw"
+                sizes="(max-width: 900px) 100vw, 50vw"
                 style={{ objectFit: "cover" }}
               />
+            </div>
+            <div className="split-body">
+              <h2>{L(v.tableSplit.title)}</h2>
+              <p>{L(v.tableSplit.text)}</p>
+            </div>
+          </div>
+          <div className="split reverse">
+            <div className="split-media">
+              <Image
+                src={gastronomyImg}
+                alt={L(v.gastroSplit.title)}
+                fill
+                placeholder="blur"
+                sizes="(max-width: 900px) 100vw, 50vw"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+            <div className="split-body">
+              <h2>{L(v.gastroSplit.title)}</h2>
+              <p>{L(v.gastroSplit.text)}</p>
             </div>
           </div>
         </div>

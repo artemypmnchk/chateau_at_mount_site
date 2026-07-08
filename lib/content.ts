@@ -613,6 +613,30 @@ export const t = {
       en: "A winery tour, a walk through the vineyards and a wine tasting overlooking Ceadîr-Lunga — all from the highest point of the hill.",
       ro: "Un tur al cramei, o plimbare prin podgorii și o degustare de vinuri cu vedere spre Ceadîr-Lunga — totul de pe cel mai înalt punct al dealului.",
     },
+    tableSplit: {
+      title: {
+        ru: "Стол в виноградниках",
+        en: "A table in the vineyards",
+        ro: "O masă în podgorii",
+      },
+      text: {
+        ru: "Накрываем стол прямо у лоз — с видом на холмы и закат. К дегустации можно добавить пикник, фотосессию или мастер-класс.",
+        en: "We set the table right by the vines, with the hills and the sunset in view. Add a picnic, a photoshoot or a workshop to your tasting.",
+        ro: "Punem masa chiar lângă vie, cu dealurile și apusul în fața ochilor. La degustare puteți adăuga un picnic, o ședință foto sau un atelier.",
+      },
+    },
+    gastroSplit: {
+      title: {
+        ru: "К вину — гагаузская кухня",
+        en: "Gagauz cooking with your wine",
+        ro: "Bucătăria găgăuză lângă vin",
+      },
+      text: {
+        ru: "Гёзлеме, домашний хлеб с гагаузскими специями, крафтовые сыры и горячее — готовим сами и подбираем к винам дегустации.",
+        en: "Gözleme, homemade bread with Gagauz spices, craft cheeses and a hot dish — we cook everything ourselves and pair it with the wines you taste.",
+        ro: "Gözleme, pâine de casă cu mirodenii găgăuze, brânzeturi artizanale și un fel cald — gătim totul noi și îl potrivim cu vinurile degustate.",
+      },
+    },
     packagesTitle: {
       ru: "Форматы дегустаций",
       en: "Tasting formats",

@@ -1275,29 +1275,9 @@ a.info-row:hover .info-value {
   max-width: 320px;
 }
 
-/* Photo strip */
-.visit-gallery-section {
-  padding-top: clamp(72px, 9vw, 120px);
-}
-.visit-gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-}
-.g-item {
-  position: relative;
-  border-radius: var(--radius);
-  overflow: hidden;
-  aspect-ratio: 4 / 5;
-}
-.g-item:nth-child(2) {
-  margin-top: 36px;
-}
-.g-item img {
-  transition: transform 0.7s ease;
-}
-.g-item:hover img {
-  transform: scale(1.04);
+/* Сплиты «стол / кухня» на странице дегустаций */
+.visit .split + .split {
+  margin-top: clamp(64px, 9vw, 120px);
 }
 
 /* Final CTA */
@@ -1329,15 +1309,6 @@ a.info-row:hover .info-value {
   }
   .step p {
     max-width: 480px;
-  }
-  .visit-gallery {
-    grid-template-columns: 1fr 1fr;
-  }
-  .g-item:nth-child(2) {
-    margin-top: 0;
-  }
-  .g-item:nth-child(3) {
-    display: none;
   }
 }
 
