@@ -7,6 +7,12 @@ export interface Wine {
   slug: string;
   name: string;
   image: string;
+  /** Акцент страницы вина — приглушённый тон из иллюстрации этикетки. */
+  accent: string;
+  /** Тёмный вариант акцента — для текста на светлом фоне. */
+  accentDark: string;
+  /** Награды вина. ⚠️ Пока пример-заглушка — заменить на реальные медали. */
+  awards?: Record<Locale, string>[];
   desc: Record<Locale, string>;
   /** Тип вина для плашки и характеристик: «Сухое красное» и т.п. */
   type: Record<Locale, string>;
@@ -26,6 +32,16 @@ export const wines: Wine[] = [
     slug: "merlot",
     name: "Merlot",
     image: "/images/wine-merlot.png",
+    accent: "#d09a83", // терракота заката с этикетки
+    accentDark: "#a25a41",
+    // ⚠️ Пример-заглушка для дизайна — заменить на реальные награды или удалить
+    awards: [
+      {
+        ru: "Серебро · Международный конкурс вин (уточнить)",
+        en: "Silver · International wine competition (TBC)",
+        ro: "Argint · Concurs internațional de vinuri (de confirmat)",
+      },
+    ],
     desc: {
       ru: "Сухое красное вино. Богатый аромат спелой вишни и ежевики, дополненный нотами дуба",
       en: "Dry red wine. A rich aroma of ripe cherry and blackberry, rounded out with oak notes",
@@ -70,6 +86,8 @@ export const wines: Wine[] = [
     slug: "cabernet-rose",
     name: "Cabernet Rose",
     image: "/images/wine-cabernet-rose.png",
+    accent: "#d5a2b4", // пыльная роза с этикетки
+    accentDark: "#a05673",
     desc: {
       ru: "Сухое розовое вино. Аромат клубники с нотками малины, черники и сбалансированной кислотностью",
       en: "Dry rosé wine. A strawberry aroma with hints of raspberry, blueberry and balanced acidity",
@@ -114,6 +132,8 @@ export const wines: Wine[] = [
     slug: "viorica",
     name: "Viorica",
     image: "/images/wine-viorica.png",
+    accent: "#9ec4b5", // морская зелень волос с этикетки
+    accentDark: "#47705f",
     desc: {
       ru: "Сухое белое вино. Аромат полевых цветов, базилика, пряные ноты груши и цитрусовых",
       en: "Dry white wine. An aroma of wildflowers and basil with spicy pear and citrus notes",
@@ -158,6 +178,8 @@ export const wines: Wine[] = [
     slug: "feteasca-neagra",
     name: "Fetească neagră",
     image: "/images/wine-feteasca-neagra.png",
+    accent: "#d8a778", // охра холмов с этикетки
+    accentDark: "#a5633a",
     desc: {
       ru: "Сухое красное вино. Вино гранатового цвета с ароматом лесных ягод, нотами малины и инжира",
       en: "Dry red wine. A garnet-coloured wine with wild-berry aromas and notes of raspberry and fig",
@@ -202,6 +224,8 @@ export const wines: Wine[] = [
     slug: "cabernet-sauvignon",
     name: "Cabernet Sauvignon",
     image: "/images/wine-cabernet-sauvignon.png",
+    accent: "#cbaa7e", // янтарь камней с этикетки
+    accentDark: "#8d6a3f",
     desc: {
       ru: "Сухое красное вино. Аромат черной вишни, спелых слив, тонко дополненный нотами специй",
       en: "Dry red wine. An aroma of black cherry and ripe plum, delicately finished with spice notes",
@@ -246,6 +270,8 @@ export const wines: Wine[] = [
     slug: "feteasca-alba",
     name: "Fetească albă",
     image: "/images/wine-feteasca-alba.png",
+    accent: "#dcaaa0", // коралл рук с этикетки
+    accentDark: "#a55d50",
     desc: {
       ru: "Сухое белое вино. Тонкий аромат полевых цветов с нотами зеленого яблока и цитрусовых",
       en: "Dry white wine. A delicate aroma of wildflowers with green-apple and citrus notes",
@@ -290,6 +316,8 @@ export const wines: Wine[] = [
     slug: "shiraz",
     name: "Shiraz",
     image: "/images/wine-shiraz.png",
+    accent: "#a3b4cf", // дымчатая синева бокала с этикетки
+    accentDark: "#4d6284",
     desc: {
       ru: "Сухое красное вино. Интенсивный аромат черной вишни, спелой сливы с нотками граната. Сбалансированный фруктовый вкус",
       en: "Dry red wine. An intense aroma of black cherry and ripe plum with hints of pomegranate. A balanced fruity taste",

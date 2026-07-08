@@ -719,10 +719,25 @@ section {
 
 /* ---------- Footer ---------- */
 .footer {
+  position: relative;
   background: var(--dark);
   color: #f3ede2;
   padding: 76px 0 46px;
-  border-top: 1px solid var(--line-light);
+}
+/* Лента-разделитель — мотив цветных лент на фасаде винодельни */
+.footer::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    #8f84bd 0 20%,
+    #d9b84a 20% 40%,
+    #6fb9af 40% 60%,
+    #c06f9f 60% 80%,
+    #c2ae9c 80% 100%
+  );
 }
 .footer-top {
   display: grid;
@@ -1188,7 +1203,7 @@ a.info-row:hover .info-value {
 
 /* Photo strip */
 .visit-gallery-section {
-  padding-top: 0;
+  padding-top: clamp(72px, 9vw, 120px);
 }
 .visit-gallery {
   display: grid;
@@ -1313,10 +1328,61 @@ a.info-row:hover .info-value {
   justify-content: flex-start;
   margin-top: 38px;
 }
+/* История сорта — редакционная колонка с буквицей, гастропары сбоку */
+.story-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: clamp(36px, 6vw, 96px);
+  align-items: start;
+}
 .wine-story {
-  font-size: 17px;
-  line-height: 1.7;
+  font-size: 19px;
+  line-height: 1.8;
   color: var(--ink-soft);
+  max-width: 640px;
+}
+.wine-story::first-letter {
+  float: left;
+  font-family: var(--serif);
+  font-size: 74px;
+  line-height: 0.82;
+  padding: 7px 14px 0 0;
+  color: var(--accent-dark);
+}
+.story-aside {
+  border-top: 1px solid var(--line);
+  padding-top: 26px;
+}
+.story-aside h3 {
+  font-size: clamp(22px, 2.2vw, 26px);
+  margin-bottom: 18px;
+}
+@media (max-width: 900px) {
+  .story-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Награды вина в hero */
+.wine-awards {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 26px;
+}
+.wine-awards li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.wine-awards svg {
+  flex: 0 0 auto;
 }
 /* Сетка на общей странице вин */
 .wines-grid {
