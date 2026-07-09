@@ -176,6 +176,9 @@ a {
   display: flex;
   align-items: center;
   gap: 12px;
+  /* тач-таргет ≥44px без сдвига вёрстки */
+  padding: 7px 0;
+  margin: -7px 0;
 }
 .brand img {
   width: 38px;
@@ -698,6 +701,9 @@ section {
   color: var(--ink-soft);
   white-space: nowrap;
   transition: color 0.2s ease;
+  /* тач-таргет ≥44px без сдвига вёрстки */
+  padding: 11px 0;
+  margin: -11px 0;
 }
 .gallery-link:hover {
   color: var(--ink);
