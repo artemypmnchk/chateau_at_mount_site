@@ -61,11 +61,11 @@ export default function VisitPage() {
               href={links.telegram}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-accent"
+              className="hero-link"
             >
               {L(v.bookCta)}
             </a>
-            <button onClick={openBooking} className="btn btn-outline">
+            <button onClick={openBooking} className="hero-link">
               {L(v.formLink)}
             </button>
           </div>

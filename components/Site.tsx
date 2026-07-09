@@ -86,10 +86,10 @@ export default function Site() {
           <h1>{t.hero.brand}</h1>
           <p className="tagline">{L(t.hero.tagline)}</p>
           <div className="hero-actions">
-            <button onClick={openBooking} className="btn btn-accent">
+            <button onClick={openBooking} className="hero-link">
               {L(t.cta.request)}
             </button>
-            <a href="/wines" className="btn btn-outline">
+            <a href="/wines" className="hero-link">
               {L(t.cta.wines)}
             </a>
           </div>
