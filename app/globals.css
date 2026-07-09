@@ -7,6 +7,7 @@
   --accent-dark: #6d3440; /* винный для текста и деталей на светлом */
   --wine: #5e2a33; /* глубокий винный — цвет действия */
   --dark: #1e1518; /* тёмный со сливовым подтоном, не кофейный */
+  --clay: #8d5843; /* обожжённая глина — полотно блока вин */
   --line: rgba(36, 26, 28, 0.14);
   --line-light: rgba(255, 255, 255, 0.16);
   --radius: 3px;
@@ -571,24 +572,90 @@ section {
   }
 }
 
-/* Все вина одной редакционной сеткой — без перелистывания */
-.wines-row {
+/* ---------- Wines band — глиняное полотно с лежащими бутылками ---------- */
+.wines-band {
+  background: var(--clay);
+  color: #f6efe7;
+}
+.wines-band .eyebrow {
+  color: rgba(246, 239, 231, 0.72);
+}
+.band-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 6vw, 80px);
+  margin-top: clamp(48px, 7vw, 90px);
+}
+.band-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 52px 36px;
+  grid-template-columns: minmax(230px, 320px) 1fr;
+  align-items: center;
+  gap: clamp(20px, 4vw, 56px);
 }
+.band-meta .wine-no {
+  position: static;
+  display: block;
+  margin-bottom: 14px;
+  color: rgba(246, 239, 231, 0.65);
+}
+.band-meta h3 {
+  font-size: clamp(27px, 3vw, 38px);
+  margin-bottom: 12px;
+}
+.band-meta p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(246, 239, 231, 0.8);
+  max-width: 300px;
+}
+.wines-band .wine-more {
+  display: inline-block;
+  margin-top: 16px;
+  color: #f6efe7;
+}
+/* Лежащая бутылка: вертикальный кадр повёрнут на -90° (горлышко влево).
+   Бокс-«толщина» держит высоту ряда, длина живёт в повороте. */
+.band-bottle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(180px, 19vw, 240px);
+}
+.band-rot {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(180px, 19vw, 240px);
+  height: min(56vw, 620px);
+  transform: rotate(-90deg);
+  transition: transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+/* Тень падает вниз по экрану: в системе координат повёрнутого
+   элемента это смещение по -X */
+.band-rot img {
+  filter: drop-shadow(-26px 0 30px rgba(0, 0, 0, 0.38));
+}
+/* Ховер: бутылка чуть выезжает вдоль своей оси, как из стеллажа */
+.band-row:hover .band-rot {
+  transform: rotate(-90deg) translateY(-10px);
+}
+.wines-band .wines-all {
+  margin-top: clamp(56px, 8vw, 96px);
+}
+
 @media (max-width: 900px) {
-  .wines-row {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 44px 24px;
+  .band-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
   }
-}
-@media (max-width: 540px) {
-  .wines-row .wine-img {
-    height: 190px;
+  .band-meta p {
+    max-width: 420px;
   }
-  .wines-row .wine-card h3 {
-    font-size: 20px;
+  .band-bottle {
+    height: clamp(150px, 34vw, 200px);
+  }
+  .band-rot {
+    width: clamp(150px, 34vw, 200px);
+    height: 82vw;
   }
 }
 .wine-card {

@@ -149,8 +149,8 @@ export default function Site() {
         </div>
       </section>
 
-      {/* ---------- Wines ---------- */}
-      <section id="wines" className="section-dark">
+      {/* ---------- Wines — глиняное полотно с лежащими бутылками ---------- */}
+      <section id="wines" className="wines-band">
         <div className="container">
           <div className="wines-head" data-reveal>
             <div>
@@ -158,32 +158,33 @@ export default function Site() {
               <h2>{L(t.winesSection.title)}</h2>
             </div>
           </div>
-          <div className="wines-row">
+          <div className="band-list">
             {wines.map((w, i) => (
               <a
-                className="wine-card"
+                className="band-row"
                 href={`/wines/${w.slug}`}
                 key={w.slug}
                 data-reveal
-                style={
-                  { "--reveal-delay": `${(i % 4) * 90}ms` } as React.CSSProperties
-                }
               >
-                <span className="wine-no">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div className="wine-img">
-                  <Image
-                    src={w.image}
-                    alt={w.name}
-                    fill
-                    sizes="(max-width: 900px) 45vw, 270px"
-                    style={{ objectFit: "contain" }}
-                  />
+                <div className="band-meta">
+                  <span className="wine-no">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3>{w.name}</h3>
+                  <p>{L(w.desc)}</p>
+                  <span className="wine-more">{L(t.winesSection.more)} →</span>
                 </div>
-                <h3>{w.name}</h3>
-                <p>{L(w.desc)}</p>
-                <span className="wine-more">{L(t.winesSection.more)} →</span>
+                <div className="band-bottle">
+                  <div className="band-rot">
+                    <Image
+                      src={w.image}
+                      alt={w.name}
+                      fill
+                      sizes="(max-width: 900px) 78vw, 620px"
+                      style={{ objectFit: "contain" }}
+                    />
+                  </div>
+                </div>
               </a>
             ))}
           </div>
