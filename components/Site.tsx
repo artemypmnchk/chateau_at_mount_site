@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef } from "react";
 import Image from "next/image";
 import { t, wines, links, reviews } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
+import { useReveal } from "./useReveal";
 import Medal from "./Medal";
 
 // Все награды вин одной лентой: золото раньше серебра, порядок вин сохраняем.
@@ -37,34 +37,10 @@ const galleryShots = [
   { img: gallery6, alt: "Вечер на винодельне" },
 ];
 
-function Chevron({ dir }: { dir: "left" | "right" }) {
-  return (
-    <svg width="22" height="22" viewBox="0 0 40 40" fill="none" aria-hidden>
-      <path
-        d={
-          dir === "left"
-            ? "M22.5 12.5 15 20l7.5 7.5"
-            : "M17.5 12.5 25 20l-7.5 7.5"
-        }
-        stroke="currentColor"
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 export default function Site() {
   const { L } = useLocale();
   const { openBooking } = useBookingModal();
-  const sliderRef = useRef<HTMLDivElement>(null);
-
-  const slide = (dir: 1 | -1) => {
-    const el = sliderRef.current;
-    if (!el) return;
-    el.scrollBy({ left: dir * 322, behavior: "smooth" });
-  };
+  useReveal();
 
   return (
     <main id="top">
@@ -176,31 +152,23 @@ export default function Site() {
       {/* ---------- Wines ---------- */}
       <section id="wines" className="section-dark">
         <div className="container">
-          <div className="wines-head">
+          <div className="wines-head" data-reveal>
             <div>
               <span className="eyebrow">{L(t.winesSection.eyebrow)}</span>
               <h2>{L(t.winesSection.title)}</h2>
             </div>
-            <div className="slider-controls">
-              <button
-                className="slider-btn"
-                aria-label="Previous"
-                onClick={() => slide(-1)}
-              >
-                <Chevron dir="left" />
-              </button>
-              <button
-                className="slider-btn"
-                aria-label="Next"
-                onClick={() => slide(1)}
-              >
-                <Chevron dir="right" />
-              </button>
-            </div>
           </div>
-          <div className="slider" ref={sliderRef}>
+          <div className="wines-row">
             {wines.map((w, i) => (
-              <a className="wine-card" href={`/wines/${w.slug}`} key={w.slug}>
+              <a
+                className="wine-card"
+                href={`/wines/${w.slug}`}
+                key={w.slug}
+                data-reveal
+                style={
+                  { "--reveal-delay": `${(i % 4) * 90}ms` } as React.CSSProperties
+                }
+              >
                 <span className="wine-no">
                   {String(i + 1).padStart(2, "0")}
                 </span>
@@ -209,7 +177,7 @@ export default function Site() {
                     src={w.image}
                     alt={w.name}
                     fill
-                    sizes="(max-width: 540px) 60vw, 244px"
+                    sizes="(max-width: 900px) 45vw, 270px"
                     style={{ objectFit: "contain" }}
                   />
                 </div>
