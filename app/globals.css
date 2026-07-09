@@ -572,90 +572,127 @@ section {
   }
 }
 
-/* ---------- Wines band — глиняное полотно с лежащими бутылками ---------- */
+/* ---------- Wines band — глиняное полотно, горизонтальный проезд ----------
+   Обёртка задаёт «пробег» по вертикали, панель прилипает на 100svh,
+   трек едет влево по мере прокрутки (JS: useHorizontalScroll). */
 .wines-band {
   background: var(--clay);
   color: #f6efe7;
+  padding: 0; /* секционные отступы ломают sticky-раскладку */
 }
 .wines-band .eyebrow {
   color: rgba(246, 239, 231, 0.72);
 }
-.band-list {
+.band-pinwrap {
+  height: calc(100svh + (var(--slides, 7) - 1) * 58svh);
+}
+.band-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: clamp(40px, 6vw, 80px);
-  margin-top: clamp(48px, 7vw, 90px);
 }
-.band-row {
-  display: grid;
-  grid-template-columns: minmax(230px, 320px) 1fr;
+.band-head {
+  /* Под фиксированной шапкой (68px) + воздух */
+  padding-top: clamp(92px, 14svh, 128px);
+}
+.band-head h2 {
+  font-size: clamp(32px, 5vw, 56px);
+}
+.band-track {
+  display: flex;
   align-items: center;
-  gap: clamp(20px, 4vw, 56px);
+  flex: 1;
+  min-height: 0;
+  will-change: transform;
+  /* Первый слайд стартует от левой кромки контейнера */
+  padding-left: max(24px, calc(50vw - var(--maxw) / 2 + 24px));
+  padding-right: clamp(24px, 10vw, 160px);
+}
+.band-slide {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: clamp(28px, 4vw, 72px);
+  flex: 0 0 auto;
+  width: min(58vw, 760px);
 }
 .band-meta .wine-no {
   position: static;
   display: block;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   color: rgba(246, 239, 231, 0.65);
 }
 .band-meta h3 {
-  font-size: clamp(27px, 3vw, 38px);
-  margin-bottom: 12px;
+  font-size: clamp(32px, 4vw, 54px);
 }
-.band-meta p {
-  font-size: 15px;
-  line-height: 1.6;
-  color: rgba(246, 239, 231, 0.8);
-  max-width: 300px;
-}
-.wines-band .wine-more {
+.band-more {
   display: inline-block;
   margin-top: 16px;
-  color: #f6efe7;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(246, 239, 231, 0.85);
+  transition: color 0.2s ease;
 }
-/* Лежащая бутылка: вертикальный кадр повёрнут на -90° (горлышко влево).
-   Бокс-«толщина» держит высоту ряда, длина живёт в повороте. */
-.band-bottle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: clamp(180px, 19vw, 240px);
+.band-slide:hover .band-more {
+  color: #fff;
 }
-.band-rot {
+.band-bottle-v {
   position: relative;
-  flex: 0 0 auto;
-  width: clamp(180px, 19vw, 240px);
-  height: min(56vw, 620px);
-  transform: rotate(-90deg);
-  transition: transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+  height: min(52svh, 500px);
+  width: clamp(170px, 20vw, 280px);
 }
-/* Тень падает вниз по экрану: в системе координат повёрнутого
-   элемента это смещение по -X */
-.band-rot img {
-  filter: drop-shadow(-26px 0 30px rgba(0, 0, 0, 0.38));
+.band-bottle-v img {
+  filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.38));
+  transition: transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
-/* Ховер: бутылка чуть выезжает вдоль своей оси, как из стеллажа */
-.band-row:hover .band-rot {
-  transform: rotate(-90deg) translateY(-10px);
+.band-slide:hover .band-bottle-v img {
+  transform: translateY(-8px);
 }
-.wines-band .wines-all {
-  margin-top: clamp(56px, 8vw, 96px);
+.band-cta {
+  padding-bottom: clamp(20px, 4svh, 44px);
+  text-align: center;
 }
 
-@media (max-width: 900px) {
-  .band-row {
+/* Узкие экраны и reduced-motion: без пина — нативный свайп со snap */
+@media (max-width: 900px), (prefers-reduced-motion: reduce) {
+  .band-pinwrap {
+    height: auto;
+  }
+  .band-sticky {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+  .band-track {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding: clamp(28px, 6vw, 48px) 18px 8px;
+    gap: 10vw;
+  }
+  .band-track::-webkit-scrollbar {
+    display: none;
+  }
+  .band-slide {
+    width: 78vw;
+    scroll-snap-align: center;
     grid-template-columns: 1fr;
-    gap: 6px;
+    justify-items: center;
+    text-align: center;
+    gap: 20px;
   }
-  .band-meta p {
-    max-width: 420px;
+  .band-bottle-v {
+    height: min(46svh, 420px);
+    width: 56vw;
   }
-  .band-bottle {
-    height: clamp(150px, 34vw, 200px);
-  }
-  .band-rot {
-    width: clamp(150px, 34vw, 200px);
-    height: 82vw;
+  .band-cta {
+    padding: 36px 0 clamp(48px, 8vw, 72px);
   }
 }
 .wine-card {

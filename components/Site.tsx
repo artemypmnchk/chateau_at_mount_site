@@ -1,10 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import { useRef } from "react";
 import { t, wines, links, reviews } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
 import { useReveal } from "./useReveal";
+import { useHorizontalScroll } from "./useHorizontalScroll";
 import Medal from "./Medal";
 
 // Все награды вин одной лентой: золото раньше серебра, порядок вин сохраняем.
@@ -40,7 +42,10 @@ const galleryShots = [
 export default function Site() {
   const { L } = useLocale();
   const { openBooking } = useBookingModal();
+  const bandWrapRef = useRef<HTMLDivElement>(null);
+  const bandTrackRef = useRef<HTMLDivElement>(null);
   useReveal();
+  useHorizontalScroll(bandWrapRef, bandTrackRef);
 
   return (
     <main id="top">
@@ -149,49 +154,47 @@ export default function Site() {
         </div>
       </section>
 
-      {/* ---------- Wines — глиняное полотно с лежащими бутылками ---------- */}
+      {/* ---------- Wines — глиняное полотно, горизонтальный проезд ---------- */}
       <section id="wines" className="wines-band">
-        <div className="container">
-          <div className="wines-head" data-reveal>
-            <div>
+        <div
+          className="band-pinwrap"
+          ref={bandWrapRef}
+          style={{ "--slides": wines.length } as React.CSSProperties}
+        >
+          <div className="band-sticky">
+            <div className="container band-head" data-reveal>
               <span className="eyebrow">{L(t.winesSection.eyebrow)}</span>
               <h2>{L(t.winesSection.title)}</h2>
             </div>
-          </div>
-          <div className="band-list">
-            {wines.map((w, i) => (
-              <a
-                className="band-row"
-                href={`/wines/${w.slug}`}
-                key={w.slug}
-                data-reveal
-              >
-                <div className="band-meta">
-                  <span className="wine-no">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h3>{w.name}</h3>
-                  <p>{L(w.desc)}</p>
-                  <span className="wine-more">{L(t.winesSection.more)} →</span>
-                </div>
-                <div className="band-bottle">
-                  <div className="band-rot">
+            <div className="band-track" ref={bandTrackRef}>
+              {wines.map((w, i) => (
+                <a className="band-slide" href={`/wines/${w.slug}`} key={w.slug}>
+                  <div className="band-meta">
+                    <span className="wine-no">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3>{w.name}</h3>
+                    <span className="band-more">
+                      {L(t.winesSection.more)} →
+                    </span>
+                  </div>
+                  <div className="band-bottle-v">
                     <Image
                       src={w.image}
                       alt={w.name}
                       fill
-                      sizes="(max-width: 900px) 78vw, 620px"
+                      sizes="(max-width: 900px) 60vw, 300px"
                       style={{ objectFit: "contain" }}
                     />
                   </div>
-                </div>
+                </a>
+              ))}
+            </div>
+            <div className="band-cta">
+              <a href="/wines" className="btn btn-outline">
+                {L(t.winesSection.all)}
               </a>
-            ))}
-          </div>
-          <div className="wines-all">
-            <a href="/wines" className="btn btn-outline">
-              {L(t.winesSection.all)}
-            </a>
+            </div>
           </div>
         </div>
       </section>
