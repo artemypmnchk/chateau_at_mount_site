@@ -593,6 +593,8 @@ section {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  /* Фолбэк без JS; при проезде хук перекрашивает панель цветом сорта */
+  background: var(--clay);
 }
 .band-head {
   /* Под фиксированной шапкой (68px) + воздух */

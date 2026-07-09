@@ -11,6 +11,9 @@ export interface Wine {
   accent: string;
   /** Тёмный вариант акцента — для текста на светлом фоне. */
   accentDark: string;
+  /** Основной цвет сорта — полотно блока вин на главной (кремовый текст
+   *  должен держать контраст ≥4.5:1). */
+  band: string;
   /** Награды вина: уровень медали + подпись (конкурс, год, урожай). */
   awards?: { level: "gold" | "silver"; text: Record<Locale, string> }[];
   desc: Record<Locale, string>;
@@ -34,6 +37,8 @@ export const wines: Wine[] = [
     image: "/images/wine-merlot.png",
     accent: "#d09a83", // терракота заката с этикетки
     accentDark: "#a25a41",
+    band: "#5b090e", // глубокий гранатовый
+
     awards: [
       {
         level: "gold",
@@ -90,6 +95,8 @@ export const wines: Wine[] = [
     image: "/images/wine-cabernet-rose.png",
     accent: "#d5a2b4", // пыльная роза с этикетки
     accentDark: "#a05673",
+    band: "#ac4c6b", // роза этикетки, углублённая до контраста с кремовым
+
     desc: {
       ru: "Сухое розовое вино. Аромат клубники с нотками малины, черники и сбалансированной кислотностью",
       en: "Dry rosé wine. A strawberry aroma with hints of raspberry, blueberry and balanced acidity",
@@ -136,6 +143,8 @@ export const wines: Wine[] = [
     image: "/images/wine-viorica.png",
     accent: "#9ec4b5", // морская зелень волос с этикетки
     accentDark: "#47705f",
+    band: "#0f4c45", // глубокая морская зелень
+
     awards: [
       {
         level: "gold",
@@ -200,6 +209,8 @@ export const wines: Wine[] = [
     image: "/images/wine-feteasca-neagra.png",
     accent: "#d8a778", // охра холмов с этикетки
     accentDark: "#a5633a",
+    band: "#90191c", // винно-красный заката
+
     desc: {
       ru: "Сухое красное вино. Вино гранатового цвета с ароматом лесных ягод, нотами малины и инжира",
       en: "Dry red wine. A garnet-coloured wine with wild-berry aromas and notes of raspberry and fig",
@@ -246,6 +257,8 @@ export const wines: Wine[] = [
     image: "/images/wine-cabernet-sauvignon.png",
     accent: "#cbaa7e", // янтарь камней с этикетки
     accentDark: "#8d6a3f",
+    band: "#180f0a", // почти чёрный кофейный
+
     awards: [
       {
         level: "gold",
@@ -302,6 +315,8 @@ export const wines: Wine[] = [
     image: "/images/wine-feteasca-alba.png",
     accent: "#dcaaa0", // коралл рук с этикетки
     accentDark: "#a55d50",
+    band: "#bc4052", // малиновый коралл, углублён до контраста с кремовым
+
     desc: {
       ru: "Сухое белое вино. Тонкий аромат полевых цветов с нотами зеленого яблока и цитрусовых",
       en: "Dry white wine. A delicate aroma of wildflowers with green-apple and citrus notes",
@@ -348,6 +363,8 @@ export const wines: Wine[] = [
     image: "/images/wine-shiraz.png",
     accent: "#a3b4cf", // дымчатая синева бокала с этикетки
     accentDark: "#4d6284",
+    band: "#1d173b", // глубокий индиго ночи
+
     awards: [
       {
         level: "silver",

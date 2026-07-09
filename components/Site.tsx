@@ -44,8 +44,12 @@ export default function Site() {
   const { openBooking } = useBookingModal();
   const bandWrapRef = useRef<HTMLDivElement>(null);
   const bandTrackRef = useRef<HTMLDivElement>(null);
+  const bandStickyRef = useRef<HTMLDivElement>(null);
   useReveal();
-  useHorizontalScroll(bandWrapRef, bandTrackRef);
+  useHorizontalScroll(bandWrapRef, bandTrackRef, {
+    bgRef: bandStickyRef,
+    colors: wines.map((w) => w.band),
+  });
 
   return (
     <main id="top">
@@ -161,7 +165,7 @@ export default function Site() {
           ref={bandWrapRef}
           style={{ "--slides": wines.length } as React.CSSProperties}
         >
-          <div className="band-sticky">
+          <div className="band-sticky" ref={bandStickyRef}>
             <div className="container band-head" data-reveal>
               <span className="eyebrow">{L(t.winesSection.eyebrow)}</span>
               <h2>{L(t.winesSection.title)}</h2>
