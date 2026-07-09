@@ -4,6 +4,7 @@ import Image from "next/image";
 import { t, wines, type Wine } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
+import Medal from "./Medal";
 
 function Check() {
   return (
@@ -19,21 +20,6 @@ function Check() {
         d="M20 6 9 17l-5-5"
         stroke="currentColor"
         strokeWidth="2.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function Medal() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <circle cx="12" cy="9" r="5.2" stroke="currentColor" strokeWidth="1.6" />
-      <path
-        d="M9.4 13.6 7.6 20.5l4.4-2.3 4.4 2.3-1.8-6.9"
-        stroke="currentColor"
-        strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -94,9 +80,9 @@ export default function WinePage({ wine }: { wine: Wine }) {
             {wine.awards && wine.awards.length > 0 && (
               <ul className="wine-awards">
                 {wine.awards.map((a) => (
-                  <li key={a.ru}>
+                  <li key={a.text.ru} className={`medal-${a.level}`}>
                     <Medal />
-                    <span>{L(a)}</span>
+                    <span>{L(a.text)}</span>
                   </li>
                 ))}
               </ul>

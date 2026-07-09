@@ -5,6 +5,14 @@ import Image from "next/image";
 import { t, wines, links, reviews } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
+import Medal from "./Medal";
+
+// Все награды вин одной лентой: золото раньше серебра, порядок вин сохраняем.
+const allAwards = wines
+  .flatMap((w) => (w.awards ?? []).map((award) => ({ wine: w, award })))
+  .sort((a, b) =>
+    a.award.level === b.award.level ? 0 : a.award.level === "gold" ? -1 : 1
+  );
 
 // Статические импорты больших фото → next/image сам генерирует размеры
 // и blur-заглушку, отдаёт AVIF/WebP и ленивую загрузку.
@@ -105,6 +113,31 @@ export default function Site() {
           </div>
         </div>
       </section>
+
+      {/* ---------- Awards ---------- */}
+      {allAwards.length > 0 && (
+        <section className="awards" style={{ paddingTop: 0 }}>
+          <div className="container">
+            <span className="eyebrow">{L(t.awardsSection.eyebrow)}</span>
+            <h2>{L(t.awardsSection.title)}</h2>
+            <div className="awards-strip">
+              {allAwards.map(({ wine: w, award }) => (
+                <a
+                  className={`award-chip medal-${award.level}`}
+                  href={`/wines/${w.slug}`}
+                  key={award.text.ru}
+                >
+                  <Medal size={22} />
+                  <span className="award-body">
+                    <span className="award-wine">{w.name}</span>
+                    <span className="award-text">{L(award.text)}</span>
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ---------- Features ---------- */}
       <section style={{ paddingTop: 0 }}>

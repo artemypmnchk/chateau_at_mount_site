@@ -11,8 +11,8 @@ export interface Wine {
   accent: string;
   /** Тёмный вариант акцента — для текста на светлом фоне. */
   accentDark: string;
-  /** Награды вина. ⚠️ Пока пример-заглушка — заменить на реальные медали. */
-  awards?: Record<Locale, string>[];
+  /** Награды вина: уровень медали + подпись (конкурс, год, урожай). */
+  awards?: { level: "gold" | "silver"; text: Record<Locale, string> }[];
   desc: Record<Locale, string>;
   /** Тип вина для плашки и характеристик: «Сухое красное» и т.п. */
   type: Record<Locale, string>;
@@ -34,12 +34,14 @@ export const wines: Wine[] = [
     image: "/images/wine-merlot.png",
     accent: "#d09a83", // терракота заката с этикетки
     accentDark: "#a25a41",
-    // ⚠️ Пример-заглушка для дизайна — заменить на реальные награды или удалить
     awards: [
       {
-        ru: "Серебро · Международный конкурс вин (уточнить)",
-        en: "Silver · International wine competition (TBC)",
-        ro: "Argint · Concurs internațional de vinuri (de confirmat)",
+        level: "gold",
+        text: {
+          ru: "Золото · Asia Wine Trophy 2023 · урожай 2020",
+          en: "Gold · Asia Wine Trophy 2023 · 2020 vintage",
+          ro: "Aur · Asia Wine Trophy 2023 · recolta 2020",
+        },
       },
     ],
     desc: {
@@ -134,6 +136,24 @@ export const wines: Wine[] = [
     image: "/images/wine-viorica.png",
     accent: "#9ec4b5", // морская зелень волос с этикетки
     accentDark: "#47705f",
+    awards: [
+      {
+        level: "gold",
+        text: {
+          ru: "Золото · Berliner Wine Trophy 2025 · урожай 2023",
+          en: "Gold · Berliner Wine Trophy 2025 · 2023 vintage",
+          ro: "Aur · Berliner Wine Trophy 2025 · recolta 2023",
+        },
+      },
+      {
+        level: "silver",
+        text: {
+          ru: "Серебро · Mundus Vini 2025 · урожай 2023",
+          en: "Silver · Mundus Vini 2025 · 2023 vintage",
+          ro: "Argint · Mundus Vini 2025 · recolta 2023",
+        },
+      },
+    ],
     desc: {
       ru: "Сухое белое вино. Аромат полевых цветов, базилика, пряные ноты груши и цитрусовых",
       en: "Dry white wine. An aroma of wildflowers and basil with spicy pear and citrus notes",
@@ -226,6 +246,16 @@ export const wines: Wine[] = [
     image: "/images/wine-cabernet-sauvignon.png",
     accent: "#cbaa7e", // янтарь камней с этикетки
     accentDark: "#8d6a3f",
+    awards: [
+      {
+        level: "gold",
+        text: {
+          ru: "Золото · Berliner Wine Trophy 2024 · урожай 2020",
+          en: "Gold · Berliner Wine Trophy 2024 · 2020 vintage",
+          ro: "Aur · Berliner Wine Trophy 2024 · recolta 2020",
+        },
+      },
+    ],
     desc: {
       ru: "Сухое красное вино. Аромат черной вишни, спелых слив, тонко дополненный нотами специй",
       en: "Dry red wine. An aroma of black cherry and ripe plum, delicately finished with spice notes",
@@ -318,6 +348,16 @@ export const wines: Wine[] = [
     image: "/images/wine-shiraz.png",
     accent: "#a3b4cf", // дымчатая синева бокала с этикетки
     accentDark: "#4d6284",
+    awards: [
+      {
+        level: "silver",
+        text: {
+          ru: "Серебро · Asia Wine Trophy 2024 · урожай 2021",
+          en: "Silver · Asia Wine Trophy 2024 · 2021 vintage",
+          ro: "Argint · Asia Wine Trophy 2024 · recolta 2021",
+        },
+      },
+    ],
     desc: {
       ru: "Сухое красное вино. Интенсивный аромат черной вишни, спелой сливы с нотками граната. Сбалансированный фруктовый вкус",
       en: "Dry red wine. An intense aroma of black cherry and ripe plum with hints of pomegranate. A balanced fruity taste",
@@ -565,6 +605,14 @@ export const t = {
       ru: "Виноградники, закаты, уют и вино — идеальная атмосфера для праздника, фотосессии или ужина с друзьями.",
       en: "Vineyards, sunsets, comfort and wine — the perfect setting for a celebration, a photoshoot or dinner with friends.",
       ro: "Podgorii, apusuri, confort și vin — atmosfera perfectă pentru o sărbătoare, o ședință foto sau o cină cu prietenii.",
+    },
+  },
+  awardsSection: {
+    eyebrow: { ru: "Награды", en: "Awards", ro: "Premii" },
+    title: {
+      ru: "Вина, отмеченные международным жюри",
+      en: "Wines recognised by international juries",
+      ro: "Vinuri premiate de jurii internaționale",
     },
   },
   gallery: {
