@@ -130,6 +130,15 @@ a {
   background: #fff;
   color: var(--wine);
 }
+/* На тёмном бордовая заливка тонет — кнопка становится светлой */
+.section-dark .btn-accent {
+  background: #f3ede2;
+  color: var(--ink);
+}
+.section-dark .btn-accent:hover {
+  background: #fff;
+  color: var(--ink);
+}
 .btn-outline {
   background: transparent;
   border-color: rgba(255, 255, 255, 0.55);
@@ -220,16 +229,23 @@ a {
 .nav-links a:hover {
   opacity: 0.65;
 }
+/* Номера пунктов — редакционный приём, часть «напского» характера */
+.nav-num {
+  display: inline-block;
+  margin-right: 7px;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  vertical-align: 2px;
+  opacity: 0.55;
+}
 .header.scrolled .nav-links a {
   color: var(--ink);
 }
+/* Языки — тихие текстовые кнопки: никаких плашек поверх фото */
 .lang {
   display: inline-flex;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  overflow: hidden;
-}
-.header.scrolled .lang {
-  border-color: var(--line);
+  gap: 2px;
 }
 .lang button {
   background: transparent;
@@ -239,18 +255,20 @@ a {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  padding: 15px 13px;
-  color: rgba(255, 255, 255, 0.8);
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
+  padding: 15px 9px;
+  color: rgba(255, 255, 255, 0.55);
+  transition: color 0.2s ease;
 }
 .header.scrolled .lang button {
   color: var(--ink-soft);
 }
 .lang button.active {
-  background: var(--wine);
   color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 7px;
+}
+.header.scrolled .lang button.active {
+  color: var(--ink);
 }
 .burger {
   display: none;

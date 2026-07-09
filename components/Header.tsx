@@ -53,8 +53,9 @@ export default function Header() {
 
           <nav className="nav">
             <div className="nav-links">
-              {navItems.map((n) => (
+              {navItems.map((n, i) => (
                 <a key={n.href} href={n.href}>
+                  <span className="nav-num">{String(i + 1).padStart(2, "0")}</span>
                   {L(n.label)}
                 </a>
               ))}
