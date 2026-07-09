@@ -660,6 +660,8 @@ section {
   flex: 1;
   min-height: 0;
   will-change: transform;
+  /* Воздух под подписью — контент не липнет к нижней кромке панели */
+  padding-bottom: clamp(44px, 10svh, 104px);
 }
 /* Слайд на весь вьюпорт: бутылка большая, по центру, подпись под ней */
 .band-slide {
@@ -723,7 +725,7 @@ section {
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    padding: clamp(28px, 6vw, 48px) 0 8px;
+    padding: clamp(28px, 6vw, 48px) 0 clamp(40px, 9vw, 64px);
   }
   .band-track::-webkit-scrollbar {
     display: none;
