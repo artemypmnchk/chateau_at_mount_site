@@ -1,13 +1,13 @@
 :root {
-  --bg: #f7f3eb; /* тёплый кремовый — бумага, а не экран */
-  --bg-soft: #efe8da;
-  --ink: #221d16;
-  --ink-soft: #645c50;
-  --accent: #c2ae9c; /* бежевый акцент бренда — rgb(194,174,156) */
-  --accent-dark: #8f7355; /* бронзовый — для текста на светлом */
-  --wine: #5e2a33; /* глубокий винный — точечные акценты */
-  --dark: #1b1610; /* тёплый почти-чёрный */
-  --line: rgba(34, 29, 22, 0.14);
+  --bg: #f4f1ea; /* известняк — светлый камень, холоднее крема */
+  --bg-soft: #eae5da;
+  --ink: #241a1c; /* почти-чёрный со сливовым подтоном */
+  --ink-soft: #6a5d5e;
+  --accent: #d0a09b; /* пыльная роза — светлый винный отсвет на тёмном */
+  --accent-dark: #6d3440; /* винный для текста и деталей на светлом */
+  --wine: #5e2a33; /* глубокий винный — цвет действия */
+  --dark: #1e1518; /* тёмный со сливовым подтоном, не кофейный */
+  --line: rgba(36, 26, 28, 0.14);
   --line-light: rgba(255, 255, 255, 0.16);
   --radius: 3px;
   --radius-sm: 2px;
@@ -123,12 +123,12 @@ a {
   color: #fff;
 }
 .btn-accent {
-  background: var(--accent);
-  color: var(--dark);
+  background: var(--wine);
+  color: #fff;
 }
 .btn-accent:hover {
   background: #fff;
-  color: var(--dark);
+  color: var(--wine);
 }
 .btn-outline {
   background: transparent;
@@ -168,7 +168,7 @@ a {
   height: 82px;
 }
 .header.scrolled {
-  background: rgba(247, 243, 235, 0.92);
+  background: rgba(244, 241, 234, 0.92);
   backdrop-filter: saturate(160%) blur(14px);
   box-shadow: 0 1px 0 var(--line);
 }
@@ -246,8 +246,8 @@ a {
   color: var(--ink-soft);
 }
 .lang button.active {
-  background: var(--accent);
-  color: var(--dark);
+  background: var(--wine);
+  color: #fff;
 }
 .burger {
   display: none;
