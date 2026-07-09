@@ -576,7 +576,7 @@ section {
    Обёртка задаёт «пробег» по вертикали, панель прилипает на 100svh,
    трек едет влево по мере прокрутки (JS: useHorizontalScroll). */
 .wines-band {
-  background: var(--clay);
+  background: #171114; /* в тон сцене — без глиняных зазоров вокруг панели */
   color: #f6efe7;
   padding: 0; /* секционные отступы ломают sticky-раскладку */
 }
@@ -656,23 +656,26 @@ section {
 }
 .band-track {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   flex: 1;
   min-height: 0;
   will-change: transform;
-  /* Воздух под подписью — контент не липнет к нижней кромке панели */
-  padding-bottom: clamp(44px, 10svh, 104px);
+  /* Воздух сверху от заголовка и снизу от кромки панели */
+  padding-top: clamp(16px, 3svh, 32px);
+  padding-bottom: clamp(36px, 7svh, 72px);
 }
-/* Слайд на весь вьюпорт: бутылка большая, по центру, подпись под ней */
+/* Слайд на весь вьюпорт: контент прижат к низу, бутылка при нехватке
+   высоты ужимается — не наезжает на заголовок блока */
 .band-slide {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   text-align: center;
   gap: 22px;
   flex: 0 0 auto;
   width: 100vw;
+  min-height: 0;
 }
 .band-meta .wine-no {
   position: static;
@@ -700,6 +703,12 @@ section {
   position: relative;
   height: min(56svh, 620px);
   width: clamp(220px, 30vw, 400px);
+  /* При нехватке высоты бутылка ужимается первой */
+  flex-shrink: 1;
+  min-height: 200px;
+}
+.band-meta {
+  flex: 0 0 auto;
 }
 .band-bottle-v img {
   filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.38));
@@ -709,8 +718,16 @@ section {
   transform: translateY(-8px);
 }
 
-/* Узкие экраны и reduced-motion: без пина — нативный свайп со snap */
-@media (max-width: 900px), (prefers-reduced-motion: reduce) {
+/* Мобильные размеры — механика та же, что на десктопе (пин + проезд) */
+@media (max-width: 900px) {
+  .band-bottle-v {
+    height: min(50svh, 480px);
+    width: 62vw;
+  }
+}
+
+/* Reduced-motion: без пина и инерции — нативный свайп со snap */
+@media (prefers-reduced-motion: reduce) {
   .band-pinwrap {
     height: auto;
   }
@@ -732,10 +749,6 @@ section {
   }
   .band-slide {
     scroll-snap-align: center;
-  }
-  .band-bottle-v {
-    height: min(50svh, 480px);
-    width: 62vw;
   }
 }
 .wine-card {

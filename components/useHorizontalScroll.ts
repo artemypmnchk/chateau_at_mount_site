@@ -46,9 +46,7 @@ export function useHorizontalScroll(
     };
     buildGradient();
 
-    const skip = window.matchMedia(
-      "(max-width: 900px), (prefers-reduced-motion: reduce)"
-    );
+    const skip = window.matchMedia("(prefers-reduced-motion: reduce)");
     let raf = 0;
     // Инерция: трек и лента плавно догоняют целевой прогресс (lerp),
     // а не дёргаются за каждым тиком скролла.
@@ -64,7 +62,11 @@ export function useHorizontalScroll(
         const rect = wrap.getBoundingClientRect();
         const runway = rect.height - window.innerHeight;
         if (runway <= 0) return;
-        target = Math.min(1, Math.max(0, -rect.top / runway));
+        const p = Math.min(1, Math.max(0, -rect.top / runway));
+        // Квантуем к ближайшему слайду: проезд шагает от вина к вину,
+        // в покое всегда бутылка по центру — никаких «между».
+        const steps = Math.max(1, track.children.length - 1);
+        target = Math.round(p * steps) / steps;
       }
     };
 
