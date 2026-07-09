@@ -32,6 +32,7 @@ function parseFlags(argv) {
     else if (a === '--width') flags.width = parseInt(argv[++i], 10);
     else if (a === '--no-full') flags.full = false;
     else if (a === '--cookies') flags.cookies = argv[++i];
+    else if (a === '--autoscroll') flags.autoscroll = true;
     else pos.push(a);
   }
   return { flags, pos };
@@ -57,6 +58,21 @@ async function withPage(url, flags, fn) {
 
 async function cmdScreenshot(url, out, flags) {
   await withPage(url, flags, async (page) => {
+    // Прокатываем страницу, чтобы сработали scroll-reveal (IntersectionObserver),
+    // и даём транзишенам доиграть перед снимком.
+    if (flags.autoscroll) {
+      await page.evaluate(async () => {
+        // behavior:'instant' — на странице может стоять scroll-behavior:smooth,
+        // из-за которого частые scrollTo() анимируются и не доезжают.
+        const h = document.documentElement.scrollHeight;
+        for (let y = 0; y < h; y += 600) {
+          window.scrollTo({ top: y, behavior: 'instant' });
+          await new Promise((r) => setTimeout(r, 80));
+        }
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      });
+      await page.waitForTimeout(1500);
+    }
     await page.screenshot({ path: out, fullPage: flags.full });
   });
   console.log(JSON.stringify({ ok: true, out }));
