@@ -1,10 +1,12 @@
 "use client";
 
-import { useRef } from "react";
 import Image from "next/image";
+import { useRef } from "react";
 import { t, wines, links, reviews } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
+import { useReveal } from "./useReveal";
+import { useHorizontalScroll } from "./useHorizontalScroll";
 import Medal from "./Medal";
 
 // Все награды вин одной лентой: золото раньше серебра, порядок вин сохраняем.
@@ -19,7 +21,7 @@ const allAwards = wines
 import heroImg from "@/public/images/hero-building.jpg";
 import vineyardImg from "@/public/images/feature-vineyards.jpg";
 import basketImg from "@/public/images/basket.jpeg";
-import vatsImg from "@/public/images/cellar-vats.jpg";
+import vatsImg from "@/public/images/cellar-vats-2.jpg";
 import familyImg from "@/public/images/family.jpeg";
 import gallery1 from "@/public/images/gallery-1.jpg";
 import gallery2 from "@/public/images/gallery-2.jpg";
@@ -37,34 +39,17 @@ const galleryShots = [
   { img: gallery6, alt: "Вечер на винодельне" },
 ];
 
-function Chevron({ dir }: { dir: "left" | "right" }) {
-  return (
-    <svg width="22" height="22" viewBox="0 0 40 40" fill="none" aria-hidden>
-      <path
-        d={
-          dir === "left"
-            ? "M22.5 12.5 15 20l7.5 7.5"
-            : "M17.5 12.5 25 20l-7.5 7.5"
-        }
-        stroke="currentColor"
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 export default function Site() {
   const { L } = useLocale();
   const { openBooking } = useBookingModal();
-  const sliderRef = useRef<HTMLDivElement>(null);
-
-  const slide = (dir: 1 | -1) => {
-    const el = sliderRef.current;
-    if (!el) return;
-    el.scrollBy({ left: dir * 322, behavior: "smooth" });
-  };
+  const bandWrapRef = useRef<HTMLDivElement>(null);
+  const bandTrackRef = useRef<HTMLDivElement>(null);
+  const bandBgRef = useRef<HTMLDivElement>(null);
+  useReveal();
+  useHorizontalScroll(bandWrapRef, bandTrackRef, {
+    bgRef: bandBgRef,
+    colors: wines.map((w) => w.band),
+  });
 
   return (
     <main id="top">
@@ -82,14 +67,12 @@ export default function Site() {
           />
         </div>
         <div className="container hero-content">
-          <span className="hero-eyebrow">{L(t.hero.location)}</span>
           <h1>{t.hero.brand}</h1>
-          <p className="tagline">{L(t.hero.tagline)}</p>
           <div className="hero-actions">
-            <button onClick={openBooking} className="btn btn-accent">
+            <button onClick={openBooking} className="hero-link">
               {L(t.cta.request)}
             </button>
-            <a href="/wines" className="btn btn-outline">
+            <a href="/wines" className="hero-link">
               {L(t.cta.wines)}
             </a>
           </div>
@@ -175,56 +158,48 @@ export default function Site() {
         </div>
       </section>
 
-      {/* ---------- Wines ---------- */}
-      <section id="wines" className="section-dark">
-        <div className="container">
-          <div className="wines-head">
-            <div>
-              <span className="eyebrow">{L(t.winesSection.eyebrow)}</span>
-              <h2>{L(t.winesSection.title)}</h2>
-            </div>
-            <div className="slider-controls">
-              <button
-                className="slider-btn"
-                aria-label="Previous"
-                onClick={() => slide(-1)}
-              >
-                <Chevron dir="left" />
-              </button>
-              <button
-                className="slider-btn"
-                aria-label="Next"
-                onClick={() => slide(1)}
-              >
-                <Chevron dir="right" />
-              </button>
-            </div>
-          </div>
-          <div className="slider" ref={sliderRef}>
-            {wines.map((w, i) => (
-              <a className="wine-card" href={`/wines/${w.slug}`} key={w.slug}>
-                <span className="wine-no">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div className="wine-img">
-                  <Image
-                    src={w.image}
-                    alt={w.name}
-                    fill
-                    sizes="(max-width: 540px) 60vw, 244px"
-                    style={{ objectFit: "contain" }}
-                  />
-                </div>
-                <h3>{w.name}</h3>
-                <p>{L(w.desc)}</p>
-                <span className="wine-more">{L(t.winesSection.more)} →</span>
+      {/* ---------- Wines — глиняное полотно, горизонтальный проезд ---------- */}
+      <section id="wines" className="wines-band">
+        <div
+          className="band-pinwrap"
+          ref={bandWrapRef}
+          style={{ "--slides": wines.length } as React.CSSProperties}
+        >
+          <div className="band-sticky">
+            <div className="band-bg" ref={bandBgRef} aria-hidden />
+            <div className="container band-head" data-reveal>
+              <div>
+                <span className="eyebrow">{L(t.winesSection.eyebrow)}</span>
+                <h2>{L(t.winesSection.title)}</h2>
+              </div>
+              <a href="/wines" className="band-all">
+                {L(t.winesSection.all)} →
               </a>
-            ))}
-          </div>
-          <div className="wines-all">
-            <a href="/wines" className="btn btn-outline">
-              {L(t.winesSection.all)}
-            </a>
+            </div>
+            <div className="band-track" ref={bandTrackRef}>
+              {wines.map((w, i) => (
+                <a className="band-slide" href={`/wines/${w.slug}`} key={w.slug}>
+                  <div className="band-bottle-v">
+                    <Image
+                      src={w.image}
+                      alt={w.name}
+                      fill
+                      sizes="(max-width: 900px) 60vw, 300px"
+                      style={{ objectFit: "contain" }}
+                    />
+                  </div>
+                  <div className="band-meta">
+                    <span className="wine-no">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3>{w.name}</h3>
+                    <span className="band-more">
+                      {L(t.winesSection.more)} →
+                    </span>
+                  </div>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </section>

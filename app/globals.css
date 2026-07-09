@@ -1,20 +1,20 @@
 :root {
-  --bg: #f7f3eb; /* тёплый кремовый — бумага, а не экран */
-  --bg-soft: #efe8da;
-  --ink: #221d16;
-  --ink-soft: #645c50;
-  --accent: #c2ae9c; /* бежевый акцент бренда — rgb(194,174,156) */
-  --accent-dark: #8f7355; /* бронзовый — для текста на светлом */
-  --wine: #5e2a33; /* глубокий винный — точечные акценты */
-  --dark: #1b1610; /* тёплый почти-чёрный */
-  --line: rgba(34, 29, 22, 0.14);
+  --bg: #f4f1ea; /* известняк — светлый камень, холоднее крема */
+  --bg-soft: #eae5da;
+  --ink: #241a1c; /* почти-чёрный со сливовым подтоном */
+  --ink-soft: #6a5d5e;
+  --accent: #d0a09b; /* пыльная роза — светлый винный отсвет на тёмном */
+  --accent-dark: #6d3440; /* винный для текста и деталей на светлом */
+  --wine: #5e2a33; /* глубокий винный — цвет действия */
+  --dark: #1e1518; /* тёмный со сливовым подтоном, не кофейный */
+  --clay: #8d5843; /* обожжённая глина — полотно блока вин */
+  --line: rgba(36, 26, 28, 0.14);
   --line-light: rgba(255, 255, 255, 0.16);
   --radius: 3px;
   --radius-sm: 2px;
   --maxw: 1200px;
   --font: var(--font-inter), Inter, "Helvetica Neue", Arial, sans-serif;
-  --serif:
-    var(--font-serif), "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --serif: var(--font-serif), Piazzolla, Georgia, "Times New Roman", serif;
 }
 
 * {
@@ -25,7 +25,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 90px;
+  scroll-padding-top: 76px;
 }
 
 body {
@@ -124,12 +124,21 @@ a {
   color: #fff;
 }
 .btn-accent {
-  background: var(--accent);
-  color: var(--dark);
+  background: var(--wine);
+  color: #fff;
 }
 .btn-accent:hover {
   background: #fff;
-  color: var(--dark);
+  color: var(--wine);
+}
+/* На тёмном бордовая заливка тонет — кнопка становится светлой */
+.section-dark .btn-accent {
+  background: #f3ede2;
+  color: var(--ink);
+}
+.section-dark .btn-accent:hover {
+  background: #fff;
+  color: var(--ink);
 }
 .btn-outline {
   background: transparent;
@@ -164,12 +173,14 @@ a {
 }
 .header-inner {
   display: flex;
-  align-items: center;
+  /* Навигация сидит на нижней границе логотипа — редакционная линия */
+  align-items: flex-end;
   justify-content: space-between;
-  height: 82px;
+  height: 68px;
+  padding-bottom: 15px;
 }
 .header.scrolled {
-  background: rgba(247, 243, 235, 0.92);
+  background: rgba(244, 241, 234, 0.92);
   backdrop-filter: saturate(160%) blur(14px);
   box-shadow: 0 1px 0 var(--line);
 }
@@ -177,6 +188,9 @@ a {
   display: flex;
   align-items: center;
   gap: 12px;
+  /* тач-таргет ≥44px без сдвига вёрстки */
+  padding: 7px 0;
+  margin: -7px 0;
 }
 .brand img {
   width: 38px;
@@ -198,6 +212,8 @@ a {
   display: flex;
   align-items: center;
   gap: 34px;
+  /* Компенсирует нижний тач-паддинг ссылок: текст ложится на линию низа лого */
+  margin-bottom: -14px;
 }
 .nav-links {
   display: flex;
@@ -205,8 +221,8 @@ a {
 }
 .nav-links a {
   /* padding добирает кликабельную область до ~44px при той же вёрстке */
-  padding: 12px 0;
-  font-size: 13px;
+  padding: 14px 0;
+  font-size: 10.5px;
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -221,34 +237,33 @@ a {
 .header.scrolled .nav-links a {
   color: var(--ink);
 }
+/* Языки — тихие текстовые кнопки: никаких плашек поверх фото */
 .lang {
   display: inline-flex;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  overflow: hidden;
-}
-.header.scrolled .lang {
-  border-color: var(--line);
+  gap: 2px;
 }
 .lang button {
   background: transparent;
   border: 0;
   cursor: pointer;
   font-family: inherit;
-  font-size: 12px;
+  font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  padding: 15px 13px;
-  color: rgba(255, 255, 255, 0.8);
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
+  padding: 15px 8px 14px;
+  color: rgba(255, 255, 255, 0.55);
+  transition: color 0.2s ease;
 }
 .header.scrolled .lang button {
   color: var(--ink-soft);
 }
 .lang button.active {
-  background: var(--accent);
-  color: var(--dark);
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 7px;
+}
+.header.scrolled .lang button.active {
+  color: var(--ink);
 }
 .burger {
   display: none;
@@ -293,9 +308,10 @@ a {
   position: relative;
   min-height: 100svh;
   display: flex;
-  align-items: center;
+  align-items: flex-end; /* композиция прижата вниз, как у напских сайтов */
   color: #fff;
   overflow: hidden;
+  padding: 0; /* секционные отступы не дают прижать контент к краю кадра */
 }
 .hero-bg {
   position: absolute;
@@ -314,67 +330,73 @@ a {
   position: absolute;
   inset: 0;
   z-index: -1;
-  /* Лёгкая виньетка за текстом + мягкий градиент сверху и снизу */
-  background:
-    radial-gradient(
-      ellipse 62% 56% at 50% 46%,
-      rgba(15, 11, 7, 0.38) 0%,
-      rgba(15, 11, 7, 0) 72%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(15, 11, 7, 0.42) 0%,
-      rgba(20, 14, 9, 0.12) 45%,
-      rgba(15, 11, 7, 0.5) 100%
-    );
+  /* Монохромный скрим: легко сверху под шапку, плотнее к низу под текст */
+  background: linear-gradient(
+    180deg,
+    rgba(15, 11, 7, 0.4) 0%,
+    rgba(15, 11, 7, 0.06) 42%,
+    rgba(15, 11, 7, 0.34) 74%,
+    rgba(15, 11, 7, 0.66) 100%
+  );
 }
 .hero-content {
-  text-align: center;
-  max-width: 920px;
-  padding-top: 110px;
-  padding-bottom: 110px;
+  text-align: left;
+  padding-top: 140px;
+  padding-bottom: clamp(56px, 9vh, 100px);
   animation: heroIn 1.1s ease both;
   /* Мягкая тень — текст держится даже на светлых участках фото */
   text-shadow: 0 1px 30px rgba(15, 11, 7, 0.55);
 }
 .hero-eyebrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
+  display: block;
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.85);
 }
-.hero-eyebrow::before,
-.hero-eyebrow::after {
-  content: "";
-  width: 44px;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.45);
-}
 .hero h1 {
-  margin-top: 26px;
-  font-size: clamp(52px, 9vw, 104px);
-  line-height: 0.98;
+  margin-top: 20px;
+  font-size: clamp(56px, 9.5vw, 128px);
+  line-height: 0.96;
+  letter-spacing: -0.01em;
   font-weight: 500;
-}
-.hero .tagline {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: clamp(21px, 3vw, 32px);
-  font-weight: 400;
-  margin-top: 18px;
-  color: rgba(255, 255, 255, 0.92);
 }
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 14px;
-  margin-top: 44px;
+  gap: 14px 40px;
+  margin-top: 40px;
+}
+/* CTA на фото — текстовые ссылки, никакого цвета поверх кадра */
+.hero-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0; /* тач-таргет ≥44px */
+  background: none;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fff;
+  transition: border-color 0.25s ease;
+}
+.hero-link::after {
+  content: "→";
+  font-size: 14px;
+  letter-spacing: 0;
+  transition: transform 0.25s ease;
+}
+.hero-link:hover {
+  border-color: #fff;
+}
+.hero-link:hover::after {
+  transform: translateX(4px);
 }
 .hero-scroll {
   position: absolute;
@@ -534,58 +556,206 @@ section {
   font-size: clamp(32px, 5vw, 56px);
   line-height: 1.05;
 }
-.slider-controls {
-  display: flex;
-  gap: 10px;
+/* ---------- Scroll-reveal (в духе напских сайтов) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.9s cubic-bezier(0.215, 0.61, 0.355, 1),
+      transform 0.9s cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
 }
-.slider-btn {
-  width: 52px;
-  height: 52px;
-  border-radius: 0;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: transparent;
-  color: #fff;
+
+/* ---------- Wines band — глиняное полотно, горизонтальный проезд ----------
+   Обёртка задаёт «пробег» по вертикали, панель прилипает на 100svh,
+   трек едет влево по мере прокрутки (JS: useHorizontalScroll). */
+.wines-band {
+  background: #171114; /* в тон сцене — без глиняных зазоров вокруг панели */
+  color: #f6efe7;
+  padding: 0; /* секционные отступы ломают sticky-раскладку */
+}
+.wines-band .eyebrow {
+  color: rgba(246, 239, 231, 0.72);
+}
+.band-pinwrap {
+  height: calc(100svh + (var(--slides, 7) - 1) * 58svh);
+}
+.band-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* Тёмная сцена; цвет сорта живёт в центре, за бутылкой */
+  background: #171114;
+}
+/* Лента-градиент: стопы под центрами слайдов, едет синхронно с треком
+   (ширину и градиент задаёт useHorizontalScroll) */
+.band-bg {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 100%;
+  will-change: transform;
+  pointer-events: none;
+}
+/* Виньетка: цвет дышит только в центре, края уходят в тёмное */
+.band-sticky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 56% 64% at 50% 52%,
+    rgba(23, 17, 20, 0) 0%,
+    rgba(23, 17, 20, 0.35) 48%,
+    rgba(23, 17, 20, 0.85) 78%,
+    rgba(23, 17, 20, 0.97) 100%
+  );
+}
+.band-head,
+.band-track,
+.band-cta {
+  position: relative;
+  z-index: 1;
+}
+.band-head {
+  /* Под фиксированной шапкой (68px) + воздух */
+  padding-top: clamp(92px, 14svh, 128px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px 32px;
+}
+.band-head h2 {
+  font-size: clamp(32px, 5vw, 56px);
+}
+/* «Смотреть все вина» — тихая ссылка в шапке блока, вне зоны слайдов */
+.band-all {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease,
-    opacity 0.2s ease;
+  padding: 10px 0;
+  margin-bottom: 6px;
+  border-bottom: 1px solid rgba(246, 239, 231, 0.45);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #f6efe7;
+  white-space: nowrap;
+  transition: border-color 0.25s ease;
 }
-.slider-btn:hover {
-  background: #fff;
-  border-color: #fff;
-  color: var(--dark);
+.band-all:hover {
+  border-color: #f6efe7;
 }
-.slider-btn:disabled {
-  opacity: 0.3;
-  cursor: default;
-}
-.slider {
+.band-track {
   display: flex;
-  gap: 36px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding-bottom: 6px;
-  scrollbar-width: none;
-  /* Слайдер тянется вправо до края вьюпорта: частичная карточка
-     обрезается краем окна (естественный «peek»), а не серединой контейнера */
-  margin-right: calc(50% - 50vw);
-  padding-right: calc(50vw - 50%);
+  align-items: stretch;
+  flex: 1;
+  min-height: 0;
+  will-change: transform;
+  /* Воздух сверху от заголовка и снизу от кромки панели */
+  padding-top: clamp(16px, 3svh, 32px);
+  padding-bottom: clamp(36px, 7svh, 72px);
 }
-.slider::-webkit-scrollbar {
-  display: none;
+/* Слайд на весь вьюпорт: контент прижат к низу, бутылка при нехватке
+   высоты ужимается — не наезжает на заголовок блока */
+.band-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  gap: 22px;
+  flex: 0 0 auto;
+  width: 100vw;
+  min-height: 0;
+}
+.band-meta .wine-no {
+  position: static;
+  display: block;
+  margin-bottom: 10px;
+  color: rgba(246, 239, 231, 0.65);
+}
+.band-meta h3 {
+  font-size: clamp(28px, 3.2vw, 44px);
+}
+.band-more {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(246, 239, 231, 0.85);
+  transition: color 0.2s ease;
+}
+.band-slide:hover .band-more {
+  color: #fff;
+}
+.band-bottle-v {
+  position: relative;
+  height: min(56svh, 620px);
+  width: clamp(220px, 30vw, 400px);
+  /* При нехватке высоты бутылка ужимается первой */
+  flex-shrink: 1;
+  min-height: 200px;
+}
+.band-meta {
+  flex: 0 0 auto;
+}
+.band-bottle-v img {
+  filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.38));
+  transition: transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.band-slide:hover .band-bottle-v img {
+  transform: translateY(-8px);
+}
+
+/* Мобильные размеры — механика та же, что на десктопе (пин + проезд) */
+@media (max-width: 900px) {
+  .band-bottle-v {
+    height: min(50svh, 480px);
+    width: 62vw;
+  }
+}
+
+/* Reduced-motion: без пина и инерции — нативный свайп со snap */
+@media (prefers-reduced-motion: reduce) {
+  .band-pinwrap {
+    height: auto;
+  }
+  .band-sticky {
+    /* Не static: лента .band-bg позиционируется от панели и режется ею */
+    position: relative;
+    height: auto;
+    overflow: hidden;
+  }
+  .band-track {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding: clamp(28px, 6vw, 48px) 0 clamp(40px, 9vw, 64px);
+  }
+  .band-track::-webkit-scrollbar {
+    display: none;
+  }
+  .band-slide {
+    scroll-snap-align: center;
+  }
 }
 .wine-card {
   position: relative;
-  flex: 0 0 286px;
-  scroll-snap-align: start;
   background: transparent;
   border-top: 1px solid var(--line-light);
-  padding: 26px 4px 8px;
+  padding: 24px 4px 8px;
   display: flex;
   flex-direction: column;
 }
@@ -601,8 +771,8 @@ section {
 }
 .wine-img {
   position: relative;
-  height: 320px;
-  margin-bottom: 26px;
+  height: 235px;
+  margin-bottom: 22px;
 }
 .wine-img img {
   filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.5));
@@ -612,11 +782,11 @@ section {
   transform: translateY(-6px);
 }
 .wine-card h3 {
-  font-size: 27px;
+  font-size: 23px;
   margin-bottom: 10px;
 }
 .wine-card p {
-  font-size: 15px;
+  font-size: 14.5px;
   line-height: 1.6;
   color: rgba(243, 237, 226, 0.78);
 }
@@ -645,25 +815,17 @@ section {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 14px;
-  margin-top: 44px;
+  gap: 26px 64px;
+  margin-top: 52px;
 }
 .award-chip {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 18px 24px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.45);
+  gap: 16px;
   text-align: left;
-  transition:
-    border-color 0.2s ease,
-    background 0.2s ease;
 }
-.award-chip:hover {
-  border-color: var(--medal);
-  background: #fff;
+.award-chip:hover .award-wine {
+  color: var(--accent-dark);
 }
 .award-chip svg {
   flex: 0 0 auto;
@@ -676,9 +838,10 @@ section {
 }
 .award-wine {
   font-family: var(--serif);
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 500;
   line-height: 1.1;
+  transition: color 0.2s ease;
 }
 .award-text {
   font-size: 11.5px;
@@ -713,6 +876,9 @@ section {
   color: var(--ink-soft);
   white-space: nowrap;
   transition: color 0.2s ease;
+  /* тач-таргет ≥44px без сдвига вёрстки */
+  padding: 11px 0;
+  margin: -11px 0;
 }
 .gallery-link:hover {
   color: var(--ink);
@@ -934,6 +1100,14 @@ section {
   .nav > .lang {
     display: none;
   }
+  /* Остаётся только бургер — возвращаем вертикальный центр */
+  .header-inner {
+    align-items: center;
+    padding-bottom: 0;
+  }
+  .nav {
+    margin-bottom: 0;
+  }
   .mobile-menu .lang {
     display: inline-flex;
   }
@@ -986,14 +1160,6 @@ section {
   }
   .feature-card {
     min-height: 460px;
-  }
-  /* На двух строках боковые линии плашки выглядят неопрятно */
-  .hero-eyebrow::before,
-  .hero-eyebrow::after {
-    display: none;
-  }
-  .wine-card {
-    flex-basis: 78vw;
   }
   .footer-top {
     grid-template-columns: 1fr;
@@ -1272,30 +1438,24 @@ a.info-row:hover .info-value {
 
 /* Кадр светлее, чем на главной, — скрим плотнее */
 .visit-hero-photo::after {
-  background:
-    radial-gradient(
-      ellipse 62% 56% at 50% 46%,
-      rgba(15, 11, 7, 0.52) 0%,
-      rgba(15, 11, 7, 0) 74%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(15, 11, 7, 0.52) 0%,
-      rgba(20, 14, 9, 0.32) 45%,
-      rgba(15, 11, 7, 0.56) 100%
-    );
+  background: linear-gradient(
+    180deg,
+    rgba(15, 11, 7, 0.48) 0%,
+    rgba(15, 11, 7, 0.16) 42%,
+    rgba(15, 11, 7, 0.42) 74%,
+    rgba(15, 11, 7, 0.7) 100%
+  );
 }
 .visit-hero-photo h1 {
   font-size: clamp(44px, 7.5vw, 88px);
   line-height: 1;
   max-width: 840px;
-  margin-inline: auto;
 }
 .visit-hero-photo .lead {
   font-size: clamp(17px, 2.2vw, 21px);
   color: rgba(255, 255, 255, 0.9);
   max-width: 620px;
-  margin: 24px auto 0;
+  margin: 24px 0 0;
 }
 
 .visit-h2 {
