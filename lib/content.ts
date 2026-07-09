@@ -360,6 +360,25 @@ export const wines: Wine[] = [
   },
 ];
 
+/**
+ * Отзывы гостей для блока «Что говорят гости» на главной.
+ * Пока массив пуст — блок не показывается. Вставьте реальные отзывы
+ * с Google Maps (текст можно сократить, имя — как в отзыве):
+ *
+ * {
+ *   name: "Имя Гостя",
+ *   text: {
+ *     ru: "Текст отзыва…",
+ *     en: "Review text…",
+ *     ro: "Textul recenziei…",
+ *   },
+ * },
+ */
+export const reviews: {
+  name: string;
+  text: Record<Locale, string>;
+}[] = [];
+
 export const links = {
   instagram:
     "https://www.instagram.com/at_mount_chateau.md?igsh=MXM5MTVnem83c2luOQ==",
@@ -425,6 +444,16 @@ export const t = {
       en: "Book an event",
       ro: "Rezervă un eveniment",
     },
+    request: {
+      ru: "Оставить заявку",
+      en: "Leave a request",
+      ro: "Lasă o cerere",
+    },
+    wines: {
+      ru: "Наши вина",
+      en: "Our wines",
+      ro: "Vinurile noastre",
+    },
   },
   about: {
     line1: {
@@ -463,11 +492,16 @@ export const t = {
   winesSection: {
     eyebrow: { ru: "Наши вина", en: "Our wines", ro: "Vinurile noastre" },
     title: {
-      ru: "7 сортов с характером",
-      en: "7 varieties with character",
-      ro: "7 soiuri cu caracter",
+      ru: "Вина с характером",
+      en: "Wines with character",
+      ro: "Vinuri cu caracter",
     },
     more: { ru: "Подробнее", en: "Learn more", ro: "Detalii" },
+    all: {
+      ru: "Смотреть все вина",
+      en: "See all wines",
+      ro: "Vezi toate vinurile",
+    },
   },
   winesPage: {
     intro: {
@@ -531,6 +565,32 @@ export const t = {
       ru: "Виноградники, закаты, уют и вино — идеальная атмосфера для праздника, фотосессии или ужина с друзьями.",
       en: "Vineyards, sunsets, comfort and wine — the perfect setting for a celebration, a photoshoot or dinner with friends.",
       ro: "Podgorii, apusuri, confort și vin — atmosfera perfectă pentru o sărbătoare, o ședință foto sau o cină cu prietenii.",
+    },
+  },
+  gallery: {
+    eyebrow: { ru: "Атмосфера", en: "The atmosphere", ro: "Atmosfera" },
+    title: {
+      ru: "Как это выглядит у нас",
+      en: "What it looks like here",
+      ro: "Cum arată la noi",
+    },
+    instagram: {
+      ru: "Больше моментов — в Instagram",
+      en: "More moments on Instagram",
+      ro: "Mai multe momente pe Instagram",
+    },
+  },
+  reviews: {
+    eyebrow: { ru: "Отзывы", en: "Reviews", ro: "Recenzii" },
+    title: {
+      ru: "Что говорят гости",
+      en: "What our guests say",
+      ro: "Ce spun oaspeții",
+    },
+    source: {
+      ru: "Отзыв из Google",
+      en: "Google review",
+      ro: "Recenzie Google",
     },
   },
   contact: {
@@ -952,6 +1012,7 @@ export const t = {
     brandCol: { ru: "Винодельня", en: "Winery", ro: "Crama" },
     socialCol: { ru: "Соцсети", en: "Social", ro: "Rețele sociale" },
     extraCol: { ru: "Дополнительно", en: "More", ro: "Mai mult" },
+    contactsCol: { ru: "Контакты", en: "Contacts", ro: "Contacte" },
     rights: {
       ru: "© 2025 Chateau At Mount. Гагаузия, Молдова.",
       en: "© 2025 Chateau At Mount. Gagauzia, Moldova.",
