@@ -19,7 +19,7 @@ const allAwards = wines
 import heroImg from "@/public/images/hero-building.jpg";
 import vineyardImg from "@/public/images/feature-vineyards.jpg";
 import basketImg from "@/public/images/basket.jpeg";
-import vatsImg from "@/public/images/cellar-vats.jpg";
+import vatsImg from "@/public/images/cellar-vats-2.jpg";
 import familyImg from "@/public/images/family.jpeg";
 import gallery1 from "@/public/images/gallery-1.jpg";
 import gallery2 from "@/public/images/gallery-2.jpg";
@@ -82,7 +82,6 @@ export default function Site() {
           />
         </div>
         <div className="container hero-content">
-          <span className="hero-eyebrow">{L(t.hero.location)}</span>
           <h1>{t.hero.brand}</h1>
           <p className="tagline">{L(t.hero.tagline)}</p>
           <div className="hero-actions">
