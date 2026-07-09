@@ -8,7 +8,7 @@ import { useBookingModal } from "./BookingModal";
 
 // Статические импорты больших фото → next/image сам генерирует размеры
 // и blur-заглушку, отдаёт AVIF/WebP и ленивую загрузку.
-import heroImg from "@/public/images/hero-winery.png";
+import heroImg from "@/public/images/hero-building.jpg";
 import vineyardImg from "@/public/images/feature-vineyards.jpg";
 import basketImg from "@/public/images/basket.jpeg";
 import vatsImg from "@/public/images/cellar-vats.jpg";
