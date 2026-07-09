@@ -2,17 +2,32 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { t, wines, links } from "@/lib/content";
+import { t, wines, links, reviews } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
 
 // Статические импорты больших фото → next/image сам генерирует размеры
 // и blur-заглушку, отдаёт AVIF/WebP и ленивую загрузку.
-import heroImg from "@/public/images/hero-winery.png";
-import vineyardImg from "@/public/images/vineyard.png";
+import heroImg from "@/public/images/hero-dinner.jpg";
+import vineyardImg from "@/public/images/feature-vineyards.jpg";
 import basketImg from "@/public/images/basket.jpeg";
-import tanksImg from "@/public/images/tanks.jpg";
+import vatsImg from "@/public/images/cellar-vats.jpg";
 import familyImg from "@/public/images/family.jpeg";
+import gallery1 from "@/public/images/gallery-1.jpg";
+import gallery2 from "@/public/images/gallery-2.jpg";
+import gallery3 from "@/public/images/gallery-3.jpg";
+import gallery4 from "@/public/images/gallery-4.jpg";
+import gallery5 from "@/public/images/gallery-5.jpg";
+import gallery6 from "@/public/images/gallery-6.jpg";
+
+const galleryShots = [
+  { img: gallery1, alt: "Виноград нового урожая на закате" },
+  { img: gallery2, alt: "Сбор винограда на виноградниках" },
+  { img: gallery3, alt: "Закуски к дегустации" },
+  { img: gallery4, alt: "Гостья с бокалом вина" },
+  { img: gallery5, alt: "Ужин в виноградниках" },
+  { img: gallery6, alt: "Вечер на винодельне" },
+];
 
 function Chevron({ dir }: { dir: "left" | "right" }) {
   return (
@@ -55,7 +70,8 @@ export default function Site() {
             priority
             placeholder="blur"
             sizes="100vw"
-            style={{ objectFit: "cover" }}
+            /* Стол — на левой трети кадра: держим его в кадре и на мобилке */
+            style={{ objectFit: "cover", objectPosition: "38% 62%" }}
           />
         </div>
         <div className="container hero-content">
@@ -63,12 +79,12 @@ export default function Site() {
           <h1>{t.hero.brand}</h1>
           <p className="tagline">{L(t.hero.tagline)}</p>
           <div className="hero-actions">
-            <a href="#wines" className="btn btn-accent">
-              {L(t.cta.learn)}
-            </a>
-            <button onClick={openBooking} className="btn btn-outline">
-              {L(t.cta.book)}
+            <button onClick={openBooking} className="btn btn-accent">
+              {L(t.cta.request)}
             </button>
+            <a href="/wines" className="btn btn-outline">
+              {L(t.cta.wines)}
+            </a>
           </div>
         </div>
         <span className="hero-scroll" aria-hidden />
@@ -173,6 +189,11 @@ export default function Site() {
               </a>
             ))}
           </div>
+          <div className="wines-all">
+            <a href="/wines" className="btn btn-outline">
+              {L(t.winesSection.all)}
+            </a>
+          </div>
         </div>
       </section>
 
@@ -182,7 +203,7 @@ export default function Site() {
           <div className="split">
             <div className="split-media">
               <Image
-                src={tanksImg}
+                src={vatsImg}
                 alt={L(t.control.title)}
                 fill
                 placeholder="blur"
@@ -221,15 +242,53 @@ export default function Site() {
         </div>
       </section>
 
+      {/* ---------- Gallery ---------- */}
+      <section className="gallery" aria-label={L(t.gallery.title)}>
+        <div className="container">
+          <div className="gallery-head">
+            <span className="eyebrow">{L(t.gallery.eyebrow)}</span>
+            <a
+              href={links.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="gallery-link"
+            >
+              {L(t.gallery.instagram)} →
+            </a>
+          </div>
+          <div className="gallery-strip">
+            {galleryShots.map((s) => (
+              <div className="gallery-item" key={s.img.src}>
+                <Image
+                  src={s.img}
+                  alt={s.alt}
+                  placeholder="blur"
+                  style={{ height: "100%", width: "auto" }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ---------- Contact ---------- */}
-      <section
-        id="contacts"
-        className="section-dark contact"
-        style={{ paddingTop: 0 }}
-      >
+      <section id="contacts" className="section-dark contact">
         <div className="container">
           <h2>{L(t.contact.title)}</h2>
           <p>{L(t.contact.text)}</p>
+          {reviews.length > 0 && (
+            <div className="reviews-row">
+              {reviews.map((r) => (
+                <blockquote className="review-card" key={r.name}>
+                  <p>«{L(r.text)}»</p>
+                  <footer>
+                    <span className="review-name">{r.name}</span>
+                    <span className="review-source">{L(t.reviews.source)}</span>
+                  </footer>
+                </blockquote>
+              ))}
+            </div>
+          )}
           <div className="contact-cards">
             {t.contact.cards.map((c, i) => (
               <div className="contact-card" key={i}>
@@ -259,12 +318,12 @@ export default function Site() {
         <div className="container">
           <h2>{L(t.finalCta.title)}</h2>
           <div className="hero-actions">
-            <a href="#wines" className="btn btn-primary">
-              {L(t.cta.learn)}
-            </a>
-            <button onClick={openBooking} className="btn btn-ghost-dark">
-              {L(t.cta.book)}
+            <button onClick={openBooking} className="btn btn-primary">
+              {L(t.visitPage.bookCta)}
             </button>
+            <a href="/wines" className="btn btn-ghost-dark">
+              {L(t.winesSection.all)}
+            </a>
           </div>
         </div>
       </section>
