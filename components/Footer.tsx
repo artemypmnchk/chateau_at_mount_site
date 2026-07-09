@@ -1,6 +1,7 @@
 "use client";
 
 import { t, links } from "@/lib/content";
+import { site } from "@/lib/site";
 import { useLocale } from "./locale";
 
 export default function Footer() {
@@ -41,6 +42,19 @@ export default function Footer() {
             <h4>{L(t.footer.extraCol)}</h4>
             <a href="/visit">{L(t.nav.visit)}</a>
             <a href="/contacts">{L(t.nav.contacts)}</a>
+          </div>
+          <div className="footer-col">
+            <h4>{L(t.footer.contactsCol)}</h4>
+            <a href={site.contacts.phoneHref}>{site.contacts.phone}</a>
+            <a href={`mailto:${site.contacts.email}`}>{site.contacts.email}</a>
+            <p className="footer-address">{site.contacts.addressLine}</p>
+            <a
+              href={site.contacts.mapUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {L(t.contactsPage.showOnMap)} →
+            </a>
           </div>
         </div>
         <div className="footer-bottom">{L(t.footer.rights)}</div>

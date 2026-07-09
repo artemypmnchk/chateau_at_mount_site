@@ -26,6 +26,21 @@ function Check() {
   );
 }
 
+function Medal() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <circle cx="12" cy="9" r="5.2" stroke="currentColor" strokeWidth="1.6" />
+      <path
+        d="M9.4 13.6 7.6 20.5l4.4-2.3 4.4 2.3-1.8-6.9"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function WinePage({ wine }: { wine: Wine }) {
   const { L, locale } = useLocale();
   const { openBooking } = useBookingModal();
@@ -33,7 +48,16 @@ export default function WinePage({ wine }: { wine: Wine }) {
   const others = wines.filter((x) => x.slug !== wine.slug);
 
   return (
-    <main className="wine-page">
+    <main
+      className="wine-page"
+      /* Акцент всей страницы — из палитры этикетки этого вина */
+      style={
+        {
+          "--accent": wine.accent,
+          "--accent-dark": wine.accentDark,
+        } as React.CSSProperties
+      }
+    >
       {/* ---------- Hero: бутылка + характеристики ---------- */}
       <section className="wine-hero">
         <div className="container wine-hero-grid">
@@ -67,6 +91,16 @@ export default function WinePage({ wine }: { wine: Wine }) {
                 <dd>{wine.servingTemp}</dd>
               </div>
             </dl>
+            {wine.awards && wine.awards.length > 0 && (
+              <ul className="wine-awards">
+                {wine.awards.map((a) => (
+                  <li key={a.ru}>
+                    <Medal />
+                    <span>{L(a)}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
             <div className="hero-actions">
               <a href="/visit" className="btn btn-accent">
                 {L(t.visitPage.bookCta)}
@@ -79,11 +113,15 @@ export default function WinePage({ wine }: { wine: Wine }) {
         </div>
       </section>
 
-      {/* ---------- Гастрономические пары + история сорта ---------- */}
-      <section>
-        <div className="container coop-grid">
-          <div className="coop-card">
-            <h2>{L(w.pairingsTitle)}</h2>
+      {/* ---------- История сорта (редакционно) + гастропары сбоку ---------- */}
+      <section className="wine-story-section">
+        <div className="container story-grid">
+          <div className="story-main">
+            <span className="eyebrow">{L(w.storyTitle)}</span>
+            <p className="wine-story">{L(wine.story)}</p>
+          </div>
+          <aside className="story-aside">
+            <h3>{L(w.pairingsTitle)}</h3>
             <ul className="coop-list">
               {wine.pairings[locale].map((item) => (
                 <li key={item}>
@@ -92,11 +130,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
                 </li>
               ))}
             </ul>
-          </div>
-          <div className="coop-card">
-            <h2>{L(w.storyTitle)}</h2>
-            <p className="wine-story">{L(wine.story)}</p>
-          </div>
+          </aside>
         </div>
       </section>
 
@@ -106,11 +140,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
           <h2 className="visit-h2">{L(w.otherTitle)}</h2>
           <div className="slider">
             {others.map((o, i) => (
-              <a
-                className="wine-card"
-                href={`/wines/${o.slug}`}
-                key={o.slug}
-              >
+              <a className="wine-card" href={`/wines/${o.slug}`} key={o.slug}>
                 <span className="wine-no">
                   {String(i + 1).padStart(2, "0")}
                 </span>

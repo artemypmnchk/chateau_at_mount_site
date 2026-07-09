@@ -7,6 +7,12 @@ export interface Wine {
   slug: string;
   name: string;
   image: string;
+  /** Акцент страницы вина — приглушённый тон из иллюстрации этикетки. */
+  accent: string;
+  /** Тёмный вариант акцента — для текста на светлом фоне. */
+  accentDark: string;
+  /** Награды вина. ⚠️ Пока пример-заглушка — заменить на реальные медали. */
+  awards?: Record<Locale, string>[];
   desc: Record<Locale, string>;
   /** Тип вина для плашки и характеристик: «Сухое красное» и т.п. */
   type: Record<Locale, string>;
@@ -26,6 +32,16 @@ export const wines: Wine[] = [
     slug: "merlot",
     name: "Merlot",
     image: "/images/wine-merlot.png",
+    accent: "#d09a83", // терракота заката с этикетки
+    accentDark: "#a25a41",
+    // ⚠️ Пример-заглушка для дизайна — заменить на реальные награды или удалить
+    awards: [
+      {
+        ru: "Серебро · Международный конкурс вин (уточнить)",
+        en: "Silver · International wine competition (TBC)",
+        ro: "Argint · Concurs internațional de vinuri (de confirmat)",
+      },
+    ],
     desc: {
       ru: "Сухое красное вино. Богатый аромат спелой вишни и ежевики, дополненный нотами дуба",
       en: "Dry red wine. A rich aroma of ripe cherry and blackberry, rounded out with oak notes",
@@ -70,6 +86,8 @@ export const wines: Wine[] = [
     slug: "cabernet-rose",
     name: "Cabernet Rose",
     image: "/images/wine-cabernet-rose.png",
+    accent: "#d5a2b4", // пыльная роза с этикетки
+    accentDark: "#a05673",
     desc: {
       ru: "Сухое розовое вино. Аромат клубники с нотками малины, черники и сбалансированной кислотностью",
       en: "Dry rosé wine. A strawberry aroma with hints of raspberry, blueberry and balanced acidity",
@@ -114,6 +132,8 @@ export const wines: Wine[] = [
     slug: "viorica",
     name: "Viorica",
     image: "/images/wine-viorica.png",
+    accent: "#9ec4b5", // морская зелень волос с этикетки
+    accentDark: "#47705f",
     desc: {
       ru: "Сухое белое вино. Аромат полевых цветов, базилика, пряные ноты груши и цитрусовых",
       en: "Dry white wine. An aroma of wildflowers and basil with spicy pear and citrus notes",
@@ -158,6 +178,8 @@ export const wines: Wine[] = [
     slug: "feteasca-neagra",
     name: "Fetească neagră",
     image: "/images/wine-feteasca-neagra.png",
+    accent: "#d8a778", // охра холмов с этикетки
+    accentDark: "#a5633a",
     desc: {
       ru: "Сухое красное вино. Вино гранатового цвета с ароматом лесных ягод, нотами малины и инжира",
       en: "Dry red wine. A garnet-coloured wine with wild-berry aromas and notes of raspberry and fig",
@@ -202,6 +224,8 @@ export const wines: Wine[] = [
     slug: "cabernet-sauvignon",
     name: "Cabernet Sauvignon",
     image: "/images/wine-cabernet-sauvignon.png",
+    accent: "#cbaa7e", // янтарь камней с этикетки
+    accentDark: "#8d6a3f",
     desc: {
       ru: "Сухое красное вино. Аромат черной вишни, спелых слив, тонко дополненный нотами специй",
       en: "Dry red wine. An aroma of black cherry and ripe plum, delicately finished with spice notes",
@@ -246,6 +270,8 @@ export const wines: Wine[] = [
     slug: "feteasca-alba",
     name: "Fetească albă",
     image: "/images/wine-feteasca-alba.png",
+    accent: "#dcaaa0", // коралл рук с этикетки
+    accentDark: "#a55d50",
     desc: {
       ru: "Сухое белое вино. Тонкий аромат полевых цветов с нотами зеленого яблока и цитрусовых",
       en: "Dry white wine. A delicate aroma of wildflowers with green-apple and citrus notes",
@@ -290,6 +316,8 @@ export const wines: Wine[] = [
     slug: "shiraz",
     name: "Shiraz",
     image: "/images/wine-shiraz.png",
+    accent: "#a3b4cf", // дымчатая синева бокала с этикетки
+    accentDark: "#4d6284",
     desc: {
       ru: "Сухое красное вино. Интенсивный аромат черной вишни, спелой сливы с нотками граната. Сбалансированный фруктовый вкус",
       en: "Dry red wine. An intense aroma of black cherry and ripe plum with hints of pomegranate. A balanced fruity taste",
@@ -331,6 +359,25 @@ export const wines: Wine[] = [
     },
   },
 ];
+
+/**
+ * Отзывы гостей для блока «Что говорят гости» на главной.
+ * Пока массив пуст — блок не показывается. Вставьте реальные отзывы
+ * с Google Maps (текст можно сократить, имя — как в отзыве):
+ *
+ * {
+ *   name: "Имя Гостя",
+ *   text: {
+ *     ru: "Текст отзыва…",
+ *     en: "Review text…",
+ *     ro: "Textul recenziei…",
+ *   },
+ * },
+ */
+export const reviews: {
+  name: string;
+  text: Record<Locale, string>;
+}[] = [];
 
 export const links = {
   instagram:
@@ -397,6 +444,16 @@ export const t = {
       en: "Book an event",
       ro: "Rezervă un eveniment",
     },
+    request: {
+      ru: "Оставить заявку",
+      en: "Leave a request",
+      ro: "Lasă o cerere",
+    },
+    wines: {
+      ru: "Наши вина",
+      en: "Our wines",
+      ro: "Vinurile noastre",
+    },
   },
   about: {
     line1: {
@@ -435,11 +492,16 @@ export const t = {
   winesSection: {
     eyebrow: { ru: "Наши вина", en: "Our wines", ro: "Vinurile noastre" },
     title: {
-      ru: "7 сортов с характером",
-      en: "7 varieties with character",
-      ro: "7 soiuri cu caracter",
+      ru: "Вина с характером",
+      en: "Wines with character",
+      ro: "Vinuri cu caracter",
     },
     more: { ru: "Подробнее", en: "Learn more", ro: "Detalii" },
+    all: {
+      ru: "Смотреть все вина",
+      en: "See all wines",
+      ro: "Vezi toate vinurile",
+    },
   },
   winesPage: {
     intro: {
@@ -503,6 +565,32 @@ export const t = {
       ru: "Виноградники, закаты, уют и вино — идеальная атмосфера для праздника, фотосессии или ужина с друзьями.",
       en: "Vineyards, sunsets, comfort and wine — the perfect setting for a celebration, a photoshoot or dinner with friends.",
       ro: "Podgorii, apusuri, confort și vin — atmosfera perfectă pentru o sărbătoare, o ședință foto sau o cină cu prietenii.",
+    },
+  },
+  gallery: {
+    eyebrow: { ru: "Атмосфера", en: "The atmosphere", ro: "Atmosfera" },
+    title: {
+      ru: "Как это выглядит у нас",
+      en: "What it looks like here",
+      ro: "Cum arată la noi",
+    },
+    instagram: {
+      ru: "Больше моментов — в Instagram",
+      en: "More moments on Instagram",
+      ro: "Mai multe momente pe Instagram",
+    },
+  },
+  reviews: {
+    eyebrow: { ru: "Отзывы", en: "Reviews", ro: "Recenzii" },
+    title: {
+      ru: "Что говорят гости",
+      en: "What our guests say",
+      ro: "Ce spun oaspeții",
+    },
+    source: {
+      ru: "Отзыв из Google",
+      en: "Google review",
+      ro: "Recenzie Google",
     },
   },
   contact: {
@@ -585,76 +673,147 @@ export const t = {
       en: "A winery tour, a walk through the vineyards and a wine tasting overlooking Ceadîr-Lunga — all from the highest point of the hill.",
       ro: "Un tur al cramei, o plimbare prin podgorii și o degustare de vinuri cu vedere spre Ceadîr-Lunga — totul de pe cel mai înalt punct al dealului.",
     },
+    tableSplit: {
+      title: {
+        ru: "Стол в виноградниках",
+        en: "A table in the vineyards",
+        ro: "O masă în podgorii",
+      },
+      text: {
+        ru: "Накрываем стол прямо у лоз — с видом на холмы и закат. К дегустации можно добавить пикник, фотосессию или мастер-класс.",
+        en: "We set the table right by the vines, with the hills and the sunset in view. Add a picnic, a photoshoot or a workshop to your tasting.",
+        ro: "Punem masa chiar lângă vie, cu dealurile și apusul în fața ochilor. La degustare puteți adăuga un picnic, o ședință foto sau un atelier.",
+      },
+    },
+    gastroSplit: {
+      title: {
+        ru: "К вину — гагаузская кухня",
+        en: "Gagauz cooking with your wine",
+        ro: "Bucătăria găgăuză lângă vin",
+      },
+      text: {
+        ru: "Гёзлеме, домашний хлеб с гагаузскими специями, крафтовые сыры и горячее — готовим сами и подбираем к винам дегустации.",
+        en: "Gözleme, homemade bread with Gagauz spices, craft cheeses and a hot dish — we cook everything ourselves and pair it with the wines you taste.",
+        ro: "Gözleme, pâine de casă cu mirodenii găgăuze, brânzeturi artizanale și un fel cald — gătim totul noi și îl potrivim cu vinurile degustate.",
+      },
+    },
     packagesTitle: {
       ru: "Форматы дегустаций",
       en: "Tasting formats",
       ro: "Formate de degustare",
+    },
+    packagesIntro: {
+      ru: "Три формата — от знакомства с винодельней до гагаузского стола. Все визиты по предварительной записи, меню адаптируем под вашу компанию.",
+      en: "Three formats — from a first acquaintance with the winery to the Gagauz table. All visits are by appointment, and we adapt the menu to your group.",
+      ro: "Trei formate — de la o primă cunoștință cu crama până la masa găgăuză. Toate vizitele sunt cu programare, iar meniul îl adaptăm grupului vostru.",
     },
     popularTag: {
       ru: "Чаще всего выбирают",
       en: "Most popular",
       ro: "Cel mai ales",
     },
+    priceUnit: { ru: "лей / чел", en: "MDL / person", ro: "lei / pers." },
     packages: [
       {
         name: { ru: "Знакомство", en: "Introduction", ro: "Cunoștință" },
-        duration: { ru: "≈ 1 час", en: "≈ 1 hour", ro: "≈ 1 oră" },
-        winesNum: "3",
-        winesWord: { ru: "вина", en: "wines", ro: "vinuri" },
+        price: "300",
+        meta: {
+          ru: "4 вина · от 4 гостей · ≈ 1 час",
+          en: "4 wines · 4+ guests · ≈ 1 hour",
+          ro: "4 vinuri · min. 4 oaspeți · ≈ 1 oră",
+        },
         popular: false,
         includes: {
-          ru: ["Экскурсия по винодельне", "Рассказ о сортах и регионе"],
-          en: ["Winery tour", "The story of our varieties and the region"],
-          ro: ["Tur al cramei", "Povestea soiurilor și a regiunii"],
+          ru: [
+            "Экскурсия по винодельне и рассказ о технологии",
+            "Дегустация четырёх вин из бочек",
+            "Сыр, орехи, снеки и вода",
+          ],
+          en: [
+            "Winery tour and the story of our winemaking",
+            "Tasting of four wines straight from the barrel",
+            "Cheese, nuts, snacks and water",
+          ],
+          ro: [
+            "Tur al cramei și povestea tehnologiei",
+            "Degustare de patru vinuri direct din butoi",
+            "Brânză, nuci, gustări și apă",
+          ],
         },
       },
       {
-        name: { ru: "Классика", en: "Classic", ro: "Clasic" },
-        duration: { ru: "≈ 1,5 часа", en: "≈ 1.5 hours", ro: "≈ 1,5 ore" },
-        winesNum: "5",
-        winesWord: { ru: "вин", en: "wines", ro: "vinuri" },
+        name: {
+          ru: "Классика и выдержка",
+          en: "Classics & Reserve",
+          ro: "Clasic și maturat",
+        },
+        price: "450",
+        meta: {
+          ru: "6 вин · от 4 гостей · ≈ 1,5 часа",
+          en: "6 wines · 4+ guests · ≈ 1.5 hours",
+          ro: "6 vinuri · min. 4 oaspeți · ≈ 1,5 ore",
+        },
         popular: true,
         includes: {
           ru: [
             "Экскурсия по винодельне и виноградникам",
-            "Лёгкие закуски к вину",
+            "Четыре классических и два выдержанных красных вина",
+            "Мясная тарелка, сыр, орехи",
+            "Фруктовое ассорти",
           ],
           en: [
             "Tour of the winery and vineyards",
-            "Light snacks with the wine",
+            "Four classic wines and two aged reds",
+            "Charcuterie board, cheese, nuts",
+            "Fruit platter",
           ],
-          ro: ["Tur al cramei și al podgoriilor", "Gustări ușoare lângă vin"],
+          ro: [
+            "Tur al cramei și al podgoriilor",
+            "Patru vinuri clasice și două roșii maturate",
+            "Platou de mezeluri, brânză, nuci",
+            "Platou de fructe",
+          ],
         },
       },
       {
-        name: { ru: "Шато", en: "Chateau", ro: "Chateau" },
-        duration: { ru: "≈ 2,5 часа", en: "≈ 2.5 hours", ro: "≈ 2,5 ore" },
-        winesNum: "7",
-        winesWord: { ru: "вин", en: "wines", ro: "vinuri" },
+        name: {
+          ru: "Гагаузский стол",
+          en: "The Gagauz Table",
+          ro: "Masa găgăuză",
+        },
+        price: "850",
+        meta: {
+          ru: "7 вин · от 2 гостей · ≈ 2,5 часа",
+          en: "7 wines · 2+ guests · ≈ 2.5 hours",
+          ro: "7 vinuri · min. 2 oaspeți · ≈ 2,5 ore",
+        },
         popular: false,
         includes: {
           ru: [
-            "Вся линейка вин",
-            "Экскурсия и прогулка по виноградникам",
-            "Закуски и закат с видом на холмы",
+            "Вся линейка: четыре классических и три выдержанных вина",
+            "Горячее блюдо и гагаузские гёзлеме",
+            "Домашний хлеб с гагаузскими специями",
+            "Крафтовые сыры, мясная тарелка, орехи",
           ],
           en: [
-            "The full range of wines",
-            "Tour and a walk through the vineyards",
-            "Snacks and a sunset over the hills",
+            "The full range: four classic and three aged wines",
+            "A hot dish and Gagauz gözleme",
+            "Homemade bread with Gagauz spices",
+            "Craft cheeses, charcuterie, nuts",
           ],
           ro: [
-            "Toată gama de vinuri",
-            "Tur și plimbare prin podgorii",
-            "Gustări și apus cu vedere spre dealuri",
+            "Toată gama: patru vinuri clasice și trei maturate",
+            "Fel cald și gözleme găgăuze",
+            "Pâine de casă cu mirodenii găgăuze",
+            "Brânzeturi artizanale, mezeluri, nuci",
           ],
         },
       },
     ],
     priceNote: {
-      ru: "Стоимость зависит от формата и размера компании — напишите нам, и мы предложим вариант под вас.",
-      en: "The price depends on the format and the size of your group — write to us and we'll suggest the right option.",
-      ro: "Prețul depinde de format și de mărimea grupului — scrieți-ne și vă propunem varianta potrivită.",
+      ru: "Можно добавить пикник в виноградниках, мастер-класс или аренду локации. Для групп и партнёров — отдельные условия, напишите нам.",
+      en: "You can add a picnic in the vineyards, a workshop or venue hire. For groups and partners we offer special terms — write to us.",
+      ro: "Puteți adăuga un picnic în podgorii, un atelier sau închirierea locației. Pentru grupuri și parteneri oferim condiții speciale — scrieți-ne.",
     },
     howTitle: {
       ru: "Как проходит визит",
@@ -853,6 +1012,7 @@ export const t = {
     brandCol: { ru: "Винодельня", en: "Winery", ro: "Crama" },
     socialCol: { ru: "Соцсети", en: "Social", ro: "Rețele sociale" },
     extraCol: { ru: "Дополнительно", en: "More", ro: "Mai mult" },
+    contactsCol: { ru: "Контакты", en: "Contacts", ro: "Contacte" },
     rights: {
       ru: "© 2025 Chateau At Mount. Гагаузия, Молдова.",
       en: "© 2025 Chateau At Mount. Gagauzia, Moldova.",
