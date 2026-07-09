@@ -172,9 +172,11 @@ a {
 }
 .header-inner {
   display: flex;
-  align-items: center;
+  /* Навигация сидит на нижней границе логотипа — редакционная линия */
+  align-items: flex-end;
   justify-content: space-between;
   height: 68px;
+  padding-bottom: 15px;
 }
 .header.scrolled {
   background: rgba(244, 241, 234, 0.92);
@@ -209,6 +211,8 @@ a {
   display: flex;
   align-items: center;
   gap: 34px;
+  /* Компенсирует нижний тач-паддинг ссылок: текст ложится на линию низа лого */
+  margin-bottom: -14px;
 }
 .nav-links {
   display: flex;
@@ -245,7 +249,7 @@ a {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  padding: 15px 8px;
+  padding: 15px 8px 14px;
   color: rgba(255, 255, 255, 0.55);
   transition: color 0.2s ease;
 }
@@ -954,6 +958,14 @@ section {
   }
   .nav > .lang {
     display: none;
+  }
+  /* Остаётся только бургер — возвращаем вертикальный центр */
+  .header-inner {
+    align-items: center;
+    padding-bottom: 0;
+  }
+  .nav {
+    margin-bottom: 0;
   }
   .mobile-menu .lang {
     display: inline-flex;
