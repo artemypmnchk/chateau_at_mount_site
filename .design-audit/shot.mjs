@@ -33,6 +33,7 @@ function parseFlags(argv) {
     else if (a === '--no-full') flags.full = false;
     else if (a === '--cookies') flags.cookies = argv[++i];
     else if (a === '--autoscroll') flags.autoscroll = true;
+    else if (a === '--scrollto') flags.scrollto = parseInt(argv[++i], 10);
     else pos.push(a);
   }
   return { flags, pos };
@@ -72,6 +73,13 @@ async function cmdScreenshot(url, out, flags) {
         window.scrollTo({ top: 0, behavior: 'instant' });
       });
       await page.waitForTimeout(1500);
+    }
+    if (Number.isFinite(flags.scrollto)) {
+      await page.evaluate(
+        (y) => window.scrollTo({ top: y, behavior: 'instant' }),
+        flags.scrollto
+      );
+      await page.waitForTimeout(1200);
     }
     await page.screenshot({ path: out, fullPage: flags.full });
   });
