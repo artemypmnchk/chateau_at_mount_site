@@ -713,9 +713,10 @@ section {
     height: auto;
   }
   .band-sticky {
-    position: static;
+    /* Не static: лента .band-bg позиционируется от панели и режется ею */
+    position: relative;
     height: auto;
-    overflow: visible;
+    overflow: hidden;
   }
   .band-track {
     overflow-x: auto;
