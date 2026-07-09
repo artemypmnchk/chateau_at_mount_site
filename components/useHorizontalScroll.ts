@@ -50,19 +50,28 @@ export function useHorizontalScroll(
       "(max-width: 900px), (prefers-reduced-motion: reduce)"
     );
     let raf = 0;
+    // Инерция: трек и лента плавно догоняют целевой прогресс (lerp),
+    // а не дёргаются за каждым тиком скролла.
+    const EASE = 0.09;
+    let current = -1; // прогресс, отрисованный на экране
+    let target = 0;
 
-    const update = () => {
-      raf = 0;
-      let p = 0;
+    const readTarget = () => {
       if (skip.matches) {
-        track.style.transform = "";
         const max = track.scrollWidth - track.clientWidth;
-        p = max > 0 ? track.scrollLeft / max : 0;
+        target = max > 0 ? track.scrollLeft / max : 0;
       } else {
         const rect = wrap.getBoundingClientRect();
         const runway = rect.height - window.innerHeight;
         if (runway <= 0) return;
-        p = Math.min(1, Math.max(0, -rect.top / runway));
+        target = Math.min(1, Math.max(0, -rect.top / runway));
+      }
+    };
+
+    const render = (p: number) => {
+      if (skip.matches) {
+        track.style.transform = "";
+      } else {
         const shift = Math.max(0, track.scrollWidth - track.clientWidth);
         track.style.transform = `translate3d(${-p * shift}px, 0, 0)`;
       }
@@ -71,15 +80,29 @@ export function useHorizontalScroll(
         bgEl.style.transform = `translate3d(${-p * bgShift}px, 0, 0)`;
       }
     };
+
+    const tick = () => {
+      raf = 0;
+      // На нативном свайпе и при reduced-motion — без инерции, один в один
+      if (skip.matches || current < 0) {
+        current = target;
+      } else {
+        current += (target - current) * EASE;
+        if (Math.abs(target - current) < 0.0004) current = target;
+      }
+      render(current);
+      if (current !== target) raf = requestAnimationFrame(tick);
+    };
     const schedule = () => {
-      if (!raf) raf = requestAnimationFrame(update);
+      readTarget();
+      if (!raf) raf = requestAnimationFrame(tick);
     };
     const onResize = () => {
       buildGradient();
       schedule();
     };
 
-    update();
+    schedule();
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", onResize);
     track.addEventListener("scroll", schedule, { passive: true });

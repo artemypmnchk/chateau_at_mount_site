@@ -696,8 +696,8 @@ section {
 }
 .band-bottle-v {
   position: relative;
-  height: min(50svh, 540px);
-  width: clamp(200px, 26vw, 360px);
+  height: min(56svh, 620px);
+  width: clamp(220px, 30vw, 400px);
 }
 .band-bottle-v img {
   filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.38));
@@ -731,8 +731,8 @@ section {
     scroll-snap-align: center;
   }
   .band-bottle-v {
-    height: min(46svh, 440px);
-    width: 56vw;
+    height: min(50svh, 480px);
+    width: 62vw;
   }
 }
 .wine-card {
