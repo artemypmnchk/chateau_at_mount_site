@@ -44,10 +44,10 @@ export default function Site() {
   const { openBooking } = useBookingModal();
   const bandWrapRef = useRef<HTMLDivElement>(null);
   const bandTrackRef = useRef<HTMLDivElement>(null);
-  const bandStickyRef = useRef<HTMLDivElement>(null);
+  const bandBgRef = useRef<HTMLDivElement>(null);
   useReveal();
   useHorizontalScroll(bandWrapRef, bandTrackRef, {
-    bgRef: bandStickyRef,
+    bgRef: bandBgRef,
     colors: wines.map((w) => w.band),
   });
 
@@ -165,23 +165,20 @@ export default function Site() {
           ref={bandWrapRef}
           style={{ "--slides": wines.length } as React.CSSProperties}
         >
-          <div className="band-sticky" ref={bandStickyRef}>
+          <div className="band-sticky">
+            <div className="band-bg" ref={bandBgRef} aria-hidden />
             <div className="container band-head" data-reveal>
-              <span className="eyebrow">{L(t.winesSection.eyebrow)}</span>
-              <h2>{L(t.winesSection.title)}</h2>
+              <div>
+                <span className="eyebrow">{L(t.winesSection.eyebrow)}</span>
+                <h2>{L(t.winesSection.title)}</h2>
+              </div>
+              <a href="/wines" className="band-all">
+                {L(t.winesSection.all)} →
+              </a>
             </div>
             <div className="band-track" ref={bandTrackRef}>
               {wines.map((w, i) => (
                 <a className="band-slide" href={`/wines/${w.slug}`} key={w.slug}>
-                  <div className="band-meta">
-                    <span className="wine-no">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <h3>{w.name}</h3>
-                    <span className="band-more">
-                      {L(t.winesSection.more)} →
-                    </span>
-                  </div>
                   <div className="band-bottle-v">
                     <Image
                       src={w.image}
@@ -191,13 +188,17 @@ export default function Site() {
                       style={{ objectFit: "contain" }}
                     />
                   </div>
+                  <div className="band-meta">
+                    <span className="wine-no">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3>{w.name}</h3>
+                    <span className="band-more">
+                      {L(t.winesSection.more)} →
+                    </span>
+                  </div>
                 </a>
               ))}
-            </div>
-            <div className="band-cta">
-              <a href="/wines" className="btn btn-outline">
-                {L(t.winesSection.all)}
-              </a>
             </div>
           </div>
         </div>

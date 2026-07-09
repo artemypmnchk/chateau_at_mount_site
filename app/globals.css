@@ -593,15 +593,66 @@ section {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  /* Фолбэк без JS; при проезде хук перекрашивает панель цветом сорта */
-  background: var(--clay);
+  /* Тёмная сцена; цвет сорта живёт в центре, за бутылкой */
+  background: #171114;
+}
+/* Лента-градиент: стопы под центрами слайдов, едет синхронно с треком
+   (ширину и градиент задаёт useHorizontalScroll) */
+.band-bg {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 100%;
+  will-change: transform;
+  pointer-events: none;
+}
+/* Виньетка: цвет дышит только в центре, края уходят в тёмное */
+.band-sticky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 56% 64% at 50% 52%,
+    rgba(23, 17, 20, 0) 0%,
+    rgba(23, 17, 20, 0.35) 48%,
+    rgba(23, 17, 20, 0.85) 78%,
+    rgba(23, 17, 20, 0.97) 100%
+  );
+}
+.band-head,
+.band-track,
+.band-cta {
+  position: relative;
+  z-index: 1;
 }
 .band-head {
   /* Под фиксированной шапкой (68px) + воздух */
   padding-top: clamp(92px, 14svh, 128px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px 32px;
 }
 .band-head h2 {
   font-size: clamp(32px, 5vw, 56px);
+}
+/* «Смотреть все вина» — тихая ссылка в шапке блока, вне зоны слайдов */
+.band-all {
+  display: inline-flex;
+  padding: 10px 0;
+  margin-bottom: 6px;
+  border-bottom: 1px solid rgba(246, 239, 231, 0.45);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #f6efe7;
+  white-space: nowrap;
+  transition: border-color 0.25s ease;
+}
+.band-all:hover {
+  border-color: #f6efe7;
 }
 .band-track {
   display: flex;
@@ -609,26 +660,26 @@ section {
   flex: 1;
   min-height: 0;
   will-change: transform;
-  /* Первый слайд стартует от левой кромки контейнера */
-  padding-left: max(24px, calc(50vw - var(--maxw) / 2 + 24px));
-  padding-right: clamp(24px, 10vw, 160px);
 }
+/* Слайд на весь вьюпорт: бутылка большая, по центру, подпись под ней */
 .band-slide {
-  display: grid;
-  grid-template-columns: auto auto;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: clamp(28px, 4vw, 72px);
+  justify-content: center;
+  text-align: center;
+  gap: 22px;
   flex: 0 0 auto;
-  width: min(58vw, 760px);
+  width: 100vw;
 }
 .band-meta .wine-no {
   position: static;
   display: block;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   color: rgba(246, 239, 231, 0.65);
 }
 .band-meta h3 {
-  font-size: clamp(32px, 4vw, 54px);
+  font-size: clamp(28px, 3.2vw, 44px);
 }
 .band-more {
   display: inline-block;
@@ -645,8 +696,8 @@ section {
 }
 .band-bottle-v {
   position: relative;
-  height: min(52svh, 500px);
-  width: clamp(170px, 20vw, 280px);
+  height: min(50svh, 540px);
+  width: clamp(200px, 26vw, 360px);
 }
 .band-bottle-v img {
   filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.38));
@@ -654,10 +705,6 @@ section {
 }
 .band-slide:hover .band-bottle-v img {
   transform: translateY(-8px);
-}
-.band-cta {
-  padding-bottom: clamp(20px, 4svh, 44px);
-  text-align: center;
 }
 
 /* Узкие экраны и reduced-motion: без пина — нативный свайп со snap */
@@ -675,26 +722,17 @@ section {
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    padding: clamp(28px, 6vw, 48px) 18px 8px;
-    gap: 10vw;
+    padding: clamp(28px, 6vw, 48px) 0 8px;
   }
   .band-track::-webkit-scrollbar {
     display: none;
   }
   .band-slide {
-    width: 78vw;
     scroll-snap-align: center;
-    grid-template-columns: 1fr;
-    justify-items: center;
-    text-align: center;
-    gap: 20px;
   }
   .band-bottle-v {
-    height: min(46svh, 420px);
+    height: min(46svh, 440px);
     width: 56vw;
-  }
-  .band-cta {
-    padding: 36px 0 clamp(48px, 8vw, 72px);
   }
 }
 .wine-card {
