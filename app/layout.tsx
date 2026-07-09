@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Cormorant_Garamond } from "next/font/google";
+import { Inter, Piazzolla } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
 import { WinerySchema } from "@/components/WinerySchema";
@@ -16,11 +16,12 @@ const inter = Inter({
 });
 
 // Антиквенный шрифт для заголовков — задаёт «винодельческий» характер,
-// поддерживает кириллицу и румынскую диакритику.
-const cormorant = Cormorant_Garamond({
+// поддерживает кириллицу и румынскую диакритику. Переменный, с осью
+// оптического размера: в крупных кеглях контраст штрихов выше.
+const piazzolla = Piazzolla({
   subsets: ["latin", "cyrillic", "latin-ext"],
-  weight: ["400", "500", "600"],
   style: ["normal", "italic"],
+  axes: ["opsz"],
   display: "swap",
   variable: "--font-serif",
 });
@@ -87,7 +88,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ru" className={`${inter.variable} ${cormorant.variable}`}>
+    <html lang="ru" className={`${inter.variable} ${piazzolla.variable}`}>
       <body>
         <LocaleProvider>
           <BookingModalProvider>

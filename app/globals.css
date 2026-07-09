@@ -13,8 +13,7 @@
   --radius-sm: 2px;
   --maxw: 1200px;
   --font: var(--font-inter), Inter, "Helvetica Neue", Arial, sans-serif;
-  --serif:
-    var(--font-serif), "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --serif: var(--font-serif), Piazzolla, Georgia, "Times New Roman", serif;
 }
 
 * {
