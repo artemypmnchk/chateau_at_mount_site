@@ -8,7 +8,7 @@ import { useBookingModal } from "./BookingModal";
 
 // Статические импорты больших фото → next/image сам генерирует размеры
 // и blur-заглушку, отдаёт AVIF/WebP и ленивую загрузку.
-import heroImg from "@/public/images/hero-dinner.jpg";
+import heroImg from "@/public/images/hero-winery.png";
 import vineyardImg from "@/public/images/feature-vineyards.jpg";
 import basketImg from "@/public/images/basket.jpeg";
 import vatsImg from "@/public/images/cellar-vats.jpg";
@@ -70,8 +70,7 @@ export default function Site() {
             priority
             placeholder="blur"
             sizes="100vw"
-            /* Стол — на левой трети кадра: держим его в кадре и на мобилке */
-            style={{ objectFit: "cover", objectPosition: "38% 62%" }}
+            style={{ objectFit: "cover" }}
           />
         </div>
         <div className="container hero-content">

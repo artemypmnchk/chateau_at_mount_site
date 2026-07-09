@@ -6,7 +6,7 @@ import { site } from "@/lib/site";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
 
-import heroImg from "@/public/images/visit-hero.jpg";
+import heroImg from "@/public/images/hero-dinner.jpg";
 import gastronomyImg from "@/public/images/visit-gastronomy.jpg";
 import tableImg from "@/public/images/visit-table.jpg";
 
@@ -48,7 +48,8 @@ export default function VisitPage() {
             priority
             placeholder="blur"
             sizes="100vw"
-            style={{ objectFit: "cover", objectPosition: "50% 60%" }}
+            /* Стол — на левой трети кадра: держим его в кадре и на мобилке */
+            style={{ objectFit: "cover", objectPosition: "38% 62%" }}
           />
         </div>
         <div className="container hero-content">
