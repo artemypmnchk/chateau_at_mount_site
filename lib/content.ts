@@ -286,7 +286,7 @@ export const wines: Wine[] = [
     image: "/images/wine-cabernet-sauvignon.png",
     accent: "#cbaa7e", // янтарь камней с этикетки
     accentDark: "#8d6a3f",
-    band: "#45291a", // тёплый кофейный — светлее сцены, чтобы тёмная этикетка не тонула
+    band: "#180f0a", // почти чёрный кофейный — осознанно тёмный, владельцу так нравится
 
     awards: [
       {
