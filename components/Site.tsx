@@ -34,7 +34,7 @@ const { props: heroMobileProps } = getImageProps({
   sizes: "100vw",
 });
 const heroMobileSrcSet = heroMobileProps.srcSet;
-import basketImg from "@/public/images/basket.jpeg";
+import harvestImg from "@/public/images/harvest.jpg";
 import vatsImg from "@/public/images/cellar-vats-2.jpg";
 import familyImg from "@/public/images/family.jpeg";
 
@@ -106,38 +106,61 @@ export default function Site() {
         </div>
       </section>
 
-      {/* ---------- Features ---------- */}
-      <section style={{ paddingTop: 0 }}>
+      {/* ---------- Proof — светлая глава-доказательство: развеска двух
+           кадров + цифры (спека: docs/spec-features-block.md) ---------- */}
+      <section className="proof">
         <div className="container">
-          <div className="features">
-            <article className="feature-card">
-              <Image
-                src={vineyardImg}
-                alt={L(t.features.vineyard.title)}
-                fill
-                placeholder="blur"
-                sizes="(max-width: 900px) 100vw, 50vw"
-                style={{ objectFit: "cover" }}
-              />
-              <div className="body">
-                <h3>{L(t.features.vineyard.title)}</h3>
-                <p>{L(t.features.vineyard.text)}</p>
+          <span className="eyebrow">{L(t.proof.kicker)}</span>
+          <div className="proof-gallery">
+            <figure className="proof-frame proof-frame-a">
+              <div className="proof-photo">
+                <Image
+                  src={harvestImg}
+                  alt={L(t.proof.alts.harvest)}
+                  fill
+                  placeholder="blur"
+                  sizes="(max-width: 900px) 100vw, 60vw"
+                  style={{ objectFit: "cover" }}
+                />
               </div>
-            </article>
-            <article className="feature-card">
-              <Image
-                src={basketImg}
-                alt={L(t.features.taste.title)}
-                fill
-                placeholder="blur"
-                sizes="(max-width: 900px) 100vw, 50vw"
-                style={{ objectFit: "cover" }}
-              />
-              <div className="body">
-                <h3>{L(t.features.taste.title)}</h3>
-                <p>{L(t.features.taste.text)}</p>
+              <figcaption className="proof-caption">
+                <span className="proof-caption-label">
+                  {L(t.proof.captions.harvest.label)}
+                </span>
+                {L(t.proof.captions.harvest.text)}
+              </figcaption>
+            </figure>
+            <figure className="proof-frame proof-frame-b">
+              <div className="proof-photo">
+                <Image
+                  src={vineyardImg}
+                  alt={L(t.proof.alts.taste)}
+                  fill
+                  placeholder="blur"
+                  sizes="(max-width: 900px) 100vw, 36vw"
+                  style={{ objectFit: "cover" }}
+                />
               </div>
-            </article>
+              <figcaption className="proof-caption">
+                <span className="proof-caption-label">
+                  {L(t.proof.captions.taste.label)}
+                </span>
+                {L(t.proof.captions.taste.text)}
+              </figcaption>
+            </figure>
+          </div>
+          <div className="proof-figures">
+            {t.proof.figures.map((f) => (
+              <div className="proof-figure" key={f.label.en}>
+                <span className="proof-figure-value">
+                  {"prefix" in f && (
+                    <span className="proof-figure-prefix">{L(f.prefix)} </span>
+                  )}
+                  {L(f.value)}
+                </span>
+                <span className="proof-figure-label">{L(f.label)}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>

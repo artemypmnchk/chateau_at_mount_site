@@ -560,6 +560,71 @@ export const t = {
       },
     },
   },
+  /* Блок «Пруф» — светлая глава между манифестом и винами:
+     развеска двух кадров + цифры (спека: docs/spec-features-block.md).
+     Тексты можно переписывать прямо здесь, код не трогая. */
+  proof: {
+    kicker: { ru: "Наш холм", en: "Our hill", ro: "Dealul nostru" },
+    captions: {
+      harvest: {
+        label: { ru: "Сбор урожая", en: "Harvest", ro: "Culesul" },
+        text: {
+          ru: "Сентябрь, вершина холма",
+          en: "September, the top of the hill",
+          ro: "Septembrie, vârful dealului",
+        },
+      },
+      taste: {
+        label: { ru: "Стиль вин", en: "The style", ro: "Stilul vinurilor" },
+        text: {
+          ru: "С выразительной кислотностью и свежими фруктовыми нотками. Даже красные.",
+          en: "Expressive acidity and fresh fruity notes. Even the reds.",
+          ro: "Aciditate expresivă și note proaspete de fructe. Chiar și cele roșii.",
+        },
+      },
+    },
+    /* value — строкой, с неразрывными пробелами; prefix — мелкий текст
+       на базовой линии перед цифрой («до 150 000») */
+    figures: [
+      {
+        value: { ru: "15", en: "15", ro: "15" },
+        label: {
+          ru: "гектаров виноградников",
+          en: "hectares of vineyards",
+          ro: "hectare de podgorii",
+        },
+      },
+      {
+        prefix: { ru: "до", en: "up to", ro: "până la" },
+        value: { ru: "150 000", en: "150,000", ro: "150 000" },
+        label: {
+          ru: "бутылок в год",
+          en: "bottles a year",
+          ro: "sticle pe an",
+        },
+      },
+      {
+        value: { ru: "2019", en: "2019", ro: "2019" },
+        label: {
+          ru: "год основания",
+          en: "founded",
+          ro: "anul fondării",
+        },
+      },
+    ],
+    alts: {
+      harvest: {
+        ru: "Сбор урожая на виноградниках Chateau At Mount",
+        en: "Harvest at the Chateau At Mount vineyards",
+        ro: "Culesul la podgoriile Chateau At Mount",
+      },
+      taste: {
+        ru: "Пикник с бокалами вина среди лоз",
+        en: "A picnic with glasses of wine among the vines",
+        ro: "Picnic cu pahare de vin printre vițe",
+      },
+    },
+  },
   winesSection: {
     eyebrow: { ru: "Наши вина", en: "Our wines", ro: "Vinurile noastre" },
     title: {
