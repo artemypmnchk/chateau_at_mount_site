@@ -1659,13 +1659,16 @@ a.info-row:hover .info-value {
   border-bottom: 1px solid var(--line-light);
 }
 .wine-page .wine-hero {
+  /* Полотно сорта — тот же band-цвет, что под бутылкой в ленте
+     на главной; цвет дышит за бутылкой, края уходят в тёмное */
   background:
     radial-gradient(
       ellipse 62% 78% at 30% 46%,
-      color-mix(in oklab, var(--accent) 42%, transparent),
-      transparent 72%
+      rgba(23, 17, 20, 0) 0%,
+      rgba(23, 17, 20, 0.3) 55%,
+      rgba(23, 17, 20, 0.8) 100%
     ),
-    color-mix(in oklab, var(--accent) 20%, var(--dark));
+    var(--band, var(--dark));
 }
 /* Светлая секция истории — отсвет того же тона */
 .wine-story-section {

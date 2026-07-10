@@ -36,11 +36,13 @@ export default function WinePage({ wine }: { wine: Wine }) {
   return (
     <main
       className="wine-page"
-      /* Акцент всей страницы — из палитры этикетки этого вина */
+      /* Акцент всей страницы — из палитры этикетки этого вина;
+         band — согласованное полотно сорта, как в ленте на главной */
       style={
         {
           "--accent": wine.accent,
           "--accent-dark": wine.accentDark,
+          "--band": wine.band,
         } as React.CSSProperties
       }
     >
