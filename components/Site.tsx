@@ -44,21 +44,6 @@ const heroMobileSrcSet = heroMobileProps.srcSet;
 import basketImg from "@/public/images/basket.jpeg";
 import vatsImg from "@/public/images/cellar-vats-2.jpg";
 import familyImg from "@/public/images/family.jpeg";
-import gallery1 from "@/public/images/gallery-1.jpg";
-import gallery2 from "@/public/images/gallery-2.jpg";
-import gallery3 from "@/public/images/gallery-3.jpg";
-import gallery4 from "@/public/images/gallery-4.jpg";
-import gallery5 from "@/public/images/gallery-5.jpg";
-import gallery6 from "@/public/images/gallery-6.jpg";
-
-const galleryShots = [
-  { img: gallery1, alt: "Виноград нового урожая на закате" },
-  { img: gallery2, alt: "Сбор винограда на виноградниках" },
-  { img: gallery3, alt: "Закуски к дегустации" },
-  { img: gallery4, alt: "Гостья с бокалом вина" },
-  { img: gallery5, alt: "Ужин в виноградниках" },
-  { img: gallery6, alt: "Вечер на винодельне" },
-];
 
 export default function Site() {
   const { L } = useLocale();
@@ -237,7 +222,7 @@ export default function Site() {
       </section>
 
       {/* ---------- Control (process) ---------- */}
-      <section>
+      <section className="section-dark">
         <div className="container">
           <div className="split">
             <div className="split-media">
@@ -259,7 +244,7 @@ export default function Site() {
       </section>
 
       {/* ---------- Memories / events ---------- */}
-      <section id="events" className="section-dark">
+      <section id="events">
         <div className="container">
           <div className="split reverse">
             <div className="split-media">
@@ -277,35 +262,6 @@ export default function Site() {
               <h2>{L(t.memories.title)}</h2>
               <p>{L(t.memories.text)}</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- Gallery ---------- */}
-      <section className="gallery" aria-label={L(t.gallery.title)}>
-        <div className="container">
-          <div className="gallery-head">
-            <span className="eyebrow">{L(t.gallery.eyebrow)}</span>
-            <a
-              href={links.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="gallery-link"
-            >
-              {L(t.gallery.instagram)} →
-            </a>
-          </div>
-          <div className="gallery-strip">
-            {galleryShots.map((s) => (
-              <div className="gallery-item" key={s.img.src}>
-                <Image
-                  src={s.img}
-                  alt={s.alt}
-                  placeholder="blur"
-                  style={{ height: "100%", width: "auto" }}
-                />
-              </div>
-            ))}
           </div>
         </div>
       </section>

@@ -616,19 +616,6 @@ export const t = {
       ro: "Vinuri premiate de jurii internaționale",
     },
   },
-  gallery: {
-    eyebrow: { ru: "Атмосфера", en: "The atmosphere", ro: "Atmosfera" },
-    title: {
-      ru: "Как это выглядит у нас",
-      en: "What it looks like here",
-      ro: "Cum arată la noi",
-    },
-    instagram: {
-      ru: "Больше моментов — в Instagram",
-      en: "More moments on Instagram",
-      ro: "Mai multe momente pe Instagram",
-    },
-  },
   reviews: {
     eyebrow: { ru: "Отзывы", en: "Reviews", ro: "Recenzii" },
     title: {
