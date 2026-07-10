@@ -464,32 +464,6 @@ export const t = {
       ro: "Tradițiile vinicole din sudul Moldovei",
     },
   },
-  stats: [
-    {
-      value: "2019",
-      label: { ru: "год основания", en: "established", ro: "anul fondării" },
-    },
-    {
-      value: "15",
-      label: {
-        ru: "гектаров виноградников",
-        en: "hectares of vineyards",
-        ro: "hectare de podgorii",
-      },
-    },
-    {
-      value: "7",
-      label: {
-        ru: "сортов винограда",
-        en: "grape varieties",
-        ro: "soiuri de struguri",
-      },
-    },
-    {
-      value: "150 000",
-      label: { ru: "бутылок в год", en: "bottles a year", ro: "sticle pe an" },
-    },
-  ],
   cta: {
     learn: {
       ru: "Узнать больше о вине",
@@ -513,15 +487,25 @@ export const t = {
     },
   },
   about: {
+    // Используется в футере как строка-описание.
     line1: {
-      ru: "Семейная винодельня на самой высокой точке холма на въезде в Чадыр‑Лунгу",
-      en: "A family winery on the highest point of the hill at the entrance to Ceadîr-Lunga",
-      ro: "O cramă de familie pe cel mai înalt punct al dealului, la intrarea în Ceadîr-Lunga",
+      ru: "Семейная винодельня на холме при въезде в Чадыр‑Лунгу",
+      en: "A family winery on the hill at the entrance to Ceadîr-Lunga",
+      ro: "O cramă de familie pe dealul de la intrarea în Ceadîr-Lunga",
     },
-    line2: {
-      ru: "Выращиваем виноград с 2019 года для самых аутентичных вин Гагаузии с душой и характером.",
-      en: "Growing grapes since 2019 for the most authentic wines of Gagauzia — with soul and character.",
-      ro: "Cultivăm struguri din 2019 pentru cele mai autentice vinuri din Găgăuzia — cu suflet și caracter.",
+    // Фраза-манифест под хиро (docs/spec-manifesto-block.md). Слова в
+    // *звёздочках* — акцентные: курсив + пыльная роза при подсветке
+    // (components/HighlightOnScroll.tsx). При переписывании текста
+    // разметку звёздочками сохранять. Текущий текст — плейсхолдер.
+    manifesto: {
+      ru: "Мы делаем вино там же, где оно растёт: один *холм*, одна *семья* — весь путь от лозы до бутылки",
+      en: "We make wine where it grows: one *hill*, one *family* — the whole journey from vine to bottle",
+      ro: "Facem vinul acolo unde crește: un *deal*, o *familie* — întregul drum de la viță la sticlă",
+    },
+    cta: {
+      ru: "Приехать в гости",
+      en: "Come visit us",
+      ro: "Vino în vizită",
     },
   },
   features: {
