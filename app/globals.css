@@ -242,7 +242,8 @@ a {
   font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  padding: 15px 8px 14px;
+  padding: 16px 8px 15px;
+  min-width: 44px; /* тач-таргет */
   color: rgba(255, 255, 255, 0.55);
   transition: color 0.2s ease;
 }
@@ -526,7 +527,7 @@ section {
 }
 .manifesto-link {
   display: inline-flex;
-  padding: 10px 0;
+  padding: 13px 0 12px; /* тач-таргет ≥44px */
   border-bottom: 1px solid rgba(246, 239, 231, 0.45);
   font-size: 12px;
   font-weight: 600;
@@ -785,7 +786,7 @@ section {
 /* «Смотреть все вина» — тихая ссылка в шапке блока, вне зоны слайдов */
 .band-all {
   display: inline-flex;
-  padding: 10px 0;
+  padding: 13px 0 12px; /* тач-таргет ≥44px */
   margin-bottom: 6px;
   border-bottom: 1px solid rgba(246, 239, 231, 0.45);
   font-size: 12px;
