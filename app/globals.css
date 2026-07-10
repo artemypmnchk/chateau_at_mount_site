@@ -935,52 +935,6 @@ section {
   color: #b6b6ae;
 }
 
-/* ---------- Gallery — компактная лента моментов ---------- */
-.gallery {
-  padding: clamp(56px, 8vw, 96px) 0;
-}
-.gallery-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 28px;
-}
-.gallery-link {
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--ink-soft);
-  white-space: nowrap;
-  transition: color 0.2s ease;
-  /* тач-таргет ≥44px без сдвига вёрстки */
-  padding: 11px 0;
-  margin: -11px 0;
-}
-.gallery-link:hover {
-  color: var(--ink);
-}
-.gallery-strip {
-  display: flex;
-  gap: 14px;
-  overflow-x: auto;
-  scroll-snap-type: x proximity;
-  scrollbar-width: none;
-  /* Лента тянется до края вьюпорта — естественный «peek», как у слайдера вин */
-  margin-right: calc(50% - 50vw);
-  padding-right: calc(50vw - 50%);
-}
-.gallery-strip::-webkit-scrollbar {
-  display: none;
-}
-.gallery-item {
-  flex: 0 0 auto;
-  height: 320px;
-  border-radius: var(--radius);
-  overflow: hidden;
-  scroll-snap-align: start;
-}
-
 /* ---------- Reviews — цитаты гостей в контактном блоке ---------- */
 .reviews-row {
   display: grid;
@@ -1239,13 +1193,6 @@ section {
   }
   .footer-top {
     grid-template-columns: 1fr;
-  }
-  .gallery-item {
-    height: 230px;
-  }
-  .gallery-head {
-    flex-direction: column;
-    gap: 10px;
   }
 }
 
