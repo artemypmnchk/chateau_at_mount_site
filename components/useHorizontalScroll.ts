@@ -77,6 +77,8 @@ export function useHorizontalScroll(
 
     const steps = Math.max(1, slidesEls.length - 1);
 
+    let lastDir = 0; // направление последнего движения: 1 вперёд, -1 назад
+
     const readTarget = () => {
       if (skip.matches) {
         const max = track.scrollWidth - track.clientWidth;
@@ -87,7 +89,9 @@ export function useHorizontalScroll(
         if (runway <= 0) return;
         // Непрерывный прогресс: трек едет ровно за скроллом, без
         // квантования к слайдам — к бутылке подводит мягкий магнит ниже.
-        target = Math.min(1, Math.max(0, -rect.top / runway));
+        const p = Math.min(1, Math.max(0, -rect.top / runway));
+        if (p !== target) lastDir = p > target ? 1 : -1;
+        target = p;
       }
     };
 
@@ -149,7 +153,17 @@ export function useHorizontalScroll(
       const p = -rect.top / runway;
       // Доводим только внутри пина: на кромках секция уже уезжает
       if (p <= 0.001 || p >= 0.999) return;
-      const nearest = Math.round(p * steps) / steps;
+      // Магнит не спорит с направлением: заметный прогресс вперёд
+      // (>12% шага — один тик колеса) доводит к следующему вину,
+      // назад — зеркально. Откат против движения пользователя запрещён.
+      const pos = p * steps;
+      const frac = pos - Math.floor(pos);
+      let idx: number;
+      if (lastDir > 0) idx = frac > 0.12 ? Math.ceil(pos) : Math.floor(pos);
+      else if (lastDir < 0)
+        idx = frac < 0.88 ? Math.floor(pos) : Math.ceil(pos);
+      else idx = Math.round(pos);
+      const nearest = Math.min(steps, Math.max(0, idx)) / steps;
       const deltaY = (nearest - p) * runway;
       if (Math.abs(deltaY) < 1) return;
       const startY = window.scrollY;
