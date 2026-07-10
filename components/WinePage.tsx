@@ -78,14 +78,45 @@ export default function WinePage({ wine }: { wine: Wine }) {
               </div>
             </dl>
             {wine.awards && wine.awards.length > 0 && (
-              <ul className="wine-awards">
-                {wine.awards.map((a) => (
-                  <li key={a.text.ru} className={`medal-${a.level}`}>
-                    <Medal />
-                    <span>{L(a.text)}</span>
-                  </li>
-                ))}
-              </ul>
+              <>
+                <ul className="wine-awards">
+                  {wine.awards.map((a) => (
+                    <li key={a.text.ru} className={`medal-${a.level}`}>
+                      <Medal />
+                      <span className="award-line">
+                        {L(a.text)}
+                        {a.proofUrl && (
+                          <a
+                            className="award-proof"
+                            href={a.proofUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {L(w.awardProof)} ↗
+                          </a>
+                        )}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                {/* Официальная графика медалей конкурсов (DWM разрешает
+                    призёрам промо-использование, перерисовка запрещена) */}
+                {wine.awards.some((a) => a.art) && (
+                  <div className="wine-medal-art">
+                    {wine.awards
+                      .filter((a) => a.art)
+                      .map((a) => (
+                        <Image
+                          key={a.art}
+                          src={a.art!}
+                          alt={L(a.text)}
+                          width={134}
+                          height={64}
+                        />
+                      ))}
+                  </div>
+                )}
+              </>
             )}
             <div className="hero-actions">
               <a href="/visit" className="btn btn-accent">

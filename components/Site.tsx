@@ -10,13 +10,6 @@ import { useHorizontalScroll } from "./useHorizontalScroll";
 import { HighlightOnScroll } from "./HighlightOnScroll";
 import Medal from "./Medal";
 
-// Все награды вин одной лентой: золото раньше серебра, порядок вин сохраняем.
-const allAwards = wines
-  .flatMap((w) => (w.awards ?? []).map((award) => ({ wine: w, award })))
-  .sort((a, b) =>
-    a.award.level === b.award.level ? 0 : a.award.level === "gold" ? -1 : 1
-  );
-
 // Статические импорты больших фото → next/image сам генерирует размеры
 // и blur-заглушку, отдаёт AVIF/WebP и ленивую загрузку.
 import heroImg from "@/public/images/hero-building.jpg";
@@ -113,31 +106,6 @@ export default function Site() {
         </div>
       </section>
 
-      {/* ---------- Awards ---------- */}
-      {allAwards.length > 0 && (
-        <section className="awards">
-          <div className="container">
-            <span className="eyebrow">{L(t.awardsSection.eyebrow)}</span>
-            <h2>{L(t.awardsSection.title)}</h2>
-            <div className="awards-strip">
-              {allAwards.map(({ wine: w, award }) => (
-                <a
-                  className={`award-chip medal-${award.level}`}
-                  href={`/wines/${w.slug}`}
-                  key={award.text.ru}
-                >
-                  <Medal size={22} />
-                  <span className="award-body">
-                    <span className="award-wine">{w.name}</span>
-                    <span className="award-text">{L(award.text)}</span>
-                  </span>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* ---------- Features ---------- */}
       <section style={{ paddingTop: 0 }}>
         <div className="container">
@@ -187,6 +155,9 @@ export default function Site() {
               <div>
                 <span className="eyebrow">{L(t.winesSection.eyebrow)}</span>
                 <h2>{L(t.winesSection.title)}</h2>
+                <span className="band-medals">
+                  <Medal size={15} /> {L(t.winesSection.medals)}
+                </span>
               </div>
               <a href="/wines" className="band-all">
                 {L(t.winesSection.all)} →
@@ -210,6 +181,16 @@ export default function Site() {
                       {String(wines.length).padStart(2, "0")}
                     </span>
                     <h3>{w.name}</h3>
+                    {w.awards && w.awards.length > 0 && (
+                      <ul className="band-awards">
+                        {w.awards.map((a) => (
+                          <li key={a.text.ru} className={`medal-${a.level}`}>
+                            <Medal size={14} />
+                            <span>{L(a.text)}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                     <span className="band-more">
                       {L(t.winesSection.more)} →
                     </span>
