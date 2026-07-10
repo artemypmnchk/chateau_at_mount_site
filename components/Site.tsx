@@ -76,10 +76,14 @@ export default function Site() {
       {/* ---------- Hero ---------- */}
       <section className="hero">
         <div className="hero-bg">
-          {/* Арт-дирекшн: телефонам — вертикальный кадр (панорама в
-              портретный экран не влезает), остальным — панораму */}
+          {/* Арт-дирекшн по соотношению сторон: в портретные и почти
+              квадратные окна (телефон, планшет, пол-экрана на десктопе)
+              панорама не влезает — им вертикальный кадр */}
           <picture>
-            <source media="(max-width: 640px)" srcSet={heroMobileSrcSet} />
+            <source
+              media="(max-aspect-ratio: 6/5)"
+              srcSet={heroMobileSrcSet}
+            />
             <img
               {...heroDesktopProps}
               alt="Винодельня Chateau At Mount"
