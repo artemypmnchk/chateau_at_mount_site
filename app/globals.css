@@ -431,64 +431,12 @@ a {
   }
 }
 
-/* Телефоны: панорама в полный экран не влезает — любой кроп режет дом.
-   Редакционная композиция: фотоблок с целым зданием сверху, заголовок
-   и CTA на известняке снизу. Скрим и белый текст не нужны.
-   Блок стоит ПОСЛЕ базовых стилей hero — иначе проигрывает каскад */
+/* Телефоны получают отдельный вертикальный кадр (см. <picture> в
+   Site.tsx) — он почти совпадает с пропорциями экрана, кропа нет,
+   планшетный сдвиг 74% ему не нужен */
 @media (max-width: 640px) {
-  /* Шапка всегда непрозрачная: под ней известняк, а не фото */
-  .header {
-    background: rgba(244, 241, 234, 0.92);
-    backdrop-filter: saturate(160%) blur(14px);
-    box-shadow: 0 1px 0 var(--line);
-  }
-  .header .brand-name,
-  .header .burger {
-    color: var(--ink);
-  }
-  .hero {
-    min-height: auto;
-    flex-direction: column;
-    align-items: stretch;
-    padding-top: 68px; /* фото начинается под шапкой, а не за ней */
-    background: var(--bg);
-    color: var(--ink);
-  }
-  /* Высота из ширины (83vw): окно кропа = 1541px кадра при любой
-     ширине экрана — здание (300–1830px кадра) влезает целиком */
-  .hero-bg {
-    position: relative;
-    inset: auto;
-    z-index: 0;
-    height: min(83vw, 58svh);
-  }
   .hero-bg img {
-    object-position: 78% 50%;
-  }
-  .hero::after {
-    display: none;
-  }
-  .hero-scroll {
-    display: none;
-  }
-  .hero-content {
-    padding-top: 34px;
-    padding-bottom: 56px;
-    text-shadow: none;
-  }
-  .hero h1 {
-    margin-top: 0;
-    font-size: clamp(42px, 13vw, 54px);
-  }
-  .hero-actions {
-    margin-top: 28px;
-  }
-  .hero-link {
-    color: var(--ink);
-    border-bottom-color: rgba(36, 26, 28, 0.4);
-  }
-  .hero-link:hover {
-    border-bottom-color: var(--ink);
+    object-position: 50% 50%;
   }
 }
 @keyframes scrollHint {
