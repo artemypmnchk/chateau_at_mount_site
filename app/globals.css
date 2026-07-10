@@ -695,6 +695,19 @@ section {
 .band-head h2 {
   font-size: clamp(32px, 5vw, 56px);
 }
+/* Тихая строка-пруф под заголовком: сколько медалей у вин ленты */
+.band-medals {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: rgba(246, 239, 231, 0.66);
+}
+.band-medals svg {
+  flex: 0 0 auto;
+  color: #cfa84a;
+}
 /* «Смотреть все вина» — тихая ссылка в шапке блока, вне зоны слайдов */
 .band-all {
   display: inline-flex;
@@ -756,6 +769,28 @@ section {
 }
 .band-slide:hover .band-more {
   color: #fff;
+}
+/* Медали вина прямо под названием в слайде — вместо отдельной секции */
+.band-awards {
+  list-style: none;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.band-awards li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(246, 239, 231, 0.78);
+}
+.band-awards svg {
+  flex: 0 0 auto;
 }
 .band-bottle-v {
   position: relative;
@@ -873,65 +908,13 @@ section {
   text-align: center;
 }
 
-/* ---------- Awards — лента медалей на главной ---------- */
-.medal-gold {
-  --medal: #a8842c;
-}
-.medal-silver {
-  --medal: #83837c;
-}
-.awards {
-  text-align: center;
-}
-.awards h2 {
-  font-size: clamp(28px, 3.6vw, 42px);
-  max-width: 720px;
-  margin: 0 auto;
-}
-.awards-strip {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 26px 64px;
-  margin-top: 52px;
-}
-.award-chip {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  text-align: left;
-}
-.award-chip:hover .award-wine {
-  color: var(--accent-dark);
-}
-.award-chip svg {
-  flex: 0 0 auto;
-  color: var(--medal);
-}
-.award-body {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-.award-wine {
-  font-family: var(--serif);
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 1.1;
-  transition: color 0.2s ease;
-}
-.award-text {
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-/* Цвет медали в списке наград на странице вина */
-.wine-awards .medal-gold {
+/* Цвет медали в списках наград (страница вина, лента вин на главной) */
+.wine-awards .medal-gold,
+.band-awards .medal-gold svg {
   color: #cfa84a;
 }
-.wine-awards .medal-silver {
+.wine-awards .medal-silver,
+.band-awards .medal-silver svg {
   color: #b6b6ae;
 }
 
@@ -1786,7 +1769,7 @@ a.info-row:hover .info-value {
 }
 .wine-awards li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   font-size: 13px;
   font-weight: 600;
@@ -1796,6 +1779,39 @@ a.info-row:hover .info-value {
 }
 .wine-awards svg {
   flex: 0 0 auto;
+}
+/* Текст награды и ссылка-пруф — колонкой справа от значка */
+.award-line {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+/* Ссылка на запись вина в открытой базе результатов конкурса.
+   Живёт в тёмном hero страницы вина — кремовые полутона */
+.award-proof {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: rgba(243, 237, 226, 0.62);
+  border-bottom: 1px solid rgba(243, 237, 226, 0.3);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.award-proof:hover {
+  color: #f3ede2;
+  border-color: rgba(243, 237, 226, 0.7);
+}
+/* Официальная графика медалей — под списком наград */
+.wine-medal-art {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 18px;
+}
+.wine-medal-art img {
+  height: 64px;
+  width: auto;
 }
 /* Сетка на общей странице вин */
 .wines-grid {

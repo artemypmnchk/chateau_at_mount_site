@@ -14,8 +14,16 @@ export interface Wine {
   /** Основной цвет сорта — полотно блока вин на главной (кремовый текст
    *  должен держать контраст ≥4.5:1). */
   band: string;
-  /** Награды вина: уровень медали + подпись (конкурс, год, урожай). */
-  awards?: { level: "gold" | "silver"; text: Record<Locale, string> }[];
+  /** Награды вина: уровень медали + подпись (конкурс, год, урожай).
+   *  art — официальная графика медали конкурса (использование в промо
+   *  разрешено призёрам бесплатно, перерисовка запрещена),
+   *  proofUrl — запись вина в открытой базе результатов конкурса. */
+  awards?: {
+    level: "gold" | "silver";
+    text: Record<Locale, string>;
+    art?: string;
+    proofUrl?: string;
+  }[];
   desc: Record<Locale, string>;
   /** Тип вина для плашки и характеристик: «Сухое красное» и т.п. */
   type: Record<Locale, string>;
@@ -47,6 +55,9 @@ export const wines: Wine[] = [
           en: "Gold · Asia Wine Trophy 2023 · 2020 vintage",
           ro: "Aur · Asia Wine Trophy 2023 · recolta 2020",
         },
+        art: "/images/medals/asia-wine-trophy-gold.png",
+        proofUrl:
+          "https://results.wine-trophy.com/en/wine/awt-23/chateau_at_mount_merlot_red_dry_wine_2020",
       },
     ],
     desc: {
@@ -153,6 +164,9 @@ export const wines: Wine[] = [
           en: "Gold · Berliner Wine Trophy 2025 · 2023 vintage",
           ro: "Aur · Berliner Wine Trophy 2025 · recolta 2023",
         },
+        art: "/images/medals/berliner-wine-trophy-gold.png",
+        proofUrl:
+          "https://results.wine-trophy.com/en/wine/bwt-w-25/viorica_2023",
       },
       {
         level: "silver",
@@ -267,6 +281,7 @@ export const wines: Wine[] = [
           en: "Gold · Berliner Wine Trophy 2024 · 2020 vintage",
           ro: "Aur · Berliner Wine Trophy 2024 · recolta 2020",
         },
+        art: "/images/medals/berliner-wine-trophy-gold.png",
       },
     ],
     desc: {
@@ -543,6 +558,11 @@ export const t = {
       en: "See all wines",
       ro: "Vezi toate vinurile",
     },
+    medals: {
+      ru: "Пять медалей международных конкурсов · 2023–2025",
+      en: "Five international competition medals · 2023–2025",
+      ro: "Cinci medalii la concursuri internaționale · 2023–2025",
+    },
   },
   winesPage: {
     intro: {
@@ -570,6 +590,11 @@ export const t = {
       ru: "История сорта",
       en: "The story of the variety",
       ro: "Povestea soiului",
+    },
+    awardProof: {
+      ru: "Запись в базе конкурса",
+      en: "Official results entry",
+      ro: "Înregistrare în baza concursului",
     },
     otherTitle: { ru: "Другие вина", en: "More wines", ro: "Alte vinuri" },
     allWines: { ru: "Все вина", en: "All wines", ro: "Toate vinurile" },
@@ -606,14 +631,6 @@ export const t = {
       ru: "Виноградники, закаты, уют и вино — идеальная атмосфера для праздника, фотосессии или ужина с друзьями.",
       en: "Vineyards, sunsets, comfort and wine — the perfect setting for a celebration, a photoshoot or dinner with friends.",
       ro: "Podgorii, apusuri, confort și vin — atmosfera perfectă pentru o sărbătoare, o ședință foto sau o cină cu prietenii.",
-    },
-  },
-  awardsSection: {
-    eyebrow: { ru: "Награды", en: "Awards", ro: "Premii" },
-    title: {
-      ru: "Вина, отмеченные международным жюри",
-      en: "Wines recognised by international juries",
-      ro: "Vinuri premiate de jurii internaționale",
     },
   },
   reviews: {
