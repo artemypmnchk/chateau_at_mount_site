@@ -52,7 +52,7 @@ export default function Site() {
   return (
     <main id="top">
       {/* ---------- Hero ---------- */}
-      <section className="hero">
+      <section className="hero" data-header-theme="dark">
         <div className="hero-bg">
           {/* Арт-дирекшн по соотношению сторон: в портретные и почти
               квадратные окна (телефон, планшет, пол-экрана на десктопе)
@@ -84,7 +84,11 @@ export default function Site() {
 
       {/* ---------- About — тёмный типографический манифест
            (спека: docs/spec-manifesto-block.md) ---------- */}
-      <section id="about" className="manifesto section-dark">
+      <section
+        id="about"
+        className="manifesto section-dark"
+        data-header-theme="dark"
+      >
         <span className="manifesto-glow" aria-hidden />
         <div className="container">
           <span className="eyebrow" data-reveal>
@@ -106,7 +110,7 @@ export default function Site() {
       </section>
 
       {/* ---------- Wines — глиняное полотно, горизонтальный проезд ---------- */}
-      <section id="wines" className="wines-band">
+      <section id="wines" className="wines-band" data-header-theme="dark">
         <div
           className="band-pinwrap"
           ref={bandWrapRef}

@@ -171,10 +171,29 @@ a {
   height: 68px;
   padding-bottom: 15px;
 }
-.header.scrolled {
+.header.scrolled:not(.chameleon) {
   background: rgba(244, 241, 234, 0.92);
   backdrop-filter: saturate(160%) blur(14px);
   box-shadow: 0 1px 0 var(--line);
+}
+
+/* ---- «Хамелеон»: над тёмными полотнами (хиро → манифест → лента вин)
+        шапка растворяется — прозрачная, светлый текст, без плашки.
+        При скролле добавляется лишь мягкая тёмная вуаль, тающая вниз,
+        чтобы навигация читалась поверх фото. Ниже вин хамелеон гаснет
+        и работает обычная шапка (.header.scrolled:not(.chameleon)). ---- */
+.header.chameleon {
+  transition: background 0.45s ease;
+}
+.header.chameleon.scrolled {
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 12, 14, 0.5),
+    rgba(18, 12, 14, 0)
+  );
+}
+.header.chameleon .burger {
+  color: #fff;
 }
 .brand {
   display: flex;
@@ -197,7 +216,7 @@ a {
   color: #fff;
   transition: color 0.3s ease;
 }
-.header.scrolled .brand-name {
+.header.scrolled:not(.chameleon) .brand-name {
   color: var(--ink);
 }
 .nav {
@@ -226,7 +245,7 @@ a {
 .nav-links a:hover {
   opacity: 0.65;
 }
-.header.scrolled .nav-links a {
+.header.scrolled:not(.chameleon) .nav-links a {
   color: var(--ink);
 }
 /* Языки — тихие текстовые кнопки: никаких плашек поверх фото */
@@ -247,7 +266,7 @@ a {
   color: rgba(255, 255, 255, 0.55);
   transition: color 0.2s ease;
 }
-.header.scrolled .lang button {
+.header.scrolled:not(.chameleon) .lang button {
   color: var(--ink-soft);
 }
 .lang button.active {
@@ -255,7 +274,7 @@ a {
   text-decoration: underline;
   text-underline-offset: 7px;
 }
-.header.scrolled .lang button.active {
+.header.scrolled:not(.chameleon) .lang button.active {
   color: var(--ink);
 }
 .burger {
@@ -719,12 +738,15 @@ section {
 }
 .band-pinwrap {
   /* Пробег на слайд длиннее — горизонтальная скорость ниже, проезд мягче */
-  height: calc(100svh + (var(--slides, 7) - 1) * 96svh);
+  height: calc(100dvh + (var(--slides, 7) - 1) * 96dvh);
 }
 .band-sticky {
   position: sticky;
   top: 0;
-  height: 100svh;
+  /* dvh, а не svh: пока идёт пин-проезд, нижняя панель Safari прячется,
+     и при svh секция оставалась короче экрана — под контентом зияла тёмная
+     полоса. dvh тянет панель ровно на видимую высоту, без дыры снизу */
+  height: 100dvh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -762,7 +784,7 @@ section {
 }
 .band-head {
   /* Под фиксированной шапкой (68px) + воздух */
-  padding-top: clamp(92px, 14svh, 128px);
+  padding-top: clamp(92px, 14dvh, 128px);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -803,8 +825,8 @@ section {
   min-height: 0;
   will-change: transform;
   /* Воздух сверху от заголовка и снизу от кромки панели */
-  padding-top: clamp(16px, 3svh, 32px);
-  padding-bottom: clamp(36px, 7svh, 72px);
+  padding-top: clamp(16px, 3dvh, 32px);
+  padding-bottom: clamp(36px, 7dvh, 72px);
 }
 /* Слайд на весь вьюпорт: контент прижат к низу, бутылка при нехватке
    высоты ужимается — не наезжает на заголовок блока */
@@ -871,7 +893,7 @@ section {
 }
 .band-bottle-v {
   position: relative;
-  height: min(56svh, 620px);
+  height: min(56dvh, 620px);
   width: clamp(220px, 30vw, 400px);
   /* При нехватке высоты бутылка ужимается первой */
   flex-shrink: 1;
@@ -907,10 +929,10 @@ section {
   /* Палец дороже колеса: пробег на слайд короче, секция ~3.6 экрана
      вместо 5.8 — проезд бодрее без потери плавности */
   .band-pinwrap {
-    height: calc(100svh + (var(--slides, 7) - 1) * 60svh);
+    height: calc(100dvh + (var(--slides, 7) - 1) * 60dvh);
   }
   .band-bottle-v {
-    height: min(50svh, 480px);
+    height: min(50dvh, 480px);
     width: 62vw;
   }
 }

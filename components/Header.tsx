@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { t, locales } from "@/lib/content";
 import { useLocale } from "./locale";
 
@@ -31,19 +32,53 @@ function LangToggle({ style }: { style?: React.CSSProperties }) {
 
 export default function Header() {
   const { L } = useLocale();
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  // «Хамелеон»: пока под шапкой тёмное помеченное полотно (хиро → манифест →
+  // лента вин), шапка растворяется — прозрачная, светлый текст. Как только
+  // полотно уходит из-под шапки (светлые блоки ниже вин или страницы без
+  // разметки), хамелеон гаснет и шапка возвращается к обычному виду.
+  const [chameleon, setChameleon] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    // Линия, по которой «читаем» полотно — примерно на уровне навигации
+    const HEADER_LINE = 38;
+    const sections = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-header-theme]"),
+    );
+
+    const update = () => {
+      setScrolled(window.scrollY > 40);
+      let active: "dark" | "light" | null = null;
+      for (const el of sections) {
+        const r = el.getBoundingClientRect();
+        if (r.top <= HEADER_LINE && r.bottom > HEADER_LINE) {
+          active = el.dataset.headerTheme as "dark" | "light";
+          break;
+        }
+      }
+      setChameleon(active !== null);
+      if (active) setTheme(active);
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [pathname]);
 
   return (
     <>
-      <header className={`header${scrolled ? " scrolled" : ""}`}>
+      <header
+        className={`header${scrolled ? " scrolled" : ""}${
+          chameleon ? " chameleon" : ""
+        }`}
+        data-theme={chameleon ? theme : undefined}
+      >
         <div className="container header-inner">
           <a href="/" className="brand" aria-label="Chateau At Mount">
             {/* eslint-disable-next-line @next/next/no-img-element */}
