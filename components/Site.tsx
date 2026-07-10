@@ -274,9 +274,10 @@ export default function Site() {
       <section className="final-cta">
         <div className="container">
           <h2>{L(t.finalCta.title)}</h2>
+          <p className="final-cta-sub">{L(t.finalCta.subtitle)}</p>
           <div className="hero-actions">
             <button onClick={openBooking} className="btn btn-accent">
-              {L(t.visitPage.bookCta)}
+              {L(t.visitPage.formLink)}
             </button>
             <a href="/wines" className="btn btn-ghost-dark">
               {L(t.winesSection.all)}
@@ -290,11 +291,6 @@ export default function Site() {
           >
             Telegram →
           </a>
-          <p className="cta-facts">
-            {t.contact.cards
-              .map((c) => `${L(c.label)} ${L(c.value)}`)
-              .join(" · ")}
-          </p>
         </div>
       </section>
     </main>

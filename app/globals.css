@@ -1083,9 +1083,6 @@ section {
   max-width: 900px;
   margin: 0 auto;
 }
-.final-cta .hero-actions {
-  justify-content: center;
-}
 .final-cta .cta-telegram {
   display: inline-flex;
   margin-top: 26px;
@@ -1102,14 +1099,17 @@ section {
 .final-cta .cta-telegram:hover {
   border-color: var(--ink);
 }
-/* Факты сервиса — микроподпись вместо бывшего трёхколоночника «Мы рядом» */
-.final-cta .cta-facts {
-  margin-top: 44px;
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+/* Подстрочник — спокойно закрывает опт (прайс/презентация) и дегустацию */
+.final-cta .final-cta-sub {
+  max-width: 560px;
+  margin: 18px auto 0;
+  font-size: clamp(16px, 2vw, 19px);
+  line-height: 1.5;
   color: var(--ink-soft);
+}
+.final-cta .hero-actions {
+  justify-content: center;
+  margin-top: 34px;
 }
 
 /* ---------- Footer ---------- */

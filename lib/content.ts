@@ -771,9 +771,14 @@ export const t = {
   },
   finalCta: {
     title: {
-      ru: "Приезжайте на дегустацию — попробуйте все семь сортов",
-      en: "Come for a tasting and try all seven varieties",
-      ro: "Veniți la o degustare și încercați toate cele șapte soiuri",
+      ru: "Попробуйте наше вино.",
+      en: "Taste our wine.",
+      ro: "Gustați vinul nostru.",
+    },
+    subtitle: {
+      ru: "Оставьте заявку — пришлём прайс и презентацию. Или приезжайте на дегустацию.",
+      en: "Leave a request — we'll send the price list and presentation. Or come for a tasting.",
+      ro: "Lăsați o cerere — trimitem lista de prețuri și prezentarea. Sau veniți la o degustare.",
     },
   },
   ageGate: {
