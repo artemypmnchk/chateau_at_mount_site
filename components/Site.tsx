@@ -106,65 +106,6 @@ export default function Site() {
         </div>
       </section>
 
-      {/* ---------- Proof — светлая глава-доказательство: развеска двух
-           кадров + цифры (спека: docs/spec-features-block.md) ---------- */}
-      <section className="proof">
-        <div className="container">
-          <span className="eyebrow">{L(t.proof.kicker)}</span>
-          <div className="proof-gallery">
-            <figure className="proof-frame proof-frame-a">
-              <div className="proof-photo">
-                <Image
-                  src={harvestImg}
-                  alt={L(t.proof.alts.harvest)}
-                  fill
-                  placeholder="blur"
-                  sizes="(max-width: 900px) 100vw, 60vw"
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-              <figcaption className="proof-caption">
-                <span className="proof-caption-label">
-                  {L(t.proof.captions.harvest.label)}
-                </span>
-                {L(t.proof.captions.harvest.text)}
-              </figcaption>
-            </figure>
-            <figure className="proof-frame proof-frame-b">
-              <div className="proof-photo">
-                <Image
-                  src={vineyardImg}
-                  alt={L(t.proof.alts.taste)}
-                  fill
-                  placeholder="blur"
-                  sizes="(max-width: 900px) 100vw, 36vw"
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-              <figcaption className="proof-caption">
-                <span className="proof-caption-label">
-                  {L(t.proof.captions.taste.label)}
-                </span>
-                {L(t.proof.captions.taste.text)}
-              </figcaption>
-            </figure>
-          </div>
-          <div className="proof-figures">
-            {t.proof.figures.map((f) => (
-              <div className="proof-figure" key={f.label.en}>
-                <span className="proof-figure-value">
-                  {"prefix" in f && (
-                    <span className="proof-figure-prefix">{L(f.prefix)} </span>
-                  )}
-                  {L(f.value)}
-                </span>
-                <span className="proof-figure-label">{L(f.label)}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ---------- Wines — глиняное полотно, горизонтальный проезд ---------- */}
       <section id="wines" className="wines-band">
         <div
@@ -221,6 +162,65 @@ export default function Site() {
                 </a>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Proof — светлая глава-доказательство: развеска двух
+           кадров + цифры (спека: docs/spec-features-block.md) ---------- */}
+      <section className="proof">
+        <div className="container">
+          <span className="eyebrow">{L(t.proof.kicker)}</span>
+          <div className="proof-gallery">
+            <figure className="proof-frame proof-frame-a">
+              <div className="proof-photo">
+                <Image
+                  src={harvestImg}
+                  alt={L(t.proof.alts.harvest)}
+                  fill
+                  placeholder="blur"
+                  sizes="(max-width: 900px) 100vw, 60vw"
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+              <figcaption className="proof-caption">
+                <span className="proof-caption-label">
+                  {L(t.proof.captions.harvest.label)}
+                </span>
+                {L(t.proof.captions.harvest.text)}
+              </figcaption>
+            </figure>
+            <figure className="proof-frame proof-frame-b">
+              <div className="proof-photo">
+                <Image
+                  src={vineyardImg}
+                  alt={L(t.proof.alts.taste)}
+                  fill
+                  placeholder="blur"
+                  sizes="(max-width: 900px) 100vw, 36vw"
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+              <figcaption className="proof-caption">
+                <span className="proof-caption-label">
+                  {L(t.proof.captions.taste.label)}
+                </span>
+                {L(t.proof.captions.taste.text)}
+              </figcaption>
+            </figure>
+          </div>
+          <div className="proof-figures">
+            {t.proof.figures.map((f) => (
+              <div className="proof-figure" key={f.label.en}>
+                <span className="proof-figure-value">
+                  {"prefix" in f && (
+                    <span className="proof-figure-prefix">{L(f.prefix)} </span>
+                  )}
+                  {L(f.value)}
+                </span>
+                <span className="proof-figure-label">{L(f.label)}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
