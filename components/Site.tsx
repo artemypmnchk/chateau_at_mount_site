@@ -8,7 +8,6 @@ import { useBookingModal } from "./BookingModal";
 import { useReveal } from "./useReveal";
 import { useHorizontalScroll } from "./useHorizontalScroll";
 import { HighlightOnScroll } from "./HighlightOnScroll";
-import Medal from "./Medal";
 
 // Статические импорты больших фото → next/image сам генерирует размеры
 // и blur-заглушку, отдаёт AVIF/WebP и ленивую загрузку.
@@ -120,7 +119,7 @@ export default function Site() {
                 <span className="eyebrow">{L(t.winesSection.eyebrow)}</span>
                 <h2>{L(t.winesSection.title)}</h2>
                 <span className="band-medals">
-                  <Medal size={15} /> {L(t.winesSection.medals)}
+                  {L(t.winesSection.medals)}
                 </span>
               </div>
               <a href="/wines" className="band-all">

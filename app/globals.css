@@ -772,16 +772,10 @@ section {
 }
 /* Тихая строка-пруф под заголовком: сколько медалей у вин ленты */
 .band-medals {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  display: inline-block;
   margin-top: 12px;
   font-size: 13px;
   color: rgba(246, 239, 231, 0.66);
-}
-.band-medals svg {
-  flex: 0 0 auto;
-  color: #cfa84a;
 }
 /* «Смотреть все вина» — тихая ссылка в шапке блока, вне зоны слайдов */
 .band-all {
@@ -989,12 +983,12 @@ section {
   text-align: center;
 }
 
-/* Цвет медали в списке наград на странице вина */
-.wine-awards .medal-gold {
-  color: #cfa84a;
+/* Тон точки-маркера = достоинство медали */
+.wine-awards li.medal-gold::before {
+  background: #cfa84a;
 }
-.wine-awards .medal-silver {
-  color: #b6b6ae;
+.wine-awards li.medal-silver::before {
+  background: #b6b6ae;
 }
 
 /* ---------- Reviews — цитаты гостей в контактном блоке ---------- */
@@ -1735,13 +1729,16 @@ a.info-row:hover .info-value {
   border-bottom: 1px solid var(--line-light);
 }
 .wine-page .wine-hero {
+  /* Полотно сорта — тот же band-цвет, что под бутылкой в ленте
+     на главной; цвет дышит за бутылкой, края уходят в тёмное */
   background:
     radial-gradient(
       ellipse 62% 78% at 30% 46%,
-      color-mix(in oklab, var(--accent) 42%, transparent),
-      transparent 72%
+      rgba(23, 17, 20, 0) 0%,
+      rgba(23, 17, 20, 0.3) 55%,
+      rgba(23, 17, 20, 0.8) 100%
     ),
-    color-mix(in oklab, var(--accent) 20%, var(--dark));
+    var(--band, var(--dark));
 }
 /* Светлая секция истории — отсвет того же тона */
 .wine-story-section {
@@ -1846,15 +1843,21 @@ a.info-row:hover .info-value {
 .wine-awards li {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
+  gap: 12px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: rgba(243, 237, 226, 0.9);
 }
-.wine-awards svg {
+/* Маркер награды — маленькая точка в тон медали (золото/серебро),
+   вместо лаврового значка. Тихо, по-редакторски. */
+.wine-awards li::before {
+  content: "";
   flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: #cfa84a;
 }
 /* Текст награды и ссылка-пруф — колонкой справа от значка */
 .award-line {

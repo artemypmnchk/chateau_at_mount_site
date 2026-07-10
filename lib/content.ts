@@ -21,6 +21,9 @@ export interface Wine {
   awards?: {
     level: "gold" | "silver";
     text: Record<Locale, string>;
+    /** Короткое имя конкурса — компактная подпись-кредит в ленте вин на
+     *  главной (без «золото/год», без капса). Полный текст — на странице вина. */
+    competition?: string;
     art?: string;
     proofUrl?: string;
   }[];
@@ -55,6 +58,7 @@ export const wines: Wine[] = [
           en: "Gold · Asia Wine Trophy 2023 · 2020 vintage",
           ro: "Aur · Asia Wine Trophy 2023 · recolta 2020",
         },
+        competition: "Asia Wine Trophy",
         art: "/images/medals/asia-wine-trophy-gold.png",
         proofUrl:
           "https://results.wine-trophy.com/en/wine/awt-23/chateau_at_mount_merlot_red_dry_wine_2020",
@@ -164,6 +168,7 @@ export const wines: Wine[] = [
           en: "Gold · Berliner Wine Trophy 2025 · 2023 vintage",
           ro: "Aur · Berliner Wine Trophy 2025 · recolta 2023",
         },
+        competition: "Berliner Wine Trophy",
         art: "/images/medals/berliner-wine-trophy-gold.png",
         proofUrl:
           "https://results.wine-trophy.com/en/wine/bwt-w-25/viorica_2023",
@@ -175,6 +180,7 @@ export const wines: Wine[] = [
           en: "Gold · Asia Wine Trophy 2025 · 2023 vintage",
           ro: "Aur · Asia Wine Trophy 2025 · recolta 2023",
         },
+        competition: "Asia Wine Trophy",
         art: "/images/medals/asia-wine-trophy-gold.png",
         proofUrl:
           "https://results.wine-trophy.com/en/wine/awt-25/viorica_2023",
@@ -186,6 +192,7 @@ export const wines: Wine[] = [
           en: "Silver · Mundus Vini 2025 · 2023 vintage",
           ro: "Argint · Mundus Vini 2025 · recolta 2023",
         },
+        competition: "Mundus Vini",
         // Официальный буклет результатов Spring Tasting 2025, стр. 68:
         // «2023 Chateau at MOUNT Viorica — Silber» (подано через Divus Winery)
         proofUrl:
@@ -296,6 +303,7 @@ export const wines: Wine[] = [
           en: "Gold · Berliner Wine Trophy 2024 · 2020 vintage",
           ro: "Aur · Berliner Wine Trophy 2024 · recolta 2020",
         },
+        competition: "Berliner Wine Trophy",
         art: "/images/medals/berliner-wine-trophy-gold.png",
       },
     ],
@@ -403,6 +411,7 @@ export const wines: Wine[] = [
           en: "Silver · Asia Wine Trophy 2024 · 2021 vintage",
           ro: "Argint · Asia Wine Trophy 2024 · recolta 2021",
         },
+        competition: "Asia Wine Trophy",
       },
     ],
     desc: {
