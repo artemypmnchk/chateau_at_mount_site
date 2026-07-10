@@ -123,13 +123,17 @@ export function useHorizontalScroll(
       }
     };
 
+    let settling = false; // магнит ведёт страницу — трек следует без лага
+
     const tick = () => {
       raf = 0;
       // На нативном свайпе и при reduced-motion — без инерции, один в один
       if (skip.matches || current < 0) {
         current = target;
       } else {
-        current += (target - current) * EASE;
+        // Во время доводки сведение быстрое: путь уже сглажен ease-out
+        // магнита, второй слой инерции давал «переехал-вернулся» и дрейф
+        current += (target - current) * (settling ? 0.3 : EASE);
         if (Math.abs(target - current) < 0.0004) current = target;
       }
       render(current);
@@ -144,6 +148,7 @@ export function useHorizontalScroll(
     const cancelSettle = () => {
       if (settleRaf) cancelAnimationFrame(settleRaf);
       settleRaf = 0;
+      settling = false;
     };
     const settleToNearest = () => {
       if (skip.matches) return;
@@ -178,9 +183,15 @@ export function useHorizontalScroll(
           top: startY + deltaY * ease(k),
           behavior: "instant",
         });
-        settleRaf = k < 1 ? requestAnimationFrame(step) : 0;
+        if (k < 1) {
+          settleRaf = requestAnimationFrame(step);
+        } else {
+          settleRaf = 0;
+          settling = false;
+        }
       };
       cancelSettle();
+      settling = true;
       settleRaf = requestAnimationFrame(step);
     };
 
