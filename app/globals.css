@@ -603,7 +603,7 @@ section {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   column-gap: 24px;
-  margin-top: 18px;
+  margin-top: clamp(64px, 8vw, 96px);
 }
 .proof-frame {
   margin: 0;
@@ -645,7 +645,7 @@ section {
 .proof-figures {
   display: flex;
   gap: clamp(48px, 7vw, 110px);
-  margin-top: clamp(64px, 8vw, 96px);
+  margin-top: 18px;
 }
 .proof-figure-value {
   display: block;

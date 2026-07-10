@@ -170,6 +170,19 @@ export default function Site() {
       <section className="proof">
         <div className="container">
           <span className="eyebrow">{L(t.proof.kicker)}</span>
+          <div className="proof-figures">
+            {t.proof.figures.map((f) => (
+              <div className="proof-figure" key={f.label.en}>
+                <span className="proof-figure-value">
+                  {"prefix" in f && (
+                    <span className="proof-figure-prefix">{L(f.prefix)} </span>
+                  )}
+                  {L(f.value)}
+                </span>
+                <span className="proof-figure-label">{L(f.label)}</span>
+              </div>
+            ))}
+          </div>
           <div className="proof-gallery">
             <figure className="proof-frame proof-frame-a">
               <div className="proof-photo">
@@ -207,19 +220,6 @@ export default function Site() {
                 {L(t.proof.captions.taste.text)}
               </figcaption>
             </figure>
-          </div>
-          <div className="proof-figures">
-            {t.proof.figures.map((f) => (
-              <div className="proof-figure" key={f.label.en}>
-                <span className="proof-figure-value">
-                  {"prefix" in f && (
-                    <span className="proof-figure-prefix">{L(f.prefix)} </span>
-                  )}
-                  {L(f.value)}
-                </span>
-                <span className="proof-figure-label">{L(f.label)}</span>
-              </div>
-            ))}
           </div>
         </div>
       </section>
