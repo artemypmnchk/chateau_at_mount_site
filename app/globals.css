@@ -438,11 +438,50 @@ section {
 /* ---------- Manifesto — тёмная типографическая глава под хиро
      (спека: docs/spec-manifesto-block.md) ---------- */
 .manifesto {
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
   /* Базовая непрозрачность незажжённых слов — ручка из спеки §6.1.
      0.18 — по фидбеку владельца: эффект должен быть заметным */
   --dim: 0.18;
+}
+/* Тихий дышащий отсвет между фото-хиро и цветной сценой вин — секция
+   чисто типографическая (без фото), но плоская заливка между двумя
+   визуально живыми блоками читалась пусто. Цвет — тот же --accent,
+   что уже горит в курсивных словах манифеста, глow лишь эхо текста. */
+.manifesto-glow {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  background: radial-gradient(
+    45% 45% at 50% 45%,
+    color-mix(in srgb, var(--accent) 40%, transparent) 0%,
+    transparent 70%
+  );
+  filter: blur(40px);
+  animation: manifestoGlow 22s ease-in-out infinite;
+  pointer-events: none;
+}
+.manifesto .container {
+  position: relative;
+  z-index: 1;
+}
+@keyframes manifestoGlow {
+  0%,
+  100% {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate3d(3%, 4%, 0) scale(1.2);
+    opacity: 0.85;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .manifesto-glow {
+    animation: none;
+  }
 }
 @media (min-width: 901px) {
   .manifesto {

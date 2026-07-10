@@ -85,6 +85,7 @@ export default function Site() {
       {/* ---------- About — тёмный типографический манифест
            (спека: docs/spec-manifesto-block.md) ---------- */}
       <section id="about" className="manifesto section-dark">
+        <span className="manifesto-glow" aria-hidden />
         <div className="container">
           <span className="eyebrow" data-reveal>
             {L(t.nav.about)}
