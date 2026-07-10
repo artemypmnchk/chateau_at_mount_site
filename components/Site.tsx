@@ -173,7 +173,7 @@ export default function Site() {
            кадров + цифры (спека: docs/spec-features-block.md) ---------- */}
       <section className="proof">
         <div className="container">
-          <span className="eyebrow">{L(t.proof.kicker)}</span>
+          <h2 className="proof-title">{L(t.proof.kicker)}</h2>
           <div className="proof-figures">
             {t.proof.figures.map((f) => (
               <div className="proof-figure" key={f.label.en}>

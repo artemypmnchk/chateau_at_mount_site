@@ -57,7 +57,9 @@ export default function Footer() {
             </a>
           </div>
         </div>
-        <div className="footer-bottom">{L(t.footer.rights)}</div>
+        <div className="footer-bottom">
+          © {new Date().getFullYear()} {L(t.footer.rights)}
+        </div>
       </div>
     </footer>
   );

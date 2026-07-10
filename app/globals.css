@@ -661,6 +661,11 @@ section {
   color: var(--accent-dark);
   margin-bottom: 6px;
 }
+.proof-title {
+  /* Заголовок главы в масштабе остальных секций (как .band-head h2) */
+  font-size: clamp(32px, 5vw, 56px);
+  margin-bottom: 22px;
+}
 .proof-figures {
   display: flex;
   gap: clamp(48px, 7vw, 110px);

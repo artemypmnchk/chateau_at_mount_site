@@ -528,18 +528,18 @@ export const t = {
   about: {
     // Используется в футере как строка-описание.
     line1: {
-      ru: "Семейная винодельня на холме при въезде в Чадыр‑Лунгу",
-      en: "A family winery on the hill at the entrance to Ceadîr-Lunga",
-      ro: "O cramă de familie pe dealul de la intrarea în Ceadîr-Lunga",
+      ru: "Семейная винодельня при въезде в Чадыр‑Лунгу",
+      en: "A family winery at the entrance to Ceadîr-Lunga",
+      ro: "O cramă de familie la intrarea în Ceadîr-Lunga",
     },
     // Фраза-манифест под хиро (docs/spec-manifesto-block.md). Слова в
     // *звёздочках* — акцентные: курсив + пыльная роза при подсветке
     // (components/HighlightOnScroll.tsx). При переписывании текста
     // разметку звёздочками сохранять. Текущий текст — плейсхолдер.
     manifesto: {
-      ru: "Мы делаем вино там же, где оно растёт: один *холм*, одна *семья* — весь путь от лозы до бутылки",
-      en: "We make wine where it grows: one *hill*, one *family* — the whole journey from vine to bottle",
-      ro: "Facem vinul acolo unde crește: un *deal*, o *familie* — întregul drum de la viță la sticlă",
+      ru: "Лучшее вино получается там же, где *вырос* виноград. На этом *стоит* наша винодельня",
+      en: "The best wine is made where the grapes *grew*. Our winery is *built* on that",
+      ro: "Cel mai bun vin se face acolo unde au *crescut* strugurii. Pe asta e *construită* crama noastră",
     },
     cta: {
       ru: "Приехать в гости",
@@ -573,14 +573,14 @@ export const t = {
      развеска двух кадров + цифры (спека: docs/spec-features-block.md).
      Тексты можно переписывать прямо здесь, код не трогая. */
   proof: {
-    kicker: { ru: "Наш холм", en: "Our hill", ro: "Dealul nostru" },
+    kicker: { ru: "Наше хозяйство", en: "Our estate", ro: "Domeniul nostru" },
     captions: {
       harvest: {
         label: { ru: "Сбор урожая", en: "Harvest", ro: "Culesul" },
         text: {
-          ru: "Сентябрь, вершина холма",
-          en: "September, the top of the hill",
-          ro: "Septembrie, vârful dealului",
+          ru: "Сентябрь на наших виноградниках",
+          en: "September in our vineyards",
+          ro: "Septembrie în podgoriile noastre",
         },
       },
       taste: {
@@ -1160,10 +1160,11 @@ export const t = {
     socialCol: { ru: "Соцсети", en: "Social", ro: "Rețele sociale" },
     extraCol: { ru: "Дополнительно", en: "More", ro: "Mai mult" },
     contactsCol: { ru: "Контакты", en: "Contacts", ro: "Contacte" },
+    // Год подставляется в Footer.tsx из текущей даты
     rights: {
-      ru: "© 2025 Chateau At Mount. Гагаузия, Молдова.",
-      en: "© 2025 Chateau At Mount. Gagauzia, Moldova.",
-      ro: "© 2025 Chateau At Mount. Găgăuzia, Moldova.",
+      ru: "Chateau At Mount. Гагаузия, Молдова.",
+      en: "Chateau At Mount. Gagauzia, Moldova.",
+      ro: "Chateau At Mount. Găgăuzia, Moldova.",
     },
   },
 } as const;
