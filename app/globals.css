@@ -1214,7 +1214,7 @@ section {
     justify-content: center;
     color: #fff;
   }
-  .header.scrolled .burger {
+  .header.scrolled:not(.chameleon) .burger {
     color: var(--ink);
   }
   .features {
