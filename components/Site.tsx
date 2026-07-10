@@ -80,7 +80,6 @@ export default function Site() {
             </a>
           </div>
         </div>
-        <span className="hero-scroll" aria-hidden />
       </section>
 
       {/* ---------- About — тёмный типографический манифест
