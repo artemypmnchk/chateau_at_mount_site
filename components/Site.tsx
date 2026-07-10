@@ -145,16 +145,16 @@ export default function Site() {
                       {String(wines.length).padStart(2, "0")}
                     </span>
                     <h3>{w.name}</h3>
-                    {w.awards && w.awards.length > 0 && (
-                      <ul className="band-awards">
-                        {w.awards.map((a) => (
-                          <li key={a.text.ru} className={`medal-${a.level}`}>
-                            <Medal size={14} />
-                            <span>{L(a.text)}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    {/* Награды — сдержанная строка-кредит (конкурсы через
+                        точку), высота слота фиксирована, чтобы бутылки во всех
+                        карточках оставались одного размера. Полный текст медалей
+                        с годами — на странице вина. */}
+                    <p className="band-award-line">
+                      {w.awards
+                        ?.map((a) => a.competition)
+                        .filter(Boolean)
+                        .join("  ·  ")}
+                    </p>
                     <span className="band-more">
                       {L(t.winesSection.more)} →
                     </span>
@@ -317,7 +317,7 @@ export default function Site() {
         <div className="container">
           <h2>{L(t.finalCta.title)}</h2>
           <div className="hero-actions">
-            <button onClick={openBooking} className="btn btn-primary">
+            <button onClick={openBooking} className="btn btn-accent">
               {L(t.visitPage.bookCta)}
             </button>
             <a href="/wines" className="btn btn-ghost-dark">

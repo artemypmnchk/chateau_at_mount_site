@@ -115,14 +115,6 @@ a {
     opacity 0.25s ease;
   white-space: nowrap;
 }
-.btn-primary {
-  background: var(--ink);
-  color: var(--bg);
-}
-.btn-primary:hover {
-  background: var(--wine);
-  color: #fff;
-}
 .btn-accent {
   background: var(--wine);
   color: #fff;
@@ -852,27 +844,33 @@ section {
 .band-slide:hover .band-more {
   color: #fff;
 }
-/* Медали вина прямо под названием в слайде — вместо отдельной секции */
-.band-awards {
-  list-style: none;
-  margin-top: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
+/* Награды вина под названием — не бейдж, а издательская строка-кредит:
+   тонкая золотая черта-хэйрлайн, сериф курсивом, названия конкурсов через
+   точку. Слот фиксированной высоты (2 строки) — так бутылка в каждой карточке
+   остаётся одного размера независимо от числа наград. */
+.band-award-line {
+  /* Жёстко фиксированная высота слота (хэйрлайн + одна строка) — одинаковая
+     у всех карточек, даже пустых. Так бутылки не «пляшут» и остаются крупными:
+     на десктопе строка конкурсов помещается в одну линию (см. white-space). */
+  height: 2.4em;
+  overflow: hidden;
+  margin: 11px auto 0;
+  white-space: nowrap;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(12.5px, 1vw, 15px);
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  color: #d8b466; /* тёплое золото медали */
 }
-.band-awards li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(246, 239, 231, 0.78);
-}
-.band-awards svg {
-  flex: 0 0 auto;
+/* Черта-хэйрлайн над строкой — только когда награды есть (строка непустая) */
+.band-award-line:not(:empty)::before {
+  content: "";
+  display: block;
+  width: 26px;
+  height: 1px;
+  margin: 0 auto 9px;
+  background: rgba(216, 180, 102, 0.55);
 }
 .band-bottle-v {
   position: relative;
@@ -990,13 +988,11 @@ section {
   text-align: center;
 }
 
-/* Цвет медали в списках наград (страница вина, лента вин на главной) */
-.wine-awards .medal-gold,
-.band-awards .medal-gold svg {
+/* Цвет медали в списке наград на странице вина */
+.wine-awards .medal-gold {
   color: #cfa84a;
 }
-.wine-awards .medal-silver,
-.band-awards .medal-silver svg {
+.wine-awards .medal-silver {
   color: #b6b6ae;
 }
 
