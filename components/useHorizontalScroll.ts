@@ -33,6 +33,9 @@ export function useHorizontalScroll(
     const colors = (colorsKey ?? "").split(",").filter(Boolean);
 
     const slidesEls = Array.from(track.children) as HTMLElement[];
+    const metaEls = slidesEls.map((el) =>
+      el.querySelector<HTMLElement>(".band-meta")
+    );
 
     // Геометрия проезда — от центров крайних слайдов, а не от scrollWidth:
     // тот теряет правый паддинг трека, и сдвиг «уезжал» при узких слайдах.
@@ -100,9 +103,11 @@ export function useHorizontalScroll(
     const render = (p: number) => {
       if (skip.matches) {
         track.style.transform = "";
-        for (const el of slidesEls) {
-          el.style.opacity = "";
-          el.style.transform = "";
+        for (let i = 0; i < slidesEls.length; i++) {
+          slidesEls[i].style.opacity = "";
+          slidesEls[i].style.transform = "";
+          const m = metaEls[i];
+          if (m) m.style.opacity = "";
         }
         // Лента приклеена к нативному скроллу трека
         if (bgEl) {
@@ -118,6 +123,10 @@ export function useHorizontalScroll(
         const d = Math.min(1, Math.abs(p * steps - i));
         slidesEls[i].style.opacity = (1 - d * 0.55).toFixed(3);
         slidesEls[i].style.transform = `scale(${(1 - d * 0.04).toFixed(4)})`;
+        // Подпись гаснет раньше бутылки: у кромок экрана остаются
+        // силуэты соседей, а не обрезанные полуслова названий
+        const m = metaEls[i];
+        if (m) m.style.opacity = Math.max(0, 1 - d * 1.4).toFixed(3);
       }
       // Лента едет тем же сдвигом — стопы остаются под центрами слайдов
       if (bgEl) {
