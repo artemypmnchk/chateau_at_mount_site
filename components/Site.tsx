@@ -7,6 +7,7 @@ import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
 import { useReveal } from "./useReveal";
 import { useHorizontalScroll } from "./useHorizontalScroll";
+import { HighlightOnScroll } from "./HighlightOnScroll";
 import Medal from "./Medal";
 
 // Все награды вин одной лентой: золото раньше серебра, порядок вин сохраняем.
@@ -105,26 +106,31 @@ export default function Site() {
         <span className="hero-scroll" aria-hidden />
       </section>
 
-      {/* ---------- About ---------- */}
-      <section id="about" className="about">
+      {/* ---------- About — тёмный типографический манифест
+           (спека: docs/spec-manifesto-block.md) ---------- */}
+      <section id="about" className="manifesto section-dark">
         <div className="container">
-          <span className="eyebrow">{L(t.nav.about)}</span>
-          <h2>{L(t.about.line1)}</h2>
-          <p>{L(t.about.line2)}</p>
-          <div className="stats">
-            {t.stats.map((s) => (
-              <div className="stat" key={s.value}>
-                <span className="stat-value">{s.value}</span>
-                <span className="stat-label">{L(s.label)}</span>
-              </div>
-            ))}
+          <span className="eyebrow" data-reveal>
+            {L(t.nav.about)}
+          </span>
+          {/* Фраза — только пословное проявление, без data-reveal:
+              два языка движения в одном элементе не смешиваем */}
+          <HighlightOnScroll text={L(t.about.manifesto)} />
+          <div
+            className="manifesto-foot"
+            data-reveal
+            style={{ "--reveal-delay": "120ms" } as React.CSSProperties}
+          >
+            <a href="/visit" className="manifesto-link">
+              {L(t.about.cta)} →
+            </a>
           </div>
         </div>
       </section>
 
       {/* ---------- Awards ---------- */}
       {allAwards.length > 0 && (
-        <section className="awards" style={{ paddingTop: 0 }}>
+        <section className="awards">
           <div className="container">
             <span className="eyebrow">{L(t.awardsSection.eyebrow)}</span>
             <h2>{L(t.awardsSection.title)}</h2>
