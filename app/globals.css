@@ -584,7 +584,8 @@ section {
   color: rgba(246, 239, 231, 0.72);
 }
 .band-pinwrap {
-  height: calc(100svh + (var(--slides, 7) - 1) * 58svh);
+  /* Пробег на слайд длиннее — горизонтальная скорость ниже, проезд мягче */
+  height: calc(100svh + (var(--slides, 7) - 1) * 96svh);
 }
 .band-sticky {
   position: sticky;
@@ -716,6 +717,20 @@ section {
 }
 .band-slide:hover .band-bottle-v img {
   transform: translateY(-8px);
+}
+
+/* Десктоп: слайд уже вьюпорта — бутылки ближе друг к другу, соседние
+   заглядывают в кадр приглушёнными. Боковой отступ трека центрирует
+   крайние слайды: пробег между бутылками = ширине слайда */
+@media (min-width: 901px) {
+  .band-track {
+    --slide-w: min(56vw, 760px);
+    padding-left: calc((100vw - var(--slide-w)) / 2);
+    padding-right: calc((100vw - var(--slide-w)) / 2);
+  }
+  .band-slide {
+    width: var(--slide-w);
+  }
 }
 
 /* Мобильные размеры — механика та же, что на десктопе (пин + проезд) */
@@ -1151,7 +1166,10 @@ section {
 
 @media (max-width: 540px) {
   .container {
-    padding: 0 18px;
+    /* Только бока: шорткат padding обнулял вертикальные отступы
+       контейнеров, объявленные раньше (например, .band-head) */
+    padding-left: 18px;
+    padding-right: 18px;
   }
   .hero-actions .btn,
   .contact-actions .btn,
