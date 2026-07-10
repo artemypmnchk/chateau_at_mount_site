@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import { useRef } from "react";
 import { t, wines, links, reviews } from "@/lib/content";
 import { useLocale } from "./locale";
@@ -19,7 +19,27 @@ const allAwards = wines
 // Статические импорты больших фото → next/image сам генерирует размеры
 // и blur-заглушку, отдаёт AVIF/WebP и ленивую загрузку.
 import heroImg from "@/public/images/hero-building.jpg";
+import heroMobileImg from "@/public/images/hero-building-mobile.jpg";
 import vineyardImg from "@/public/images/feature-vineyards.jpg";
+
+// Hero — арт-дирекшн через <picture>: панорама не влезает в портретный
+// экран, телефоны получают отдельный вертикальный кадр. getImageProps
+// даёт оптимизированные srcSet обоих, грузится только подходящий.
+const { props: heroDesktopProps } = getImageProps({
+  src: heroImg,
+  alt: "Винодельня Chateau At Mount",
+  fill: true,
+  priority: true,
+  sizes: "100vw",
+});
+const { props: heroMobileProps } = getImageProps({
+  src: heroMobileImg,
+  alt: "",
+  fill: true,
+  priority: true,
+  sizes: "100vw",
+});
+const heroMobileSrcSet = heroMobileProps.srcSet;
 import basketImg from "@/public/images/basket.jpeg";
 import vatsImg from "@/public/images/cellar-vats-2.jpg";
 import familyImg from "@/public/images/family.jpeg";
@@ -56,15 +76,20 @@ export default function Site() {
       {/* ---------- Hero ---------- */}
       <section className="hero">
         <div className="hero-bg">
-          <Image
-            src={heroImg}
-            alt="Винодельня Chateau At Mount"
-            fill
-            priority
-            placeholder="blur"
-            sizes="100vw"
-            style={{ objectFit: "cover" }}
-          />
+          {/* Арт-дирекшн по соотношению сторон: в портретные и почти
+              квадратные окна (телефон, планшет, пол-экрана на десктопе)
+              панорама не влезает — им вертикальный кадр */}
+          <picture>
+            <source
+              media="(max-aspect-ratio: 6/5)"
+              srcSet={heroMobileSrcSet}
+            />
+            <img
+              {...heroDesktopProps}
+              alt="Винодельня Chateau At Mount"
+              style={{ ...heroDesktopProps.style, objectFit: "cover" }}
+            />
+          </picture>
         </div>
         <div className="container hero-content">
           <h1>{t.hero.brand}</h1>
