@@ -1068,46 +1068,7 @@ section {
   color: rgba(243, 237, 226, 0.68);
 }
 
-/* ---------- Contact ---------- */
-.contact {
-  text-align: center;
-}
-.contact h2 {
-  font-size: clamp(32px, 5vw, 56px);
-}
-.contact > .container > p {
-  font-size: clamp(17px, 2vw, 20px);
-  color: rgba(243, 237, 226, 0.7);
-  max-width: 600px;
-  margin: 24px auto 0;
-}
-.contact-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin: 60px 0 48px;
-  border-top: 1px solid var(--line-light);
-  border-bottom: 1px solid var(--line-light);
-}
-.contact-card {
-  padding: 40px 24px;
-}
-.contact-card + .contact-card {
-  border-left: 1px solid var(--line-light);
-}
-.contact-card .label {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 14px;
-}
-.contact-card .value {
-  font-family: var(--serif);
-  font-size: clamp(24px, 2.8vw, 32px);
-  font-weight: 500;
-  line-height: 1.15;
-}
+/* ---------- Contact actions (страницы вин/визита) ---------- */
 .contact-actions {
   display: flex;
   gap: 14px;
@@ -1128,6 +1089,31 @@ section {
 }
 .final-cta .hero-actions {
   justify-content: center;
+}
+.final-cta .cta-telegram {
+  display: inline-flex;
+  margin-top: 26px;
+  padding: 13px 0 12px; /* тач-таргет ≥44px */
+  border-bottom: 1px solid rgba(36, 26, 28, 0.35);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 0.25s ease;
+}
+.final-cta .cta-telegram:hover {
+  border-color: var(--ink);
+}
+/* Факты сервиса — микроподпись вместо бывшего трёхколоночника «Мы рядом» */
+.final-cta .cta-facts {
+  margin-top: 44px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
 }
 
 /* ---------- Footer ---------- */
@@ -1236,13 +1222,6 @@ section {
   }
   .split.reverse .split-media {
     order: 0;
-  }
-  .contact-cards {
-    grid-template-columns: 1fr;
-  }
-  .contact-card + .contact-card {
-    border-left: 0;
-    border-top: 1px solid var(--line-light);
   }
   .footer-top {
     grid-template-columns: 1fr 1fr;

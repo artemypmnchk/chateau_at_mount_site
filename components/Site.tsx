@@ -2,7 +2,7 @@
 
 import Image, { getImageProps } from "next/image";
 import { useRef } from "react";
-import { t, wines, links, reviews } from "@/lib/content";
+import { t, wines, links } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
 import { useReveal } from "./useReveal";
@@ -270,49 +270,8 @@ export default function Site() {
         </div>
       </section>
 
-      {/* ---------- Contact ---------- */}
-      <section id="contacts" className="section-dark contact">
-        <div className="container">
-          <h2>{L(t.contact.title)}</h2>
-          <p>{L(t.contact.text)}</p>
-          {reviews.length > 0 && (
-            <div className="reviews-row">
-              {reviews.map((r) => (
-                <blockquote className="review-card" key={r.name}>
-                  <p>«{L(r.text)}»</p>
-                  <footer>
-                    <span className="review-name">{r.name}</span>
-                    <span className="review-source">{L(t.reviews.source)}</span>
-                  </footer>
-                </blockquote>
-              ))}
-            </div>
-          )}
-          <div className="contact-cards">
-            {t.contact.cards.map((c, i) => (
-              <div className="contact-card" key={i}>
-                <div className="label">{L(c.label)}</div>
-                <div className="value">{L(c.value)}</div>
-              </div>
-            ))}
-          </div>
-          <div className="contact-actions">
-            <button onClick={openBooking} className="btn btn-accent">
-              {L(t.contactsPage.formTitle)}
-            </button>
-            <a
-              href={links.telegram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-outline"
-            >
-              Telegram
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- Final CTA ---------- */}
+      {/* ---------- Final CTA — единственный контактный блок главной:
+              бывший «Мы рядом» слит сюда, чтобы не дублировать работу секции ---------- */}
       <section className="final-cta">
         <div className="container">
           <h2>{L(t.finalCta.title)}</h2>
@@ -324,6 +283,19 @@ export default function Site() {
               {L(t.winesSection.all)}
             </a>
           </div>
+          <a
+            href={links.telegram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cta-telegram"
+          >
+            Telegram →
+          </a>
+          <p className="cta-facts">
+            {t.contact.cards
+              .map((c) => `${L(c.label)} ${L(c.value)}`)
+              .join(" · ")}
+          </p>
         </div>
       </section>
     </main>
