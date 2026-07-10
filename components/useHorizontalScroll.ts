@@ -70,8 +70,10 @@ export function useHorizontalScroll(
     const skip = window.matchMedia("(prefers-reduced-motion: reduce)");
     let raf = 0;
     // Инерция: трек и лента плавно догоняют целевой прогресс (lerp),
-    // а не дёргаются за каждым тиком скролла.
-    const EASE = 0.09;
+    // а не дёргаются за каждым тиком скролла. На тач-устройствах
+    // сведение быстрее — флик и так сглажен нативной инерцией,
+    // длинный шлейф читается как тормоза.
+    const EASE = window.matchMedia("(pointer: coarse)").matches ? 0.16 : 0.09;
     let current = -1; // прогресс, отрисованный на экране
     let target = 0;
 
