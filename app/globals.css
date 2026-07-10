@@ -491,17 +491,6 @@ section {
 .manifesto .container {
   width: 100%;
 }
-.manifesto-scroll {
-  position: relative;
-}
-/* Невидимый якорь для IntersectionObserver: высоту и top задаёт JS */
-.manifesto-anchor {
-  position: absolute;
-  left: 0;
-  width: 1px;
-  opacity: 0;
-  pointer-events: none;
-}
 .manifesto-phrase {
   margin: 0;
   font-family: var(--serif);
