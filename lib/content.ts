@@ -169,6 +169,17 @@ export const wines: Wine[] = [
           "https://results.wine-trophy.com/en/wine/bwt-w-25/viorica_2023",
       },
       {
+        level: "gold",
+        text: {
+          ru: "Золото · Asia Wine Trophy 2025 · урожай 2023",
+          en: "Gold · Asia Wine Trophy 2025 · 2023 vintage",
+          ro: "Aur · Asia Wine Trophy 2025 · recolta 2023",
+        },
+        art: "/images/medals/asia-wine-trophy-gold.png",
+        proofUrl:
+          "https://results.wine-trophy.com/en/wine/awt-25/viorica_2023",
+      },
+      {
         level: "silver",
         text: {
           ru: "Серебро · Mundus Vini 2025 · урожай 2023",
@@ -559,9 +570,9 @@ export const t = {
       ro: "Vezi toate vinurile",
     },
     medals: {
-      ru: "Пять медалей международных конкурсов · 2023–2025",
-      en: "Five international competition medals · 2023–2025",
-      ro: "Cinci medalii la concursuri internaționale · 2023–2025",
+      ru: "Шесть медалей международных конкурсов · 2023–2025",
+      en: "Six international competition medals · 2023–2025",
+      ro: "Șase medalii la concursuri internaționale · 2023–2025",
     },
   },
   winesPage: {
