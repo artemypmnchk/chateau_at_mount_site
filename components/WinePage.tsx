@@ -4,8 +4,6 @@ import Image from "next/image";
 import { t, wines, type Wine } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
-import Medal from "./Medal";
-
 function Check() {
   return (
     <svg
@@ -84,7 +82,6 @@ export default function WinePage({ wine }: { wine: Wine }) {
                 <ul className="wine-awards">
                   {wine.awards.map((a) => (
                     <li key={a.text.ru} className={`medal-${a.level}`}>
-                      <Medal />
                       <span className="award-line">
                         {L(a.text)}
                         {a.proofUrl && (

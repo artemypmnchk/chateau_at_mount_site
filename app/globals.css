@@ -115,14 +115,6 @@ a {
     opacity 0.25s ease;
   white-space: nowrap;
 }
-.btn-primary {
-  background: var(--ink);
-  color: var(--bg);
-}
-.btn-primary:hover {
-  background: var(--wine);
-  color: #fff;
-}
 .btn-accent {
   background: var(--wine);
   color: #fff;
@@ -250,7 +242,8 @@ a {
   font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  padding: 15px 8px 14px;
+  padding: 16px 8px 15px;
+  min-width: 44px; /* тач-таргет */
   color: rgba(255, 255, 255, 0.55);
   transition: color 0.2s ease;
 }
@@ -534,7 +527,7 @@ section {
 }
 .manifesto-link {
   display: inline-flex;
-  padding: 10px 0;
+  padding: 13px 0 12px; /* тач-таргет ≥44px */
   border-bottom: 1px solid rgba(246, 239, 231, 0.45);
   font-size: 12px;
   font-weight: 600;
@@ -599,6 +592,88 @@ section {
   font-size: 16.5px;
   color: rgba(255, 255, 255, 0.86);
   max-width: 420px;
+}
+
+/* ---------- Proof — светлая глава-доказательство: асимметричная
+     развеска двух кадров с музейными подписями + строка цифр
+     (спека: docs/spec-features-block.md) ---------- */
+.proof-gallery {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 24px;
+  margin-top: 18px;
+}
+.proof-frame {
+  margin: 0;
+}
+.proof-frame-a {
+  grid-column: 1 / span 7;
+}
+.proof-frame-b {
+  grid-column: 9 / span 4;
+  margin-top: 72px;
+}
+.proof-photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+.proof-frame-a .proof-photo {
+  aspect-ratio: 3 / 4;
+}
+.proof-frame-b .proof-photo {
+  aspect-ratio: 4 / 5;
+}
+.proof-caption {
+  margin-top: 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 34em;
+}
+.proof-caption-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+  margin-bottom: 6px;
+}
+.proof-figures {
+  display: flex;
+  gap: clamp(48px, 7vw, 110px);
+  margin-top: clamp(64px, 8vw, 96px);
+}
+.proof-figure-value {
+  display: block;
+  font-family: var(--serif);
+  font-weight: 500;
+  /* Номинальный opsz на этом кегле даёт волосяные засечки —
+     фиксируем средний, как у манифеста (урок spec-manifesto §6.1) */
+  font-variation-settings: "opsz" 28;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.proof-figure-prefix {
+  /* «до 150 000»: мелкий префикс сидит на базовой линии цифры */
+  font-size: 0.28em;
+  font-family: var(--font);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.proof-figure-label {
+  display: block;
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
 }
 
 /* ---------- Wines slider ---------- */
@@ -697,21 +772,15 @@ section {
 }
 /* Тихая строка-пруф под заголовком: сколько медалей у вин ленты */
 .band-medals {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  display: inline-block;
   margin-top: 12px;
   font-size: 13px;
   color: rgba(246, 239, 231, 0.66);
 }
-.band-medals svg {
-  flex: 0 0 auto;
-  color: #cfa84a;
-}
 /* «Смотреть все вина» — тихая ссылка в шапке блока, вне зоны слайдов */
 .band-all {
   display: inline-flex;
-  padding: 10px 0;
+  padding: 13px 0 12px; /* тач-таргет ≥44px */
   margin-bottom: 6px;
   border-bottom: 1px solid rgba(246, 239, 231, 0.45);
   font-size: 12px;
@@ -770,27 +839,33 @@ section {
 .band-slide:hover .band-more {
   color: #fff;
 }
-/* Медали вина прямо под названием в слайде — вместо отдельной секции */
-.band-awards {
-  list-style: none;
-  margin-top: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
+/* Награды вина под названием — не бейдж, а издательская строка-кредит:
+   тонкая золотая черта-хэйрлайн, сериф курсивом, названия конкурсов через
+   точку. Слот фиксированной высоты (2 строки) — так бутылка в каждой карточке
+   остаётся одного размера независимо от числа наград. */
+.band-award-line {
+  /* Жёстко фиксированная высота слота (хэйрлайн + одна строка) — одинаковая
+     у всех карточек, даже пустых. Так бутылки не «пляшут» и остаются крупными:
+     на десктопе строка конкурсов помещается в одну линию (см. white-space). */
+  height: 2.4em;
+  overflow: hidden;
+  margin: 11px auto 0;
+  white-space: nowrap;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(12.5px, 1vw, 15px);
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  color: #d8b466; /* тёплое золото медали */
 }
-.band-awards li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(246, 239, 231, 0.78);
-}
-.band-awards svg {
-  flex: 0 0 auto;
+/* Черта-хэйрлайн над строкой — только когда награды есть (строка непустая) */
+.band-award-line:not(:empty)::before {
+  content: "";
+  display: block;
+  width: 26px;
+  height: 1px;
+  margin: 0 auto 9px;
+  background: rgba(216, 180, 102, 0.55);
 }
 .band-bottle-v {
   position: relative;
@@ -908,14 +983,12 @@ section {
   text-align: center;
 }
 
-/* Цвет медали в списках наград (страница вина, лента вин на главной) */
-.wine-awards .medal-gold,
-.band-awards .medal-gold svg {
-  color: #cfa84a;
+/* Тон точки-маркера = достоинство медали */
+.wine-awards li.medal-gold::before {
+  background: #cfa84a;
 }
-.wine-awards .medal-silver,
-.band-awards .medal-silver svg {
-  color: #b6b6ae;
+.wine-awards li.medal-silver::before {
+  background: #b6b6ae;
 }
 
 /* ---------- Reviews — цитаты гостей в контактном блоке ---------- */
@@ -989,46 +1062,7 @@ section {
   color: rgba(243, 237, 226, 0.68);
 }
 
-/* ---------- Contact ---------- */
-.contact {
-  text-align: center;
-}
-.contact h2 {
-  font-size: clamp(32px, 5vw, 56px);
-}
-.contact > .container > p {
-  font-size: clamp(17px, 2vw, 20px);
-  color: rgba(243, 237, 226, 0.7);
-  max-width: 600px;
-  margin: 24px auto 0;
-}
-.contact-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin: 60px 0 48px;
-  border-top: 1px solid var(--line-light);
-  border-bottom: 1px solid var(--line-light);
-}
-.contact-card {
-  padding: 40px 24px;
-}
-.contact-card + .contact-card {
-  border-left: 1px solid var(--line-light);
-}
-.contact-card .label {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 14px;
-}
-.contact-card .value {
-  font-family: var(--serif);
-  font-size: clamp(24px, 2.8vw, 32px);
-  font-weight: 500;
-  line-height: 1.15;
-}
+/* ---------- Contact actions (страницы вин/визита) ---------- */
 .contact-actions {
   display: flex;
   gap: 14px;
@@ -1049,6 +1083,31 @@ section {
 }
 .final-cta .hero-actions {
   justify-content: center;
+}
+.final-cta .cta-telegram {
+  display: inline-flex;
+  margin-top: 26px;
+  padding: 13px 0 12px; /* тач-таргет ≥44px */
+  border-bottom: 1px solid rgba(36, 26, 28, 0.35);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 0.25s ease;
+}
+.final-cta .cta-telegram:hover {
+  border-color: var(--ink);
+}
+/* Факты сервиса — микроподпись вместо бывшего трёхколоночника «Мы рядом» */
+.final-cta .cta-facts {
+  margin-top: 44px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
 }
 
 /* ---------- Footer ---------- */
@@ -1137,18 +1196,26 @@ section {
   .features {
     grid-template-columns: 1fr;
   }
+  .proof-gallery {
+    grid-template-columns: 1fr;
+    row-gap: 40px;
+  }
+  .proof-frame-a,
+  .proof-frame-b {
+    grid-column: auto;
+  }
+  .proof-frame-b {
+    margin-top: 0;
+  }
+  .proof-figures {
+    flex-direction: column;
+    gap: 40px;
+  }
   .split {
     grid-template-columns: 1fr;
   }
   .split.reverse .split-media {
     order: 0;
-  }
-  .contact-cards {
-    grid-template-columns: 1fr;
-  }
-  .contact-card + .contact-card {
-    border-left: 0;
-    border-top: 1px solid var(--line-light);
   }
   .footer-top {
     grid-template-columns: 1fr 1fr;
@@ -1173,6 +1240,9 @@ section {
   }
   .feature-card {
     min-height: 460px;
+  }
+  .proof-frame-a .proof-photo {
+    aspect-ratio: 4 / 5;
   }
   .footer-top {
     grid-template-columns: 1fr;
@@ -1773,15 +1843,21 @@ a.info-row:hover .info-value {
 .wine-awards li {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
+  gap: 12px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: rgba(243, 237, 226, 0.9);
 }
-.wine-awards svg {
+/* Маркер награды — маленькая точка в тон медали (золото/серебро),
+   вместо лаврового значка. Тихо, по-редакторски. */
+.wine-awards li::before {
+  content: "";
   flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: #cfa84a;
 }
 /* Текст награды и ссылка-пруф — колонкой справа от значка */
 .award-line {

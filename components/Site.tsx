@@ -2,13 +2,12 @@
 
 import Image, { getImageProps } from "next/image";
 import { useRef } from "react";
-import { t, wines, links, reviews } from "@/lib/content";
+import { t, wines, links } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
 import { useReveal } from "./useReveal";
 import { useHorizontalScroll } from "./useHorizontalScroll";
 import { HighlightOnScroll } from "./HighlightOnScroll";
-import Medal from "./Medal";
 
 // Статические импорты больших фото → next/image сам генерирует размеры
 // и blur-заглушку, отдаёт AVIF/WebP и ленивую загрузку.
@@ -34,7 +33,7 @@ const { props: heroMobileProps } = getImageProps({
   sizes: "100vw",
 });
 const heroMobileSrcSet = heroMobileProps.srcSet;
-import basketImg from "@/public/images/basket.jpeg";
+import harvestImg from "@/public/images/harvest.jpg";
 import vatsImg from "@/public/images/cellar-vats-2.jpg";
 import familyImg from "@/public/images/family.jpeg";
 
@@ -106,42 +105,6 @@ export default function Site() {
         </div>
       </section>
 
-      {/* ---------- Features ---------- */}
-      <section style={{ paddingTop: 0 }}>
-        <div className="container">
-          <div className="features">
-            <article className="feature-card">
-              <Image
-                src={vineyardImg}
-                alt={L(t.features.vineyard.title)}
-                fill
-                placeholder="blur"
-                sizes="(max-width: 900px) 100vw, 50vw"
-                style={{ objectFit: "cover" }}
-              />
-              <div className="body">
-                <h3>{L(t.features.vineyard.title)}</h3>
-                <p>{L(t.features.vineyard.text)}</p>
-              </div>
-            </article>
-            <article className="feature-card">
-              <Image
-                src={basketImg}
-                alt={L(t.features.taste.title)}
-                fill
-                placeholder="blur"
-                sizes="(max-width: 900px) 100vw, 50vw"
-                style={{ objectFit: "cover" }}
-              />
-              <div className="body">
-                <h3>{L(t.features.taste.title)}</h3>
-                <p>{L(t.features.taste.text)}</p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
       {/* ---------- Wines — глиняное полотно, горизонтальный проезд ---------- */}
       <section id="wines" className="wines-band">
         <div
@@ -156,7 +119,7 @@ export default function Site() {
                 <span className="eyebrow">{L(t.winesSection.eyebrow)}</span>
                 <h2>{L(t.winesSection.title)}</h2>
                 <span className="band-medals">
-                  <Medal size={15} /> {L(t.winesSection.medals)}
+                  {L(t.winesSection.medals)}
                 </span>
               </div>
               <a href="/wines" className="band-all">
@@ -181,16 +144,16 @@ export default function Site() {
                       {String(wines.length).padStart(2, "0")}
                     </span>
                     <h3>{w.name}</h3>
-                    {w.awards && w.awards.length > 0 && (
-                      <ul className="band-awards">
-                        {w.awards.map((a) => (
-                          <li key={a.text.ru} className={`medal-${a.level}`}>
-                            <Medal size={14} />
-                            <span>{L(a.text)}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    {/* Награды — сдержанная строка-кредит (конкурсы через
+                        точку), высота слота фиксирована, чтобы бутылки во всех
+                        карточках оставались одного размера. Полный текст медалей
+                        с годами — на странице вина. */}
+                    <p className="band-award-line">
+                      {w.awards
+                        ?.map((a) => a.competition)
+                        .filter(Boolean)
+                        .join("  ·  ")}
+                    </p>
                     <span className="band-more">
                       {L(t.winesSection.more)} →
                     </span>
@@ -198,6 +161,65 @@ export default function Site() {
                 </a>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Proof — светлая глава-доказательство: развеска двух
+           кадров + цифры (спека: docs/spec-features-block.md) ---------- */}
+      <section className="proof">
+        <div className="container">
+          <span className="eyebrow">{L(t.proof.kicker)}</span>
+          <div className="proof-gallery">
+            <figure className="proof-frame proof-frame-a">
+              <div className="proof-photo">
+                <Image
+                  src={harvestImg}
+                  alt={L(t.proof.alts.harvest)}
+                  fill
+                  placeholder="blur"
+                  sizes="(max-width: 900px) 100vw, 60vw"
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+              <figcaption className="proof-caption">
+                <span className="proof-caption-label">
+                  {L(t.proof.captions.harvest.label)}
+                </span>
+                {L(t.proof.captions.harvest.text)}
+              </figcaption>
+            </figure>
+            <figure className="proof-frame proof-frame-b">
+              <div className="proof-photo">
+                <Image
+                  src={vineyardImg}
+                  alt={L(t.proof.alts.taste)}
+                  fill
+                  placeholder="blur"
+                  sizes="(max-width: 900px) 100vw, 36vw"
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+              <figcaption className="proof-caption">
+                <span className="proof-caption-label">
+                  {L(t.proof.captions.taste.label)}
+                </span>
+                {L(t.proof.captions.taste.text)}
+              </figcaption>
+            </figure>
+          </div>
+          <div className="proof-figures">
+            {t.proof.figures.map((f) => (
+              <div className="proof-figure" key={f.label.en}>
+                <span className="proof-figure-value">
+                  {"prefix" in f && (
+                    <span className="proof-figure-prefix">{L(f.prefix)} </span>
+                  )}
+                  {L(f.value)}
+                </span>
+                <span className="proof-figure-label">{L(f.label)}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -247,60 +269,32 @@ export default function Site() {
         </div>
       </section>
 
-      {/* ---------- Contact ---------- */}
-      <section id="contacts" className="section-dark contact">
-        <div className="container">
-          <h2>{L(t.contact.title)}</h2>
-          <p>{L(t.contact.text)}</p>
-          {reviews.length > 0 && (
-            <div className="reviews-row">
-              {reviews.map((r) => (
-                <blockquote className="review-card" key={r.name}>
-                  <p>«{L(r.text)}»</p>
-                  <footer>
-                    <span className="review-name">{r.name}</span>
-                    <span className="review-source">{L(t.reviews.source)}</span>
-                  </footer>
-                </blockquote>
-              ))}
-            </div>
-          )}
-          <div className="contact-cards">
-            {t.contact.cards.map((c, i) => (
-              <div className="contact-card" key={i}>
-                <div className="label">{L(c.label)}</div>
-                <div className="value">{L(c.value)}</div>
-              </div>
-            ))}
-          </div>
-          <div className="contact-actions">
-            <button onClick={openBooking} className="btn btn-accent">
-              {L(t.contactsPage.formTitle)}
-            </button>
-            <a
-              href={links.telegram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-outline"
-            >
-              Telegram
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- Final CTA ---------- */}
+      {/* ---------- Final CTA — единственный контактный блок главной:
+              бывший «Мы рядом» слит сюда, чтобы не дублировать работу секции ---------- */}
       <section className="final-cta">
         <div className="container">
           <h2>{L(t.finalCta.title)}</h2>
           <div className="hero-actions">
-            <button onClick={openBooking} className="btn btn-primary">
+            <button onClick={openBooking} className="btn btn-accent">
               {L(t.visitPage.bookCta)}
             </button>
             <a href="/wines" className="btn btn-ghost-dark">
               {L(t.winesSection.all)}
             </a>
           </div>
+          <a
+            href={links.telegram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cta-telegram"
+          >
+            Telegram →
+          </a>
+          <p className="cta-facts">
+            {t.contact.cards
+              .map((c) => `${L(c.label)} ${L(c.value)}`)
+              .join(" · ")}
+          </p>
         </div>
       </section>
     </main>

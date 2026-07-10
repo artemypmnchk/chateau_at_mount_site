@@ -21,6 +21,9 @@ export interface Wine {
   awards?: {
     level: "gold" | "silver";
     text: Record<Locale, string>;
+    /** Короткое имя конкурса — компактная подпись-кредит в ленте вин на
+     *  главной (без «золото/год», без капса). Полный текст — на странице вина. */
+    competition?: string;
     art?: string;
     proofUrl?: string;
   }[];
@@ -55,6 +58,7 @@ export const wines: Wine[] = [
           en: "Gold · Asia Wine Trophy 2023 · 2020 vintage",
           ro: "Aur · Asia Wine Trophy 2023 · recolta 2020",
         },
+        competition: "Asia Wine Trophy",
         art: "/images/medals/asia-wine-trophy-gold.png",
         proofUrl:
           "https://results.wine-trophy.com/en/wine/awt-23/chateau_at_mount_merlot_red_dry_wine_2020",
@@ -164,6 +168,7 @@ export const wines: Wine[] = [
           en: "Gold · Berliner Wine Trophy 2025 · 2023 vintage",
           ro: "Aur · Berliner Wine Trophy 2025 · recolta 2023",
         },
+        competition: "Berliner Wine Trophy",
         art: "/images/medals/berliner-wine-trophy-gold.png",
         proofUrl:
           "https://results.wine-trophy.com/en/wine/bwt-w-25/viorica_2023",
@@ -175,6 +180,7 @@ export const wines: Wine[] = [
           en: "Gold · Asia Wine Trophy 2025 · 2023 vintage",
           ro: "Aur · Asia Wine Trophy 2025 · recolta 2023",
         },
+        competition: "Asia Wine Trophy",
         art: "/images/medals/asia-wine-trophy-gold.png",
         proofUrl:
           "https://results.wine-trophy.com/en/wine/awt-25/viorica_2023",
@@ -186,6 +192,7 @@ export const wines: Wine[] = [
           en: "Silver · Mundus Vini 2025 · 2023 vintage",
           ro: "Argint · Mundus Vini 2025 · recolta 2023",
         },
+        competition: "Mundus Vini",
         // Официальный буклет результатов Spring Tasting 2025, стр. 68:
         // «2023 Chateau at MOUNT Viorica — Silber» (подано через Divus Winery)
         proofUrl:
@@ -286,7 +293,7 @@ export const wines: Wine[] = [
     image: "/images/wine-cabernet-sauvignon.png",
     accent: "#cbaa7e", // янтарь камней с этикетки
     accentDark: "#8d6a3f",
-    band: "#180f0a", // почти чёрный кофейный
+    band: "#180f0a", // почти чёрный кофейный — осознанно тёмный, владельцу так нравится
 
     awards: [
       {
@@ -296,6 +303,7 @@ export const wines: Wine[] = [
           en: "Gold · Berliner Wine Trophy 2024 · 2020 vintage",
           ro: "Aur · Berliner Wine Trophy 2024 · recolta 2020",
         },
+        competition: "Berliner Wine Trophy",
         art: "/images/medals/berliner-wine-trophy-gold.png",
       },
     ],
@@ -403,6 +411,7 @@ export const wines: Wine[] = [
           en: "Silver · Asia Wine Trophy 2024 · 2021 vintage",
           ro: "Argint · Asia Wine Trophy 2024 · recolta 2021",
         },
+        competition: "Asia Wine Trophy",
       },
     ],
     desc: {
@@ -557,6 +566,71 @@ export const t = {
         ru: "Вина с выразительной кислотностью и свежими фруктовыми нотками. Даже красные.",
         en: "Wines with expressive acidity and fresh fruity notes. Even the reds.",
         ro: "Vinuri cu aciditate expresivă și note proaspete de fructe. Chiar și cele roșii.",
+      },
+    },
+  },
+  /* Блок «Пруф» — светлая глава между манифестом и винами:
+     развеска двух кадров + цифры (спека: docs/spec-features-block.md).
+     Тексты можно переписывать прямо здесь, код не трогая. */
+  proof: {
+    kicker: { ru: "Наш холм", en: "Our hill", ro: "Dealul nostru" },
+    captions: {
+      harvest: {
+        label: { ru: "Сбор урожая", en: "Harvest", ro: "Culesul" },
+        text: {
+          ru: "Сентябрь, вершина холма",
+          en: "September, the top of the hill",
+          ro: "Septembrie, vârful dealului",
+        },
+      },
+      taste: {
+        label: { ru: "Стиль вин", en: "The style", ro: "Stilul vinurilor" },
+        text: {
+          ru: "С выразительной кислотностью и свежими фруктовыми нотками. Даже красные.",
+          en: "Expressive acidity and fresh fruity notes. Even the reds.",
+          ro: "Aciditate expresivă și note proaspete de fructe. Chiar și cele roșii.",
+        },
+      },
+    },
+    /* value — строкой, с неразрывными пробелами; prefix — мелкий текст
+       на базовой линии перед цифрой («до 150 000») */
+    figures: [
+      {
+        value: { ru: "15", en: "15", ro: "15" },
+        label: {
+          ru: "гектаров виноградников",
+          en: "hectares of vineyards",
+          ro: "hectare de podgorii",
+        },
+      },
+      {
+        prefix: { ru: "до", en: "up to", ro: "până la" },
+        value: { ru: "150 000", en: "150,000", ro: "150 000" },
+        label: {
+          ru: "бутылок в год",
+          en: "bottles a year",
+          ro: "sticle pe an",
+        },
+      },
+      {
+        value: { ru: "2019", en: "2019", ro: "2019" },
+        label: {
+          ru: "год основания",
+          en: "founded",
+          ro: "anul fondării",
+        },
+      },
+    ],
+    alts: {
+      harvest: {
+        ru: "Сбор урожая на виноградниках Chateau At Mount",
+        en: "Harvest at the Chateau At Mount vineyards",
+        ro: "Culesul la podgoriile Chateau At Mount",
+      },
+      taste: {
+        ru: "Пикник с бокалами вина среди лоз",
+        en: "A picnic with glasses of wine among the vines",
+        ro: "Picnic cu pahare de vin printre vițe",
       },
     },
   },
