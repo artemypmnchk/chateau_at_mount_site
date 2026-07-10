@@ -745,6 +745,14 @@ section {
   /* Пробег на слайд длиннее — горизонтальная скорость ниже, проезд мягче */
   height: calc(100dvh + (var(--slides, 7) - 1) * 96dvh);
 }
+/* Тач: пробег на слайд ещё длиннее — драг пальцем весомее, а откат
+   инерции меньше относительно пробега (в паре с жест-лимитом
+   «одна бутылка за свайп» в useHorizontalScroll) */
+@media (pointer: coarse) {
+  .band-pinwrap {
+    height: calc(100dvh + (var(--slides, 7) - 1) * 120dvh);
+  }
+}
 .band-sticky {
   position: sticky;
   top: 0;

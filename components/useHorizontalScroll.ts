@@ -84,6 +84,32 @@ export function useHorizontalScroll(
 
     let lastDir = 0; // направление последнего движения: 1 вперёд, -1 назад
 
+    // Жест-лимит для тача: один свайп двигает максимум на одну бутылку.
+    // На touchstart якоримся к отрисованной бутылке, и пока живёт жест
+    // (включая инерцию после отпускания пальца) цель зажата соседними
+    // слайдами. Колесо/клавиатура лимит снимают (гибридные устройства).
+    let clampLo = -Infinity;
+    let clampHi = Infinity;
+    const anchorGesture = () => {
+      const rect = wrap.getBoundingClientRect();
+      const runway = rect.height - window.innerHeight;
+      const p = runway > 0 ? -rect.top / runway : -1;
+      // Вне пина не якоримся: флик, влетающий в секцию, остаётся
+      // быстрым — пролистать ленту насквозь одним жестом можно.
+      if (p <= 0.001 || p >= 0.999) {
+        clampLo = -Infinity;
+        clampHi = Infinity;
+        return;
+      }
+      const idx = Math.round((current >= 0 ? current : p) * steps);
+      clampLo = Math.max(0, (idx - 1) / steps);
+      clampHi = Math.min(1, (idx + 1) / steps);
+    };
+    const releaseGesture = () => {
+      clampLo = -Infinity;
+      clampHi = Infinity;
+    };
+
     const readTarget = () => {
       if (skip.matches) {
         const max = track.scrollWidth - track.clientWidth;
@@ -94,7 +120,13 @@ export function useHorizontalScroll(
         if (runway <= 0) return;
         // Непрерывный прогресс: трек едет ровно за скроллом, без
         // квантования к слайдам — к бутылке подводит мягкий магнит ниже.
-        const p = Math.min(1, Math.max(0, -rect.top / runway));
+        // Жест-лимит: инерция может унести scrollY дальше, но трек
+        // останавливается на соседней бутылке; рассинхрон со скроллом
+        // невидим внутри пина, его тихо убирает магнит.
+        const p = Math.min(
+          clampHi,
+          Math.max(clampLo, Math.min(1, Math.max(0, -rect.top / runway)))
+        );
         if (p !== target) lastDir = p > target ? 1 : -1;
         target = p;
       }
@@ -172,14 +204,19 @@ export function useHorizontalScroll(
       // Магнит не спорит с направлением: заметный прогресс вперёд
       // (>12% шага — один тик колеса) доводит к следующему вину,
       // назад — зеркально. Откат против движения пользователя запрещён.
-      const pos = p * steps;
+      // Позиция и цель — в пределах жест-лимита; deltaY считается от
+      // сырого прогресса, чтобы вернуть уехавший на инерции scrollY.
+      const pos = Math.min(clampHi, Math.max(clampLo, p)) * steps;
       const frac = pos - Math.floor(pos);
       let idx: number;
       if (lastDir > 0) idx = frac > 0.12 ? Math.ceil(pos) : Math.floor(pos);
       else if (lastDir < 0)
         idx = frac < 0.88 ? Math.floor(pos) : Math.ceil(pos);
       else idx = Math.round(pos);
-      const nearest = Math.min(steps, Math.max(0, idx)) / steps;
+      const nearest = Math.min(
+        clampHi,
+        Math.max(clampLo, Math.min(steps, Math.max(0, idx)) / steps)
+      );
       const deltaY = (nearest - p) * runway;
       if (Math.abs(deltaY) < 1) return;
       const startY = window.scrollY;
@@ -226,10 +263,18 @@ export function useHorizontalScroll(
       cancelSettle();
       armSettle();
     };
-    // Пока палец на экране, магнит молчит совсем — не дёргаем страницу
+    // Колесо/клавиатура — не тач: снимаем жест-лимит, иначе стареющий
+    // якорь последнего свайпа запер бы обычный скролл в ±1 слайде.
+    const pointerInterrupt = () => {
+      releaseGesture();
+      interrupt();
+    };
+    // Пока палец на экране, магнит молчит совсем — не дёргаем страницу.
+    // Здесь же ставится якорь жест-лимита: одна бутылка за свайп.
     const touchDown = () => {
       cancelSettle();
       clearTimeout(settleTimer);
+      anchorGesture();
     };
     // Вкладка вернулась из фона: rAF там был заморожен — синхронизируем
     // кадр со скроллом мгновенно, без видимого доезда
@@ -242,8 +287,8 @@ export function useHorizontalScroll(
     schedule();
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", onResize);
-    window.addEventListener("wheel", interrupt, { passive: true });
-    window.addEventListener("keydown", interrupt);
+    window.addEventListener("wheel", pointerInterrupt, { passive: true });
+    window.addEventListener("keydown", pointerInterrupt);
     window.addEventListener("touchstart", touchDown, { passive: true });
     window.addEventListener("touchend", interrupt, { passive: true });
     document.addEventListener("visibilitychange", onVisible);
@@ -254,8 +299,8 @@ export function useHorizontalScroll(
       cancelSettle();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", onResize);
-      window.removeEventListener("wheel", interrupt);
-      window.removeEventListener("keydown", interrupt);
+      window.removeEventListener("wheel", pointerInterrupt);
+      window.removeEventListener("keydown", pointerInterrupt);
       window.removeEventListener("touchstart", touchDown);
       window.removeEventListener("touchend", interrupt);
       document.removeEventListener("visibilitychange", onVisible);
