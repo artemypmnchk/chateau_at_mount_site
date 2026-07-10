@@ -190,7 +190,8 @@ export default function Site() {
                   </div>
                   <div className="band-meta">
                     <span className="wine-no">
-                      {String(i + 1).padStart(2, "0")}
+                      {String(i + 1).padStart(2, "0")} /{" "}
+                      {String(wines.length).padStart(2, "0")}
                     </span>
                     <h3>{w.name}</h3>
                     <span className="band-more">

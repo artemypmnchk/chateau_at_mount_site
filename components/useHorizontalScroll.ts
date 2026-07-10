@@ -33,6 +33,9 @@ export function useHorizontalScroll(
     const colors = (colorsKey ?? "").split(",").filter(Boolean);
 
     const slidesEls = Array.from(track.children) as HTMLElement[];
+    const metaEls = slidesEls.map((el) =>
+      el.querySelector<HTMLElement>(".band-meta")
+    );
 
     // Геометрия проезда — от центров крайних слайдов, а не от scrollWidth:
     // тот теряет правый паддинг трека, и сдвиг «уезжал» при узких слайдах.
@@ -70,12 +73,16 @@ export function useHorizontalScroll(
     const skip = window.matchMedia("(prefers-reduced-motion: reduce)");
     let raf = 0;
     // Инерция: трек и лента плавно догоняют целевой прогресс (lerp),
-    // а не дёргаются за каждым тиком скролла.
-    const EASE = 0.09;
+    // а не дёргаются за каждым тиком скролла. На тач-устройствах
+    // сведение быстрее — флик и так сглажен нативной инерцией,
+    // длинный шлейф читается как тормоза.
+    const EASE = window.matchMedia("(pointer: coarse)").matches ? 0.16 : 0.09;
     let current = -1; // прогресс, отрисованный на экране
     let target = 0;
 
     const steps = Math.max(1, slidesEls.length - 1);
+
+    let lastDir = 0; // направление последнего движения: 1 вперёд, -1 назад
 
     const readTarget = () => {
       if (skip.matches) {
@@ -87,16 +94,20 @@ export function useHorizontalScroll(
         if (runway <= 0) return;
         // Непрерывный прогресс: трек едет ровно за скроллом, без
         // квантования к слайдам — к бутылке подводит мягкий магнит ниже.
-        target = Math.min(1, Math.max(0, -rect.top / runway));
+        const p = Math.min(1, Math.max(0, -rect.top / runway));
+        if (p !== target) lastDir = p > target ? 1 : -1;
+        target = p;
       }
     };
 
     const render = (p: number) => {
       if (skip.matches) {
         track.style.transform = "";
-        for (const el of slidesEls) {
-          el.style.opacity = "";
-          el.style.transform = "";
+        for (let i = 0; i < slidesEls.length; i++) {
+          slidesEls[i].style.opacity = "";
+          slidesEls[i].style.transform = "";
+          const m = metaEls[i];
+          if (m) m.style.opacity = "";
         }
         // Лента приклеена к нативному скроллу трека
         if (bgEl) {
@@ -112,6 +123,10 @@ export function useHorizontalScroll(
         const d = Math.min(1, Math.abs(p * steps - i));
         slidesEls[i].style.opacity = (1 - d * 0.55).toFixed(3);
         slidesEls[i].style.transform = `scale(${(1 - d * 0.04).toFixed(4)})`;
+        // Подпись гаснет раньше бутылки: у кромок экрана остаются
+        // силуэты соседей, а не обрезанные полуслова названий
+        const m = metaEls[i];
+        if (m) m.style.opacity = Math.max(0, 1 - d * 1.4).toFixed(3);
       }
       // Лента едет тем же сдвигом — стопы остаются под центрами слайдов
       if (bgEl) {
@@ -119,13 +134,17 @@ export function useHorizontalScroll(
       }
     };
 
+    let settling = false; // магнит ведёт страницу — трек следует без лага
+
     const tick = () => {
       raf = 0;
       // На нативном свайпе и при reduced-motion — без инерции, один в один
       if (skip.matches || current < 0) {
         current = target;
       } else {
-        current += (target - current) * EASE;
+        // Во время доводки сведение быстрое: путь уже сглажен ease-out
+        // магнита, второй слой инерции давал «переехал-вернулся» и дрейф
+        current += (target - current) * (settling ? 0.3 : EASE);
         if (Math.abs(target - current) < 0.0004) current = target;
       }
       render(current);
@@ -140,6 +159,7 @@ export function useHorizontalScroll(
     const cancelSettle = () => {
       if (settleRaf) cancelAnimationFrame(settleRaf);
       settleRaf = 0;
+      settling = false;
     };
     const settleToNearest = () => {
       if (skip.matches) return;
@@ -149,7 +169,17 @@ export function useHorizontalScroll(
       const p = -rect.top / runway;
       // Доводим только внутри пина: на кромках секция уже уезжает
       if (p <= 0.001 || p >= 0.999) return;
-      const nearest = Math.round(p * steps) / steps;
+      // Магнит не спорит с направлением: заметный прогресс вперёд
+      // (>12% шага — один тик колеса) доводит к следующему вину,
+      // назад — зеркально. Откат против движения пользователя запрещён.
+      const pos = p * steps;
+      const frac = pos - Math.floor(pos);
+      let idx: number;
+      if (lastDir > 0) idx = frac > 0.12 ? Math.ceil(pos) : Math.floor(pos);
+      else if (lastDir < 0)
+        idx = frac < 0.88 ? Math.floor(pos) : Math.ceil(pos);
+      else idx = Math.round(pos);
+      const nearest = Math.min(steps, Math.max(0, idx)) / steps;
       const deltaY = (nearest - p) * runway;
       if (Math.abs(deltaY) < 1) return;
       const startY = window.scrollY;
@@ -164,9 +194,15 @@ export function useHorizontalScroll(
           top: startY + deltaY * ease(k),
           behavior: "instant",
         });
-        settleRaf = k < 1 ? requestAnimationFrame(step) : 0;
+        if (k < 1) {
+          settleRaf = requestAnimationFrame(step);
+        } else {
+          settleRaf = 0;
+          settling = false;
+        }
       };
       cancelSettle();
+      settling = true;
       settleRaf = requestAnimationFrame(step);
     };
 
