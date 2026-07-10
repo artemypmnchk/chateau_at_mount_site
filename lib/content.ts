@@ -186,6 +186,10 @@ export const wines: Wine[] = [
           en: "Silver · Mundus Vini 2025 · 2023 vintage",
           ro: "Argint · Mundus Vini 2025 · recolta 2023",
         },
+        // Официальный буклет результатов Spring Tasting 2025, стр. 68:
+        // «2023 Chateau at MOUNT Viorica — Silber» (подано через Divus Winery)
+        proofUrl:
+          "https://www.meininger.de/en/verkostungen/mundus-vini/ergebnisheft",
       },
     ],
     desc: {
