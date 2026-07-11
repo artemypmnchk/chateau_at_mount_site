@@ -76,7 +76,9 @@ a {
   width: 100%;
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 0 24px;
+  /* edge-to-edge (viewport-fit=cover): в ландшафте контент не лезет под чёлку */
+  padding: 0 max(24px, env(safe-area-inset-right)) 0
+    max(24px, env(safe-area-inset-left));
 }
 
 .eyebrow {
@@ -158,6 +160,8 @@ a {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 100;
+  /* edge-to-edge: шапка не прячется под статусбар/чёлку */
+  padding-top: env(safe-area-inset-top);
   transition:
     background 0.3s ease,
     box-shadow 0.3s ease,
@@ -438,8 +442,8 @@ a {
   height: 80px;
   z-index: -1;
   pointer-events: none;
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 72%);
   mask-image: linear-gradient(to bottom, transparent 0%, #000 72%);
 }
@@ -459,6 +463,29 @@ a {
       rgba(15, 11, 7, 0.34) 74%,
       rgba(15, 11, 7, 0.66) 100%
     );
+}
+/* Портрет: хиро ровно во весь экран — низ кадра виден в покое, а не только
+   на шве при скролле. Лаванда внизу и так тёмная; вместе со скримом 0.66
+   низ превращался в глухую сливовую плиту. Скрим к кромке легче (0.44)
+   и стартует позже — фактура фото живёт до самого низа */
+@media (max-aspect-ratio: 6/5) {
+  .hero-melt::after {
+    background:
+      linear-gradient(
+        to top,
+        #1e1518 0px,
+        #1e1518 6px,
+        rgba(30, 21, 24, 0.6) 20px,
+        rgba(30, 21, 24, 0) 48px
+      ),
+      linear-gradient(
+        180deg,
+        rgba(15, 11, 7, 0.4) 0%,
+        rgba(15, 11, 7, 0.06) 46%,
+        rgba(15, 11, 7, 0.22) 80%,
+        rgba(15, 11, 7, 0.44) 100%
+      );
+  }
 }
 .hero-content {
   text-align: left;
@@ -535,6 +562,16 @@ a {
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Портрет: CTA ближе к кромке — меньше пустой тёмной зоны под ними;
+   env() добирает высоту жестовой панели при edge-to-edge */
+@media (max-aspect-ratio: 6/5) {
+  .hero-content {
+    padding-bottom: calc(
+      clamp(36px, 5.5vh, 56px) + env(safe-area-inset-bottom)
+    );
   }
 }
 
@@ -1387,7 +1424,8 @@ section {
 .footer {
   background: var(--dark);
   color: #f3ede2;
-  padding: 76px 0 46px;
+  /* edge-to-edge: низ футера не упирается в жестовую панель */
+  padding: 76px 0 calc(46px + env(safe-area-inset-bottom));
   border-top: 1px solid var(--line-light);
 }
 .footer-top {
