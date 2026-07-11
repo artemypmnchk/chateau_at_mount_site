@@ -28,8 +28,13 @@ export interface Wine {
     proofUrl?: string;
   }[];
   desc: Record<Locale, string>;
+  /** 2–3 слова-ноты для карточки ленты (выводятся курсивом): «вишня ·
+   *  ежевика · дуб». Короткий сканируемый слой, не дубль desc. */
+  notes: Record<Locale, string[]>;
   /** Тип вина для плашки и характеристик: «Сухое красное» и т.п. */
   type: Record<Locale, string>;
+  /** Год урожая. Пустая строка — год не подтверждён винодельней и на
+   *  витрине не показывается (карточка ленты и факты страницы вина). */
   vintage: string;
   alcohol: Record<Locale, string>;
   servingTemp: string;
@@ -65,12 +70,17 @@ export const wines: Wine[] = [
       },
     ],
     desc: {
-      ru: "Сухое красное вино. Богатый аромат спелой вишни и ежевики, дополненный нотами дуба",
-      en: "Dry red wine. A rich aroma of ripe cherry and blackberry, rounded out with oak notes",
-      ro: "Vin roșu sec. Aromă bogată de cireșe coapte și mure, completată de note de stejar",
+      ru: "Богатый аромат спелой вишни и ежевики, дополненный нотами дуба",
+      en: "A rich aroma of ripe cherry and blackberry, rounded out with oak notes",
+      ro: "Aromă bogată de cireșe coapte și mure, completată de note de stejar",
+    },
+    notes: {
+      ru: ["вишня", "ежевика", "дуб"],
+      en: ["cherry", "blackberry", "oak"],
+      ro: ["cireșe", "mure", "stejar"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    vintage: "2023",
+    vintage: "2020",
     alcohol: { ru: "13,5 % об.", en: "13.5% ABV", ro: "13,5% vol." },
     servingTemp: "16–18 °C",
     pairings: {
@@ -113,12 +123,17 @@ export const wines: Wine[] = [
     band: "#ac4c6b", // роза этикетки, углублённая до контраста с кремовым
 
     desc: {
-      ru: "Сухое розовое вино. Аромат клубники с нотками малины, черники и сбалансированной кислотностью",
-      en: "Dry rosé wine. A strawberry aroma with hints of raspberry, blueberry and balanced acidity",
-      ro: "Vin rozé sec. Aromă de căpșuni cu nuanțe de zmeură, afine și aciditate echilibrată",
+      ru: "Аромат клубники с нотками малины, черники и сбалансированной кислотностью",
+      en: "A strawberry aroma with hints of raspberry, blueberry and balanced acidity",
+      ro: "Aromă de căpșuni cu nuanțe de zmeură, afine și aciditate echilibrată",
+    },
+    notes: {
+      ru: ["клубника", "малина", "черника"],
+      en: ["strawberry", "raspberry", "blueberry"],
+      ro: ["căpșuni", "zmeură", "afine"],
     },
     type: { ru: "Сухое розовое", en: "Dry rosé", ro: "Rozé sec" },
-    vintage: "2023",
+    vintage: "",
     alcohol: { ru: "12,5 % об.", en: "12.5% ABV", ro: "12,5% vol." },
     servingTemp: "8–10 °C",
     pairings: {
@@ -199,9 +214,14 @@ export const wines: Wine[] = [
       },
     ],
     desc: {
-      ru: "Сухое белое вино. Аромат полевых цветов, базилика, пряные ноты груши и цитрусовых",
-      en: "Dry white wine. An aroma of wildflowers and basil with spicy pear and citrus notes",
-      ro: "Vin alb sec. Aromă de flori de câmp și busuioc, cu note picante de pară și citrice",
+      ru: "Аромат полевых цветов, базилика, пряные ноты груши и цитрусовых",
+      en: "An aroma of wildflowers and basil with spicy pear and citrus notes",
+      ro: "Aromă de flori de câmp și busuioc, cu note picante de pară și citrice",
+    },
+    notes: {
+      ru: ["полевые цветы", "базилик", "цитрус"],
+      en: ["wildflowers", "basil", "citrus"],
+      ro: ["flori de câmp", "busuioc", "citrice"],
     },
     type: { ru: "Сухое белое", en: "Dry white", ro: "Alb sec" },
     vintage: "2023",
@@ -247,12 +267,17 @@ export const wines: Wine[] = [
     band: "#90191c", // винно-красный заката
 
     desc: {
-      ru: "Сухое красное вино. Вино гранатового цвета с ароматом лесных ягод, нотами малины и инжира",
-      en: "Dry red wine. A garnet-coloured wine with wild-berry aromas and notes of raspberry and fig",
-      ro: "Vin roșu sec. Vin de culoarea granatului, cu aromă de fructe de pădure, note de zmeură și smochine",
+      ru: "Вино гранатового цвета с ароматом лесных ягод, нотами малины и инжира",
+      en: "A garnet-coloured wine with wild-berry aromas and notes of raspberry and fig",
+      ro: "Vin de culoarea granatului, cu aromă de fructe de pădure, note de zmeură și smochine",
+    },
+    notes: {
+      ru: ["лесные ягоды", "малина", "инжир"],
+      en: ["wild berries", "raspberry", "fig"],
+      ro: ["fructe de pădure", "zmeură", "smochine"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    vintage: "2023",
+    vintage: "",
     alcohol: { ru: "13,5 % об.", en: "13.5% ABV", ro: "13,5% vol." },
     servingTemp: "16–18 °C",
     pairings: {
@@ -307,12 +332,17 @@ export const wines: Wine[] = [
       },
     ],
     desc: {
-      ru: "Сухое красное вино. Аромат черной вишни, спелых слив, тонко дополненный нотами специй",
-      en: "Dry red wine. An aroma of black cherry and ripe plum, delicately finished with spice notes",
-      ro: "Vin roșu sec. Aromă de vișine negre și prune coapte, completată delicat de note de condimente",
+      ru: "Аромат черной вишни, спелых слив, тонко дополненный нотами специй",
+      en: "An aroma of black cherry and ripe plum, delicately finished with spice notes",
+      ro: "Aromă de vișine negre și prune coapte, completată delicat de note de condimente",
+    },
+    notes: {
+      ru: ["чёрная вишня", "слива", "специи"],
+      en: ["black cherry", "plum", "spice"],
+      ro: ["vișine negre", "prune", "condimente"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    vintage: "2023",
+    vintage: "2020",
     alcohol: { ru: "14 % об.", en: "14% ABV", ro: "14% vol." },
     servingTemp: "16–18 °C",
     pairings: {
@@ -355,12 +385,17 @@ export const wines: Wine[] = [
     band: "#bc4052", // малиновый коралл, углублён до контраста с кремовым
 
     desc: {
-      ru: "Сухое белое вино. Тонкий аромат полевых цветов с нотами зеленого яблока и цитрусовых",
-      en: "Dry white wine. A delicate aroma of wildflowers with green-apple and citrus notes",
-      ro: "Vin alb sec. Aromă fină de flori de câmp cu note de măr verde și citrice",
+      ru: "Тонкий аромат полевых цветов с нотами зеленого яблока и цитрусовых",
+      en: "A delicate aroma of wildflowers with green-apple and citrus notes",
+      ro: "Aromă fină de flori de câmp cu note de măr verde și citrice",
+    },
+    notes: {
+      ru: ["полевые цветы", "зелёное яблоко", "цитрус"],
+      en: ["wildflowers", "green apple", "citrus"],
+      ro: ["flori de câmp", "măr verde", "citrice"],
     },
     type: { ru: "Сухое белое", en: "Dry white", ro: "Alb sec" },
-    vintage: "2023",
+    vintage: "",
     alcohol: { ru: "12 % об.", en: "12% ABV", ro: "12% vol." },
     servingTemp: "8–10 °C",
     pairings: {
@@ -414,12 +449,17 @@ export const wines: Wine[] = [
       },
     ],
     desc: {
-      ru: "Сухое красное вино. Интенсивный аромат черной вишни, спелой сливы с нотками граната. Сбалансированный фруктовый вкус",
-      en: "Dry red wine. An intense aroma of black cherry and ripe plum with hints of pomegranate. A balanced fruity taste",
-      ro: "Vin roșu sec. Aromă intensă de vișine negre și prune coapte cu nuanțe de rodie. Gust fructat echilibrat",
+      ru: "Интенсивный аромат черной вишни, спелой сливы с нотками граната. Сбалансированный фруктовый вкус",
+      en: "An intense aroma of black cherry and ripe plum with hints of pomegranate. A balanced fruity taste",
+      ro: "Aromă intensă de vișine negre și prune coapte cu nuanțe de rodie. Gust fructat echilibrat",
+    },
+    notes: {
+      ru: ["чёрная вишня", "слива", "гранат"],
+      en: ["black cherry", "plum", "pomegranate"],
+      ro: ["vișine negre", "prune", "rodie"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    vintage: "2023",
+    vintage: "2021",
     alcohol: { ru: "14 % об.", en: "14% ABV", ro: "14% vol." },
     servingTemp: "16–18 °C",
     pairings: {
@@ -657,6 +697,11 @@ export const t = {
       ru: "Семь сортов, выращенных на 15 гектарах собственных виноградников в Гагаузии: от древней фетяски нягрэ до редкой ароматной виорики. Все вина — сухие, с выразительной кислотностью и свежими фруктовыми нотами.",
       en: "Seven varieties grown on 15 hectares of our own vineyards in Gagauzia — from the ancient Fetească Neagră to the rare aromatic Viorica. All our wines are dry, with expressive acidity and fresh fruity notes.",
       ro: "Șapte soiuri cultivate pe 15 hectare de podgorii proprii în Găgăuzia — de la străvechiul Fetească Neagră până la rarul și aromatul Viorica. Toate vinurile sunt seci, cu aciditate expresivă și note proaspete de fructe.",
+    },
+    wholesaleCta: {
+      ru: "Запросить оптовый прайс",
+      en: "Request wholesale prices",
+      ro: "Solicitați prețuri angro",
     },
   },
   winePage: {
