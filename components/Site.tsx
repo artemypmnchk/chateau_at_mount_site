@@ -52,7 +52,9 @@ export default function Site() {
   return (
     <main id="top">
       {/* ---------- Hero ---------- */}
-      <section className="hero" data-header-theme="dark">
+      {/* hero-melt: низ кадра растворяется в цвет манифеста — единое
+          тёмное полотно хиро → манифест → лента вин, без швов */}
+      <section className="hero hero-melt" data-header-theme="dark">
         <div className="hero-bg">
           {/* Арт-дирекшн по соотношению сторон: в портретные и почти
               квадратные окна (телефон, планшет, пол-экрана на десктопе)

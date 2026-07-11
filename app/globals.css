@@ -422,6 +422,20 @@ a {
     rgba(15, 11, 7, 0.66) 100%
   );
 }
+/* Главная: нижняя кромка кадра не обрывается в манифест, а растворяется
+   в его цвет (--dark) — хиро → манифест → лента вин читаются одним тёмным
+   полотном. На /visit под хиро светлая секция, там этот мост не нужен */
+.hero-melt::after {
+  background: linear-gradient(
+    180deg,
+    rgba(15, 11, 7, 0.4) 0%,
+    rgba(15, 11, 7, 0.06) 42%,
+    rgba(15, 11, 7, 0.3) 68%,
+    rgba(30, 21, 24, 0.62) 84%,
+    rgba(30, 21, 24, 0.92) 94%,
+    #1e1518 100%
+  );
+}
 .hero-content {
   text-align: left;
   padding-top: 140px;
@@ -547,6 +561,18 @@ section {
 .manifesto .container {
   position: relative;
   z-index: 1;
+}
+/* Нижний мост: сливовый манифест (--dark #1e1518) плавно доезжает до
+   цвета сцены вин (#171114) — граница секций исчезает. Рисуется поверх
+   glow (::after позже в порядке отрисовки), но под текстом (container z1) */
+.manifesto::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: clamp(140px, 24vh, 260px);
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(23, 17, 20, 0) 0%, #171114 100%);
 }
 @keyframes manifestoGlow {
   0%,
