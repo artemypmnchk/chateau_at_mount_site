@@ -7,7 +7,9 @@ import { useLocale } from "./locale";
 export default function Footer() {
   const { L } = useLocale();
   return (
-    <footer className="footer">
+    // data-header-theme: над тёмным футером шапка-хамелеон растворяется,
+    // а не лежит кремовой плашкой поверх тёмного (аудит 2026-07-11, F-13)
+    <footer className="footer" data-header-theme="dark">
       <div className="container">
         <div className="footer-top">
           <div className="footer-brand">

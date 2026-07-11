@@ -229,7 +229,7 @@ export default function Site() {
       </section>
 
       {/* ---------- Control (process) ---------- */}
-      <section className="section-dark">
+      <section className="section-dark" data-header-theme="dark">
         <div className="container">
           <div className="split">
             <div className="split-media">
