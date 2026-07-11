@@ -17,7 +17,7 @@ import { useEffect, type RefObject } from "react";
  * На тач-устройствах и при prefers-reduced-motion трек не трогаем — там
  * работает нативный горизонтальный скролл со snap (см. CSS): свайп вбок
  * листает вино, вертикальный скролл никто не отбирает. Хук в этом режиме
- * только ведёт ленту-градиент за scrollLeft.
+ * ведёт за scrollLeft ленту-градиент и кроссфейд соседних слайдов.
  */
 export function useHorizontalScroll(
   wrapRef: RefObject<HTMLElement | null>,
@@ -138,36 +138,36 @@ export function useHorizontalScroll(
     };
 
     const render = (p: number) => {
-      if (isNative()) {
+      const native = isNative();
+      if (native) {
+        // Трек скроллится сам; лента приклеена к его scrollLeft
         track.style.transform = "";
-        for (let i = 0; i < slidesEls.length; i++) {
-          slidesEls[i].style.opacity = "";
-          slidesEls[i].style.transform = "";
-          const m = metaEls[i];
-          if (m) m.style.opacity = "";
-        }
-        // Лента приклеена к нативному скроллу трека
         if (bgEl) {
           bgEl.style.transform = `translate3d(${-track.scrollLeft}px, 0, 0)`;
         }
-        return;
+      } else {
+        const tx = -(base + p * span);
+        track.style.transform = `translate3d(${tx.toFixed(2)}px, 0, 0)`;
+        // Лента едет тем же сдвигом — стопы остаются под центрами слайдов
+        if (bgEl) {
+          bgEl.style.transform = `translate3d(${tx.toFixed(2)}px, 0, 0)`;
+        }
       }
-      const tx = -(base + p * span);
-      track.style.transform = `translate3d(${tx.toFixed(2)}px, 0, 0)`;
-      // Кроссфейд: чем дальше слайд от центра сцены, тем он тише
-      // и чуть мельче — переход читается как перетекание, не листание.
+      // Кроссфейд в обоих режимах: чем дальше слайд от центра сцены, тем
+      // он тише и чуть мельче — переход читается как перетекание.
+      // В нативном режиме соседи гаснут мягче (peek-стекло у кромок должно
+      // читаться), а подписи — резче: шаг слайдов узкий (52vw), и на
+      // середине свайпа широкие подписи (92vw) иначе накладывались бы.
+      const dim = native ? 0.35 : 0.55;
+      const metaFade = native ? 2 : 1.4;
       for (let i = 0; i < slidesEls.length; i++) {
         const d = Math.min(1, Math.abs(p * steps - i));
-        slidesEls[i].style.opacity = (1 - d * 0.55).toFixed(3);
+        slidesEls[i].style.opacity = (1 - d * dim).toFixed(3);
         slidesEls[i].style.transform = `scale(${(1 - d * 0.04).toFixed(4)})`;
         // Подпись гаснет раньше бутылки: у кромок экрана остаются
         // силуэты соседей, а не обрезанные полуслова названий
         const m = metaEls[i];
-        if (m) m.style.opacity = Math.max(0, 1 - d * 1.4).toFixed(3);
-      }
-      // Лента едет тем же сдвигом — стопы остаются под центрами слайдов
-      if (bgEl) {
-        bgEl.style.transform = `translate3d(${tx.toFixed(2)}px, 0, 0)`;
+        if (m) m.style.opacity = Math.max(0, 1 - d * metaFade).toFixed(3);
       }
     };
 
