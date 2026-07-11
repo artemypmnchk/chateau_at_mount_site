@@ -182,8 +182,7 @@ export const wines: Wine[] = [
         },
         competition: "Asia Wine Trophy",
         art: "/images/medals/asia-wine-trophy-gold.png",
-        proofUrl:
-          "https://results.wine-trophy.com/en/wine/awt-25/viorica_2023",
+        proofUrl: "https://results.wine-trophy.com/en/wine/awt-25/viorica_2023",
       },
       {
         level: "silver",
@@ -1107,34 +1106,54 @@ export const t = {
       en: "Fill in the form and we'll get back to you.",
       ro: "Completați formularul și vă contactăm noi.",
     },
+    // Форма — два обязательных поля (кто и куда ответить) и один
+    // необязательный вопрос. Телефон и телеграм не разводим по разным
+    // полям: человеку достаточно оставить один удобный ему контакт.
     fields: {
       name: { ru: "Имя", en: "Name", ro: "Nume" },
       topic: {
-        ru: "Интересующий вас вопрос",
-        en: "What are you interested in",
-        ro: "Întrebarea care vă interesează",
+        ru: "Вопрос",
+        en: "Question",
+        ro: "Întrebare",
+      },
+      topicHint: {
+        ru: "Прайс, дегустация, доставка…",
+        en: "Price list, tasting, delivery…",
+        ro: "Listă de prețuri, degustare, livrare…",
       },
       contact: {
-        ru: "Ваш Telegram или почта",
-        en: "Your Telegram or email",
-        ro: "Telegram sau e-mail",
+        ru: "Телефон или Telegram",
+        en: "Phone or Telegram",
+        ro: "Telefon sau Telegram",
       },
-      phone: {
-        ru: "Ваш номер телефона",
-        en: "Your phone number",
-        ro: "Numărul de telefon",
+      contactHint: {
+        ru: "+373 … или @username",
+        en: "+373 … or @username",
+        ro: "+373 … sau @username",
       },
+      optional: { ru: "необязательно", en: "optional", ro: "opțional" },
     },
     submit: { ru: "Отправить", en: "Send", ro: "Trimite" },
+    sending: { ru: "Отправляем…", en: "Sending…", ro: "Se trimite…" },
     orTelegram: {
       ru: "или напишите нам в Telegram",
       en: "or message us on Telegram",
       ro: "sau scrieți-ne pe Telegram",
     },
     success: {
-      ru: "Спасибо! Откроется письмо с вашей заявкой — отправьте его, и мы ответим в течение 30 минут.",
-      en: "Thank you! An email with your request will open — send it and we'll reply within 30 minutes.",
-      ro: "Mulțumim! Se va deschide un e-mail cu cererea voastră — trimiteți-l și vă răspundem în 30 de minute.",
+      ru: "Спасибо! Заявка у нас — ответим в ближайшее время.",
+      en: "Thank you! We've got your request and will reply shortly.",
+      ro: "Mulțumim! Am primit cererea și revenim în curând.",
+    },
+    error: {
+      ru: "Не получилось отправить заявку. Напишите нам в Telegram — так даже быстрее.",
+      en: "Something went wrong. Message us on Telegram instead — it's even faster.",
+      ro: "Nu s-a putut trimite cererea. Scrieți-ne pe Telegram — e chiar mai rapid.",
+    },
+    errorMail: {
+      ru: "или отправьте письмом",
+      en: "or send it by email",
+      ro: "sau trimiteți pe e-mail",
     },
     contactsTitle: {
       ru: "Наши контакты",
