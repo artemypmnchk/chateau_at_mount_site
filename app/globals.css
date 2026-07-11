@@ -433,9 +433,9 @@ a {
     linear-gradient(
       to top,
       #1e1518 0px,
-      #1e1518 16px,
-      rgba(30, 21, 24, 0.8) 56px,
-      rgba(30, 21, 24, 0) 150px
+      #1e1518 10px,
+      rgba(30, 21, 24, 0.72) 34px,
+      rgba(30, 21, 24, 0) 96px
     ),
     linear-gradient(
       180deg,

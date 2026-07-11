@@ -69,9 +69,8 @@ export default function Site() {
           </picture>
         </div>
         <div className="container hero-content">
-          {/* Кто и где — до имени: H1 дублирует словомарку шапки, и без
-              этой строки хиро не говорил, что это за сайт (аудит, F-07) */}
-          <span className="hero-eyebrow">{L(t.hero.location)}</span>
+          {/* Строки-локации над H1 нет сознательно: владелец убрал —
+              кадр должен оставаться чистым (фидбек 2026-07-11) */}
           <h1>{t.hero.brand}</h1>
           <div className="hero-actions">
             <button onClick={openBooking} className="hero-link">
