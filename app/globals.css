@@ -424,15 +424,18 @@ a {
 }
 /* Главная: нижняя кромка кадра не обрывается в манифест, а растворяется
    в его цвет (--dark) — хиро → манифест → лента вин читаются одним тёмным
-   полотном. На /visit под хиро светлая секция, там этот мост не нужен */
+   полотном. Полная непрозрачность достигается за ~7% до кромки и держится:
+   даже 3–5% просвета яркой пшеницы на плоском тёмном читались швом.
+   На /visit под хиро светлая секция, там этот мост не нужен */
 .hero-melt::after {
   background: linear-gradient(
     180deg,
     rgba(15, 11, 7, 0.4) 0%,
     rgba(15, 11, 7, 0.06) 42%,
-    rgba(15, 11, 7, 0.3) 68%,
-    rgba(30, 21, 24, 0.62) 84%,
-    rgba(30, 21, 24, 0.92) 94%,
+    rgba(15, 11, 7, 0.3) 64%,
+    rgba(30, 21, 24, 0.68) 80%,
+    rgba(30, 21, 24, 0.96) 89%,
+    #1e1518 93%,
     #1e1518 100%
   );
 }
@@ -557,6 +560,24 @@ section {
   filter: blur(40px);
   animation: manifestoGlow 22s ease-in-out infinite;
   pointer-events: none;
+  /* Маска гасит glow у кромок секции: по ту сторону швов (низ хиро,
+     сцена вин) отсвета нет, и любая его яркость на границе читалась
+     ступенькой. Маска едет вместе с transform анимации, поэтому запас
+     до кромки — с учётом её амплитуды (translate ±4%, scale 1.2) */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 20%,
+    #000 38%,
+    #000 62%,
+    transparent 80%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 20%,
+    #000 38%,
+    #000 62%,
+    transparent 80%
+  );
 }
 .manifesto .container {
   position: relative;
@@ -879,6 +900,19 @@ section {
   width: 100%;
   will-change: transform;
   pointer-events: none;
+}
+/* Верхняя кромка сцены: виньетка на краю пропускает ~13% ленты-градиента,
+   и цветной отлив стыковался швом с плоским низом манифеста (#171114).
+   Полоса доводит кромку ровно до цвета манифеста. z-index 1 — поверх
+   ленты и виньетки, но под контентом (band-head/track тоже z1, позже в DOM) */
+.band-sticky::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: clamp(100px, 16vh, 200px);
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, #171114 0%, rgba(23, 17, 20, 0) 100%);
 }
 /* Виньетка: цвет дышит только в центре, края уходят в тёмное */
 .band-sticky::after {
