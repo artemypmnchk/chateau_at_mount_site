@@ -456,7 +456,7 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 0; /* тач-таргет ≥44px */
+  padding: 13px 0; /* тач-таргет ≥44px (12px давали 42) */
   background: none;
   border: 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.45);
@@ -480,6 +480,14 @@ a {
 }
 .hero-link:hover::after {
   transform: translateX(4px);
+}
+/* Второе действие хиро — тише первого: одинаковые CTA спорили за палец */
+.hero-link-secondary {
+  color: rgba(255, 255, 255, 0.74);
+  border-bottom-color: rgba(255, 255, 255, 0.28);
+}
+.hero-link-secondary:hover {
+  color: #fff;
 }
 @keyframes heroIn {
   from {
@@ -617,6 +625,25 @@ section {
 }
 .manifesto-link:hover {
   border-color: #f6efe7;
+}
+
+/* Тот же язык тихой ссылки, но для сплитов на светлом/тёмном фоне:
+   наследует цвет секции, подчёркивание полупрозрачное */
+.split-link {
+  display: inline-flex;
+  margin-top: 26px;
+  padding: 13px 0 12px; /* тач-таргет ≥44px */
+  border-bottom: 1px solid color-mix(in srgb, currentColor 45%, transparent);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: inherit;
+  white-space: nowrap;
+  transition: border-color 0.25s ease;
+}
+.split-link:hover {
+  border-bottom-color: currentColor;
 }
 
 /* Features — two cards with images */
@@ -911,7 +938,9 @@ section {
   position: static;
   display: block;
   margin-bottom: 10px;
-  color: rgba(246, 239, 231, 0.65);
+  /* 0.78, а не 0.65: на светлых полотнах (rose #ac4c6b, coral #bc4052)
+     0.65 не дотягивал до 4.5:1 из DESIGN.md */
+  color: rgba(246, 239, 231, 0.78);
 }
 .band-meta h3 {
   font-size: clamp(28px, 3.2vw, 44px);
@@ -1346,6 +1375,10 @@ section {
   }
   .mobile-menu .lang {
     display: inline-flex;
+  }
+  /* В полноэкранном меню места достаточно — языки читаемее, чем 10.5px */
+  .mobile-menu .lang button {
+    font-size: 12px;
   }
   .burger {
     display: inline-flex;

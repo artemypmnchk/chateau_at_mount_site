@@ -58,10 +58,7 @@ export default function Site() {
               квадратные окна (телефон, планшет, пол-экрана на десктопе)
               панорама не влезает — им вертикальный кадр */}
           <picture>
-            <source
-              media="(max-aspect-ratio: 6/5)"
-              srcSet={heroMobileSrcSet}
-            />
+            <source media="(max-aspect-ratio: 6/5)" srcSet={heroMobileSrcSet} />
             <img
               {...heroDesktopProps}
               alt="Винодельня Chateau At Mount"
@@ -70,12 +67,16 @@ export default function Site() {
           </picture>
         </div>
         <div className="container hero-content">
+          {/* Кто и где — до имени: H1 дублирует словомарку шапки, и без
+              этой строки хиро не говорил, что это за сайт (аудит, F-07) */}
+          <span className="hero-eyebrow">{L(t.hero.location)}</span>
           <h1>{t.hero.brand}</h1>
           <div className="hero-actions">
             <button onClick={openBooking} className="hero-link">
               {L(t.cta.request)}
             </button>
-            <a href="/wines" className="hero-link">
+            {/* Второе действие тише: два одинаковых CTA спорили за палец */}
+            <a href="/wines" className="hero-link hero-link-secondary">
               {L(t.cta.wines)}
             </a>
           </div>
@@ -122,9 +123,7 @@ export default function Site() {
               <div>
                 <span className="eyebrow">{L(t.winesSection.eyebrow)}</span>
                 <h2>{L(t.winesSection.title)}</h2>
-                <span className="band-medals">
-                  {L(t.winesSection.medals)}
-                </span>
+                <span className="band-medals">{L(t.winesSection.medals)}</span>
               </div>
               <a href="/wines" className="band-all">
                 {L(t.winesSection.all)} →
@@ -132,7 +131,11 @@ export default function Site() {
             </div>
             <div className="band-track" ref={bandTrackRef}>
               {wines.map((w, i) => (
-                <a className="band-slide" href={`/wines/${w.slug}`} key={w.slug}>
+                <a
+                  className="band-slide"
+                  href={`/wines/${w.slug}`}
+                  key={w.slug}
+                >
                   <div className="band-bottle-v">
                     <Image
                       src={w.image}
@@ -268,6 +271,11 @@ export default function Site() {
               <span className="eyebrow">{L(t.nav.events)}</span>
               <h2>{L(t.memories.title)}</h2>
               <p>{L(t.memories.text)}</p>
+              {/* Секция рассказывала и обрывалась — до финального CTA
+                  далеко, даём путь сразу (аудит, F-08) */}
+              <a href="/visit" className="split-link">
+                {L(t.memories.cta)} →
+              </a>
             </div>
           </div>
         </div>

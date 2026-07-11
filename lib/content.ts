@@ -720,6 +720,11 @@ export const t = {
       en: "Vineyards, sunsets, comfort and wine — the perfect setting for a celebration, a photoshoot or dinner with friends.",
       ro: "Podgorii, apusuri, confort și vin — atmosfera perfectă pentru o sărbătoare, o ședință foto sau o cină cu prietenii.",
     },
+    cta: {
+      ru: "Дегустации и визиты",
+      en: "Tastings & visits",
+      ro: "Degustări și vizite",
+    },
   },
   reviews: {
     eyebrow: { ru: "Отзывы", en: "Reviews", ro: "Recenzii" },
