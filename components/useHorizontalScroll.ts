@@ -14,8 +14,10 @@ import { useEffect, type RefObject } from "react";
  * Проезд непрерывный: трек скользит ровно за скроллом с инерцией, а когда
  * скролл затихает внутри пина — мягкий магнит доводит до ближайшей бутылки.
  *
- * При prefers-reduced-motion трек не трогаем — там работает нативный
- * горизонтальный скролл со snap (см. CSS), а лента следует за scrollLeft.
+ * На тач-устройствах и при prefers-reduced-motion трек не трогаем — там
+ * работает нативный горизонтальный скролл со snap (см. CSS): свайп вбок
+ * листает вино, вертикальный скролл никто не отбирает. Хук в этом режиме
+ * только ведёт ленту-градиент за scrollLeft.
  */
 export function useHorizontalScroll(
   wrapRef: RefObject<HTMLElement | null>,
@@ -71,12 +73,15 @@ export function useHorizontalScroll(
     buildGradient();
 
     const skip = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // Тач — нативный режим, как reduced-motion: пин и инерция остаются
+    // только колесу/клавиатуре. Живые matchMedia, а не снимок: системная
+    // настройка reduced-motion может смениться по ходу сессии.
+    const coarse = window.matchMedia("(pointer: coarse)");
+    const isNative = () => skip.matches || coarse.matches;
     let raf = 0;
     // Инерция: трек и лента плавно догоняют целевой прогресс (lerp),
-    // а не дёргаются за каждым тиком скролла. На тач-устройствах
-    // сведение быстрее — флик и так сглажен нативной инерцией,
-    // длинный шлейф читается как тормоза.
-    const EASE = window.matchMedia("(pointer: coarse)").matches ? 0.16 : 0.09;
+    // а не дёргаются за каждым тиком скролла (актуально только пину).
+    const EASE = 0.09;
     let current = -1; // прогресс, отрисованный на экране
     let target = 0;
 
@@ -111,7 +116,7 @@ export function useHorizontalScroll(
     };
 
     const readTarget = () => {
-      if (skip.matches) {
+      if (isNative()) {
         const max = track.scrollWidth - track.clientWidth;
         target = max > 0 ? track.scrollLeft / max : 0;
       } else {
@@ -133,7 +138,7 @@ export function useHorizontalScroll(
     };
 
     const render = (p: number) => {
-      if (skip.matches) {
+      if (isNative()) {
         track.style.transform = "";
         for (let i = 0; i < slidesEls.length; i++) {
           slidesEls[i].style.opacity = "";
@@ -170,8 +175,8 @@ export function useHorizontalScroll(
 
     const tick = () => {
       raf = 0;
-      // На нативном свайпе и при reduced-motion — без инерции, один в один
-      if (skip.matches || current < 0) {
+      // В нативном режиме — без инерции, лента один в один за скроллом
+      if (isNative() || current < 0) {
         current = target;
       } else {
         // Во время доводки сведение быстрое: путь уже сглажен ease-out
@@ -194,7 +199,7 @@ export function useHorizontalScroll(
       settling = false;
     };
     const settleToNearest = () => {
-      if (skip.matches) return;
+      if (isNative()) return;
       const rect = wrap.getBoundingClientRect();
       const runway = rect.height - window.innerHeight;
       if (runway <= 0) return;
