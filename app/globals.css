@@ -289,6 +289,36 @@ a {
   background: transparent;
   border: 0;
   cursor: pointer;
+  /* Три линии-спана; поверх открытого меню (z-index 99) кнопка должна
+     остаться кликабельной — поднимаем над оверлеем */
+  position: relative;
+  z-index: 100;
+  flex-direction: column;
+  gap: 4px;
+}
+.burger span {
+  display: block;
+  width: 22px;
+  height: 2.2px;
+  border-radius: 1px;
+  background: currentColor;
+  transition:
+    transform 0.3s ease,
+    opacity 0.25s ease;
+}
+/* Открытое меню: линии складываются в крест — иконка показывает,
+   что тап закроет оверлей (аудит 2026-07-11, F-06) */
+.burger.open span:nth-child(1) {
+  transform: translateY(6.2px) rotate(45deg);
+}
+.burger.open span:nth-child(2) {
+  opacity: 0;
+}
+.burger.open span:nth-child(3) {
+  transform: translateY(-6.2px) rotate(-45deg);
+}
+.burger.open {
+  color: #fff;
 }
 
 /* mobile menu */
@@ -317,6 +347,26 @@ a {
   font-family: var(--serif);
   font-size: 30px;
   font-weight: 500;
+}
+/* Заявка в меню — тихая текстовая строка, отделённая от навигации:
+   не шестой пункт и не залитая кнопка (на тёмном заливка запрещена) */
+.menu-cta {
+  margin-top: 22px;
+  padding: 13px 2px 12px; /* тач-таргет ≥44px */
+  background: none;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  transition: border-color 0.25s ease;
+}
+.menu-cta:hover {
+  border-color: #fff;
 }
 
 /* ---------- Hero ---------- */

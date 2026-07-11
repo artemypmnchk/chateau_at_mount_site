@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { t, locales } from "@/lib/content";
 import { useLocale } from "./locale";
+import { useBookingModal } from "./BookingModal";
 
 const navItems = [
   { href: "/#about", label: t.nav.about },
@@ -32,6 +33,7 @@ function LangToggle({ style }: { style?: React.CSSProperties }) {
 
 export default function Header() {
   const { L } = useLocale();
+  const { openBooking } = useBookingModal();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -46,7 +48,7 @@ export default function Header() {
     // Линия, по которой «читаем» полотно — примерно на уровне навигации
     const HEADER_LINE = 38;
     const sections = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-header-theme]"),
+      document.querySelectorAll<HTMLElement>("[data-header-theme]")
     );
 
     const update = () => {
@@ -95,19 +97,17 @@ export default function Header() {
               ))}
             </div>
             <LangToggle />
+            {/* Бургер из трёх линий-спанов: в открытом меню CSS складывает
+                их в крест — иконка честно показывает, что тап закроет меню */}
             <button
-              className="burger"
-              aria-label="Menu"
+              className={`burger${menuOpen ? " open" : ""}`}
+              aria-label={menuOpen ? "Закрыть меню" : "Меню"}
+              aria-expanded={menuOpen}
               onClick={() => setMenuOpen((v) => !v)}
             >
-              <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-                <path
-                  d="M3 7h20M3 13h20M3 19h20"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                />
-              </svg>
+              <span />
+              <span />
+              <span />
             </button>
           </nav>
         </div>
@@ -119,7 +119,18 @@ export default function Header() {
             {L(n.label)}
           </a>
         ))}
-        <LangToggle style={{ marginTop: 12 }} />
+        {/* Заявка — тихой текстовой строкой, не пунктом навигации:
+            конверсионное действие доступно из меню, но не кричит */}
+        <button
+          className="menu-cta"
+          onClick={() => {
+            setMenuOpen(false);
+            openBooking();
+          }}
+        >
+          {L(t.cta.request)} →
+        </button>
+        <LangToggle style={{ marginTop: 4 }} />
       </div>
     </>
   );
