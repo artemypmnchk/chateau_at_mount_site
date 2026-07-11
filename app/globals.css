@@ -522,7 +522,9 @@ section {
 }
 .m-char {
   opacity: var(--dim);
-  transition: opacity 0.45s ease, color 0.45s ease;
+  transition:
+    opacity 0.45s ease,
+    color 0.45s ease;
 }
 .m-char.lit {
   opacity: 1;
@@ -742,15 +744,17 @@ section {
   color: rgba(246, 239, 231, 0.72);
 }
 .band-pinwrap {
-  /* Пробег на слайд длиннее — горизонтальная скорость ниже, проезд мягче */
-  height: calc(100dvh + (var(--slides, 7) - 1) * 96dvh);
+  /* Пробег на слайд длиннее — горизонтальная скорость ниже, проезд мягче.
+     svh, а не dvh: на мобиле адресная строка прячется прямо во время
+     проезда, dvh-пробег растягивался на лету — прогресс (и трек) прыгал */
+  height: calc(100svh + (var(--slides, 7) - 1) * 96svh);
 }
 /* Тач: пробег на слайд ещё длиннее — драг пальцем весомее, а откат
    инерции меньше относительно пробега (в паре с жест-лимитом
    «одна бутылка за свайп» в useHorizontalScroll) */
 @media (pointer: coarse) {
   .band-pinwrap {
-    height: calc(100dvh + (var(--slides, 7) - 1) * 120dvh);
+    height: calc(100svh + (var(--slides, 7) - 1) * 120svh);
   }
 }
 .band-sticky {
@@ -796,8 +800,9 @@ section {
   z-index: 1;
 }
 .band-head {
-  /* Под фиксированной шапкой (68px) + воздух */
-  padding-top: clamp(92px, 14dvh, 128px);
+  /* Под фиксированной шапкой (68px) + воздух. svh — чтобы шапка сцены
+     не «дышала» при скрытии адресной строки на мобиле */
+  padding-top: clamp(92px, 14svh, 128px);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -838,8 +843,8 @@ section {
   min-height: 0;
   will-change: transform;
   /* Воздух сверху от заголовка и снизу от кромки панели */
-  padding-top: clamp(16px, 3dvh, 32px);
-  padding-bottom: clamp(36px, 7dvh, 72px);
+  padding-top: clamp(16px, 3svh, 32px);
+  padding-bottom: clamp(36px, 7svh, 72px);
 }
 /* Слайд на весь вьюпорт: контент прижат к низу, бутылка при нехватке
    высоты ужимается — не наезжает на заголовок блока */
@@ -888,6 +893,10 @@ section {
   overflow: hidden;
   margin: 11px auto 0;
   white-space: nowrap;
+  /* Длинный список конкурсов (3+) на узком экране не влезает в строку —
+     честное многоточие вместо обрезанного полуслова у кромки */
+  max-width: 100%;
+  text-overflow: ellipsis;
   font-family: var(--serif);
   font-style: italic;
   font-size: clamp(12.5px, 1vw, 15px);
@@ -906,11 +915,15 @@ section {
 }
 .band-bottle-v {
   position: relative;
-  height: min(56dvh, 620px);
+  /* svh: dvh-высота пересчитывалась при скрытии адресной строки —
+     бутылка меняла размер прямо во время скролла */
+  height: min(56svh, 620px);
   width: clamp(220px, 30vw, 400px);
-  /* При нехватке высоты бутылка ужимается первой */
+  /* При нехватке высоты бутылка ужимается первой — без нижнего предела:
+     жёсткий min-height на низких экранах выталкивал её вверх, поверх
+     заголовка и «Смотреть все вина» */
   flex-shrink: 1;
-  min-height: 200px;
+  min-height: 0;
 }
 .band-meta {
   flex: 0 0 auto;
@@ -942,11 +955,45 @@ section {
   /* Палец дороже колеса: пробег на слайд короче, секция ~3.6 экрана
      вместо 5.8 — проезд бодрее без потери плавности */
   .band-pinwrap {
-    height: calc(100dvh + (var(--slides, 7) - 1) * 60dvh);
+    height: calc(100svh + (var(--slides, 7) - 1) * 60svh);
   }
   .band-bottle-v {
-    height: min(50dvh, 480px);
+    /* Высота не из flex-остатка, а из стабильного svh: панель (100dvh)
+       растёт и сжимается вместе с адресной строкой браузера, и бутылка,
+       занимая остаток, «скакала» размером при каждой смене направления
+       скролла. ~500px — шапка сцены + подпись + отступы на узком экране;
+       переполнение при нестандартных шрифтах страхует flex-shrink выше. */
+    height: clamp(120px, calc(100svh - 500px), 480px);
     width: 62vw;
+  }
+  /* Узкий экран — каждый вертикальный пиксель дорог: меньше воздуха
+     под треком и между бутылкой и подписью, бутылке остаётся больше */
+  .band-track {
+    padding-bottom: clamp(24px, 5svh, 48px);
+  }
+  .band-slide {
+    gap: 14px;
+  }
+}
+
+/* Совсем низкие экраны (SE-класс, 5xx px): шапка сцены съедала больше
+   половины высоты, бутылке оставался огрызок. Ужимаем воздух и прячем
+   строку-пруф — медали остаются в золотых кредитах под каждым вином */
+@media (max-width: 900px) and (max-height: 600px) {
+  .band-head {
+    padding-top: 78px;
+  }
+  .band-head h2 {
+    font-size: 27px;
+  }
+  .band-medals {
+    display: none;
+  }
+  .band-meta h3 {
+    font-size: 24px;
+  }
+  .band-bottle-v {
+    height: clamp(120px, calc(100svh - 390px), 480px);
   }
 }
 
@@ -1912,7 +1959,9 @@ a.info-row:hover .info-value {
   text-transform: none;
   color: rgba(243, 237, 226, 0.62);
   border-bottom: 1px solid rgba(243, 237, 226, 0.3);
-  transition: color 0.2s ease, border-color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 .award-proof:hover {
   color: #f3ede2;
