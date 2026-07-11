@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Piazzolla } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
@@ -25,6 +25,15 @@ const piazzolla = Piazzolla({
   display: "swap",
   variable: "--font-serif",
 });
+
+// viewport-fit=cover: без него Chrome на Android 15+ рисует под жестовой
+// панелью непрозрачную плашку цвета фона страницы — кремовый обрубок под
+// тёмным хиро. С cover контент уходит под панель (edge-to-edge), а отступы
+// добираем через env(safe-area-inset-*) в globals.css
+export const viewport: Viewport = {
+  themeColor: "#1e1518",
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
