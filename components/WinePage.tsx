@@ -4,6 +4,7 @@ import Image from "next/image";
 import { t, wines, type Wine } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
+import { useReveal } from "./useReveal";
 function Check() {
   return (
     <svg
@@ -28,6 +29,7 @@ function Check() {
 export default function WinePage({ wine }: { wine: Wine }) {
   const { L, locale } = useLocale();
   const { openBooking } = useBookingModal();
+  useReveal();
   const w = t.winePage;
   const others = wines.filter((x) => x.slug !== wine.slug);
 
@@ -64,10 +66,12 @@ export default function WinePage({ wine }: { wine: Wine }) {
             <h1>{wine.name}</h1>
             <p className="lead">{L(wine.desc)}</p>
             <dl className="wine-facts">
-              <div>
-                <dt>{L(w.facts.vintage)}</dt>
-                <dd>{wine.vintage}</dd>
-              </div>
+              {wine.vintage && (
+                <div>
+                  <dt>{L(w.facts.vintage)}</dt>
+                  <dd>{wine.vintage}</dd>
+                </div>
+              )}
               <div>
                 <dt>{L(w.facts.alcohol)}</dt>
                 <dd>{L(wine.alcohol)}</dd>
@@ -154,24 +158,58 @@ export default function WinePage({ wine }: { wine: Wine }) {
       <section className="section-dark">
         <div className="container">
           <h2 className="visit-h2">{L(w.otherTitle)}</h2>
-          <div className="slider">
+          <div className="wines-list wines-list--roomy">
             {others.map((o, i) => (
-              <a className="wine-card" href={`/wines/${o.slug}`} key={o.slug}>
-                <span className="wine-no">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div className="wine-img">
+              <a
+                className="wine-c"
+                href={`/wines/${o.slug}`}
+                key={o.slug}
+                data-reveal
+                style={
+                  {
+                    "--v": o.accent,
+                    "--reveal-delay": `${Math.min(i, 5) * 70}ms`,
+                  } as React.CSSProperties
+                }
+              >
+                <div className="wine-c-media">
                   <Image
                     src={o.image}
                     alt={o.name}
                     fill
-                    sizes="(max-width: 540px) 60vw, 244px"
+                    sizes="(max-width: 720px) 88px, 104px"
                     style={{ objectFit: "contain" }}
                   />
                 </div>
-                <h3>{o.name}</h3>
-                <p>{L(o.desc)}</p>
-                <span className="wine-more">{L(t.winesSection.more)} →</span>
+                <div className="wine-c-body">
+                  <div className="wine-c-top">
+                    <span className="wine-c-idx">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="wine-c-meta">
+                      {L(o.type)} · {L(o.alcohol)}
+                    </span>
+                  </div>
+                  <h3>
+                    {o.name}
+                    {o.vintage && <span className="vint">{o.vintage}</span>}
+                  </h3>
+                  <p className="wine-c-notes">{L(o.notes).join(" · ")}</p>
+                  <p className="wine-c-desc">{L(o.desc)}</p>
+                  {o.awards && o.awards.length > 0 && (
+                    <ul className="wine-c-honors">
+                      {o.awards.map((a) => (
+                        <li key={a.text.ru} className={`medal-${a.level}`}>
+                          <span className="dot" />
+                          {a.competition}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <span className="wine-c-more">
+                    {L(t.winesSection.more)} →
+                  </span>
+                </div>
               </a>
             ))}
           </div>
@@ -187,7 +225,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
             <a href="/visit" className="btn btn-accent">
               {L(t.visitPage.bookCta)}
             </a>
-            <button onClick={openBooking} className="btn btn-outline">
+            <button onClick={() => openBooking()} className="btn btn-outline">
               {L(t.visitPage.formLink)}
             </button>
           </div>

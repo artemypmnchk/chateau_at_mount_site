@@ -28,6 +28,7 @@ export async function POST(req: Request) {
   const name = field("name", 200);
   const contact = field("contact", 200);
   const topic = field("topic", 500);
+  const source = field("source", 100); // метка происхождения, напр. «Опт · страница вин»
 
   // Honeypot: скрытое поле «company» люди не видят и не заполняют.
   // Ботам отвечаем «успехом», чтобы не выдавать ловушку.
@@ -45,6 +46,7 @@ export async function POST(req: Request) {
 
   const text = [
     "🍷 Заявка с сайта",
+    source && `📦 ${source}`,
     `Имя: ${name}`,
     `Контакт: ${contact}`,
     topic && `Вопрос: ${topic}`,

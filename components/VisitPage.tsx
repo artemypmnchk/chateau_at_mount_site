@@ -65,7 +65,7 @@ export default function VisitPage() {
             >
               {L(v.bookCta)}
             </a>
-            <button onClick={openBooking} className="hero-link">
+            <button onClick={() => openBooking()} className="hero-link">
               {L(v.formLink)}
             </button>
           </div>

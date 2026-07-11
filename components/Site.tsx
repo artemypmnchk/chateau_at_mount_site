@@ -73,7 +73,7 @@ export default function Site() {
               кадр должен оставаться чистым (фидбек 2026-07-11) */}
           <h1>{t.hero.brand}</h1>
           <div className="hero-actions">
-            <button onClick={openBooking} className="hero-link">
+            <button onClick={() => openBooking()} className="hero-link">
               {L(t.cta.request)}
             </button>
             {/* Второе действие тише: два одинаковых CTA спорили за палец */}
@@ -289,7 +289,7 @@ export default function Site() {
           <h2>{L(t.finalCta.title)}</h2>
           <p className="final-cta-sub">{L(t.finalCta.subtitle)}</p>
           <div className="hero-actions">
-            <button onClick={openBooking} className="btn btn-accent">
+            <button onClick={() => openBooking()} className="btn btn-accent">
               {L(t.visitPage.formLink)}
             </button>
             <a href="/wines" className="btn btn-ghost-dark">

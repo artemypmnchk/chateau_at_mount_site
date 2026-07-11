@@ -13,7 +13,7 @@ import { useLocale } from "./locale";
  * только после ответа 200. При ошибке — Telegram и письмо как запасные
  * пути, без ложного «заявка отправлена».
  */
-export default function BookingForm() {
+export default function BookingForm({ source }: { source?: string }) {
   const { L } = useLocale();
   const c = t.contactsPage;
   const id = useId();
@@ -39,7 +39,7 @@ export default function BookingForm() {
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(source ? { ...form, source } : form),
       });
       if (!res.ok) throw new Error(String(res.status));
       setStatus("sent");
