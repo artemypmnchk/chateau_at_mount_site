@@ -428,14 +428,29 @@ a {
    Фото живёт до последних ~240px; глухая зона (шов) — только нижние 28px.
    Слой-мост лежит поверх штатного скрима (первый в списке — верхний).
    На /visit под хиро светлая секция, там мост не нужен */
+/* Блюр-кромка: шов выдаёт не цвет, а обрезанная текстура пшеницы.
+   Размываем фактуру в последних ~80px (сила растёт к кромке через маску) —
+   и тёмной доводке хватает вдвое меньшей зоны */
+.hero-melt::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 80px;
+  z-index: -1;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 72%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 72%);
+}
 .hero-melt::after {
   background:
     linear-gradient(
       to top,
       #1e1518 0px,
-      #1e1518 10px,
-      rgba(30, 21, 24, 0.72) 34px,
-      rgba(30, 21, 24, 0) 96px
+      #1e1518 8px,
+      rgba(30, 21, 24, 0.68) 24px,
+      rgba(30, 21, 24, 0) 56px
     ),
     linear-gradient(
       180deg,
