@@ -30,7 +30,7 @@ export const site = {
   // Контактные данные (из оригинальной страницы /contacts).
   contacts: {
     email: "chateauatmount@gmail.com",
-    phone: "0 (76) 007737",
+    phone: "+373 76 007 737",
     phoneHref: "tel:+37376007737",
     addressLine: "Чадыр-Лунга, Гагаузия, Молдова", // TODO: уточнить улицу и дом
     mapUrl:

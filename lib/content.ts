@@ -1028,16 +1028,16 @@ export const t = {
     },
   },
   contactsPage: {
-    eyebrow: { ru: "Сотрудничество", en: "Partnership", ro: "Parteneriat" },
+    eyebrow: { ru: "Контакты", en: "Contacts", ro: "Contacte" },
     title: {
-      ru: "Давайте сотрудничать",
-      en: "Let's work together",
-      ro: "Hai să colaborăm",
+      ru: "Давайте знакомиться",
+      en: "Let's get acquainted",
+      ro: "Să facem cunoștință",
     },
     intro: {
-      ru: "Chateau At Mount станет надёжным партнёром для магазина, бара или ресторана, который хочет предложить гостям первоклассные молдавские вина.",
-      en: "Chateau At Mount is a reliable partner for any shop, bar or restaurant that wants to offer its guests first-class Moldovan wines.",
-      ro: "Chateau At Mount este un partener de încredere pentru orice magazin, bar sau restaurant care vrea să le ofere oaspeților vinuri moldovenești de primă clasă.",
+      ru: "Работаем с магазинами, барами и ресторанами — поставляем вино, проводим дегустации, придумываем совместные ужины и события.",
+      en: "We work with shops, bars and restaurants — supplying wine, running tastings and creating joint dinners and events.",
+      ro: "Lucrăm cu magazine, baruri și restaurante — livrăm vin, organizăm degustări și creăm cine și evenimente comune.",
     },
     offerTitle: {
       ru: "Что мы предлагаем",
@@ -1047,11 +1047,11 @@ export const t = {
     offer: {
       ru: [
         "Натуральные вина местного производства",
-        "Гибкую систему цен и бонусов",
+        "Гибкая система цен и бонусов",
         "Индивидуальные условия сотрудничества",
-        "Быструю доставку",
+        "Быстрая доставка",
         "Помощь в составлении винной карты",
-        "Обучение персонала",
+        "Помощь в обучении персонала",
       ],
       en: [
         "Natural, locally made wines",
@@ -1059,7 +1059,7 @@ export const t = {
         "Tailored partnership terms",
         "Fast delivery",
         "Help building your wine list",
-        "Staff training",
+        "Help with staff training",
       ],
       ro: [
         "Vinuri naturale, produse local",
@@ -1067,7 +1067,7 @@ export const t = {
         "Condiții individuale de colaborare",
         "Livrare rapidă",
         "Ajutor la alcătuirea listei de vinuri",
-        "Instruirea personalului",
+        "Ajutor la instruirea personalului",
       ],
     },
     togetherTitle: {
@@ -1087,7 +1087,7 @@ export const t = {
         "A photoshoot or event at the winery",
       ],
       ro: [
-        "O colaborare sau o cină tematică",
+        "O cină tematică sau o colaborare",
         "O degustare pentru echipa și oaspeții voștri",
         "O ședință foto sau un eveniment la cramă",
       ],
@@ -1098,9 +1098,9 @@ export const t = {
       ro: "Lăsați o cerere",
     },
     formNote: {
-      ru: "Заполните форму — и мы свяжемся с вами сами.",
-      en: "Fill in the form and we'll get back to you.",
-      ro: "Completați formularul și vă contactăm noi.",
+      ru: "Заполните форму — и мы свяжемся с вами.",
+      en: "Fill in the form and we'll get in touch.",
+      ro: "Completați formularul și vă contactăm.",
     },
     // Форма — два обязательных поля (кто и куда ответить) и один
     // необязательный вопрос. Телефон и телеграм не разводим по разным
