@@ -2072,8 +2072,13 @@ a.info-row:hover .info-value {
 .wine-hero {
   background: var(--dark);
   color: #f3ede2;
-  padding-top: 170px;
-  padding-bottom: 90px;
+  /* Хиро вина — на весь экран: контент центрируется по вертикали,
+     асимметрия отступов уводит его чуть ниже фикс-хедера */
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-top: 150px;
+  padding-bottom: 70px;
   /* без border-bottom: смена фона тьма→известняк уже читается как граница */
 }
 .wine-page .wine-hero {
@@ -2087,14 +2092,15 @@ a.info-row:hover .info-value {
     color-mix(in oklab, black 32%, var(--band, var(--dark))) 100%
   );
 }
-/* Светлый band (розе, светлые белые) на всю высоту хиро слепит — глушим
-   яркость и убираем осветляющий акцент-верх только у этих вин */
+/* Светлые вина (розе, светлые белые): малиновый band на всю высоту хиро
+   и слепит, и врёт («будто красное»). Берём тёплый тон этикетки
+   (--accent-dark) и приглушаем — полотно сочетается с этикеткой/сортом */
 .wine-page[data-light-band] .wine-hero {
   background: linear-gradient(
     180deg,
-    color-mix(in oklab, black 34%, var(--band, var(--dark))) 0%,
-    color-mix(in oklab, black 46%, var(--band, var(--dark))) 55%,
-    color-mix(in oklab, black 60%, var(--band, var(--dark))) 100%
+    color-mix(in oklab, black 24%, var(--accent-dark, var(--dark))) 0%,
+    color-mix(in oklab, black 38%, var(--accent-dark, var(--dark))) 55%,
+    color-mix(in oklab, black 55%, var(--accent-dark, var(--dark))) 100%
   );
 }
 /* Хиро вина — во всю ширину экрана (полотно и так full-bleed, тянем контент) */
