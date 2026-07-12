@@ -4,6 +4,7 @@ import Image from "next/image";
 import { t, wines } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
+import { useReveal } from "./useReveal";
 
 /** Вес наград: золото = 2, серебро = 1. Сумма — приоритет вина в ленте. */
 function awardScore(w: (typeof wines)[number]) {
@@ -20,14 +21,19 @@ const orderedWines = [...wines].sort((a, b) => awardScore(b) - awardScore(a));
 export default function WinesPage() {
   const { L } = useLocale();
   const { openBooking } = useBookingModal();
+  useReveal();
 
   return (
     <main className="wines-page">
       {/* ---------- Hero — киккер + заголовок, без подписи ---------- */}
       <section className="visit-hero">
         <div className="container">
-          <span className="hero-eyebrow">{L(t.winesSection.eyebrow)}</span>
-          <h1>{L(t.winesSection.title)}</h1>
+          <span className="hero-eyebrow" data-reveal>
+            {L(t.winesSection.eyebrow)}
+          </span>
+          <h1 data-reveal style={{ "--reveal-delay": "0.08s" } as React.CSSProperties}>
+            {L(t.winesSection.title)}
+          </h1>
         </div>
       </section>
 
@@ -35,12 +41,18 @@ export default function WinesPage() {
       <section className="section-dark">
         <div className="container">
           <div className="wines-list">
-            {orderedWines.map((w) => (
+            {orderedWines.map((w, i) => (
               <a
                 className="wine-c"
                 href={`/wines/${w.slug}`}
                 key={w.slug}
-                style={{ "--v": w.accent } as React.CSSProperties}
+                data-reveal
+                style={
+                  {
+                    "--v": w.accent,
+                    "--reveal-delay": `${(i % 2) * 0.12}s`,
+                  } as React.CSSProperties
+                }
               >
                 <div className="wine-c-media">
                   <Image
@@ -80,9 +92,15 @@ export default function WinesPage() {
       {/* ---------- Final CTA — оптовая заявка первична ---------- */}
       <section className="section-dark visit-final" style={{ paddingTop: 0 }}>
         <div className="container">
-          <h2>{L(t.finalCta.title)}</h2>
-          <p>{L(t.finalCta.subtitle)}</p>
-          <div className="contact-actions">
+          <h2 data-reveal>{L(t.finalCta.title)}</h2>
+          <p data-reveal style={{ "--reveal-delay": "0.08s" } as React.CSSProperties}>
+            {L(t.finalCta.subtitle)}
+          </p>
+          <div
+            className="contact-actions"
+            data-reveal
+            style={{ "--reveal-delay": "0.16s" } as React.CSSProperties}
+          >
             <button
               onClick={() => openBooking("Опт · страница вин")}
               className="btn btn-accent"
