@@ -25,6 +25,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
     <main
       className="wine-page"
       data-light-band={isLightBand(wine.band) ? "" : undefined}
+      data-hero-tone={wine.heroTone ? "" : undefined}
       /* Акцент всей страницы — из палитры этикетки этого вина;
          band — согласованное полотно сорта, как в ленте на главной */
       style={
@@ -32,6 +33,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
           "--accent": wine.accent,
           "--accent-dark": wine.accentDark,
           "--band": wine.band,
+          "--hero-tone": wine.heroTone,
         } as React.CSSProperties
       }
     >

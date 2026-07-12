@@ -2103,6 +2103,16 @@ a.info-row:hover .info-value {
     color-mix(in oklab, black 55%, var(--accent-dark, var(--dark))) 100%
   );
 }
+/* Ручной тон полотна (--hero-tone) — точный подбор под этикетку, поверх
+   общего light-band. База сверху, к низу уходит в глубокое. */
+.wine-page[data-hero-tone] .wine-hero {
+  background: linear-gradient(
+    180deg,
+    var(--hero-tone) 0%,
+    color-mix(in oklab, black 22%, var(--hero-tone)) 55%,
+    color-mix(in oklab, black 46%, var(--hero-tone)) 100%
+  );
+}
 /* Хиро вина — во всю ширину экрана (полотно и так full-bleed, тянем контент) */
 .wine-hero .container {
   max-width: none;
