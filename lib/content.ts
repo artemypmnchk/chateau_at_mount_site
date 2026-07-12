@@ -699,9 +699,9 @@ export const t = {
   },
   winesPage: {
     intro: {
-      ru: "Семь сортов, выращенных на 15 гектарах собственных виноградников в Гагаузии: от древней фетяски нягрэ до редкой ароматной виорики. Все вина — сухие, с выразительной кислотностью и свежими фруктовыми нотами.",
-      en: "Seven varieties grown on 15 hectares of our own vineyards in Gagauzia — from the ancient Fetească Neagră to the rare aromatic Viorica. All our wines are dry, with expressive acidity and fresh fruity notes.",
-      ro: "Șapte soiuri cultivate pe 15 hectare de podgorii proprii în Găgăuzia — de la străvechiul Fetească Neagră până la rarul și aromatul Viorica. Toate vinurile sunt seci, cu aciditate expresivă și note proaspete de fructe.",
+      ru: "Семейная винодельня в Гагаузии, на юге Молдовы.",
+      en: "A family winery in Gagauzia, southern Moldova.",
+      ro: "O cramă de familie în Găgăuzia, sudul Moldovei.",
     },
     wholesaleCta: {
       ru: "Запросить оптовый прайс",
