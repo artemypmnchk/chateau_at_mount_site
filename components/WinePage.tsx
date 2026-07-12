@@ -142,7 +142,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
           {/* Карточки без data-reveal: секция целиком под фолдом — в
               статическом рендере (печать, превью) reveal оставлял чёрную яму */}
           <div className="wines-list">
-            {others.map((o, i) => (
+            {others.map((o) => (
               <a
                 className="wine-c"
                 href={`/wines/${o.slug}`}
@@ -159,16 +159,10 @@ export default function WinePage({ wine }: { wine: Wine }) {
                   />
                 </div>
                 <div className="wine-c-body">
-                  <div className="wine-c-top">
-                    <span className="wine-c-idx">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="wine-c-meta">
-                      {L(o.type)} · {L(o.alcohol)}
-                    </span>
-                  </div>
+                  <span className="wine-c-meta">
+                    {L(o.type)} · {L(o.alcohol)}
+                  </span>
                   <h3>{o.name}</h3>
-                  <p className="wine-c-notes">{L(o.notes).join(" · ")}</p>
                   <p className="wine-c-desc">{L(o.desc)}</p>
                   {o.awards && o.awards.length > 0 && (
                     <ul className="wine-c-honors">

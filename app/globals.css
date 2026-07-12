@@ -2379,27 +2379,14 @@ a.info-row:hover .info-value {
 .wine-c-body {
   min-width: 0;
 }
-.wine-c-top {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-.wine-c-idx {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 15px;
-  color: var(--v, var(--accent));
-  opacity: 0.9;
-}
 .wine-c-meta {
+  display: block;
+  margin-bottom: 9px;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: rgba(243, 237, 226, 0.5);
-  text-align: right;
 }
 .wine-c h3 {
   font-family: var(--serif);
@@ -2409,16 +2396,8 @@ a.info-row:hover .info-value {
   margin: 0 0 9px;
   letter-spacing: -0.01em;
 }
-.wine-c-notes {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 16px;
-  color: var(--v, var(--accent));
-  margin: 0 0 12px;
-  line-height: 1.35;
-}
 .wine-c-desc {
-  display: none;
+  display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -2484,9 +2463,6 @@ a.info-row:hover .info-value {
     gap: clamp(28px, 3vw, 44px);
     padding: 30px 0;
   }
-  .wine-c-idx {
-    font-size: 16px;
-  }
   .wine-c-meta {
     font-size: 11px;
   }
@@ -2496,11 +2472,7 @@ a.info-row:hover .info-value {
   .wine-c h3 {
     font-size: 30px;
   }
-  .wine-c-notes {
-    font-size: 19px;
-  }
   .wine-c-desc {
-    display: -webkit-box;
     font-size: 15px;
   }
   .wine-c-honors li {

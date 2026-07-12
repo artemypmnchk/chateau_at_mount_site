@@ -36,7 +36,7 @@ export default function WinesPage() {
       <section className="section-dark">
         <div className="container">
           <div className="wines-list">
-            {orderedWines.map((w, i) => (
+            {orderedWines.map((w) => (
               <a
                 className="wine-c"
                 href={`/wines/${w.slug}`}
@@ -53,16 +53,10 @@ export default function WinesPage() {
                   />
                 </div>
                 <div className="wine-c-body">
-                  <div className="wine-c-top">
-                    <span className="wine-c-idx">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="wine-c-meta">
-                      {L(w.type)} · {L(w.alcohol)}
-                    </span>
-                  </div>
+                  <span className="wine-c-meta">
+                    {L(w.type)} · {L(w.alcohol)}
+                  </span>
                   <h3>{w.name}</h3>
-                  <p className="wine-c-notes">{L(w.notes).join(" · ")}</p>
                   <p className="wine-c-desc">{L(w.desc)}</p>
                   {w.awards && w.awards.length > 0 && (
                     <ul className="wine-c-honors">
