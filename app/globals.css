@@ -44,25 +44,9 @@ body {
   overflow-x: clip;
 }
 
-/* Плёнка зерна на весь сайт — одна «бумага» вместо экранной плоскости.
-   Фиксированный слой поверх фонов; overlay модулирует полутона (тёмные
-   винные полотна оживают), почти не трогая чистый текст. */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 160px 160px;
-  opacity: 0.32;
-  mix-blend-mode: overlay;
-}
-@media print {
-  body::after {
-    display: none;
-  }
-}
+/* Плёночное зерно живёт только на /wines (см. блок «.wines-page … ::after»
+   ниже) — сознательно НЕ глобальный слой: на главной и /visit его быть не
+   должно. Раньше здесь был body::after на весь сайт — убран. */
 
 h1,
 h2,
@@ -2355,23 +2339,31 @@ a.info-row:hover .info-value {
   height: 44px;
   width: auto;
 }
-/* ---------- Зерно на тёмных секциях /wines ----------
+/* ---------- Зерно на тёмных полотнах страниц вин ----------
    Статичное плёночное зерно (SVG feTurbulence, тайл 160×160) убирает бандинг
-   больших заливок --dark и даёт поверхности материальность. Скоуп через
-   .wines-page: .visit-hero живёт и на /visit, /contacts — их не трогаем.
+   больших заливок --dark и даёт поверхности материальность. Скоуп только на
+   вина: .wines-page (список /wines) и .wine-page (карточка /wines/[slug],
+   её тёмное полотно — .wine-hero). На главной и /visit зерна нет — .visit-hero
+   живёт и там, поэтому берём его только под .wines-page.
    Лежит поверх контента (opacity 0.04 — допустимо), pointer-events: none —
    иначе умрут клики по карточкам. */
 .wines-page .visit-hero,
-.wines-page .section-dark {
+.wines-page .section-dark,
+.wine-page .wine-hero,
+.wine-page .section-dark {
   position: relative;
 }
 .wines-page .visit-hero > .container,
-.wines-page .section-dark > .container {
+.wines-page .section-dark > .container,
+.wine-page .wine-hero > .container,
+.wine-page .section-dark > .container {
   position: relative;
   z-index: 1;
 }
 .wines-page .visit-hero::after,
-.wines-page .section-dark::after {
+.wines-page .section-dark::after,
+.wine-page .wine-hero::after,
+.wine-page .section-dark::after {
   content: "";
   position: absolute;
   inset: 0;
