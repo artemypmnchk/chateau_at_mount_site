@@ -16,7 +16,7 @@ function isLightBand(hex: string) {
 }
 
 export default function WinePage({ wine }: { wine: Wine }) {
-  const { L, locale } = useLocale();
+  const { L } = useLocale();
   const { openBooking } = useBookingModal();
   const w = t.winePage;
   const others = wines.filter((x) => x.slug !== wine.slug);
@@ -122,16 +122,15 @@ export default function WinePage({ wine }: { wine: Wine }) {
 
       {/* ---------- История сорта (редакционно) + гастропары сбоку ---------- */}
       <section className="wine-story-section">
-        <div className="container story-grid">
+        <div className="container">
           <div className="story-main">
-            <span className="eyebrow">{L(w.storyTitle)}</span>
-            <p className="wine-story">{L(wine.story)}</p>
+            <span className="eyebrow">
+              {L(wine.about ? w.aboutTitle : w.storyTitle)}
+            </span>
+            {/* Есть верифицированное описание по этикетке — показываем только его;
+                иначе нейтральная история сорта. */}
+            <p className="wine-story">{L(wine.about ?? wine.story)}</p>
           </div>
-          <aside className="story-aside">
-            <h3>{L(w.pairingsTitle)}</h3>
-            {/* Строка-меню, не чек-лист: еда — не выполненные задачи */}
-            <p className="pairings-line">{wine.pairings[locale].join(" · ")}</p>
-          </aside>
         </div>
       </section>
 

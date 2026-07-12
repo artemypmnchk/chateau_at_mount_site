@@ -43,6 +43,10 @@ export interface Wine {
   alcohol: Record<Locale, string>;
   servingTemp: string;
   pairings: Record<Locale, string[]>;
+  /** Верифицированное винодельней описание конкретного вина (по этикетке):
+   *  способ производства + дегустация. Есть не у всех сортов; где есть —
+   *  идёт первым абзацем «О вине», за ним нейтральная история сорта (story). */
+  about?: Record<Locale, string>;
   story: Record<Locale, string>;
   /** Русские title/description для метаданных и JSON-LD страницы вина. */
   seo: { title: string; description: string };
@@ -106,6 +110,11 @@ export const wines: Wine[] = [
         "Brânzeturi maturate",
         "Rață cu sos de fructe de pădure",
       ],
+    },
+    about: {
+      ru: "Произведено из винограда сорта мерло, собранного и отобранного вручную на юге Молдовы, с собственных виноградников, по традиционной технологии с выдержкой в дубовых бочках не менее 12 месяцев. Вино интенсивного рубинового цвета с ароматом спелой вишни и ежевики и лёгкими нотами дуба; мягкие танины дают округлость и долгое бархатистое послевкусие.",
+      en: "Made from hand-picked Merlot grapes selected from our own vineyards in southern Moldova, by the traditional method with at least 12 months of ageing in oak barrels. An intense ruby wine with aromas of ripe cherry and blackberry and light oak notes; soft tannins give it roundness and a long, velvety finish.",
+      ro: "Produs din struguri de Merlot culeși și selectați manual din viile proprii din sudul Moldovei, prin metoda tradițională, cu maturare în butoaie de stejar cel puțin 12 luni. Vin de culoare rubinie intensă, cu arome de cireșe coapte și mure și note ușoare de stejar; taninurile moi îi dau rotunjime și un final lung, catifelat.",
     },
     story: {
       ru: "Мерло родом из Бордо — сегодня это один из самых распространённых красных сортов мира. Название связывают с французским «merle» — чёрным дроздом, любителем сладких тёмных ягод. Сорт ценят за мягкие танины и щедрый фруктовый вкус. На тёплых склонах Гагаузии мерло вызревает полностью и даёт округлое вино с ароматом спелой вишни, ежевики и нотами дуба.",
@@ -369,6 +378,11 @@ export const wines: Wine[] = [
         "Brânzeturi tari, maturate",
       ],
     },
+    about: {
+      ru: "Изготовлено из винограда сорта каберне совиньон, собранного и отобранного вручную на юге Молдовы, с собственных виноградников, по традиционной технологии с выдержкой в бочках минимум 12 месяцев. Вино интенсивного рубинового цвета с богатым ароматом черешни и спелой сливы, дополненным нотами специй и карамели; мягкие танины подчёркивают его округлость и мягкое послевкусие.",
+      en: "Made from hand-picked Cabernet Sauvignon grapes selected from our own vineyards in southern Moldova, by the traditional method with at least 12 months of barrel ageing. An intense ruby wine with a rich aroma of sweet cherry and ripe plum, layered with notes of spice and caramel; soft tannins underline its roundness and gentle finish.",
+      ro: "Produs din struguri de Cabernet Sauvignon culeși și selectați manual din viile proprii din sudul Moldovei, prin metoda tradițională, cu maturare în butoaie minimum 12 luni. Vin de culoare rubinie intensă, cu aromă bogată de cireșe și prune coapte, completată de note de condimente și caramel; taninurile moi îi subliniază rotunjimea și finalul catifelat.",
+    },
     story: {
       ru: "Каберне совиньон называют королём красных сортов. Он появился в Бордо в XVII веке как природное скрещивание каберне фран и совиньон блан — и с тех пор покорил все винодельческие регионы мира. Сорт ценят за плотную структуру, благородные танины и способность к выдержке. На юге Молдовы каберне совиньон набирает полную спелость и даёт вино с ароматом чёрной вишни, спелых слив и специй.",
       en: "Cabernet Sauvignon is called the king of red varieties. It appeared in 17th-century Bordeaux as a natural cross between Cabernet Franc and Sauvignon Blanc — and has since conquered every wine region in the world. The variety is prized for its firm structure, noble tannins and ageing potential. In southern Moldova, Cabernet Sauvignon ripens fully, giving a wine with aromas of black cherry, ripe plum and spice.",
@@ -402,7 +416,7 @@ export const wines: Wine[] = [
     type: { ru: "Сухое белое", en: "Dry white", ro: "Alb sec" },
     vintage: "",
     alcohol: { ru: "12 % об.", en: "12% ABV", ro: "12% vol." },
-    servingTemp: "8–10 °C",
+    servingTemp: "8–12 °C",
     pairings: {
       ru: [
         "Речная и морская рыба",
@@ -422,6 +436,11 @@ export const wines: Wine[] = [
         "Aperitive ușoare din legume",
         "Brânzeturi moi, tinere",
       ],
+    },
+    about: {
+      ru: "Изготовлено из винограда сорта фетяска албэ, собранного и отобранного вручную на юге Молдовы, с собственных виноградников, по современной технологии, сохраняющей ароматику сорта. Вино яркого соломенно-жёлтого цвета: в аромате раскрываются полевые цветы, барбарис и мёд, дополненные нотами зелёного яблока и цитрусовых.",
+      en: "Made from hand-picked Fetească Albă grapes selected from our own vineyards in southern Moldova, using a modern method that preserves the variety's aromatics. A bright straw-yellow wine whose bouquet opens with wildflowers, barberry and honey, rounded out by green-apple and citrus notes.",
+      ro: "Produs din struguri de Fetească Albă culeși și selectați manual din viile proprii din sudul Moldovei, printr-o tehnologie modernă care păstrează aromatica soiului. Vin de culoare galben-pai strălucitoare, al cărui buchet dezvăluie flori de câmp, dracilă și miere, completate de note de măr verde și citrice.",
     },
     story: {
       ru: "Фетяска албэ — один из старейших белых сортов Молдовы и Румынии, его выращивают здесь не одну сотню лет. Как и «сестра» фетяска нягрэ, он относится к семье «девичьих» сортов — лёгких, изящных и тонких. Вина из фетяски албэ узнают по деликатному аромату полевых цветов с нотами зелёного яблока и цитрусовых — это классика молдавского белого виноделия.",
@@ -723,6 +742,11 @@ export const t = {
       ru: "История сорта",
       en: "The story of the variety",
       ro: "Povestea soiului",
+    },
+    aboutTitle: {
+      ru: "О вине",
+      en: "About the wine",
+      ro: "Despre vin",
     },
     awardProof: {
       ru: "Запись в базе конкурса",
