@@ -158,7 +158,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
       <section className="section-dark">
         <div className="container">
           <h2 className="visit-h2">{L(w.otherTitle)}</h2>
-          <div className="wines-list wines-list--roomy">
+          <div className="wines-list">
             {others.map((o, i) => (
               <a
                 className="wine-c"
@@ -177,7 +177,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
                     src={o.image}
                     alt={o.name}
                     fill
-                    sizes="(max-width: 720px) 88px, 104px"
+                    sizes="(max-width: 720px) 116px, 184px"
                     style={{ objectFit: "contain" }}
                   />
                 </div>

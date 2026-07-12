@@ -2230,10 +2230,10 @@ a.info-row:hover .info-value {
 }
 .wine-c {
   display: grid;
-  grid-template-columns: 72px 1fr;
-  gap: 16px;
+  grid-template-columns: 116px 1fr;
+  gap: 22px;
   align-items: start;
-  padding: 20px 0;
+  padding: 24px 0;
   border-top: 1px solid var(--line-light);
   color: inherit;
   text-decoration: none;
@@ -2243,7 +2243,7 @@ a.info-row:hover .info-value {
 }
 .wine-c-media {
   position: relative;
-  height: 132px;
+  height: 208px;
 }
 .wine-c-media img {
   filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.5));
@@ -2276,9 +2276,9 @@ a.info-row:hover .info-value {
 .wine-c h3 {
   font-family: var(--serif);
   font-weight: 500;
-  font-size: 20px;
-  line-height: 1.08;
-  margin: 0 0 8px;
+  font-size: 24px;
+  line-height: 1.06;
+  margin: 0 0 9px;
   letter-spacing: -0.01em;
 }
 .wine-c h3 .vint {
@@ -2290,9 +2290,9 @@ a.info-row:hover .info-value {
 .wine-c-notes {
   font-family: var(--serif);
   font-style: italic;
-  font-size: 14.5px;
+  font-size: 16px;
   color: var(--v, var(--accent));
-  margin: 0 0 11px;
+  margin: 0 0 12px;
   line-height: 1.35;
 }
 .wine-c-desc {
@@ -2351,70 +2351,45 @@ a.info-row:hover .info-value {
   border-color: var(--v, var(--accent));
 }
 
-/* → десктоп: две колонки, карточка крупнее, но остаётся компактной */
+/* → десктоп: две колонки, но карточка крупная и заметная —
+   бутылка-этикетка тянет на себя внимание. */
 @media (min-width: 720px) {
   .wines-list {
     grid-template-columns: 1fr 1fr;
   }
   .wine-c {
-    grid-template-columns: 104px 1fr;
-    gap: clamp(18px, 2vw, 28px);
-    padding: 24px 0;
+    grid-template-columns: 184px 1fr;
+    gap: clamp(28px, 3vw, 44px);
+    padding: 34px 0;
   }
   /* верхний ряд (две первые карточки) — без разделительной линии */
   .wines-list > .wine-c:nth-child(2) {
     border-top: 0;
   }
+  .wine-c-idx {
+    font-size: 16px;
+  }
+  .wine-c-meta {
+    font-size: 11px;
+  }
   .wine-c-media {
-    height: 172px;
+    height: 312px;
   }
   .wine-c h3 {
-    font-size: 22px;
+    font-size: 30px;
+  }
+  .wine-c h3 .vint {
+    font-size: 0.72em;
   }
   .wine-c-notes {
-    font-size: 15px;
+    font-size: 19px;
   }
   .wine-c-desc {
     display: -webkit-box;
-  }
-}
-
-/* «Другие вина» на странице сорта — просторнее плотной ленты /wines:
-   крупная этикетка и типографика, блок читается как витрина, а не сноска. */
-.wines-list--roomy .wine-c {
-  grid-template-columns: 108px 1fr;
-  gap: 20px;
-  padding: 24px 0;
-}
-.wines-list--roomy .wine-c-media {
-  height: 184px;
-}
-.wines-list--roomy .wine-c h3 {
-  font-size: 24px;
-}
-.wines-list--roomy .wine-c-notes {
-  font-size: 16px;
-}
-@media (min-width: 720px) {
-  .wines-list--roomy .wine-c {
-    grid-template-columns: 152px 1fr;
-    gap: clamp(28px, 3vw, 40px);
-    padding: 32px 0;
-  }
-  .wines-list--roomy .wine-c-media {
-    height: 256px;
-  }
-  .wines-list--roomy .wine-c h3 {
-    font-size: 28px;
-  }
-  .wines-list--roomy .wine-c h3 .vint {
-    font-size: 0.76em;
-  }
-  .wines-list--roomy .wine-c-notes {
-    font-size: 18px;
-  }
-  .wines-list--roomy .wine-c-desc {
     font-size: 15px;
+  }
+  .wine-c-honors li {
+    font-size: 11.5px;
   }
 }
 

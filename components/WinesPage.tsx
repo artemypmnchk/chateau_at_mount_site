@@ -56,7 +56,7 @@ export default function WinesPage() {
                     src={w.image}
                     alt={w.name}
                     fill
-                    sizes="(max-width: 560px) 72px, 150px"
+                    sizes="(max-width: 720px) 116px, 184px"
                     style={{ objectFit: "contain" }}
                   />
                 </div>
