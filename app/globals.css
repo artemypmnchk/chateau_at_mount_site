@@ -2059,6 +2059,7 @@ a.info-row:hover .info-value {
 .wine-page .wine-hero {
   /* Полотно сорта — тот же band-цвет, что под бутылкой в ленте
      на главной; цвет дышит за бутылкой, края уходят в тёмное */
+  position: relative;
   background:
     radial-gradient(
       ellipse 62% 78% at 30% 46%,
@@ -2068,9 +2069,93 @@ a.info-row:hover .info-value {
     ),
     var(--band, var(--dark));
 }
+/* Плёнка зерна поверх полотна: чистый градиент выглядел нейро-рендером,
+   лёгкая фактура возвращает материальность (бумага/известняк) */
+.wine-page .wine-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+}
+/* Контент хиро — выше плёнки зерна */
+.wine-page .wine-hero .container {
+  position: relative;
+  z-index: 1;
+}
 /* Светлая секция истории — отсвет того же тона */
 .wine-story-section {
   background: color-mix(in oklab, var(--accent) 10%, var(--bg));
+}
+
+/* ---------- Движение страницы вина ----------
+   Три осмысленных жеста вместо одного fade-up:
+   1) бутылка «ставится» на полотно (масштаб и тень собираются),
+   2) паспорт вина проявляется каскадом сверху вниз,
+   3) переход список ↔ вино морфит бутылку (view transitions ниже). */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes bottle-settle {
+    from {
+      transform: scale(1.045) translateY(12px);
+      filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.22));
+    }
+    to {
+      transform: none;
+      filter: drop-shadow(0 30px 44px rgba(0, 0, 0, 0.55));
+    }
+  }
+  .wine-page .wine-bottle img {
+    animation: bottle-settle 0.9s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  }
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .wine-hero-body > * {
+    animation: hero-rise 0.65s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  }
+  .wine-hero-body > :nth-child(1) {
+    animation-delay: 0.04s;
+  }
+  .wine-hero-body > :nth-child(2) {
+    animation-delay: 0.11s;
+  }
+  .wine-hero-body > :nth-child(3) {
+    animation-delay: 0.18s;
+  }
+  .wine-hero-body > :nth-child(4) {
+    animation-delay: 0.25s;
+  }
+  .wine-hero-body > :nth-child(5) {
+    animation-delay: 0.32s;
+  }
+  .wine-hero-body > :nth-child(6) {
+    animation-delay: 0.39s;
+  }
+}
+
+/* Морф бутылки между /wines и /wines/[slug] (cross-document view
+   transitions; браузеры без поддержки просто игнорируют) */
+@view-transition {
+  navigation: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.4s;
 }
 .wine-hero .eyebrow {
   color: var(--accent);
@@ -2220,15 +2305,16 @@ a.info-row:hover .info-value {
   color: #f3ede2;
   border-color: rgba(243, 237, 226, 0.7);
 }
-/* Официальная графика медалей — под списком наград */
-.wine-medal-art {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin-top: 18px;
+/* Медаль в строке своей награды: точка-маркер уступает место графике */
+.wine-awards li.has-art::before {
+  display: none;
 }
-.wine-medal-art img {
-  height: 64px;
+.wine-awards li.has-art {
+  align-items: center;
+}
+.award-art {
+  flex: 0 0 auto;
+  height: 44px;
   width: auto;
 }
 /* Сетка на общей странице вин */
@@ -2412,14 +2498,35 @@ a.info-row:hover .info-value {
   .wine-hero-grid {
     grid-template-columns: 1fr;
   }
+  /* Бутылка держит монументальность и на узком экране */
   .wine-bottle {
-    height: 340px;
+    height: max(380px, 44svh);
   }
 }
 @media (max-width: 540px) {
+  .wine-hero-body h1 {
+    font-size: clamp(48px, 14vw, 60px);
+  }
+  /* Факты — вертикальный паспорт: строка = метка слева, значение справа */
   .wine-facts {
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .wine-facts > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 12px 0;
+  }
+  .wine-facts > div + div {
+    border-top: 1px solid var(--line-light);
+  }
+  .wine-facts dt {
+    margin-bottom: 0;
+  }
+  .wine-facts dd {
+    font-size: 22px;
   }
 }
 

@@ -29,7 +29,13 @@ export default function WinePage({ wine }: { wine: Wine }) {
       {/* ---------- Hero: бутылка + характеристики ---------- */}
       <section className="wine-hero">
         <div className="container wine-hero-grid">
-          <div className="wine-bottle">
+          <div
+            className="wine-bottle"
+            /* Морф бутылки из карточки списка (view transitions) */
+            style={
+              { viewTransitionName: `wine-${wine.slug}` } as React.CSSProperties
+            }
+          >
             <Image
               src={wine.image}
               alt={wine.name}
@@ -62,44 +68,40 @@ export default function WinePage({ wine }: { wine: Wine }) {
               </div>
             </dl>
             {wine.awards && wine.awards.length > 0 && (
-              <>
-                <ul className="wine-awards">
-                  {wine.awards.map((a) => (
-                    <li key={a.text.ru} className={`medal-${a.level}`}>
-                      <span className="award-line">
-                        {L(a.text)}
-                        {a.proofUrl && (
-                          <a
-                            className="award-proof"
-                            href={a.proofUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {L(w.awardProof)} ↗
-                          </a>
-                        )}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-                {/* Официальная графика медалей конкурсов (DWM разрешает
-                    призёрам промо-использование, перерисовка запрещена) */}
-                {wine.awards.some((a) => a.art) && (
-                  <div className="wine-medal-art">
-                    {wine.awards
-                      .filter((a) => a.art)
-                      .map((a) => (
-                        <Image
-                          key={a.art}
-                          src={a.art!}
-                          alt={L(a.text)}
-                          width={134}
-                          height={64}
-                        />
-                      ))}
-                  </div>
-                )}
-              </>
+              /* Почётный ряд: официальная графика медали (DWM разрешает
+                 призёрам промо-использование) живёт в строке своей награды —
+                 паспорт вина, а не плавающий стикер */
+              <ul className="wine-awards">
+                {wine.awards.map((a) => (
+                  <li
+                    key={a.text.ru}
+                    className={`medal-${a.level}${a.art ? " has-art" : ""}`}
+                  >
+                    {a.art && (
+                      <Image
+                        className="award-art"
+                        src={a.art}
+                        alt=""
+                        width={92}
+                        height={44}
+                      />
+                    )}
+                    <span className="award-line">
+                      {L(a.text)}
+                      {a.proofUrl && (
+                        <a
+                          className="award-proof"
+                          href={a.proofUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {L(w.awardProof)} ↗
+                        </a>
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             )}
             <div className="hero-actions">
               <a href="/visit" className="btn btn-accent">
@@ -142,7 +144,14 @@ export default function WinePage({ wine }: { wine: Wine }) {
                 key={o.slug}
                 style={{ "--v": o.accent } as React.CSSProperties}
               >
-                <div className="wine-c-media">
+                <div
+                  className="wine-c-media"
+                  style={
+                    {
+                      viewTransitionName: `wine-${o.slug}`,
+                    } as React.CSSProperties
+                  }
+                >
                   <Image
                     src={o.image}
                     alt={o.name}
