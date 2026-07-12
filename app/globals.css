@@ -39,6 +39,26 @@ body {
   overflow-x: clip;
 }
 
+/* Плёнка зерна на весь сайт — одна «бумага» вместо экранной плоскости.
+   Фиксированный слой поверх фонов; overlay модулирует полутона (тёмные
+   винные полотна оживают), почти не трогая чистый текст. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.09;
+  mix-blend-mode: overlay;
+}
+@media print {
+  body::after {
+    display: none;
+  }
+}
+
 h1,
 h2,
 h3 {
@@ -2054,37 +2074,25 @@ a.info-row:hover .info-value {
   color: #f3ede2;
   padding-top: 170px;
   padding-bottom: 90px;
-  border-bottom: 1px solid var(--line-light);
+  /* без border-bottom: смена фона тьма→известняк уже читается как граница */
 }
 .wine-page .wine-hero {
-  /* Полотно сорта — тот же band-цвет, что под бутылкой в ленте
-     на главной; цвет дышит за бутылкой, края уходят в тёмное */
-  position: relative;
+  /* Полотно сорта — тот же band-цвет, что под бутылкой в ленте на главной.
+     Вертикальный ход света: у верха теплее (примесь сорта), к низу глубже —
+     стена под светом, а не плоская заливка. Плюс мягкое пятно за бутылкой. */
   background:
     radial-gradient(
-      ellipse 62% 78% at 30% 46%,
-      rgba(23, 17, 20, 0) 0%,
-      rgba(23, 17, 20, 0.3) 55%,
-      rgba(23, 17, 20, 0.8) 100%
+      ellipse 58% 70% at 28% 44%,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(23, 17, 20, 0) 42%,
+      rgba(23, 17, 20, 0.55) 100%
     ),
-    var(--band, var(--dark));
-}
-/* Плёнка зерна поверх полотна: чистый градиент выглядел нейро-рендером,
-   лёгкая фактура возвращает материальность (бумага/известняк) */
-.wine-page .wine-hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 240px 240px;
-  opacity: 0.05;
-  mix-blend-mode: overlay;
-}
-/* Контент хиро — выше плёнки зерна */
-.wine-page .wine-hero .container {
-  position: relative;
-  z-index: 1;
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--accent) 26%, var(--band, var(--dark))) 0%,
+      var(--band, var(--dark)) 46%,
+      color-mix(in oklab, black 30%, var(--band, var(--dark))) 100%
+    );
 }
 /* Светлая секция истории — отсвет того же тона */
 .wine-story-section {
@@ -2175,8 +2183,20 @@ a.info-row:hover .info-value {
   justify-content: start;
   gap: clamp(28px, 4vw, 56px);
   margin-top: 38px;
-  padding-top: 28px;
-  border-top: 1px solid var(--line-light);
+  padding-top: 30px;
+  position: relative;
+}
+/* Короткая типографская линейка (56px), а не UI-хейрлайн на всю ширину:
+   тихо отделяет паспорт от прозы, как в документе */
+.wine-facts::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 56px;
+  height: 2px;
+  background: var(--accent);
+  opacity: 0.85;
 }
 .wine-facts dt {
   font-size: 11.5px;
@@ -2218,8 +2238,8 @@ a.info-row:hover .info-value {
   color: var(--accent-dark);
 }
 .story-aside {
-  border-top: 1px solid var(--line);
-  padding-top: 26px;
+  /* без border-top: заголовок h3 + воздух уже отделяют пары от истории */
+  padding-top: 4px;
 }
 .story-aside h3 {
   font-size: clamp(22px, 2.2vw, 26px);
@@ -2314,23 +2334,37 @@ a.info-row:hover .info-value {
   column-gap: clamp(36px, 4vw, 64px);
 }
 .wine-c {
+  /* Без линий-разделителей: якорь карточки — не хейрлайн, а лужица цвета
+     сорта под бутылкой (ниже) + масштаб заголовка. Линии читались Excel'ем */
   display: grid;
   grid-template-columns: 116px 1fr;
   gap: 22px;
-  align-items: start;
-  padding: 24px 0;
-  border-top: 1px solid var(--line-light);
+  align-items: center;
+  padding: 22px 0;
   color: inherit;
   text-decoration: none;
-}
-.wine-c:first-child {
-  border-top: 0;
 }
 .wine-c-media {
   position: relative;
   height: 208px;
 }
+/* Лужица цвета сорта за бутылкой — язык ленты с главной (правило 7):
+   заливает плоский тёмный фон и различает сорта с одного взгляда */
+.wine-c-media::before {
+  content: "";
+  position: absolute;
+  inset: -6% -10%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse 50% 46% at 50% 54%,
+    color-mix(in oklab, var(--v, var(--accent)) 62%, transparent) 0%,
+    transparent 70%
+  );
+  opacity: 0.5;
+  filter: blur(6px);
+}
 .wine-c-media img {
+  position: relative;
   filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.5));
 }
 .wine-c-body {
@@ -2447,11 +2481,7 @@ a.info-row:hover .info-value {
   .wine-c {
     grid-template-columns: 184px 1fr;
     gap: clamp(28px, 3vw, 44px);
-    padding: 34px 0;
-  }
-  /* верхний ряд (две первые карточки) — без разделительной линии */
-  .wines-list > .wine-c:nth-child(2) {
-    border-top: 0;
+    padding: 30px 0;
   }
   .wine-c-idx {
     font-size: 16px;
@@ -2493,20 +2523,17 @@ a.info-row:hover .info-value {
   .wine-hero-body h1 {
     font-size: clamp(48px, 14vw, 60px);
   }
-  /* Факты — вертикальный паспорт: строка = метка слева, значение справа */
+  /* Факты — вертикальный паспорт: метка слева, значение справа.
+     Без линий между строками (по решению владельца) — только воздух */
   .wine-facts {
     grid-template-columns: 1fr;
-    gap: 0;
+    gap: 14px;
   }
   .wine-facts > div {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: 16px;
-    padding: 12px 0;
-  }
-  .wine-facts > div + div {
-    border-top: 1px solid var(--line-light);
   }
   .wine-facts dt {
     margin-bottom: 0;

@@ -4,7 +4,6 @@ import Image from "next/image";
 import { t, wines } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
-import { useReveal } from "./useReveal";
 
 /** Вес наград: золото = 2, серебро = 1. Сумма — приоритет вина в ленте. */
 function awardScore(w: (typeof wines)[number]) {
@@ -21,7 +20,6 @@ const orderedWines = [...wines].sort((a, b) => awardScore(b) - awardScore(a));
 export default function WinesPage() {
   const { L } = useLocale();
   const { openBooking } = useBookingModal();
-  useReveal();
 
   return (
     <main className="wines-page">
@@ -43,13 +41,7 @@ export default function WinesPage() {
                 className="wine-c"
                 href={`/wines/${w.slug}`}
                 key={w.slug}
-                data-reveal
-                style={
-                  {
-                    "--v": w.accent,
-                    "--reveal-delay": `${Math.min(i, 5) * 70}ms`,
-                  } as React.CSSProperties
-                }
+                style={{ "--v": w.accent } as React.CSSProperties}
               >
                 <div className="wine-c-media">
                   <Image
