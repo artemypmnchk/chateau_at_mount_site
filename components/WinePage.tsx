@@ -4,18 +4,27 @@ import Image from "next/image";
 import { t, wines, type Wine } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
-import { useReveal } from "./useReveal";
+/** Светлый band (розе, светлые белые) даёт слишком яркое полотно на всю
+ *  высоту хиро — помечаем такие вина, чтобы затемнить только их хиро.
+ *  Порог по воспринимаемой яркости: rose/albă попадают, тёмные — нет. */
+function isLightBand(hex: string) {
+  const h = hex.replace("#", "");
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b > 88;
+}
 
 export default function WinePage({ wine }: { wine: Wine }) {
   const { L, locale } = useLocale();
   const { openBooking } = useBookingModal();
-  useReveal();
   const w = t.winePage;
   const others = wines.filter((x) => x.slug !== wine.slug);
 
   return (
     <main
       className="wine-page"
+      data-light-band={isLightBand(wine.band) ? "" : undefined}
       /* Акцент всей страницы — из палитры этикетки этого вина;
          band — согласованное полотно сорта, как в ленте на главной */
       style={

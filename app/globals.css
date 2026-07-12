@@ -2087,6 +2087,22 @@ a.info-row:hover .info-value {
     color-mix(in oklab, black 32%, var(--band, var(--dark))) 100%
   );
 }
+/* Светлый band (розе, светлые белые) на всю высоту хиро слепит — глушим
+   яркость и убираем осветляющий акцент-верх только у этих вин */
+.wine-page[data-light-band] .wine-hero {
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, black 34%, var(--band, var(--dark))) 0%,
+    color-mix(in oklab, black 46%, var(--band, var(--dark))) 55%,
+    color-mix(in oklab, black 60%, var(--band, var(--dark))) 100%
+  );
+}
+/* Хиро вина — во всю ширину экрана (полотно и так full-bleed, тянем контент) */
+.wine-hero .container {
+  max-width: none;
+  padding-left: max(clamp(28px, 5vw, 104px), env(safe-area-inset-left));
+  padding-right: max(clamp(28px, 5vw, 104px), env(safe-area-inset-right));
+}
 /* Светлая секция истории — отсвет того же тона */
 .wine-story-section {
   background: color-mix(in oklab, var(--accent) 10%, var(--bg));
