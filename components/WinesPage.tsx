@@ -51,14 +51,7 @@ export default function WinesPage() {
                   } as React.CSSProperties
                 }
               >
-                <div
-                  className="wine-c-media"
-                  style={
-                    {
-                      viewTransitionName: `wine-${w.slug}`,
-                    } as React.CSSProperties
-                  }
-                >
+                <div className="wine-c-media">
                   <Image
                     src={w.image}
                     alt={w.name}

@@ -2143,20 +2143,6 @@ a.info-row:hover .info-value {
   }
 }
 
-/* Морф бутылки между /wines и /wines/[slug] (cross-document view
-   transitions; браузеры без поддержки просто игнорируют) */
-@view-transition {
-  navigation: auto;
-}
-@media (prefers-reduced-motion: reduce) {
-  @view-transition {
-    navigation: none;
-  }
-}
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: 0.4s;
-}
 .wine-hero .eyebrow {
   color: var(--accent);
 }

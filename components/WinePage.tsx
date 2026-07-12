@@ -29,13 +29,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
       {/* ---------- Hero: бутылка + характеристики ---------- */}
       <section className="wine-hero">
         <div className="container wine-hero-grid">
-          <div
-            className="wine-bottle"
-            /* Морф бутылки из карточки списка (view transitions) */
-            style={
-              { viewTransitionName: `wine-${wine.slug}` } as React.CSSProperties
-            }
-          >
+          <div className="wine-bottle">
             <Image
               src={wine.image}
               alt={wine.name}
@@ -144,14 +138,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
                 key={o.slug}
                 style={{ "--v": o.accent } as React.CSSProperties}
               >
-                <div
-                  className="wine-c-media"
-                  style={
-                    {
-                      viewTransitionName: `wine-${o.slug}`,
-                    } as React.CSSProperties
-                  }
-                >
+                <div className="wine-c-media">
                   <Image
                     src={o.image}
                     alt={o.name}
