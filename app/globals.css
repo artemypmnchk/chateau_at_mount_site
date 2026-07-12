@@ -2377,6 +2377,20 @@ a.info-row:hover .info-value {
 .wine-c-media img {
   filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.5));
 }
+/* Hover-отклик: бутылка приподнимается и «отрывается» от полотна.
+   Двигается только img (transform) — текст карточки неподвижен. */
+@media (prefers-reduced-motion: no-preference) {
+  .wine-c-media img {
+    transition:
+      transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1),
+      filter 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  .wine-c:hover .wine-c-media img,
+  .wine-c:focus-visible .wine-c-media img {
+    transform: translateY(-6px);
+    filter: drop-shadow(0 24px 30px rgba(0, 0, 0, 0.58));
+  }
+}
 .wine-c-body {
   min-width: 0;
 }
