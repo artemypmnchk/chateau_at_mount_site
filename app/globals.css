@@ -125,12 +125,15 @@ a {
   background: #fff;
   color: var(--wine);
 }
-/* На тёмном бордовая заливка тонет — кнопка становится светлой */
-.section-dark .btn-accent {
+/* На тёмном бордовая заливка тонет — кнопка становится светлой
+   (правило 2 DESIGN.md; .wine-hero — тёмное полотно сорта, не .section-dark) */
+.section-dark .btn-accent,
+.wine-hero .btn-accent {
   background: #f3ede2;
   color: var(--ink);
 }
-.section-dark .btn-accent:hover {
+.section-dark .btn-accent:hover,
+.wine-hero .btn-accent:hover {
   background: #fff;
   color: var(--ink);
 }
@@ -2011,7 +2014,8 @@ a.info-row:hover .info-value {
   text-align: center;
 }
 .visit-final h2 {
-  font-size: clamp(34px, 5.4vw, 62px);
+  /* Тише секционных h2 (52px): приглашение не должно кричать громче контента */
+  font-size: clamp(30px, 3.6vw, 46px);
   line-height: 1.06;
   max-width: 820px;
   margin: 0 auto;
@@ -2150,6 +2154,15 @@ a.info-row:hover .info-value {
   font-size: clamp(22px, 2.2vw, 26px);
   margin-bottom: 18px;
 }
+/* Гастрономические пары — строка-меню курсивом, не чек-лист */
+.pairings-line {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(17px, 1.8vw, 20px);
+  line-height: 1.75;
+  color: var(--ink-soft);
+  max-width: 34ch;
+}
 @media (max-width: 900px) {
   .story-grid {
     grid-template-columns: 1fr;
@@ -2284,7 +2297,9 @@ a.info-row:hover .info-value {
 .wine-c h3 .vint {
   color: var(--v, var(--accent));
   font-variant-numeric: tabular-nums;
-  margin-left: 0.3em;
+  /* отступ даёт настоящий пробел в разметке — так «Viorica 2023»
+     правильно читается и скринридером, и поисковиком */
+  margin-left: 0.08em;
   font-size: 0.82em;
 }
 .wine-c-notes {

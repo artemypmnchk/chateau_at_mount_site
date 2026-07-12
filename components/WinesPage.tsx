@@ -71,7 +71,7 @@ export default function WinesPage() {
                   </div>
                   <h3>
                     {w.name}
-                    {w.vintage && <span className="vint">{w.vintage}</span>}
+                    {w.vintage && <> <span className="vint">{w.vintage}</span></>}
                   </h3>
                   <p className="wine-c-notes">{L(w.notes).join(" · ")}</p>
                   <p className="wine-c-desc">{L(w.desc)}</p>

@@ -5,26 +5,6 @@ import { t, wines, type Wine } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
 import { useReveal } from "./useReveal";
-function Check() {
-  return (
-    <svg
-      className="check"
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden
-    >
-      <path
-        d="M20 6 9 17l-5-5"
-        stroke="currentColor"
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 export default function WinePage({ wine }: { wine: Wine }) {
   const { L, locale } = useLocale();
@@ -142,14 +122,8 @@ export default function WinePage({ wine }: { wine: Wine }) {
           </div>
           <aside className="story-aside">
             <h3>{L(w.pairingsTitle)}</h3>
-            <ul className="coop-list">
-              {wine.pairings[locale].map((item) => (
-                <li key={item}>
-                  <Check />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+            {/* Строка-меню, не чек-лист: еда — не выполненные задачи */}
+            <p className="pairings-line">{wine.pairings[locale].join(" · ")}</p>
           </aside>
         </div>
       </section>
@@ -158,19 +132,15 @@ export default function WinePage({ wine }: { wine: Wine }) {
       <section className="section-dark">
         <div className="container">
           <h2 className="visit-h2">{L(w.otherTitle)}</h2>
+          {/* Карточки без data-reveal: секция целиком под фолдом — в
+              статическом рендере (печать, превью) reveal оставлял чёрную яму */}
           <div className="wines-list">
             {others.map((o, i) => (
               <a
                 className="wine-c"
                 href={`/wines/${o.slug}`}
                 key={o.slug}
-                data-reveal
-                style={
-                  {
-                    "--v": o.accent,
-                    "--reveal-delay": `${Math.min(i, 5) * 70}ms`,
-                  } as React.CSSProperties
-                }
+                style={{ "--v": o.accent } as React.CSSProperties}
               >
                 <div className="wine-c-media">
                   <Image
@@ -192,7 +162,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
                   </div>
                   <h3>
                     {o.name}
-                    {o.vintage && <span className="vint">{o.vintage}</span>}
+                    {o.vintage && <> <span className="vint">{o.vintage}</span></>}
                   </h3>
                   <p className="wine-c-notes">{L(o.notes).join(" · ")}</p>
                   <p className="wine-c-desc">{L(o.desc)}</p>
