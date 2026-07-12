@@ -57,12 +57,6 @@ export default function WinePage({ wine }: { wine: Wine }) {
             <h1>{wine.name}</h1>
             <p className="lead">{L(wine.desc)}</p>
             <dl className="wine-facts">
-              {wine.vintage && (
-                <div>
-                  <dt>{L(w.facts.vintage)}</dt>
-                  <dd>{wine.vintage}</dd>
-                </div>
-              )}
               <div>
                 <dt>{L(w.facts.alcohol)}</dt>
                 <dd>{L(wine.alcohol)}</dd>

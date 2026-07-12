@@ -37,9 +37,6 @@ export interface Wine {
   notes: Record<Locale, string[]>;
   /** Тип вина для плашки и характеристик: «Сухое красное» и т.п. */
   type: Record<Locale, string>;
-  /** Год урожая. Пустая строка — год не подтверждён винодельней и на
-   *  витрине не показывается (карточка ленты и факты страницы вина). */
-  vintage: string;
   alcohol: Record<Locale, string>;
   servingTemp: string;
   pairings: Record<Locale, string[]>;
@@ -53,7 +50,7 @@ export interface Wine {
 }
 
 // Порядок бутылок — как в оригинальном слайдере.
-// ⚠️ Год урожая и крепость заполнены ориентировочно — уточните у винодельни.
+// ⚠️ Крепость заполнена ориентировочно — уточните у винодельни.
 export const wines: Wine[] = [
   {
     slug: "merlot",
@@ -88,7 +85,6 @@ export const wines: Wine[] = [
       ro: ["cireșe", "mure", "stejar"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    vintage: "2020",
     alcohol: { ru: "13,5 % об.", en: "13.5% ABV", ro: "13,5% vol." },
     servingTemp: "16–18 °C",
     pairings: {
@@ -124,7 +120,7 @@ export const wines: Wine[] = [
     seo: {
       title: "Вино Мерло (Merlot) из Молдовы — сухое красное",
       description:
-        "Сухое красное вино Merlot от семейной винодельни Chateau At Mount (Гагаузия, Молдова): год урожая, крепость, температура подачи, гастрономические пары и история сорта.",
+        "Сухое красное вино Merlot от семейной винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и история сорта.",
     },
   },
   {
@@ -146,7 +142,6 @@ export const wines: Wine[] = [
       ro: ["căpșuni", "zmeură", "afine"],
     },
     type: { ru: "Сухое розовое", en: "Dry rosé", ro: "Rozé sec" },
-    vintage: "",
     alcohol: { ru: "12,5 % об.", en: "12.5% ABV", ro: "12,5% vol." },
     servingTemp: "8–10 °C",
     pairings: {
@@ -177,7 +172,7 @@ export const wines: Wine[] = [
     seo: {
       title: "Розовое вино Cabernet Rose из Молдовы — сухое розе",
       description:
-        "Сухое розовое вино Cabernet Rose от семейной винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи, гастрономические пары и история вина.",
+        "Сухое розовое вино Cabernet Rose от семейной винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и история вина.",
     },
   },
   {
@@ -237,7 +232,6 @@ export const wines: Wine[] = [
       ro: ["flori de câmp", "busuioc", "citrice"],
     },
     type: { ru: "Сухое белое", en: "Dry white", ro: "Alb sec" },
-    vintage: "2023",
     alcohol: { ru: "12,5 % об.", en: "12.5% ABV", ro: "12,5% vol." },
     servingTemp: "10–12 °C",
     pairings: {
@@ -268,7 +262,7 @@ export const wines: Wine[] = [
     seo: {
       title: "Вино Виорика (Viorica) — редкое молдавское белое вино",
       description:
-        "Viorica (Виорика) — сухое белое вино из редкого ароматного сорта, который выращивают почти только в Молдове. Год урожая, крепость, температура подачи, гастрономические пары и история сорта. Винодельня Chateau At Mount, Гагаузия.",
+        "Viorica (Виорика) — сухое белое вино из редкого ароматного сорта, который выращивают почти только в Молдове. Крепость, температура подачи и история сорта. Винодельня Chateau At Mount, Гагаузия.",
     },
   },
   {
@@ -290,7 +284,6 @@ export const wines: Wine[] = [
       ro: ["fructe de pădure", "zmeură", "smochine"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    vintage: "",
     alcohol: { ru: "13,5 % об.", en: "13.5% ABV", ro: "13,5% vol." },
     servingTemp: "16–18 °C",
     pairings: {
@@ -321,7 +314,7 @@ export const wines: Wine[] = [
     seo: {
       title: "Вино Фетяска Нягрэ (Fetească Neagră) — красное вино из Молдовы",
       description:
-        "Fetească Neagră (Фетяска Нягрэ) — сухое красное вино из древнего молдавского сорта. Год урожая, крепость, температура подачи, гастрономические пары и история сорта. Семейная винодельня Chateau At Mount, Гагаузия, Молдова.",
+        "Fetească Neagră (Фетяска Нягрэ) — сухое красное вино из древнего молдавского сорта. Крепость, температура подачи и история сорта. Семейная винодельня Chateau At Mount, Гагаузия, Молдова.",
     },
   },
   {
@@ -355,7 +348,6 @@ export const wines: Wine[] = [
       ro: ["vișine negre", "prune", "condimente"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    vintage: "2020",
     alcohol: { ru: "14 % об.", en: "14% ABV", ro: "14% vol." },
     servingTemp: "16–18 °C",
     pairings: {
@@ -391,7 +383,7 @@ export const wines: Wine[] = [
     seo: {
       title: "Вино Каберне Совиньон (Cabernet Sauvignon) из Молдовы",
       description:
-        "Сухое красное вино Cabernet Sauvignon от семейной винодельни Chateau At Mount (Гагаузия, Молдова): год урожая, крепость, температура подачи, гастрономические пары и история сорта.",
+        "Сухое красное вино Cabernet Sauvignon от семейной винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и история сорта.",
     },
   },
   {
@@ -414,7 +406,6 @@ export const wines: Wine[] = [
       ro: ["flori de câmp", "măr verde", "citrice"],
     },
     type: { ru: "Сухое белое", en: "Dry white", ro: "Alb sec" },
-    vintage: "",
     alcohol: { ru: "12 % об.", en: "12% ABV", ro: "12% vol." },
     servingTemp: "8–12 °C",
     pairings: {
@@ -450,7 +441,7 @@ export const wines: Wine[] = [
     seo: {
       title: "Вино Фетяска Албэ (Fetească Albă) — белое вино из Молдовы",
       description:
-        "Fetească Albă (Фетяска Албэ) — сухое белое вино из старинного молдавского сорта. Год урожая, крепость, температура подачи, гастрономические пары и история сорта. Винодельня Chateau At Mount, Гагаузия.",
+        "Fetească Albă (Фетяска Албэ) — сухое белое вино из старинного молдавского сорта. Крепость, температура подачи и история сорта. Винодельня Chateau At Mount, Гагаузия.",
     },
   },
   {
@@ -483,7 +474,6 @@ export const wines: Wine[] = [
       ro: ["vișine negre", "prune", "rodie"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    vintage: "2021",
     alcohol: { ru: "14 % об.", en: "14% ABV", ro: "14% vol." },
     servingTemp: "16–18 °C",
     pairings: {
@@ -514,7 +504,7 @@ export const wines: Wine[] = [
     seo: {
       title: "Вино Шираз (Shiraz) из Молдовы — сухое красное",
       description:
-        "Сухое красное вино Shiraz от семейной винодельни Chateau At Mount (Гагаузия, Молдова): год урожая, крепость, температура подачи, гастрономические пары и история сорта.",
+        "Сухое красное вино Shiraz от семейной винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и история сорта.",
     },
   },
 ];
@@ -725,7 +715,6 @@ export const t = {
   },
   winePage: {
     facts: {
-      vintage: { ru: "Год урожая", en: "Vintage", ro: "Anul recoltei" },
       alcohol: { ru: "Крепость", en: "Alcohol", ro: "Alcool" },
       serving: {
         ru: "Температура подачи",

@@ -32,7 +32,7 @@ export function generateMetadata({ params }: Props): Metadata {
 
 /**
  * JSON-LD Product (schema.org) — карточка вина для поисковиков:
- * сорт, год урожая, крепость, производитель. Без offers — на сайте нет цен.
+ * сорт, крепость, производитель. Без offers — на сайте нет цен.
  */
 function WineProductSchema({ wine }: { wine: Wine }) {
   const data = {
@@ -50,15 +50,6 @@ function WineProductSchema({ wine }: { wine: Wine }) {
     category: "Вино",
     countryOfOrigin: { "@type": "Country", name: "Молдова" },
     additionalProperty: [
-      ...(wine.vintage
-        ? [
-            {
-              "@type": "PropertyValue",
-              name: "Год урожая",
-              value: wine.vintage,
-            },
-          ]
-        : []),
       {
         "@type": "PropertyValue",
         name: "Крепость",
