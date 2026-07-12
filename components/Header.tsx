@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { t, locales } from "@/lib/content";
 import { useLocale } from "./locale";
 
 const navItems = [
-  { href: "/#about", label: t.nav.about },
+  { href: "/about", label: t.nav.about },
   { href: "/wines", label: t.nav.wines },
   { href: "/visit", label: t.nav.visit },
   { href: "/#events", label: t.nav.events },
@@ -31,6 +32,9 @@ function LangToggle({ style }: { style?: React.CSSProperties }) {
 
 export default function Header() {
   const { L } = useLocale();
+  const pathname = usePathname();
+  // Страницы со светлым хиро: текст шапки тёмный поверх известняка
+  const onLight = pathname === "/about";
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -43,7 +47,11 @@ export default function Header() {
 
   return (
     <>
-      <header className={`header${scrolled ? " scrolled" : ""}`}>
+      <header
+        className={`header${scrolled ? " scrolled" : ""}${
+          onLight ? " on-light" : ""
+        }`}
+      >
         <div className="container header-inner">
           <a href="/" className="brand" aria-label="Chateau At Mount">
             {/* eslint-disable-next-line @next/next/no-img-element */}
