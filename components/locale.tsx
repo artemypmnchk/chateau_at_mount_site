@@ -12,8 +12,9 @@ import { locales, type Locale } from "@/lib/content";
 interface LocaleCtx {
   locale: Locale;
   setLocale: (l: Locale) => void;
-  /** Хелпер: достаёт строку нужного языка из словаря { ru, en, ro }. */
-  L: (s: Record<Locale, string>) => string;
+  /** Хелпер: достаёт значение нужного языка из словаря { ru, en, ro }.
+   *  Дженерик — работает и со строкой, и с массивом (напр. вкусовые ноты). */
+  L: <T,>(s: Record<Locale, T>) => T;
 }
 
 const Ctx = createContext<LocaleCtx | null>(null);
@@ -38,7 +39,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem("locale", l);
   };
 
-  const L = (s: Record<Locale, string>) => s[locale];
+  const L = <T,>(s: Record<Locale, T>) => s[locale];
 
   return (
     <Ctx.Provider value={{ locale, setLocale, L }}>{children}</Ctx.Provider>

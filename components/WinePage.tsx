@@ -4,27 +4,15 @@ import Image from "next/image";
 import { t, wines, type Wine } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
-import Medal from "./Medal";
-
-function Check() {
-  return (
-    <svg
-      className="check"
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden
-    >
-      <path
-        d="M20 6 9 17l-5-5"
-        stroke="currentColor"
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
+/** Светлый band (розе, светлые белые) даёт слишком яркое полотно на всю
+ *  высоту хиро — помечаем такие вина, чтобы затемнить только их хиро.
+ *  Порог по воспринимаемой яркости: rose/albă попадают, тёмные — нет. */
+function isLightBand(hex: string) {
+  const h = hex.replace("#", "");
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b > 88;
 }
 
 export default function WinePage({ wine }: { wine: Wine }) {
@@ -36,6 +24,8 @@ export default function WinePage({ wine }: { wine: Wine }) {
   return (
     <main
       className="wine-page"
+      data-light-band={isLightBand(wine.band) ? "" : undefined}
+      data-hero-tone={wine.heroTone ? "" : undefined}
       /* Акцент всей страницы — из палитры этикетки этого вина;
          band — согласованное полотно сорта, как в ленте на главной */
       style={
@@ -43,6 +33,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
           "--accent": wine.accent,
           "--accent-dark": wine.accentDark,
           "--band": wine.band,
+          "--hero-tone": wine.heroTone,
         } as React.CSSProperties
       }
     >
@@ -66,10 +57,12 @@ export default function WinePage({ wine }: { wine: Wine }) {
             <h1>{wine.name}</h1>
             <p className="lead">{L(wine.desc)}</p>
             <dl className="wine-facts">
-              <div>
-                <dt>{L(w.facts.vintage)}</dt>
-                <dd>{wine.vintage}</dd>
-              </div>
+              {wine.vintage && (
+                <div>
+                  <dt>{L(w.facts.vintage)}</dt>
+                  <dd>{wine.vintage}</dd>
+                </div>
+              )}
               <div>
                 <dt>{L(w.facts.alcohol)}</dt>
                 <dd>{L(wine.alcohol)}</dd>
@@ -80,49 +73,44 @@ export default function WinePage({ wine }: { wine: Wine }) {
               </div>
             </dl>
             {wine.awards && wine.awards.length > 0 && (
-              <>
-                <ul className="wine-awards">
-                  {wine.awards.map((a) => (
-                    <li key={a.text.ru} className={`medal-${a.level}`}>
-                      <Medal />
-                      <span className="award-line">
-                        {L(a.text)}
-                        {a.proofUrl && (
-                          <a
-                            className="award-proof"
-                            href={a.proofUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {L(w.awardProof)} ↗
-                          </a>
-                        )}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-                {/* Официальная графика медалей конкурсов (DWM разрешает
-                    призёрам промо-использование, перерисовка запрещена) */}
-                {wine.awards.some((a) => a.art) && (
-                  <div className="wine-medal-art">
-                    {wine.awards
-                      .filter((a) => a.art)
-                      .map((a) => (
-                        <Image
-                          key={a.art}
-                          src={a.art!}
-                          alt={L(a.text)}
-                          width={134}
-                          height={64}
-                        />
-                      ))}
-                  </div>
-                )}
-              </>
+              /* Почётный ряд: официальная графика медали (DWM разрешает
+                 призёрам промо-использование) живёт в строке своей награды —
+                 паспорт вина, а не плавающий стикер */
+              <ul className="wine-awards">
+                {wine.awards.map((a) => (
+                  <li
+                    key={a.text.ru}
+                    className={`medal-${a.level}${a.art ? " has-art" : ""}`}
+                  >
+                    {a.art && (
+                      <Image
+                        className="award-art"
+                        src={a.art}
+                        alt=""
+                        width={92}
+                        height={44}
+                      />
+                    )}
+                    <span className="award-line">
+                      {L(a.text)}
+                      {a.proofUrl && (
+                        <a
+                          className="award-proof"
+                          href={a.proofUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {L(w.awardProof)} ↗
+                        </a>
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             )}
             <div className="hero-actions">
               <a href="/visit" className="btn btn-accent">
-                {L(t.visitPage.bookCta)}
+                <span>{L(t.visitPage.bookCta)}</span>
               </a>
               <a href="/wines" className="btn btn-outline">
                 {L(w.allWines)}
@@ -141,14 +129,8 @@ export default function WinePage({ wine }: { wine: Wine }) {
           </div>
           <aside className="story-aside">
             <h3>{L(w.pairingsTitle)}</h3>
-            <ul className="coop-list">
-              {wine.pairings[locale].map((item) => (
-                <li key={item}>
-                  <Check />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+            {/* Строка-меню, не чек-лист: еда — не выполненные задачи */}
+            <p className="pairings-line">{wine.pairings[locale].join(" · ")}</p>
           </aside>
         </div>
       </section>
@@ -157,24 +139,45 @@ export default function WinePage({ wine }: { wine: Wine }) {
       <section className="section-dark">
         <div className="container">
           <h2 className="visit-h2">{L(w.otherTitle)}</h2>
-          <div className="slider">
-            {others.map((o, i) => (
-              <a className="wine-card" href={`/wines/${o.slug}`} key={o.slug}>
-                <span className="wine-no">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div className="wine-img">
+          {/* Карточки без data-reveal: секция целиком под фолдом — в
+              статическом рендере (печать, превью) reveal оставлял чёрную яму */}
+          <div className="wines-list">
+            {others.map((o) => (
+              <a
+                className="wine-c"
+                href={`/wines/${o.slug}`}
+                key={o.slug}
+                style={{ "--v": o.accent } as React.CSSProperties}
+              >
+                <div className="wine-c-media">
                   <Image
                     src={o.image}
                     alt={o.name}
                     fill
-                    sizes="(max-width: 540px) 60vw, 244px"
+                    sizes="(max-width: 720px) 116px, 184px"
                     style={{ objectFit: "contain" }}
                   />
                 </div>
-                <h3>{o.name}</h3>
-                <p>{L(o.desc)}</p>
-                <span className="wine-more">{L(t.winesSection.more)} →</span>
+                <div className="wine-c-body">
+                  <span className="wine-c-meta">
+                    {L(o.type)} · {L(o.alcohol)}
+                  </span>
+                  <h3>{o.name}</h3>
+                  <p className="wine-c-desc">{L(o.desc)}</p>
+                  {o.awards && o.awards.length > 0 && (
+                    <ul className="wine-c-honors">
+                      {o.awards.map((a) => (
+                        <li key={a.text.ru} className={`medal-${a.level}`}>
+                          <span className="dot" />
+                          {a.competition}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <span className="wine-c-more">
+                    {L(t.winesSection.more)} →
+                  </span>
+                </div>
               </a>
             ))}
           </div>
@@ -188,9 +191,9 @@ export default function WinePage({ wine }: { wine: Wine }) {
           <p>{L(w.tasteText)}</p>
           <div className="contact-actions">
             <a href="/visit" className="btn btn-accent">
-              {L(t.visitPage.bookCta)}
+              <span>{L(t.visitPage.bookCta)}</span>
             </a>
-            <button onClick={openBooking} className="btn btn-outline">
+            <button onClick={() => openBooking()} className="btn btn-outline">
               {L(t.visitPage.formLink)}
             </button>
           </div>

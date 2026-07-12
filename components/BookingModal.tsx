@@ -11,9 +11,11 @@ import { t } from "@/lib/content";
 import { useLocale } from "./locale";
 import BookingForm from "./BookingForm";
 
-const BookingModalContext = createContext<{ openBooking: () => void } | null>(
-  null
-);
+const BookingModalContext = createContext<{
+  /** source — метка происхождения заявки (напр. «Опт · страница вин»),
+   *  уходит в Telegram владельцу. Необязателен. */
+  openBooking: (source?: string) => void;
+} | null>(null);
 
 /** Открывает поп-ап с формой заявки с любой страницы. */
 export function useBookingModal() {
@@ -31,7 +33,12 @@ export function BookingModalProvider({
 }) {
   const { L } = useLocale();
   const [open, setOpen] = useState(false);
-  const openBooking = useCallback(() => setOpen(true), []);
+  const [source, setSource] = useState<string | undefined>();
+  // Гвард: onClick={openBooking} передаёт event — метку берём только строкой.
+  const openBooking = useCallback((src?: string) => {
+    setSource(typeof src === "string" ? src : undefined);
+    setOpen(true);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -74,7 +81,7 @@ export function BookingModalProvider({
             </button>
             <h2>{L(t.contactsPage.formTitle)}</h2>
             <p className="form-note">{L(t.contactsPage.formNote)}</p>
-            <BookingForm />
+            <BookingForm source={source} />
           </div>
         </div>
       )}

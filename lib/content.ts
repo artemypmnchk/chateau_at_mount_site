@@ -14,6 +14,10 @@ export interface Wine {
   /** Основной цвет сорта — полотно блока вин на главной (кремовый текст
    *  должен держать контраст ≥4.5:1). */
   band: string;
+  /** Опциональный ручной тон полотна хиро на странице вина. Нужен, когда
+   *  band не подходит для полотна во всю высоту (напр. у белой Fetească
+   *  albă band малиновый — «как красное»). Берётся базой градиента. */
+  heroTone?: string;
   /** Награды вина: уровень медали + подпись (конкурс, год, урожай).
    *  art — официальная графика медали конкурса (использование в промо
    *  разрешено призёрам бесплатно, перерисовка запрещена),
@@ -21,12 +25,20 @@ export interface Wine {
   awards?: {
     level: "gold" | "silver";
     text: Record<Locale, string>;
+    /** Короткое имя конкурса — компактная подпись-кредит в ленте вин на
+     *  главной (без «золото/год», без капса). Полный текст — на странице вина. */
+    competition?: string;
     art?: string;
     proofUrl?: string;
   }[];
   desc: Record<Locale, string>;
+  /** 2–3 слова-ноты для карточки ленты (выводятся курсивом): «вишня ·
+   *  ежевика · дуб». Короткий сканируемый слой, не дубль desc. */
+  notes: Record<Locale, string[]>;
   /** Тип вина для плашки и характеристик: «Сухое красное» и т.п. */
   type: Record<Locale, string>;
+  /** Год урожая. Пустая строка — год не подтверждён винодельней и на
+   *  витрине не показывается (карточка ленты и факты страницы вина). */
   vintage: string;
   alcohol: Record<Locale, string>;
   servingTemp: string;
@@ -55,18 +67,24 @@ export const wines: Wine[] = [
           en: "Gold · Asia Wine Trophy 2023 · 2020 vintage",
           ro: "Aur · Asia Wine Trophy 2023 · recolta 2020",
         },
+        competition: "Asia Wine Trophy",
         art: "/images/medals/asia-wine-trophy-gold.png",
         proofUrl:
           "https://results.wine-trophy.com/en/wine/awt-23/chateau_at_mount_merlot_red_dry_wine_2020",
       },
     ],
     desc: {
-      ru: "Сухое красное вино. Богатый аромат спелой вишни и ежевики, дополненный нотами дуба",
-      en: "Dry red wine. A rich aroma of ripe cherry and blackberry, rounded out with oak notes",
-      ro: "Vin roșu sec. Aromă bogată de cireșe coapte și mure, completată de note de stejar",
+      ru: "Богатый аромат спелой вишни и ежевики, дополненный нотами дуба",
+      en: "A rich aroma of ripe cherry and blackberry, rounded out with oak notes",
+      ro: "Aromă bogată de cireșe coapte și mure, completată de note de stejar",
+    },
+    notes: {
+      ru: ["вишня", "ежевика", "дуб"],
+      en: ["cherry", "blackberry", "oak"],
+      ro: ["cireșe", "mure", "stejar"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    vintage: "2023",
+    vintage: "2020",
     alcohol: { ru: "13,5 % об.", en: "13.5% ABV", ro: "13,5% vol." },
     servingTemp: "16–18 °C",
     pairings: {
@@ -109,12 +127,17 @@ export const wines: Wine[] = [
     band: "#ac4c6b", // роза этикетки, углублённая до контраста с кремовым
 
     desc: {
-      ru: "Сухое розовое вино. Аромат клубники с нотками малины, черники и сбалансированной кислотностью",
-      en: "Dry rosé wine. A strawberry aroma with hints of raspberry, blueberry and balanced acidity",
-      ro: "Vin rozé sec. Aromă de căpșuni cu nuanțe de zmeură, afine și aciditate echilibrată",
+      ru: "Аромат клубники с нотками малины, черники и сбалансированной кислотностью",
+      en: "A strawberry aroma with hints of raspberry, blueberry and balanced acidity",
+      ro: "Aromă de căpșuni cu nuanțe de zmeură, afine și aciditate echilibrată",
+    },
+    notes: {
+      ru: ["клубника", "малина", "черника"],
+      en: ["strawberry", "raspberry", "blueberry"],
+      ro: ["căpșuni", "zmeură", "afine"],
     },
     type: { ru: "Сухое розовое", en: "Dry rosé", ro: "Rozé sec" },
-    vintage: "2023",
+    vintage: "",
     alcohol: { ru: "12,5 % об.", en: "12.5% ABV", ro: "12,5% vol." },
     servingTemp: "8–10 °C",
     pairings: {
@@ -164,6 +187,7 @@ export const wines: Wine[] = [
           en: "Gold · Berliner Wine Trophy 2025 · 2023 vintage",
           ro: "Aur · Berliner Wine Trophy 2025 · recolta 2023",
         },
+        competition: "Berliner Wine Trophy",
         art: "/images/medals/berliner-wine-trophy-gold.png",
         proofUrl:
           "https://results.wine-trophy.com/en/wine/bwt-w-25/viorica_2023",
@@ -175,9 +199,9 @@ export const wines: Wine[] = [
           en: "Gold · Asia Wine Trophy 2025 · 2023 vintage",
           ro: "Aur · Asia Wine Trophy 2025 · recolta 2023",
         },
+        competition: "Asia Wine Trophy",
         art: "/images/medals/asia-wine-trophy-gold.png",
-        proofUrl:
-          "https://results.wine-trophy.com/en/wine/awt-25/viorica_2023",
+        proofUrl: "https://results.wine-trophy.com/en/wine/awt-25/viorica_2023",
       },
       {
         level: "silver",
@@ -186,6 +210,7 @@ export const wines: Wine[] = [
           en: "Silver · Mundus Vini 2025 · 2023 vintage",
           ro: "Argint · Mundus Vini 2025 · recolta 2023",
         },
+        competition: "Mundus Vini",
         // Официальный буклет результатов Spring Tasting 2025, стр. 68:
         // «2023 Chateau at MOUNT Viorica — Silber» (подано через Divus Winery)
         proofUrl:
@@ -193,9 +218,14 @@ export const wines: Wine[] = [
       },
     ],
     desc: {
-      ru: "Сухое белое вино. Аромат полевых цветов, базилика, пряные ноты груши и цитрусовых",
-      en: "Dry white wine. An aroma of wildflowers and basil with spicy pear and citrus notes",
-      ro: "Vin alb sec. Aromă de flori de câmp și busuioc, cu note picante de pară și citrice",
+      ru: "Аромат полевых цветов, базилика, пряные ноты груши и цитрусовых",
+      en: "An aroma of wildflowers and basil with spicy pear and citrus notes",
+      ro: "Aromă de flori de câmp și busuioc, cu note picante de pară și citrice",
+    },
+    notes: {
+      ru: ["полевые цветы", "базилик", "цитрус"],
+      en: ["wildflowers", "basil", "citrus"],
+      ro: ["flori de câmp", "busuioc", "citrice"],
     },
     type: { ru: "Сухое белое", en: "Dry white", ro: "Alb sec" },
     vintage: "2023",
@@ -241,12 +271,17 @@ export const wines: Wine[] = [
     band: "#90191c", // винно-красный заката
 
     desc: {
-      ru: "Сухое красное вино. Вино гранатового цвета с ароматом лесных ягод, нотами малины и инжира",
-      en: "Dry red wine. A garnet-coloured wine with wild-berry aromas and notes of raspberry and fig",
-      ro: "Vin roșu sec. Vin de culoarea granatului, cu aromă de fructe de pădure, note de zmeură și smochine",
+      ru: "Вино гранатового цвета с ароматом лесных ягод, нотами малины и инжира",
+      en: "A garnet-coloured wine with wild-berry aromas and notes of raspberry and fig",
+      ro: "Vin de culoarea granatului, cu aromă de fructe de pădure, note de zmeură și smochine",
+    },
+    notes: {
+      ru: ["лесные ягоды", "малина", "инжир"],
+      en: ["wild berries", "raspberry", "fig"],
+      ro: ["fructe de pădure", "zmeură", "smochine"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    vintage: "2023",
+    vintage: "",
     alcohol: { ru: "13,5 % об.", en: "13.5% ABV", ro: "13,5% vol." },
     servingTemp: "16–18 °C",
     pairings: {
@@ -286,7 +321,7 @@ export const wines: Wine[] = [
     image: "/images/wine-cabernet-sauvignon.png",
     accent: "#cbaa7e", // янтарь камней с этикетки
     accentDark: "#8d6a3f",
-    band: "#180f0a", // почти чёрный кофейный
+    band: "#180f0a", // почти чёрный кофейный — осознанно тёмный, владельцу так нравится
 
     awards: [
       {
@@ -296,16 +331,22 @@ export const wines: Wine[] = [
           en: "Gold · Berliner Wine Trophy 2024 · 2020 vintage",
           ro: "Aur · Berliner Wine Trophy 2024 · recolta 2020",
         },
+        competition: "Berliner Wine Trophy",
         art: "/images/medals/berliner-wine-trophy-gold.png",
       },
     ],
     desc: {
-      ru: "Сухое красное вино. Аромат черной вишни, спелых слив, тонко дополненный нотами специй",
-      en: "Dry red wine. An aroma of black cherry and ripe plum, delicately finished with spice notes",
-      ro: "Vin roșu sec. Aromă de vișine negre și prune coapte, completată delicat de note de condimente",
+      ru: "Аромат черной вишни, спелых слив, тонко дополненный нотами специй",
+      en: "An aroma of black cherry and ripe plum, delicately finished with spice notes",
+      ro: "Aromă de vișine negre și prune coapte, completată delicat de note de condimente",
+    },
+    notes: {
+      ru: ["чёрная вишня", "слива", "специи"],
+      en: ["black cherry", "plum", "spice"],
+      ro: ["vișine negre", "prune", "condimente"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    vintage: "2023",
+    vintage: "2020",
     alcohol: { ru: "14 % об.", en: "14% ABV", ro: "14% vol." },
     servingTemp: "16–18 °C",
     pairings: {
@@ -346,14 +387,20 @@ export const wines: Wine[] = [
     accent: "#dcaaa0", // коралл рук с этикетки
     accentDark: "#a55d50",
     band: "#bc4052", // малиновый коралл, углублён до контраста с кремовым
+    heroTone: "#b0685e", // пыльный коралл-лосось с этикетки — полотно хиро
 
     desc: {
-      ru: "Сухое белое вино. Тонкий аромат полевых цветов с нотами зеленого яблока и цитрусовых",
-      en: "Dry white wine. A delicate aroma of wildflowers with green-apple and citrus notes",
-      ro: "Vin alb sec. Aromă fină de flori de câmp cu note de măr verde și citrice",
+      ru: "Тонкий аромат полевых цветов с нотами зеленого яблока и цитрусовых",
+      en: "A delicate aroma of wildflowers with green-apple and citrus notes",
+      ro: "Aromă fină de flori de câmp cu note de măr verde și citrice",
+    },
+    notes: {
+      ru: ["полевые цветы", "зелёное яблоко", "цитрус"],
+      en: ["wildflowers", "green apple", "citrus"],
+      ro: ["flori de câmp", "măr verde", "citrice"],
     },
     type: { ru: "Сухое белое", en: "Dry white", ro: "Alb sec" },
-    vintage: "2023",
+    vintage: "",
     alcohol: { ru: "12 % об.", en: "12% ABV", ro: "12% vol." },
     servingTemp: "8–10 °C",
     pairings: {
@@ -403,15 +450,21 @@ export const wines: Wine[] = [
           en: "Silver · Asia Wine Trophy 2024 · 2021 vintage",
           ro: "Argint · Asia Wine Trophy 2024 · recolta 2021",
         },
+        competition: "Asia Wine Trophy",
       },
     ],
     desc: {
-      ru: "Сухое красное вино. Интенсивный аромат черной вишни, спелой сливы с нотками граната. Сбалансированный фруктовый вкус",
-      en: "Dry red wine. An intense aroma of black cherry and ripe plum with hints of pomegranate. A balanced fruity taste",
-      ro: "Vin roșu sec. Aromă intensă de vișine negre și prune coapte cu nuanțe de rodie. Gust fructat echilibrat",
+      ru: "Интенсивный аромат черной вишни, спелой сливы с нотками граната. Сбалансированный фруктовый вкус",
+      en: "An intense aroma of black cherry and ripe plum with hints of pomegranate. A balanced fruity taste",
+      ro: "Aromă intensă de vișine negre și prune coapte cu nuanțe de rodie. Gust fructat echilibrat",
+    },
+    notes: {
+      ru: ["чёрная вишня", "слива", "гранат"],
+      en: ["black cherry", "plum", "pomegranate"],
+      ro: ["vișine negre", "prune", "rodie"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    vintage: "2023",
+    vintage: "2021",
     alcohol: { ru: "14 % об.", en: "14% ABV", ro: "14% vol." },
     servingTemp: "16–18 °C",
     pairings: {
@@ -519,18 +572,18 @@ export const t = {
   about: {
     // Используется в футере как строка-описание.
     line1: {
-      ru: "Семейная винодельня на холме при въезде в Чадыр‑Лунгу",
-      en: "A family winery on the hill at the entrance to Ceadîr-Lunga",
-      ro: "O cramă de familie pe dealul de la intrarea în Ceadîr-Lunga",
+      ru: "Семейная винодельня при въезде в Чадыр‑Лунгу",
+      en: "A family winery at the entrance to Ceadîr-Lunga",
+      ro: "O cramă de familie la intrarea în Ceadîr-Lunga",
     },
     // Фраза-манифест под хиро (docs/spec-manifesto-block.md). Слова в
     // *звёздочках* — акцентные: курсив + пыльная роза при подсветке
     // (components/HighlightOnScroll.tsx). При переписывании текста
     // разметку звёздочками сохранять. Текущий текст — плейсхолдер.
     manifesto: {
-      ru: "Мы делаем вино там же, где оно растёт: один *холм*, одна *семья* — весь путь от лозы до бутылки",
-      en: "We make wine where it grows: one *hill*, one *family* — the whole journey from vine to bottle",
-      ro: "Facem vinul acolo unde crește: un *deal*, o *familie* — întregul drum de la viță la sticlă",
+      ru: "Лучшее вино получается там же, где *вырос* виноград. На этом *стоит* наша винодельня",
+      en: "The best wine is made where the grapes *grew*. Our winery is *built* on that",
+      ro: "Cel mai bun vin se face acolo unde au *crescut* strugurii. Pe asta e *construită* crama noastră",
     },
     cta: {
       ru: "Приехать в гости",
@@ -560,6 +613,71 @@ export const t = {
       },
     },
   },
+  /* Блок «Пруф» — светлая глава между манифестом и винами:
+     развеска двух кадров + цифры (спека: docs/spec-features-block.md).
+     Тексты можно переписывать прямо здесь, код не трогая. */
+  proof: {
+    kicker: { ru: "Наше хозяйство", en: "Our estate", ro: "Domeniul nostru" },
+    captions: {
+      harvest: {
+        label: { ru: "Сбор урожая", en: "Harvest", ro: "Culesul" },
+        text: {
+          ru: "Сентябрь на наших виноградниках",
+          en: "September in our vineyards",
+          ro: "Septembrie în podgoriile noastre",
+        },
+      },
+      taste: {
+        label: { ru: "Стиль вин", en: "The style", ro: "Stilul vinurilor" },
+        text: {
+          ru: "С выразительной кислотностью и свежими фруктовыми нотками. Даже красные.",
+          en: "Expressive acidity and fresh fruity notes. Even the reds.",
+          ro: "Aciditate expresivă și note proaspete de fructe. Chiar și cele roșii.",
+        },
+      },
+    },
+    /* value — строкой, с неразрывными пробелами; prefix — мелкий текст
+       на базовой линии перед цифрой («до 150 000») */
+    figures: [
+      {
+        value: { ru: "15", en: "15", ro: "15" },
+        label: {
+          ru: "гектаров виноградников",
+          en: "hectares of vineyards",
+          ro: "hectare de podgorii",
+        },
+      },
+      {
+        prefix: { ru: "до", en: "up to", ro: "până la" },
+        value: { ru: "150 000", en: "150,000", ro: "150 000" },
+        label: {
+          ru: "бутылок в год",
+          en: "bottles a year",
+          ro: "sticle pe an",
+        },
+      },
+      {
+        value: { ru: "2019", en: "2019", ro: "2019" },
+        label: {
+          ru: "год основания",
+          en: "founded",
+          ro: "anul fondării",
+        },
+      },
+    ],
+    alts: {
+      harvest: {
+        ru: "Сбор урожая на виноградниках Chateau At Mount",
+        en: "Harvest at the Chateau At Mount vineyards",
+        ro: "Culesul la podgoriile Chateau At Mount",
+      },
+      taste: {
+        ru: "Пикник с бокалами вина среди лоз",
+        en: "A picnic with glasses of wine among the vines",
+        ro: "Picnic cu pahare de vin printre vițe",
+      },
+    },
+  },
   winesSection: {
     eyebrow: { ru: "Наши вина", en: "Our wines", ro: "Vinurile noastre" },
     title: {
@@ -580,10 +698,10 @@ export const t = {
     },
   },
   winesPage: {
-    intro: {
-      ru: "Семь сортов, выращенных на 15 гектарах собственных виноградников в Гагаузии: от древней фетяски нягрэ до редкой ароматной виорики. Все вина — сухие, с выразительной кислотностью и свежими фруктовыми нотами.",
-      en: "Seven varieties grown on 15 hectares of our own vineyards in Gagauzia — from the ancient Fetească Neagră to the rare aromatic Viorica. All our wines are dry, with expressive acidity and fresh fruity notes.",
-      ro: "Șapte soiuri cultivate pe 15 hectare de podgorii proprii în Găgăuzia — de la străvechiul Fetească Neagră până la rarul și aromatul Viorica. Toate vinurile sunt seci, cu aciditate expresivă și note proaspete de fructe.",
+    wholesaleCta: {
+      ru: "Запросить оптовый прайс",
+      en: "Request wholesale prices",
+      ro: "Solicitați prețuri angro",
     },
   },
   winePage: {
@@ -647,6 +765,11 @@ export const t = {
       en: "Vineyards, sunsets, comfort and wine — the perfect setting for a celebration, a photoshoot or dinner with friends.",
       ro: "Podgorii, apusuri, confort și vin — atmosfera perfectă pentru o sărbătoare, o ședință foto sau o cină cu prietenii.",
     },
+    cta: {
+      ru: "Дегустации и визиты",
+      en: "Tastings & visits",
+      ro: "Degustări și vizite",
+    },
   },
   reviews: {
     eyebrow: { ru: "Отзывы", en: "Reviews", ro: "Recenzii" },
@@ -697,9 +820,14 @@ export const t = {
   },
   finalCta: {
     title: {
-      ru: "Приезжайте на дегустацию — попробуйте все семь сортов",
-      en: "Come for a tasting and try all seven varieties",
-      ro: "Veniți la o degustare și încercați toate cele șapte soiuri",
+      ru: "Попробуйте наше вино.",
+      en: "Taste our wine.",
+      ro: "Gustați vinul nostru.",
+    },
+    subtitle: {
+      ru: "Оставьте заявку — пришлём прайс и презентацию. Или приезжайте на дегустацию.",
+      en: "Leave a request — we'll send the price list and presentation. Or come for a tasting.",
+      ro: "Lăsați o cerere — trimitem lista de prețuri și prezentarea. Sau veniți la o degustare.",
     },
   },
   ageGate: {
@@ -1028,34 +1156,54 @@ export const t = {
       en: "Fill in the form and we'll get back to you.",
       ro: "Completați formularul și vă contactăm noi.",
     },
+    // Форма — два обязательных поля (кто и куда ответить) и один
+    // необязательный вопрос. Телефон и телеграм не разводим по разным
+    // полям: человеку достаточно оставить один удобный ему контакт.
     fields: {
       name: { ru: "Имя", en: "Name", ro: "Nume" },
       topic: {
-        ru: "Интересующий вас вопрос",
-        en: "What are you interested in",
-        ro: "Întrebarea care vă interesează",
+        ru: "Вопрос",
+        en: "Question",
+        ro: "Întrebare",
+      },
+      topicHint: {
+        ru: "Прайс, дегустация, доставка…",
+        en: "Price list, tasting, delivery…",
+        ro: "Listă de prețuri, degustare, livrare…",
       },
       contact: {
-        ru: "Ваш Telegram или почта",
-        en: "Your Telegram or email",
-        ro: "Telegram sau e-mail",
+        ru: "Телефон или Telegram",
+        en: "Phone or Telegram",
+        ro: "Telefon sau Telegram",
       },
-      phone: {
-        ru: "Ваш номер телефона",
-        en: "Your phone number",
-        ro: "Numărul de telefon",
+      contactHint: {
+        ru: "+373 … или @username",
+        en: "+373 … or @username",
+        ro: "+373 … sau @username",
       },
+      optional: { ru: "необязательно", en: "optional", ro: "opțional" },
     },
     submit: { ru: "Отправить", en: "Send", ro: "Trimite" },
+    sending: { ru: "Отправляем…", en: "Sending…", ro: "Se trimite…" },
     orTelegram: {
       ru: "или напишите нам в Telegram",
       en: "or message us on Telegram",
       ro: "sau scrieți-ne pe Telegram",
     },
     success: {
-      ru: "Спасибо! Откроется письмо с вашей заявкой — отправьте его, и мы ответим в течение 30 минут.",
-      en: "Thank you! An email with your request will open — send it and we'll reply within 30 minutes.",
-      ro: "Mulțumim! Se va deschide un e-mail cu cererea voastră — trimiteți-l și vă răspundem în 30 de minute.",
+      ru: "Спасибо! Заявка у нас — ответим в ближайшее время.",
+      en: "Thank you! We've got your request and will reply shortly.",
+      ro: "Mulțumim! Am primit cererea și revenim în curând.",
+    },
+    error: {
+      ru: "Не получилось отправить заявку. Напишите нам в Telegram — так даже быстрее.",
+      en: "Something went wrong. Message us on Telegram instead — it's even faster.",
+      ro: "Nu s-a putut trimite cererea. Scrieți-ne pe Telegram — e chiar mai rapid.",
+    },
+    errorMail: {
+      ru: "или отправьте письмом",
+      en: "or send it by email",
+      ro: "sau trimiteți pe e-mail",
     },
     contactsTitle: {
       ru: "Наши контакты",
@@ -1248,10 +1396,11 @@ export const t = {
     socialCol: { ru: "Соцсети", en: "Social", ro: "Rețele sociale" },
     extraCol: { ru: "Дополнительно", en: "More", ro: "Mai mult" },
     contactsCol: { ru: "Контакты", en: "Contacts", ro: "Contacte" },
+    // Год подставляется в Footer.tsx из текущей даты
     rights: {
-      ru: "© 2025 Chateau At Mount. Гагаузия, Молдова.",
-      en: "© 2025 Chateau At Mount. Gagauzia, Moldova.",
-      ro: "© 2025 Chateau At Mount. Găgăuzia, Moldova.",
+      ru: "Chateau At Mount. Гагаузия, Молдова.",
+      en: "Chateau At Mount. Gagauzia, Moldova.",
+      ro: "Chateau At Mount. Găgăuzia, Moldova.",
     },
   },
 } as const;

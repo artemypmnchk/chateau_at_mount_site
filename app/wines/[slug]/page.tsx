@@ -50,11 +50,15 @@ function WineProductSchema({ wine }: { wine: Wine }) {
     category: "Вино",
     countryOfOrigin: { "@type": "Country", name: "Молдова" },
     additionalProperty: [
-      {
-        "@type": "PropertyValue",
-        name: "Год урожая",
-        value: wine.vintage,
-      },
+      ...(wine.vintage
+        ? [
+            {
+              "@type": "PropertyValue",
+              name: "Год урожая",
+              value: wine.vintage,
+            },
+          ]
+        : []),
       {
         "@type": "PropertyValue",
         name: "Крепость",

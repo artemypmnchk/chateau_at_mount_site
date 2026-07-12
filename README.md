@@ -54,6 +54,16 @@ npm run format    # автоформат
 docker compose up --build   # http://localhost:3000
 ```
 
+## Заявки с формы
+
+Форма («Оставить заявку» и /contacts) шлёт заявку через `POST /api/lead`
+сообщением в Telegram. Нужны переменные окружения — см. [.env.example](.env.example)
+(там же инструкция, как завести бота за 5 минут). Локально — `.env.local`,
+на Vercel — Project → Settings → Environment Variables.
+
+Без настроенных переменных форма честно показывает ошибку и предлагает
+написать в Telegram или письмом — ложного «заявка отправлена» не будет.
+
 ## Структура
 
 ```

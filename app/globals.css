@@ -14,7 +14,8 @@
   --radius-sm: 2px;
   --maxw: 1200px;
   --font: var(--font-inter), Inter, "Helvetica Neue", Arial, sans-serif;
-  --serif: var(--font-serif), Piazzolla, Georgia, "Times New Roman", serif;
+  --serif: var(--font-serif), Oranienbaum, Georgia, "Times New Roman", serif;
+  --serif-italic: var(--font-serif-italic), Piazzolla, Georgia, serif;
 }
 
 * {
@@ -35,9 +36,17 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   line-height: 1.55;
+  /* Oranienbaum — единственное начертание (400). Заголовки в стилях просят
+     вес 500; без этого браузер синтезировал бы фейковый жир и утолщал рисунок.
+     Отключаем синтез веса — 500 отдаётся живым 400. */
+  font-synthesis-weight: none;
   /* 100vw в .slider включает скроллбар — не даём странице уехать вбок */
   overflow-x: clip;
 }
+
+/* Плёночное зерно живёт только на /wines (см. блок «.wines-page … ::after»
+   ниже) — сознательно НЕ глобальный слой: на главной и /visit его быть не
+   должно. Раньше здесь был body::after на весь сайт — убран. */
 
 h1,
 h2,
@@ -76,7 +85,9 @@ a {
   width: 100%;
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 0 24px;
+  /* edge-to-edge (viewport-fit=cover): в ландшафте контент не лезет под чёлку */
+  padding: 0 max(24px, env(safe-area-inset-right)) 0
+    max(24px, env(safe-area-inset-left));
 }
 
 .eyebrow {
@@ -92,53 +103,136 @@ a {
   color: var(--accent);
 }
 
-/* ---------- Buttons ---------- */
+/* ---------- Buttons ----------
+   Форма «мягкий камень»: 2px на углах, тёплая тень, просторный кап.
+   Ховеры: главная — блик по стеклу + подъём; второстепенные — тихий подъём.
+   Инверсий в белый больше нет — палитра не размывается. */
 .btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: 54px;
-  padding: 0 36px;
-  border-radius: 0;
+  height: 60px;
+  padding: 0 48px;
+  border-radius: 2px;
   font-family: var(--font);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   cursor: pointer;
   border: 1px solid transparent;
   transition:
-    background 0.25s ease,
-    color 0.25s ease,
-    border-color 0.25s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.25s ease;
   white-space: nowrap;
 }
-.btn-primary {
-  background: var(--ink);
-  color: var(--bg);
+.btn:active {
+  transform: translateY(0);
 }
-.btn-primary:hover {
-  background: var(--wine);
-  color: #fff;
-}
+/* «Уголёк»: по кромке кнопки медленно ходит винно-розовая дуга (адаптация приёма
+   Пачки). Три слоя: вращающийся ::before с conic-дугой (z0), поверх ::after с
+   заливкой и отступом 1px оставляет только рамку, текст в span сверху (z2).
+   Вращаем сам псевдоэлемент через transform:rotate() — анимация @property-угла
+   в conic не тикает в части движков. overflow режет ::before до кромки. */
 .btn-accent {
+  overflow: hidden;
+  isolation: isolate;
+  border-color: transparent;
   background: var(--wine);
-  color: #fff;
+  color: #f4f1ea;
+  box-shadow:
+    0 16px 28px -16px rgba(36, 26, 28, 0.4),
+    0 2px 6px rgba(36, 26, 28, 0.1);
+}
+.btn-accent > span {
+  position: relative;
+  z-index: 2;
+}
+.btn-accent::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  width: 340%;
+  aspect-ratio: 1;
+  background: conic-gradient(
+    from 0deg,
+    rgba(208, 160, 155, 0.16) 0deg,
+    rgba(208, 160, 155, 0.16) 54%,
+    rgba(208, 160, 155, 0.85) 66%,
+    #f4dcd7 72%,
+    rgba(208, 160, 155, 0.85) 78%,
+    rgba(208, 160, 155, 0.16) 90%,
+    rgba(208, 160, 155, 0.16) 360deg
+  );
+  opacity: 0.65;
+  animation: ember-spin 5s linear infinite;
+  transition: opacity 0.45s ease;
+}
+.btn-accent::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 1px;
+  border-radius: 1px;
+  background: var(--wine);
 }
 .btn-accent:hover {
-  background: #fff;
-  color: var(--wine);
+  transform: translateY(-2px);
+  color: #f4f1ea;
+  box-shadow:
+    0 22px 34px -16px rgba(36, 26, 28, 0.5),
+    0 0 28px -6px rgba(208, 160, 155, 0.55);
 }
-/* На тёмном бордовая заливка тонет — кнопка становится светлой */
-.section-dark .btn-accent {
+.btn-accent:hover::before {
+  opacity: 1;
+}
+@keyframes ember-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+/* На тёмном бордовая заливка тонет — кнопка светлая, дуга с бордовым тлением.
+   (правило 2 DESIGN.md; .wine-hero — тёмное полотно сорта, не .section-dark) */
+.section-dark .btn-accent,
+.wine-hero .btn-accent {
   background: #f3ede2;
   color: var(--ink);
+  box-shadow: 0 16px 30px -14px rgba(0, 0, 0, 0.55);
 }
-.section-dark .btn-accent:hover {
-  background: #fff;
+.section-dark .btn-accent::after,
+.wine-hero .btn-accent::after {
+  background: #f3ede2;
+}
+.section-dark .btn-accent::before,
+.wine-hero .btn-accent::before {
+  background: conic-gradient(
+    from 0deg,
+    rgba(94, 42, 51, 0.22) 0deg,
+    rgba(94, 42, 51, 0.22) 54%,
+    rgba(94, 42, 51, 0.9) 66%,
+    #d0a09b 72%,
+    rgba(94, 42, 51, 0.9) 78%,
+    rgba(94, 42, 51, 0.22) 90%,
+    rgba(94, 42, 51, 0.22) 360deg
+  );
+}
+.section-dark .btn-accent:hover,
+.wine-hero .btn-accent:hover {
   color: var(--ink);
+  box-shadow:
+    0 20px 34px -14px rgba(0, 0, 0, 0.6),
+    0 0 30px -4px rgba(208, 160, 155, 0.45);
 }
 .btn-outline {
   background: transparent;
@@ -146,9 +240,10 @@ a {
   color: #fff;
 }
 .btn-outline:hover {
-  background: #fff;
+  transform: translateY(-2px);
+  background: rgba(243, 237, 226, 0.1);
   border-color: #fff;
-  color: var(--dark);
+  color: #fff;
 }
 .btn-ghost-dark {
   background: transparent;
@@ -156,9 +251,17 @@ a {
   color: var(--ink);
 }
 .btn-ghost-dark:hover {
-  background: var(--ink);
+  transform: translateY(-2px);
+  background: rgba(94, 42, 51, 0.05);
   border-color: var(--ink);
-  color: var(--bg);
+  color: var(--ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn-accent::before {
+    transition-duration: 0.01ms;
+    animation: none;
+  }
 }
 
 /* ---------- Header ---------- */
@@ -166,6 +269,8 @@ a {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 100;
+  /* edge-to-edge: шапка не прячется под статусбар/чёлку */
+  padding-top: env(safe-area-inset-top);
   transition:
     background 0.3s ease,
     box-shadow 0.3s ease,
@@ -179,10 +284,33 @@ a {
   height: 68px;
   padding-bottom: 15px;
 }
-.header.scrolled {
+.header.scrolled:not(.chameleon) {
   background: rgba(244, 241, 234, 0.92);
   backdrop-filter: saturate(160%) blur(14px);
   box-shadow: 0 1px 0 var(--line);
+}
+
+/* ---- «Хамелеон»: над тёмными полотнами (хиро → манифест → лента вин)
+        шапка растворяется — прозрачная, светлый текст, без плашки.
+        При скролле добавляется лишь мягкая тёмная вуаль, тающая вниз,
+        чтобы навигация читалась поверх фото. Ниже вин хамелеон гаснет
+        и работает обычная шапка (.header.scrolled:not(.chameleon)). ---- */
+.header.chameleon {
+  transition: background 0.45s ease;
+}
+.header.chameleon.scrolled {
+  /* Вуаль плотнее, чем кажется нужным на глаз: под шапкой проезжают
+     заголовки секций («Вина с характером» и т.п.), и при 0.5 два слоя
+     текста смешивались в кашу (аудит 2026-07-11, F-03) */
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 12, 14, 0.84) 0%,
+    rgba(18, 12, 14, 0.62) 55%,
+    rgba(18, 12, 14, 0) 100%
+  );
+}
+.header.chameleon .burger {
+  color: #fff;
 }
 .brand {
   display: flex;
@@ -205,7 +333,7 @@ a {
   color: #fff;
   transition: color 0.3s ease;
 }
-.header.scrolled .brand-name {
+.header.scrolled:not(.chameleon) .brand-name {
   color: var(--ink);
 }
 .nav {
@@ -234,7 +362,7 @@ a {
 .nav-links a:hover {
   opacity: 0.65;
 }
-.header.scrolled .nav-links a {
+.header.scrolled:not(.chameleon) .nav-links a {
   color: var(--ink);
 }
 /* Языки — тихие текстовые кнопки: никаких плашек поверх фото */
@@ -250,11 +378,12 @@ a {
   font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  padding: 15px 8px 14px;
+  padding: 16px 8px 15px;
+  min-width: 44px; /* тач-таргет */
   color: rgba(255, 255, 255, 0.55);
   transition: color 0.2s ease;
 }
-.header.scrolled .lang button {
+.header.scrolled:not(.chameleon) .lang button {
   color: var(--ink-soft);
 }
 .lang button.active {
@@ -262,7 +391,7 @@ a {
   text-decoration: underline;
   text-underline-offset: 7px;
 }
-.header.scrolled .lang button.active {
+.header.scrolled:not(.chameleon) .lang button.active {
   color: var(--ink);
 }
 .burger {
@@ -273,6 +402,36 @@ a {
   background: transparent;
   border: 0;
   cursor: pointer;
+  /* Три линии-спана; поверх открытого меню (z-index 99) кнопка должна
+     остаться кликабельной — поднимаем над оверлеем */
+  position: relative;
+  z-index: 100;
+  flex-direction: column;
+  gap: 4px;
+}
+.burger span {
+  display: block;
+  width: 22px;
+  height: 2.2px;
+  border-radius: 1px;
+  background: currentColor;
+  transition:
+    transform 0.3s ease,
+    opacity 0.25s ease;
+}
+/* Открытое меню: линии складываются в крест — иконка показывает,
+   что тап закроет оверлей (аудит 2026-07-11, F-06) */
+.burger.open span:nth-child(1) {
+  transform: translateY(6.2px) rotate(45deg);
+}
+.burger.open span:nth-child(2) {
+  opacity: 0;
+}
+.burger.open span:nth-child(3) {
+  transform: translateY(-6.2px) rotate(-45deg);
+}
+.burger.open {
+  color: #fff;
 }
 
 /* mobile menu */
@@ -301,6 +460,26 @@ a {
   font-family: var(--serif);
   font-size: 30px;
   font-weight: 500;
+}
+/* Заявка в меню — тихая текстовая строка, отделённая от навигации:
+   не шестой пункт и не залитая кнопка (на тёмном заливка запрещена) */
+.menu-cta {
+  margin-top: 22px;
+  padding: 13px 2px 12px; /* тач-таргет ≥44px */
+  background: none;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  transition: border-color 0.25s ease;
+}
+.menu-cta:hover {
+  border-color: #fff;
 }
 
 /* ---------- Hero ---------- */
@@ -356,6 +535,67 @@ a {
     rgba(15, 11, 7, 0.66) 100%
   );
 }
+/* Главная: нижняя кромка кадра не обрывается в манифест, а растворяется
+   в его цвет (--dark). Мост считается в пикселях от низа, а не в долях
+   кадра: на высоких экранах процентный градиент затемнял треть фото.
+   Фото живёт до последних ~240px; глухая зона (шов) — только нижние 28px.
+   Слой-мост лежит поверх штатного скрима (первый в списке — верхний).
+   На /visit под хиро светлая секция, там мост не нужен */
+/* Блюр-кромка: шов выдаёт не цвет, а обрезанная текстура пшеницы.
+   Размываем фактуру в последних ~80px (сила растёт к кромке через маску) —
+   и тёмной доводке хватает вдвое меньшей зоны */
+.hero-melt::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 80px;
+  z-index: -1;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 72%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 72%);
+}
+.hero-melt::after {
+  background:
+    linear-gradient(
+      to top,
+      #1e1518 0px,
+      #1e1518 8px,
+      rgba(30, 21, 24, 0.68) 24px,
+      rgba(30, 21, 24, 0) 56px
+    ),
+    linear-gradient(
+      180deg,
+      rgba(15, 11, 7, 0.4) 0%,
+      rgba(15, 11, 7, 0.06) 42%,
+      rgba(15, 11, 7, 0.34) 74%,
+      rgba(15, 11, 7, 0.66) 100%
+    );
+}
+/* Портрет: хиро ровно во весь экран — низ кадра виден в покое, а не только
+   на шве при скролле. Лаванда внизу и так тёмная; вместе со скримом 0.66
+   низ превращался в глухую сливовую плиту. Скрим к кромке легче (0.44)
+   и стартует позже — фактура фото живёт до самого низа */
+@media (max-aspect-ratio: 6/5) {
+  .hero-melt::after {
+    background:
+      linear-gradient(
+        to top,
+        #1e1518 0px,
+        #1e1518 6px,
+        rgba(30, 21, 24, 0.6) 20px,
+        rgba(30, 21, 24, 0) 48px
+      ),
+      linear-gradient(
+        180deg,
+        rgba(15, 11, 7, 0.4) 0%,
+        rgba(15, 11, 7, 0.06) 46%,
+        rgba(15, 11, 7, 0.22) 80%,
+        rgba(15, 11, 7, 0.44) 100%
+      );
+  }
+}
 .hero-content {
   text-align: left;
   padding-top: 140px;
@@ -385,50 +625,66 @@ a {
   gap: 14px 40px;
   margin-top: 40px;
 }
-/* CTA на фото — текстовые ссылки, никакого цвета поверх кадра */
+/* CTA на фото — текстовые ссылки, никакого цвета поверх кадра.
+   Жест «линия-штрих»: длинная линия со стрелкой вытягивается навстречу */
 .hero-link {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 0; /* тач-таргет ≥44px */
+  gap: 18px;
+  padding: 13px 0; /* тач-таргет ≥44px (12px давали 42) */
   background: none;
   border: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
   cursor: pointer;
   font-family: var(--font);
-  font-size: 12.5px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: #fff;
-  transition: border-color 0.25s ease;
+  transition: color 0.3s ease;
 }
 .hero-link::after {
-  content: "→";
-  font-size: 14px;
-  letter-spacing: 0;
-  transition: transform 0.25s ease;
+  content: "";
+  width: 56px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+  transition:
+    width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.3s ease;
 }
-.hero-link:hover {
-  border-color: #fff;
+.hero-link::before {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.5);
+  transform: translateY(-50%) rotate(45deg);
+  transition: border-color 0.3s ease;
 }
 .hero-link:hover::after {
-  transform: translateX(4px);
+  width: 88px;
+  background: #fff;
 }
-.hero-scroll {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 1px;
-  height: 76px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.75) 100%
-  );
-  animation: scrollHint 2.6s ease-in-out infinite;
+.hero-link:hover::before {
+  border-color: #fff;
 }
-
+/* Второе действие хиро — тише первого: одинаковые CTA спорили за палец */
+.hero-link-secondary {
+  color: rgba(255, 255, 255, 0.74);
+}
+.hero-link-secondary::after {
+  background: rgba(255, 255, 255, 0.32);
+}
+.hero-link-secondary::before {
+  border-color: rgba(255, 255, 255, 0.32);
+}
+.hero-link-secondary:hover {
+  color: #fff;
+}
 @keyframes heroIn {
   from {
     opacity: 0;
@@ -440,20 +696,18 @@ a {
   }
 }
 
-@keyframes scrollHint {
-  0%,
-  100% {
-    transform: scaleY(1);
-    opacity: 0.9;
-  }
-  50% {
-    transform: scaleY(0.55);
-    opacity: 0.4;
+/* Портрет: CTA ближе к кромке — меньше пустой тёмной зоны под ними;
+   env() добирает высоту жестовой панели при edge-to-edge */
+@media (max-aspect-ratio: 6/5) {
+  .hero-content {
+    padding-bottom: calc(
+      clamp(36px, 5.5vh, 56px) + env(safe-area-inset-bottom)
+    );
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
-  .hero-content,
-  .hero-scroll {
+  .hero-content {
     animation: none;
   }
 }
@@ -471,11 +725,80 @@ section {
 /* ---------- Manifesto — тёмная типографическая глава под хиро
      (спека: docs/spec-manifesto-block.md) ---------- */
 .manifesto {
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
   /* Базовая непрозрачность незажжённых слов — ручка из спеки §6.1.
      0.18 — по фидбеку владельца: эффект должен быть заметным */
   --dim: 0.18;
+}
+/* Тихий дышащий отсвет между фото-хиро и цветной сценой вин — секция
+   чисто типографическая (без фото), но плоская заливка между двумя
+   визуально живыми блоками читалась пусто. Цвет — тот же --accent,
+   что уже горит в курсивных словах манифеста, глow лишь эхо текста. */
+.manifesto-glow {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  background: radial-gradient(
+    45% 45% at 50% 45%,
+    color-mix(in srgb, var(--accent) 40%, transparent) 0%,
+    transparent 70%
+  );
+  filter: blur(40px);
+  animation: manifestoGlow 22s ease-in-out infinite;
+  pointer-events: none;
+  /* Маска гасит glow у кромок секции: по ту сторону швов (низ хиро,
+     сцена вин) отсвета нет, и любая его яркость на границе читалась
+     ступенькой. Маска едет вместе с transform анимации, поэтому запас
+     до кромки — с учётом её амплитуды (translate ±4%, scale 1.2) */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 20%,
+    #000 38%,
+    #000 62%,
+    transparent 80%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 20%,
+    #000 38%,
+    #000 62%,
+    transparent 80%
+  );
+}
+.manifesto .container {
+  position: relative;
+  z-index: 1;
+}
+/* Нижний мост: сливовый манифест (--dark #1e1518) плавно доезжает до
+   цвета сцены вин (#171114) — граница секций исчезает. Рисуется поверх
+   glow (::after позже в порядке отрисовки), но под текстом (container z1) */
+.manifesto::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: clamp(140px, 24vh, 260px);
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(23, 17, 20, 0) 0%, #171114 100%);
+}
+@keyframes manifestoGlow {
+  0%,
+  100% {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate3d(3%, 4%, 0) scale(1.2);
+    opacity: 0.85;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .manifesto-glow {
+    animation: none;
+  }
 }
 @media (min-width: 901px) {
   .manifesto {
@@ -484,17 +807,6 @@ section {
 }
 .manifesto .container {
   width: 100%;
-}
-.manifesto-scroll {
-  position: relative;
-}
-/* Невидимый якорь для IntersectionObserver: высоту и top задаёт JS */
-.manifesto-anchor {
-  position: absolute;
-  left: 0;
-  width: 1px;
-  opacity: 0;
-  pointer-events: none;
 }
 .manifesto-phrase {
   margin: 0;
@@ -508,12 +820,15 @@ section {
 }
 .m-char {
   opacity: var(--dim);
-  transition: opacity 0.45s ease, color 0.45s ease;
+  transition:
+    opacity 0.45s ease,
+    color 0.45s ease;
 }
 .m-char.lit {
   opacity: 1;
 }
 .m-accent {
+  font-family: var(--serif-italic);
   font-style: italic;
 }
 .m-accent .m-char.lit {
@@ -534,7 +849,7 @@ section {
 }
 .manifesto-link {
   display: inline-flex;
-  padding: 10px 0;
+  padding: 13px 0 12px; /* тач-таргет ≥44px */
   border-bottom: 1px solid rgba(246, 239, 231, 0.45);
   font-size: 12px;
   font-weight: 600;
@@ -547,6 +862,25 @@ section {
 }
 .manifesto-link:hover {
   border-color: #f6efe7;
+}
+
+/* Тот же язык тихой ссылки, но для сплитов на светлом/тёмном фоне:
+   наследует цвет секции, подчёркивание полупрозрачное */
+.split-link {
+  display: inline-flex;
+  margin-top: 26px;
+  padding: 13px 0 12px; /* тач-таргет ≥44px */
+  border-bottom: 1px solid color-mix(in srgb, currentColor 45%, transparent);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: inherit;
+  white-space: nowrap;
+  transition: border-color 0.25s ease;
+}
+.split-link:hover {
+  border-bottom-color: currentColor;
 }
 
 /* Features — two cards with images */
@@ -601,6 +935,93 @@ section {
   max-width: 420px;
 }
 
+/* ---------- Proof — светлая глава-доказательство: асимметричная
+     развеска двух кадров с музейными подписями + строка цифр
+     (спека: docs/spec-features-block.md) ---------- */
+.proof-gallery {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 24px;
+  margin-top: clamp(64px, 8vw, 96px);
+}
+.proof-frame {
+  margin: 0;
+}
+.proof-frame-a {
+  grid-column: 1 / span 7;
+}
+.proof-frame-b {
+  grid-column: 9 / span 4;
+  margin-top: 72px;
+}
+.proof-photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+.proof-frame-a .proof-photo {
+  aspect-ratio: 3 / 4;
+}
+.proof-frame-b .proof-photo {
+  aspect-ratio: 4 / 5;
+}
+.proof-caption {
+  margin-top: 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 34em;
+}
+.proof-caption-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+  margin-bottom: 6px;
+}
+.proof-title {
+  /* Заголовок главы в масштабе остальных секций (как .band-head h2) */
+  font-size: clamp(32px, 5vw, 56px);
+  margin-bottom: 22px;
+}
+.proof-figures {
+  display: flex;
+  gap: clamp(48px, 7vw, 110px);
+  margin-top: 18px;
+}
+.proof-figure-value {
+  display: block;
+  font-family: var(--serif);
+  font-weight: 500;
+  /* Номинальный opsz на этом кегле даёт волосяные засечки —
+     фиксируем средний, как у манифеста (урок spec-manifesto §6.1) */
+  font-variation-settings: "opsz" 28;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.proof-figure-prefix {
+  /* «до 150 000»: мелкий префикс сидит на базовой линии цифры */
+  font-size: 0.28em;
+  font-family: var(--font);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.proof-figure-label {
+  display: block;
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
 /* ---------- Wines slider ---------- */
 .wines-head {
   display: flex;
@@ -641,13 +1062,20 @@ section {
   color: rgba(246, 239, 231, 0.72);
 }
 .band-pinwrap {
-  /* Пробег на слайд длиннее — горизонтальная скорость ниже, проезд мягче */
+  /* Пин-проезд — только колесо/клавиатура (десктоп): пробег на слайд
+     длиннее — горизонтальная скорость ниже, проезд мягче. На таче и при
+     reduced-motion пина нет — нативный свайп со snap (блок ниже).
+     svh, а не dvh: адресная строка мобильных браузеров прячется прямо
+     во время проезда, dvh-пробег растягивался на лету — прогресс прыгал */
   height: calc(100svh + (var(--slides, 7) - 1) * 96svh);
 }
 .band-sticky {
   position: sticky;
   top: 0;
-  height: 100svh;
+  /* dvh, а не svh: пока идёт пин-проезд, нижняя панель Safari прячется,
+     и при svh секция оставалась короче экрана — под контентом зияла тёмная
+     полоса. dvh тянет панель ровно на видимую высоту, без дыры снизу */
+  height: 100dvh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -662,6 +1090,19 @@ section {
   width: 100%;
   will-change: transform;
   pointer-events: none;
+}
+/* Верхняя кромка сцены: виньетка на краю пропускает ~13% ленты-градиента,
+   и цветной отлив стыковался швом с плоским низом манифеста (#171114).
+   Полоса доводит кромку ровно до цвета манифеста. z-index 1 — поверх
+   ленты и виньетки, но под контентом (band-head/track тоже z1, позже в DOM) */
+.band-sticky::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: clamp(100px, 16vh, 200px);
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, #171114 0%, rgba(23, 17, 20, 0) 100%);
 }
 /* Виньетка: цвет дышит только в центре, края уходят в тёмное */
 .band-sticky::after {
@@ -684,7 +1125,8 @@ section {
   z-index: 1;
 }
 .band-head {
-  /* Под фиксированной шапкой (68px) + воздух */
+  /* Под фиксированной шапкой (68px) + воздух. svh — чтобы шапка сцены
+     не «дышала» при скрытии адресной строки на мобиле */
   padding-top: clamp(92px, 14svh, 128px);
   display: flex;
   align-items: flex-end;
@@ -697,21 +1139,15 @@ section {
 }
 /* Тихая строка-пруф под заголовком: сколько медалей у вин ленты */
 .band-medals {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  display: inline-block;
   margin-top: 12px;
   font-size: 13px;
   color: rgba(246, 239, 231, 0.66);
 }
-.band-medals svg {
-  flex: 0 0 auto;
-  color: #cfa84a;
-}
 /* «Смотреть все вина» — тихая ссылка в шапке блока, вне зоны слайдов */
 .band-all {
   display: inline-flex;
-  padding: 10px 0;
+  padding: 13px 0 12px; /* тач-таргет ≥44px */
   margin-bottom: 6px;
   border-bottom: 1px solid rgba(246, 239, 231, 0.45);
   font-size: 12px;
@@ -752,7 +1188,9 @@ section {
   position: static;
   display: block;
   margin-bottom: 10px;
-  color: rgba(246, 239, 231, 0.65);
+  /* 0.78, а не 0.65: на светлых полотнах (rose #ac4c6b, coral #bc4052)
+     0.65 не дотягивал до 4.5:1 из DESIGN.md */
+  color: rgba(246, 239, 231, 0.78);
 }
 .band-meta h3 {
   font-size: clamp(28px, 3.2vw, 44px);
@@ -770,35 +1208,49 @@ section {
 .band-slide:hover .band-more {
   color: #fff;
 }
-/* Медали вина прямо под названием в слайде — вместо отдельной секции */
-.band-awards {
-  list-style: none;
-  margin-top: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
+/* Награды вина под названием — не бейдж, а издательская строка-кредит:
+   тонкая золотая черта-хэйрлайн, сериф курсивом, названия конкурсов через
+   точку. Слот фиксированной высоты (2 строки) — так бутылка в каждой карточке
+   остаётся одного размера независимо от числа наград. */
+.band-award-line {
+  /* Жёстко фиксированная высота слота (хэйрлайн + одна строка) — одинаковая
+     у всех карточек, даже пустых. Так бутылки не «пляшут» и остаются крупными:
+     на десктопе строка конкурсов помещается в одну линию (см. white-space). */
+  height: 2.4em;
+  overflow: hidden;
+  margin: 11px auto 0;
+  white-space: nowrap;
+  /* Длинный список конкурсов (3+) на узком экране не влезает в строку —
+     честное многоточие вместо обрезанного полуслова у кромки */
+  max-width: 100%;
+  text-overflow: ellipsis;
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-size: clamp(12.5px, 1vw, 15px);
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  color: #d8b466; /* тёплое золото медали */
 }
-.band-awards li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(246, 239, 231, 0.78);
-}
-.band-awards svg {
-  flex: 0 0 auto;
+/* Черта-хэйрлайн над строкой — только когда награды есть (строка непустая) */
+.band-award-line:not(:empty)::before {
+  content: "";
+  display: block;
+  width: 26px;
+  height: 1px;
+  margin: 0 auto 9px;
+  background: rgba(216, 180, 102, 0.55);
 }
 .band-bottle-v {
   position: relative;
+  /* svh: dvh-высота пересчитывалась при скрытии адресной строки —
+     бутылка меняла размер прямо во время скролла */
   height: min(56svh, 620px);
   width: clamp(220px, 30vw, 400px);
-  /* При нехватке высоты бутылка ужимается первой */
+  /* При нехватке высоты бутылка ужимается первой — без нижнего предела:
+     жёсткий min-height на низких экранах выталкивал её вверх, поверх
+     заголовка и «Смотреть все вина» */
   flex-shrink: 1;
-  min-height: 200px;
+  min-height: 0;
 }
 .band-meta {
   flex: 0 0 auto;
@@ -825,21 +1277,59 @@ section {
   }
 }
 
-/* Мобильные размеры — механика та же, что на десктопе (пин + проезд) */
+/* Узкие экраны. Реальные телефоны (pointer: coarse) едут нативным
+   свайпом — см. блок ниже; пин здесь остаётся только узким окнам
+   с мышью (пол-экрана на десктопе) */
 @media (max-width: 900px) {
-  /* Палец дороже колеса: пробег на слайд короче, секция ~3.6 экрана
-     вместо 5.8 — проезд бодрее без потери плавности */
+  /* Пробег на слайд короче — секция ~3.6 экрана вместо 5.8 */
   .band-pinwrap {
     height: calc(100svh + (var(--slides, 7) - 1) * 60svh);
   }
   .band-bottle-v {
-    height: min(50svh, 480px);
+    /* Высота не из flex-остатка, а из стабильного svh: панель (100dvh)
+       растёт и сжимается вместе с адресной строкой браузера, и бутылка,
+       занимая остаток, «скакала» размером при каждой смене направления
+       скролла. ~500px — шапка сцены + подпись + отступы на узком экране;
+       переполнение при нестандартных шрифтах страхует flex-shrink выше. */
+    height: clamp(120px, calc(100svh - 500px), 480px);
     width: 62vw;
+  }
+  /* Узкий экран — каждый вертикальный пиксель дорог: меньше воздуха
+     под треком и между бутылкой и подписью, бутылке остаётся больше */
+  .band-track {
+    padding-bottom: clamp(24px, 5svh, 48px);
+  }
+  .band-slide {
+    gap: 14px;
   }
 }
 
-/* Reduced-motion: без пина и инерции — нативный свайп со snap */
-@media (prefers-reduced-motion: reduce) {
+/* Совсем низкие экраны (SE-класс, 5xx px): шапка сцены съедала больше
+   половины высоты, бутылке оставался огрызок. Ужимаем воздух и прячем
+   строку-пруф — медали остаются в золотых кредитах под каждым вином */
+@media (max-width: 900px) and (max-height: 600px) {
+  .band-head {
+    padding-top: 78px;
+  }
+  .band-head h2 {
+    font-size: 27px;
+  }
+  .band-medals {
+    display: none;
+  }
+  .band-meta h3 {
+    font-size: 24px;
+  }
+  .band-bottle-v {
+    height: clamp(120px, calc(100svh - 390px), 480px);
+  }
+}
+
+/* Тач и reduced-motion: без пина и инерции — нативный свайп со snap.
+   Палец делает одно движение — экран отвечает тем же: свайп вбок листает
+   вино, свайп вниз скроллит страницу, никто скролл не отбирает.
+   JS-часть (лента-градиент за scrollLeft) — в useHorizontalScroll */
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
   .band-pinwrap {
     height: auto;
   }
@@ -854,7 +1344,10 @@ section {
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    padding: clamp(28px, 6vw, 48px) 0 clamp(40px, 9vw, 64px);
+    /* Только вертикальные отступы: боковые (центрирующие крайние слайды
+       на широких экранах) приходят из блока min-width: 901px */
+    padding-top: clamp(28px, 6vw, 48px);
+    padding-bottom: clamp(40px, 9vw, 64px);
   }
   .band-track::-webkit-scrollbar {
     display: none;
@@ -863,59 +1356,46 @@ section {
     scroll-snap-align: center;
   }
 }
-.wine-card {
-  position: relative;
-  background: transparent;
-  border-top: 1px solid var(--line-light);
-  padding: 24px 4px 8px;
-  display: flex;
-  flex-direction: column;
+/* Тач на узком экране: секция больше не зажата в один вьюпорт (нет пина),
+   бутылке можно вернуть нормальный рост */
+@media (pointer: coarse) and (max-width: 900px) {
+  .band-bottle-v {
+    height: min(44svh, 480px);
+  }
+  /* Peek: слайд заметно уже вьюпорта, у кромок выглядывает стекло
+     соседних бутылок — мгновенная подсказка «листается вбок».
+     Бутылки узкие (1:3.7), при бо́льшем шаге в кадр попадало бы
+     пустое поле соседнего слайда, а не сама бутылка */
+  .band-track {
+    padding-left: 24vw;
+    padding-right: 24vw;
+  }
+  .band-slide {
+    width: 52vw;
+  }
+  /* Подпись шире слайда — названию и строке конкурсов нужен почти весь
+     экран; подписи соседей полностью гасит кроссфейд в useHorizontalScroll,
+     поэтому друг на друга они не накладываются */
+  .band-meta {
+    width: 92vw;
+  }
 }
 .wine-no {
   position: absolute;
   top: 22px;
   left: 4px;
-  font-family: var(--serif);
+  font-family: var(--serif-italic);
   font-style: italic;
   font-size: 17px;
   color: var(--accent);
   opacity: 0.85;
 }
-.wine-img {
-  position: relative;
-  height: 235px;
-  margin-bottom: 22px;
+/* Тон точки-маркера = достоинство медали */
+.wine-awards li.medal-gold::before {
+  background: #cfa84a;
 }
-.wine-img img {
-  filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.5));
-  transition: transform 0.5s ease;
-}
-.wine-card:hover .wine-img img {
-  transform: translateY(-6px);
-}
-.wine-card h3 {
-  font-size: 23px;
-  margin-bottom: 10px;
-}
-.wine-card p {
-  font-size: 14.5px;
-  line-height: 1.6;
-  color: rgba(243, 237, 226, 0.78);
-}
-
-.wines-all {
-  margin-top: 56px;
-  text-align: center;
-}
-
-/* Цвет медали в списках наград (страница вина, лента вин на главной) */
-.wine-awards .medal-gold,
-.band-awards .medal-gold svg {
-  color: #cfa84a;
-}
-.wine-awards .medal-silver,
-.band-awards .medal-silver svg {
-  color: #b6b6ae;
+.wine-awards li.medal-silver::before {
+  background: #b6b6ae;
 }
 
 /* ---------- Reviews — цитаты гостей в контактном блоке ---------- */
@@ -933,7 +1413,7 @@ section {
   border-radius: var(--radius);
 }
 .review-card p {
-  font-family: var(--serif);
+  font-family: var(--serif-italic);
   font-style: italic;
   font-size: 18px;
   line-height: 1.55;
@@ -989,46 +1469,7 @@ section {
   color: rgba(243, 237, 226, 0.68);
 }
 
-/* ---------- Contact ---------- */
-.contact {
-  text-align: center;
-}
-.contact h2 {
-  font-size: clamp(32px, 5vw, 56px);
-}
-.contact > .container > p {
-  font-size: clamp(17px, 2vw, 20px);
-  color: rgba(243, 237, 226, 0.7);
-  max-width: 600px;
-  margin: 24px auto 0;
-}
-.contact-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin: 60px 0 48px;
-  border-top: 1px solid var(--line-light);
-  border-bottom: 1px solid var(--line-light);
-}
-.contact-card {
-  padding: 40px 24px;
-}
-.contact-card + .contact-card {
-  border-left: 1px solid var(--line-light);
-}
-.contact-card .label {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 14px;
-}
-.contact-card .value {
-  font-family: var(--serif);
-  font-size: clamp(24px, 2.8vw, 32px);
-  font-weight: 500;
-  line-height: 1.15;
-}
+/* ---------- Contact actions (страницы вин/визита) ---------- */
 .contact-actions {
   display: flex;
   gap: 14px;
@@ -1047,15 +1488,72 @@ section {
   max-width: 900px;
   margin: 0 auto;
 }
+/* Линия-штрих, как у хиро, но в чернилах — на светлом фоне секции */
+.final-cta .cta-telegram {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 26px;
+  padding: 13px 0 12px; /* тач-таргет ≥44px */
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.final-cta .cta-telegram::after {
+  content: "";
+  width: 48px;
+  height: 1px;
+  background: rgba(36, 26, 28, 0.45);
+  transition:
+    width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.3s ease;
+}
+.final-cta .cta-telegram::before {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid rgba(36, 26, 28, 0.45);
+  border-right: 1px solid rgba(36, 26, 28, 0.45);
+  transform: translateY(-50%) rotate(45deg);
+  transition: border-color 0.3s ease;
+}
+.final-cta .cta-telegram:hover {
+  color: var(--accent-dark);
+}
+.final-cta .cta-telegram:hover::after {
+  width: 76px;
+  background: var(--accent-dark);
+}
+.final-cta .cta-telegram:hover::before {
+  border-color: var(--accent-dark);
+}
+/* Подстрочник — спокойно закрывает опт (прайс/презентация) и дегустацию */
+.final-cta .final-cta-sub {
+  max-width: 560px;
+  margin: 18px auto 0;
+  font-size: clamp(16px, 2vw, 19px);
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
 .final-cta .hero-actions {
   justify-content: center;
+  margin-top: 34px;
 }
 
 /* ---------- Footer ---------- */
 .footer {
   background: var(--dark);
   color: #f3ede2;
-  padding: 76px 0 46px;
+  /* edge-to-edge: низ футера не упирается в жестовую панель */
+  padding: 76px 0 calc(46px + env(safe-area-inset-bottom));
   border-top: 1px solid var(--line-light);
 }
 .footer-top {
@@ -1125,30 +1623,42 @@ section {
   .mobile-menu .lang {
     display: inline-flex;
   }
+  /* В полноэкранном меню места достаточно — языки читаемее, чем 10.5px */
+  .mobile-menu .lang button {
+    font-size: 12px;
+  }
   .burger {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     color: #fff;
   }
-  .header.scrolled .burger {
+  .header.scrolled:not(.chameleon) .burger {
     color: var(--ink);
   }
   .features {
     grid-template-columns: 1fr;
+  }
+  .proof-gallery {
+    grid-template-columns: 1fr;
+    row-gap: 40px;
+  }
+  .proof-frame-a,
+  .proof-frame-b {
+    grid-column: auto;
+  }
+  .proof-frame-b {
+    margin-top: 0;
+  }
+  .proof-figures {
+    flex-direction: column;
+    gap: 40px;
   }
   .split {
     grid-template-columns: 1fr;
   }
   .split.reverse .split-media {
     order: 0;
-  }
-  .contact-cards {
-    grid-template-columns: 1fr;
-  }
-  .contact-card + .contact-card {
-    border-left: 0;
-    border-top: 1px solid var(--line-light);
   }
   .footer-top {
     grid-template-columns: 1fr 1fr;
@@ -1173,6 +1683,9 @@ section {
   }
   .feature-card {
     min-height: 460px;
+  }
+  .proof-frame-a .proof-photo {
+    aspect-ratio: 4 / 5;
   }
   .footer-top {
     grid-template-columns: 1fr;
@@ -1255,7 +1768,51 @@ section {
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
+}
+/* Поле с постоянным лейблом сверху: плейсхолдер исчезает при вводе,
+   а подпись — нет. Обязательность по умолчанию, «необязательно» помечено */
+.contact-form .field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.field-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.field-optional {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: #9a9181;
+}
+/* Honeypot: вне экрана, но без display:none — ботам поле «видно» */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.form-error {
+  border: 1px solid rgba(94, 42, 51, 0.35);
+  background: rgba(94, 42, 51, 0.07);
+  padding: 13px 16px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.form-error-mail {
+  color: var(--accent-dark);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
 }
 .contact-form input {
   height: 54px;
@@ -1282,15 +1839,57 @@ section {
   margin-top: 8px;
   width: 100%;
 }
+/* Жест «серифный курсив» — тихая ссылка в ткани текста:
+   Piazzolla italic, подчёркивание на ховере перерисовывается */
 .tg-link {
+  position: relative;
+  align-self: center;
   text-align: center;
-  font-size: 15px;
-  color: var(--accent-dark);
-  font-weight: 500;
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink);
+  font-weight: 400;
   margin-top: 4px;
+  padding-bottom: 3px;
+  text-decoration: none;
+}
+.tg-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
 }
 .tg-link:hover {
-  text-decoration: underline;
+  color: var(--accent-dark);
+  text-decoration: none;
+}
+.tg-link:hover::after {
+  opacity: 1;
+  animation: link-redraw 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes link-redraw {
+  0% {
+    transform: scaleX(1);
+    transform-origin: right;
+  }
+  45% {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+  46% {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  100% {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
 }
 .form-success {
   background: var(--bg-soft);
@@ -1369,7 +1968,8 @@ a.info-row:hover .info-value {
   text-align: center;
   padding-top: 210px;
   padding-bottom: 110px;
-  border-bottom: 1px solid var(--line-light);
+  /* без линии-разделителя: хиро и лента карточек — одно тёмное полотно,
+     разделяет воздух, а не хейрлайн */
 }
 .visit-hero h1 {
   font-size: clamp(44px, 7.5vw, 88px);
@@ -1588,7 +2188,7 @@ a.info-row:hover .info-value {
 }
 .step-num {
   display: block;
-  font-family: var(--serif);
+  font-family: var(--serif-italic);
   font-style: italic;
   font-size: clamp(44px, 5vw, 62px);
   font-weight: 500;
@@ -1617,7 +2217,8 @@ a.info-row:hover .info-value {
   text-align: center;
 }
 .visit-final h2 {
-  font-size: clamp(34px, 5.4vw, 62px);
+  /* Тише секционных h2 (52px): приглашение не должно кричать громче контента */
+  font-size: clamp(30px, 3.6vw, 46px);
   line-height: 1.06;
   max-width: 820px;
   margin: 0 auto;
@@ -1654,26 +2255,110 @@ a.info-row:hover .info-value {
 .wine-hero {
   background: var(--dark);
   color: #f3ede2;
-  padding-top: 170px;
-  padding-bottom: 90px;
-  border-bottom: 1px solid var(--line-light);
+  /* Хиро вина — на весь экран: контент центрируется по вертикали,
+     асимметрия отступов уводит его чуть ниже фикс-хедера */
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-top: 150px;
+  padding-bottom: 70px;
+  /* без border-bottom: смена фона тьма→известняк уже читается как граница */
 }
 .wine-page .wine-hero {
-  /* Полотно сорта — тот же band-цвет, что под бутылкой в ленте
-     на главной; цвет дышит за бутылкой, края уходят в тёмное */
-  background:
-    radial-gradient(
-      ellipse 62% 78% at 30% 46%,
-      rgba(23, 17, 20, 0) 0%,
-      rgba(23, 17, 20, 0.3) 55%,
-      rgba(23, 17, 20, 0.8) 100%
-    ),
-    var(--band, var(--dark));
+  /* Полотно сорта — тот же band-цвет, что под бутылкой в ленте на главной.
+     Только вертикальный тон-градиент (цвет, не свет): у верха чуть насыщеннее
+     сортом, к низу уходит в глубокое. Без светлых пятен-подсветов. */
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--accent) 22%, var(--band, var(--dark))) 0%,
+    var(--band, var(--dark)) 50%,
+    color-mix(in oklab, black 32%, var(--band, var(--dark))) 100%
+  );
+}
+/* Светлые вина (розе, светлые белые): малиновый band на всю высоту хиро
+   и слепит, и врёт («будто красное»). Берём тёплый тон этикетки
+   (--accent-dark) и приглушаем — полотно сочетается с этикеткой/сортом */
+.wine-page[data-light-band] .wine-hero {
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, black 24%, var(--accent-dark, var(--dark))) 0%,
+    color-mix(in oklab, black 38%, var(--accent-dark, var(--dark))) 55%,
+    color-mix(in oklab, black 55%, var(--accent-dark, var(--dark))) 100%
+  );
+}
+/* Ручной тон полотна (--hero-tone) — точный подбор под этикетку, поверх
+   общего light-band. База сверху, к низу уходит в глубокое. */
+.wine-page[data-hero-tone] .wine-hero {
+  background: linear-gradient(
+    180deg,
+    var(--hero-tone) 0%,
+    color-mix(in oklab, black 22%, var(--hero-tone)) 55%,
+    color-mix(in oklab, black 46%, var(--hero-tone)) 100%
+  );
+}
+/* Хиро вина — во всю ширину экрана (полотно и так full-bleed, тянем контент) */
+.wine-hero .container {
+  max-width: none;
+  padding-left: max(clamp(28px, 5vw, 104px), env(safe-area-inset-left));
+  padding-right: max(clamp(28px, 5vw, 104px), env(safe-area-inset-right));
 }
 /* Светлая секция истории — отсвет того же тона */
 .wine-story-section {
   background: color-mix(in oklab, var(--accent) 10%, var(--bg));
 }
+
+/* ---------- Движение страницы вина ----------
+   Три осмысленных жеста вместо одного fade-up:
+   1) бутылка «ставится» на полотно (масштаб и тень собираются),
+   2) паспорт вина проявляется каскадом сверху вниз,
+   3) переход список ↔ вино морфит бутылку (view transitions ниже). */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes bottle-settle {
+    from {
+      transform: scale(1.045) translateY(12px);
+      filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.22));
+    }
+    to {
+      transform: none;
+      filter: drop-shadow(0 30px 44px rgba(0, 0, 0, 0.55));
+    }
+  }
+  .wine-page .wine-bottle img {
+    animation: bottle-settle 0.9s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  }
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .wine-hero-body > * {
+    animation: hero-rise 0.65s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  }
+  .wine-hero-body > :nth-child(1) {
+    animation-delay: 0.04s;
+  }
+  .wine-hero-body > :nth-child(2) {
+    animation-delay: 0.11s;
+  }
+  .wine-hero-body > :nth-child(3) {
+    animation-delay: 0.18s;
+  }
+  .wine-hero-body > :nth-child(4) {
+    animation-delay: 0.25s;
+  }
+  .wine-hero-body > :nth-child(5) {
+    animation-delay: 0.32s;
+  }
+  .wine-hero-body > :nth-child(6) {
+    animation-delay: 0.39s;
+  }
+}
+
 .wine-hero .eyebrow {
   color: var(--accent);
 }
@@ -1706,8 +2391,20 @@ a.info-row:hover .info-value {
   justify-content: start;
   gap: clamp(28px, 4vw, 56px);
   margin-top: 38px;
-  padding-top: 28px;
-  border-top: 1px solid var(--line-light);
+  padding-top: 30px;
+  position: relative;
+}
+/* Короткая типографская линейка (56px), а не UI-хейрлайн на всю ширину:
+   тихо отделяет паспорт от прозы, как в документе */
+.wine-facts::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 56px;
+  height: 2px;
+  background: var(--accent);
+  opacity: 0.85;
 }
 .wine-facts dt {
   font-size: 11.5px;
@@ -1749,12 +2446,21 @@ a.info-row:hover .info-value {
   color: var(--accent-dark);
 }
 .story-aside {
-  border-top: 1px solid var(--line);
-  padding-top: 26px;
+  /* без border-top: заголовок h3 + воздух уже отделяют пары от истории */
+  padding-top: 4px;
 }
 .story-aside h3 {
   font-size: clamp(22px, 2.2vw, 26px);
   margin-bottom: 18px;
+}
+/* Гастрономические пары — строка-меню курсивом, не чек-лист */
+.pairings-line {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-size: clamp(17px, 1.8vw, 20px);
+  line-height: 1.75;
+  color: var(--ink-soft);
+  max-width: 34ch;
 }
 @media (max-width: 900px) {
   .story-grid {
@@ -1773,15 +2479,21 @@ a.info-row:hover .info-value {
 .wine-awards li {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
+  gap: 12px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: rgba(243, 237, 226, 0.9);
 }
-.wine-awards svg {
+/* Маркер награды — маленькая точка в тон медали (золото/серебро),
+   вместо лаврового значка. Тихо, по-редакторски. */
+.wine-awards li::before {
+  content: "";
   flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: #cfa84a;
 }
 /* Текст награды и ссылка-пруф — колонкой справа от значка */
 .award-line {
@@ -1799,78 +2511,237 @@ a.info-row:hover .info-value {
   text-transform: none;
   color: rgba(243, 237, 226, 0.62);
   border-bottom: 1px solid rgba(243, 237, 226, 0.3);
-  transition: color 0.2s ease, border-color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 .award-proof:hover {
   color: #f3ede2;
   border-color: rgba(243, 237, 226, 0.7);
 }
-/* Официальная графика медалей — под списком наград */
-.wine-medal-art {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin-top: 18px;
+/* Медаль в строке своей награды: точка-маркер уступает место графике */
+.wine-awards li.has-art::before {
+  display: none;
 }
-.wine-medal-art img {
-  height: 64px;
+.wine-awards li.has-art {
+  align-items: center;
+}
+.award-art {
+  flex: 0 0 auto;
+  height: 44px;
   width: auto;
 }
-/* Сетка на общей странице вин */
-.wines-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 48px 36px;
+/* ---------- Зерно на тёмных полотнах страниц вин ----------
+   Статичное плёночное зерно (SVG feTurbulence, тайл 160×160) убирает бандинг
+   больших заливок --dark и даёт поверхности материальность. Скоуп только на
+   вина: .wines-page (список /wines) и .wine-page (карточка /wines/[slug],
+   её тёмное полотно — .wine-hero). На главной и /visit зерна нет — .visit-hero
+   живёт и там, поэтому берём его только под .wines-page.
+   Лежит поверх контента (opacity 0.04 — допустимо), pointer-events: none —
+   иначе умрут клики по карточкам. */
+.wines-page .visit-hero,
+.wines-page .section-dark,
+.wine-page .wine-hero,
+.wine-page .section-dark {
+  position: relative;
 }
-.wines-grid .wine-card {
-  flex: none;
+.wines-page .visit-hero > .container,
+.wines-page .section-dark > .container,
+.wine-page .wine-hero > .container,
+.wine-page .section-dark > .container {
+  position: relative;
+  z-index: 1;
 }
-.wine-meta {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(243, 237, 226, 0.55);
-  margin-bottom: 10px;
-}
-@media (max-width: 900px) {
-  .wines-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-@media (max-width: 540px) {
-  .wines-grid {
-    grid-template-columns: 1fr;
-  }
+.wines-page .visit-hero::after,
+.wines-page .section-dark::after,
+.wine-page .wine-hero::after,
+.wine-page .section-dark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
 }
 
-/* Ссылка «Подробнее» в карточках слайдера */
-.wine-more {
-  margin-top: 16px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent);
-  transition: opacity 0.2s ease;
+/* Сетка на общей странице вин */
+/* ========== /wines + «другие вина» — плотная лента карточек ==========
+   Компактная горизонтальная карточка: этикетка слева, суть справа.
+   Сетка: 1 колонка на мобиле, 2 — на десктопе (больше вин на экран).
+   `--v` — цвет сорта (accent из lib/content.ts), задаётся инлайном. */
+.wines-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: clamp(36px, 4vw, 64px);
 }
-a.wine-card:hover .wine-more {
-  opacity: 0.7;
+.wine-c {
+  /* Без линий-разделителей: якорь карточки — не хейрлайн, а лужица цвета
+     сорта под бутылкой (ниже) + масштаб заголовка. Линии читались Excel'ем */
+  display: grid;
+  grid-template-columns: 116px 1fr;
+  gap: 22px;
+  align-items: center;
+  padding: 22px 0;
+  color: inherit;
+  text-decoration: none;
+}
+.wine-c-media {
+  position: relative;
+  height: 208px;
+}
+.wine-c-media img {
+  filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.5));
+}
+/* Hover-отклик: бутылка приподнимается и «отрывается» от полотна.
+   Двигается только img (transform) — текст карточки неподвижен. */
+@media (prefers-reduced-motion: no-preference) {
+  .wine-c-media img {
+    transition:
+      transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1),
+      filter 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  .wine-c:hover .wine-c-media img,
+  .wine-c:focus-visible .wine-c-media img {
+    transform: translateY(-6px);
+    filter: drop-shadow(0 24px 30px rgba(0, 0, 0, 0.58));
+  }
+}
+.wine-c-body {
+  min-width: 0;
+}
+.wine-c-meta {
+  display: block;
+  margin-bottom: 9px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(243, 237, 226, 0.5);
+}
+.wine-c h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.06;
+  margin: 0 0 9px;
+  letter-spacing: -0.01em;
+}
+.wine-c-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 14px;
+  color: rgba(243, 237, 226, 0.68);
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+.wine-c-honors {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.wine-c-honors li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(243, 237, 226, 0.72);
+}
+.wine-c-honors .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.03);
+}
+.wine-c-honors li.medal-gold .dot {
+  background: #cfa84a;
+}
+.wine-c-honors li.medal-silver .dot {
+  background: #b6b6ae;
+}
+.wine-c-more {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--v, var(--accent));
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition: border-color 0.2s ease;
+}
+.wine-c:hover .wine-c-more,
+.wine-c:focus-visible .wine-c-more {
+  border-color: var(--v, var(--accent));
+}
+
+/* → десктоп: две колонки, но карточка крупная и заметная —
+   бутылка-этикетка тянет на себя внимание. */
+@media (min-width: 720px) {
+  .wines-list {
+    grid-template-columns: 1fr 1fr;
+  }
+  .wine-c {
+    grid-template-columns: 184px 1fr;
+    gap: clamp(28px, 3vw, 44px);
+    padding: 30px 0;
+  }
+  .wine-c-meta {
+    font-size: 11px;
+  }
+  .wine-c-media {
+    height: 312px;
+  }
+  .wine-c h3 {
+    font-size: 30px;
+  }
+  .wine-c-desc {
+    font-size: 15px;
+  }
+  .wine-c-honors li {
+    font-size: 11.5px;
+  }
 }
 
 @media (max-width: 900px) {
   .wine-hero-grid {
     grid-template-columns: 1fr;
   }
+  /* Бутылка держит монументальность и на узком экране */
   .wine-bottle {
-    height: 340px;
+    height: max(380px, 44svh);
   }
 }
 @media (max-width: 540px) {
+  .wine-hero-body h1 {
+    font-size: clamp(48px, 14vw, 60px);
+  }
+  /* Факты — вертикальный паспорт: метка слева, значение справа.
+     Без линий между строками (по решению владельца) — только воздух */
   .wine-facts {
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .wine-facts > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .wine-facts dt {
+    margin-bottom: 0;
+  }
+  .wine-facts dd {
+    font-size: 22px;
   }
 }
 
