@@ -854,11 +854,6 @@ export const t = {
     },
   },
   visitPage: {
-    eyebrow: {
-      ru: "Дегустации и визиты",
-      en: "Tastings & visits",
-      ro: "Degustări și vizite",
-    },
     title: {
       ru: "Приезжайте к нам в гости",
       en: "Come and visit us",
@@ -869,45 +864,23 @@ export const t = {
       en: "A winery tour, a walk through the vineyards and a wine tasting overlooking Ceadîr-Lunga — all from the highest point of the hill.",
       ro: "Un tur al cramei, o plimbare prin podgorii și o degustare de vinuri cu vedere spre Ceadîr-Lunga — totul de pe cel mai înalt punct al dealului.",
     },
-    tableSplit: {
-      title: {
-        ru: "Стол в виноградниках",
-        en: "A table in the vineyards",
-        ro: "O masă în podgorii",
-      },
-      text: {
-        ru: "Накрываем стол прямо у лоз — с видом на холмы и закат. К дегустации можно добавить пикник, фотосессию или мастер-класс.",
-        en: "We set the table right by the vines, with the hills and the sunset in view. Add a picnic, a photoshoot or a workshop to your tasting.",
-        ro: "Punem masa chiar lângă vie, cu dealurile și apusul în fața ochilor. La degustare puteți adăuga un picnic, o ședință foto sau un atelier.",
-      },
-    },
-    gastroSplit: {
-      title: {
-        ru: "К вину — гагаузская кухня",
-        en: "Gagauz cooking with your wine",
-        ro: "Bucătăria găgăuză lângă vin",
-      },
-      text: {
-        ru: "Гёзлеме, домашний хлеб с гагаузскими специями, крафтовые сыры и горячее — готовим сами и подбираем к винам дегустации.",
-        en: "Gözleme, homemade bread with Gagauz spices, craft cheeses and a hot dish — we cook everything ourselves and pair it with the wines you taste.",
-        ro: "Gözleme, pâine de casă cu mirodenii găgăuze, brânzeturi artizanale și un fel cald — gătim totul noi și îl potrivim cu vinurile degustate.",
-      },
-    },
     packagesTitle: {
       ru: "Форматы дегустаций",
       en: "Tasting formats",
       ro: "Formate de degustare",
     },
     packagesIntro: {
-      ru: "Три формата — от знакомства с винодельней до гагаузского стола. Все визиты по предварительной записи, меню адаптируем под вашу компанию.",
-      en: "Three formats — from a first acquaintance with the winery to the Gagauz table. All visits are by appointment, and we adapt the menu to your group.",
-      ro: "Trei formate — de la o primă cunoștință cu crama până la masa găgăuză. Toate vizitele sunt cu programare, iar meniul îl adaptăm grupului vostru.",
+      ru: "Три формата — от первого знакомства с винодельней до гагаузского стола. Меню адаптируем под вашу компанию.",
+      en: "Three formats — from a first acquaintance with the winery to the Gagauz table. We adapt the menu to your group.",
+      ro: "Trei formate — de la o primă cunoștință cu crama până la masa găgăuză. Meniul îl adaptăm grupului vostru.",
     },
-    popularTag: {
-      ru: "Чаще всего выбирают",
-      en: "Most popular",
-      ro: "Cel mai ales",
+    shelfTitle: {
+      ru: "Что будем пробовать",
+      en: "What you'll taste",
+      ro: "Ce veți degusta",
     },
+    allWines: { ru: "Все вина", en: "All wines", ro: "Toate vinurile" },
+    noteCta: { ru: "Напишите нам", en: "Write to us", ro: "Scrieți-ne" },
     priceUnit: { ru: "лей / чел", en: "MDL / person", ro: "lei / pers." },
     packages: [
       {
@@ -918,7 +891,11 @@ export const t = {
           en: "4 wines · 4+ guests · ≈ 1 hour",
           ro: "4 vinuri · min. 4 oaspeți · ≈ 1 oră",
         },
-        popular: false,
+        blurb: {
+          ru: "Первый визит: гуляем по виноградникам и винодельне и пробуем четыре вина — с рассказом, как они рождаются.",
+          en: "A first visit: we walk the vineyards and the winery and taste four wines — with the story of how they are made.",
+          ro: "Prima vizită: ne plimbăm prin podgorii și cramă și degustăm patru vinuri — cu povestea felului în care se nasc.",
+        },
         includes: {
           ru: [
             "Экскурсия по винодельне и рассказ о технологии",
@@ -949,7 +926,11 @@ export const t = {
           en: "6 wines · 4+ guests · ≈ 1.5 hours",
           ro: "6 vinuri · min. 4 oaspeți · ≈ 1,5 ore",
         },
-        popular: true,
+        blurb: {
+          ru: "Дальше — по виноградникам к выдержанным красным: шесть вин под мясную тарелку и сыр, не торопясь.",
+          en: "Further on — through the vineyards to the aged reds: six wines with charcuterie and cheese, unhurried.",
+          ro: "Mai departe — prin podgorii spre roșiile maturate: șase vinuri cu platou de mezeluri și brânză, pe îndelete.",
+        },
         includes: {
           ru: [
             "Экскурсия по винодельне и виноградникам",
@@ -983,7 +964,11 @@ export const t = {
           en: "7 wines · 2+ guests · ≈ 2.5 hours",
           ro: "7 vinuri · min. 2 oaspeți · ≈ 2,5 ore",
         },
-        popular: false,
+        blurb: {
+          ru: "Долгий стол на вершине холма: вся линейка вин, горячее и гагаузские гёзлеме — на неспешный вечер.",
+          en: "A long table at the top of the hill: the full range, a hot dish and Gagauz gözleme — for an unhurried evening.",
+          ro: "O masă lungă pe vârful dealului: toată gama, un fel cald și gözleme găgăuze — pentru o seară fără grabă.",
+        },
         includes: {
           ru: [
             "Вся линейка: четыре классических и три выдержанных вина",
@@ -1007,53 +992,14 @@ export const t = {
       },
     ],
     priceNote: {
-      ru: "Можно добавить пикник в виноградниках, мастер-класс или аренду локации. Для групп и партнёров — отдельные условия, напишите нам.",
-      en: "You can add a picnic in the vineyards, a workshop or venue hire. For groups and partners we offer special terms — write to us.",
-      ro: "Puteți adăuga un picnic în podgorii, un atelier sau închirierea locației. Pentru grupuri și parteneri oferim condiții speciale — scrieți-ne.",
+      ru: "Можно добавить пикник в виноградниках, мастер-класс или аренду локации. Для групп и партнёров — отдельные условия.",
+      en: "You can add a picnic in the vineyards, a workshop or venue hire. For groups and partners we offer special terms.",
+      ro: "Puteți adăuga un picnic în podgorii, un atelier sau închirierea locației. Pentru grupuri și parteneri oferim condiții speciale.",
     },
-    howTitle: {
-      ru: "Как проходит визит",
-      en: "How a visit works",
-      ro: "Cum decurge vizita",
-    },
-    steps: [
-      {
-        title: { ru: "Напишите нам", en: "Write to us", ro: "Scrieți-ne" },
-        text: {
-          ru: "В Telegram или через форму на сайте — все визиты по предварительной записи.",
-          en: "On Telegram or via the form — all visits are by appointment.",
-          ro: "Pe Telegram sau prin formular — toate vizitele sunt cu programare.",
-        },
-      },
-      {
-        title: {
-          ru: "Согласуем дату и формат",
-          en: "We agree on a date and format",
-          ro: "Stabilim data și formatul",
-        },
-        text: {
-          ru: "Подберём день, время и дегустацию под вашу компанию — от пары до большой группы.",
-          en: "We'll pick a day, a time and a tasting to suit your group — from a couple to a big party.",
-          ro: "Alegem ziua, ora și degustarea potrivită grupului vostru — de la un cuplu la un grup mare.",
-        },
-      },
-      {
-        title: {
-          ru: "Приезжайте в гости",
-          en: "Come and visit",
-          ro: "Veniți în ospeție",
-        },
-        text: {
-          ru: "Встретим вас, покажем винодельню и виноградники и нальём первый бокал.",
-          en: "We'll welcome you, show you the winery and vineyards and pour the first glass.",
-          ro: "Vă întâmpinăm, vă arătăm crama și podgoriile și vă turnăm primul pahar.",
-        },
-      },
-    ],
     finalTitle: {
-      ru: "Ждём вас на вершине холма",
-      en: "We'll be waiting at the top of the hill",
-      ro: "Vă așteptăm pe vârful dealului",
+      ru: "Будем рады видеть вас",
+      en: "We'll be glad to see you",
+      ro: "Vom fi bucuroși să vă vedem",
     },
     gettingTitle: {
       ru: "Как добраться",

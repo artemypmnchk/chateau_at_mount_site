@@ -1987,9 +1987,9 @@ a.info-row:hover .info-value {
   margin-top: 42px;
 }
 
-/* Фото-hero страницы дегустаций — ниже главного, заголовок компактнее */
+/* Фото-hero страницы дегустаций — во всю высоту экрана, как на главной */
 .visit-hero-photo {
-  min-height: 86svh;
+  min-height: 100svh;
 }
 /* Медленный Ken Burns: кадр «оседает» из лёгкого зума и замирает */
 .visit-hero-photo .hero-bg img {
@@ -2042,12 +2042,13 @@ a.info-row:hover .info-value {
   }
 }
 
-/* Кадр светлее, чем на главной, — скрим плотнее */
+/* Кадр светлее, чем на главной, — скрим плотнее. Верх тянем сильнее:
+   небо в кадре светлое, и белое лого над ним иначе теряется */
 .visit-hero-photo::after {
   background: linear-gradient(
     180deg,
-    rgba(15, 11, 7, 0.48) 0%,
-    rgba(15, 11, 7, 0.16) 42%,
+    rgba(15, 11, 7, 0.55) 0%,
+    rgba(15, 11, 7, 0.2) 42%,
     rgba(15, 11, 7, 0.42) 74%,
     rgba(15, 11, 7, 0.7) 100%
   );
@@ -2068,148 +2069,259 @@ a.info-row:hover .info-value {
   font-size: clamp(32px, 4.5vw, 52px);
   margin-bottom: 44px;
 }
-.pkg-intro {
-  font-size: clamp(16px, 1.8vw, 18px);
-  color: rgba(243, 237, 226, 0.7);
-  max-width: 620px;
-  margin: -28px 0 44px;
-}
 .section-dark .visit-h2 {
   margin-top: -8px;
 }
 
-/* Packages — flat dark cards with hairlines */
-.pkg-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-  align-items: stretch;
+/* ---------- Форматы-опыты (по мотивам Pasqua/Epoch) ----------
+   Не прайс-таблица, а редакторские блоки на известняке: фото несёт
+   каждый, цена — тихой метастрокой курсивом, «что входит» — обычным
+   текстом без галочек-чипов, переход — ссылка-штрих .hero-link. */
+.exp-head {
+  max-width: 640px;
+  margin-bottom: clamp(48px, 7vw, 88px);
 }
-.pkg-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--line-light);
-  border-radius: var(--radius);
-  padding: 36px 32px 34px;
-  transition: border-color 0.25s ease;
-}
-.pkg-card:hover {
-  border-color: rgba(255, 255, 255, 0.35);
-}
-.pkg-card.popular {
-  border-color: var(--accent);
-}
-.pkg-tag {
-  position: absolute;
-  top: -12px;
-  left: 28px;
-  background: var(--accent);
-  color: var(--dark);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 6px 14px;
-  white-space: nowrap;
-}
-.pkg-price {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-.pkg-price .num {
-  font-family: var(--serif);
-  font-size: clamp(60px, 6vw, 80px);
-  font-weight: 500;
-  line-height: 1;
-  color: var(--accent);
-}
-.pkg-price .word {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(243, 237, 226, 0.55);
-}
-.pkg-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+.exp-head h2 {
+  font-size: clamp(32px, 4.5vw, 52px);
   margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--line-light);
 }
-.pkg-head h3 {
-  font-size: clamp(25px, 2.4vw, 30px);
+.exp-head p {
+  font-size: clamp(16px, 1.8vw, 18px);
+  color: var(--ink-soft);
 }
-.pkg-meta {
-  margin-top: 10px;
-  font-size: 12.5px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-.pkg-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-}
-.pkg-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  font-size: 15.5px;
-  line-height: 1.5;
-  color: rgba(243, 237, 226, 0.78);
-}
-.pkg-list .check {
-  flex: 0 0 auto;
-  margin-top: 2px;
-  color: var(--accent);
-}
-.pkg-note {
-  margin-top: 30px;
-  font-size: 16px;
-  color: rgba(243, 237, 226, 0.55);
-  max-width: 620px;
-}
-
-/* Steps 01-02-03 */
-.steps {
+.exp {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(28px, 4vw, 56px);
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(36px, 6vw, 88px);
+  align-items: center;
 }
-.step-num {
-  display: block;
+.exp + .exp {
+  margin-top: clamp(56px, 8vw, 104px);
+}
+.exp.reverse .exp-media {
+  order: 2;
+}
+.exp-media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  aspect-ratio: 5 / 4;
+}
+.exp-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Имя формата — тише заголовка секции (52px), чтобы у секции было главное */
+.exp-body h3,
+.flagship-body h3 {
+  font-size: clamp(27px, 3vw, 38px);
+  line-height: 1.04;
+}
+/* Метастрока: часы·гости·вина — курсив «голоса семьи», один цвет */
+.exp-meta {
+  margin-top: 14px;
   font-family: var(--serif-italic);
   font-style: italic;
-  font-size: clamp(44px, 5vw, 62px);
-  font-weight: 500;
-  line-height: 1;
+  font-size: clamp(16px, 1.9vw, 19px);
   color: var(--accent-dark);
-  margin-bottom: 18px;
 }
-.step h3 {
-  font-size: clamp(23px, 2.2vw, 27px);
-  margin-bottom: 10px;
+/* Цена — своя строка сразу под метой: во всех блоках на одной оси, сканируется */
+.exp-price {
+  margin-top: 6px;
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-size: clamp(20px, 2.2vw, 24px);
+  color: var(--ink);
 }
-.step p {
+/* Одна тихая строка-описание между метой и составом */
+.exp-text {
+  margin-top: 20px;
+  font-size: clamp(17px, 1.7vw, 19px);
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 46ch;
+}
+/* Состав — тихие «строки таблицы»: рама сверху и снизу, хейрлайн между
+   пунктами. Без маркеров и галочек-чипов. CTA больше не висит в воздухе. */
+.exp-list {
+  list-style: none;
+  margin-top: 26px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.exp-list li {
+  padding: 11px 0;
   font-size: 16px;
-  line-height: 1.55;
+  line-height: 1.5;
   color: var(--ink-soft);
-  max-width: 320px;
+}
+.exp-list li + li {
+  border-top: 1px solid var(--line);
+}
+/* CTA — тот же жест линия-штрих, но на известняке: перекрашиваем в винный
+   (цвет действия на светлом), иначе белый .hero-link теряется на фоне */
+.exp-cta {
+  margin-top: 30px;
+  color: var(--wine);
+}
+.exp-cta::after {
+  background: color-mix(in srgb, var(--wine) 50%, transparent);
+}
+.exp-cta::before {
+  border-top-color: color-mix(in srgb, var(--wine) 50%, transparent);
+  border-right-color: color-mix(in srgb, var(--wine) 50%, transparent);
+}
+.exp-cta:hover {
+  color: var(--wine);
+}
+.exp-cta:hover::after {
+  background: var(--wine);
+}
+.exp-cta:hover::before {
+  border-top-color: var(--wine);
+  border-right-color: var(--wine);
+}
+.exp-note {
+  margin-top: clamp(56px, 8vw, 96px);
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+  font-size: 16px;
+  color: var(--ink-soft);
+  max-width: 640px;
 }
 
-/* Сплиты «стол / кухня» на странице дегустаций */
-.visit .split + .split {
-  margin-top: clamp(64px, 9vw, 120px);
+/* ---------- Флагман «Гагаузский стол» на тёмном полотне ----------
+   Тональная пауза посреди страницы: фото в обрез левого края вьюпорта,
+   текст — справа в пределах контейнера. Сцену делает темнота, не бейдж. */
+.experiences-flagship {
+  padding-top: clamp(64px, 9vw, 120px);
+  padding-bottom: clamp(64px, 9vw, 120px);
+}
+.flagship {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  margin-bottom: clamp(56px, 8vw, 104px);
+}
+.flagship-media {
+  position: relative;
+  overflow: hidden;
+  min-height: clamp(420px, 58vh, 620px);
+  /* фото упирается в левую кромку вьюпорта — full-bleed слева */
+}
+.flagship-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.flagship-body {
+  align-self: center;
+  max-width: 620px;
+  padding-block: clamp(40px, 5vw, 72px);
+  padding-inline: clamp(32px, 5vw, 72px)
+    max(24px, env(safe-area-inset-right));
+}
+/* Флагман тёмный: цвета по палитре section-dark */
+.flagship-body h3 {
+  color: #f3ede2;
+}
+.flagship-body .exp-meta {
+  color: var(--accent);
+}
+.flagship-body .exp-price {
+  color: #f3ede2;
+}
+.flagship-body .exp-text {
+  color: rgba(243, 237, 226, 0.85);
+}
+.flagship-body .exp-list {
+  border-color: var(--line-light);
+}
+.flagship-body .exp-list li {
+  color: rgba(243, 237, 226, 0.68);
+}
+.flagship-body .exp-list li + li {
+  border-color: var(--line-light);
+}
+/* На тёмном .hero-link уже штатно-белый — винную перекраску не применяем */
+.flagship-body .hero-link {
+  margin-top: 30px;
+}
+
+/* ---------- Полка вин «Что будем пробовать» ----------
+   Страница дегустаций наконец показывает само вино: стекло на тёмном,
+   без карточек-подложек, как в ленте главной. */
+.wine-shelf {
+  text-align: center;
+}
+.shelf-title {
+  font-size: clamp(24px, 3vw, 34px);
+  color: #f3ede2;
+  margin-bottom: clamp(28px, 4vw, 44px);
+}
+.shelf-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(20px, 3vw, 44px);
+}
+.shelf-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.3s ease;
+}
+.shelf-bottle {
+  position: relative;
+  display: block;
+  width: clamp(64px, 8vw, 92px);
+  height: clamp(120px, 14vw, 170px);
+}
+.shelf-name {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-size: 14.5px;
+  color: rgba(243, 237, 226, 0.75);
+  transition: color 0.25s ease;
+}
+.shelf-item:hover {
+  transform: translateY(-4px);
+}
+.shelf-item:hover .shelf-name {
+  color: #f3ede2;
+}
+.shelf-all {
+  margin-top: clamp(32px, 4vw, 48px);
+  color: rgba(243, 237, 226, 0.82);
+}
+@media (prefers-reduced-motion: reduce) {
+  .shelf-item:hover {
+    transform: none;
+  }
+}
+/* Note на тёмном: серо-кремовый + ссылка-курсив в цвет акцента */
+/* Обобщено с .experiences-flagship: .exp-note теперь живёт в .visit-final
+   (тоже section-dark) — заметка о логистике переехала поближе к контактам */
+.section-dark .exp-note {
+  color: rgba(243, 237, 226, 0.55);
+  border-top-color: var(--line-light);
+}
+/* .visit-final p (class+element) иначе перебивает .exp-note (один класс)
+   своим font-size/color/max-width/margin — здесь специфичность выше их обеих */
+.visit-final .exp-note {
+  margin: clamp(56px, 8vw, 96px) auto 0;
+  padding-top: 28px;
+  font-size: 16px;
+  max-width: 640px;
+}
+.exp-note-cta {
+  color: var(--accent);
+  white-space: nowrap;
+}
+.exp-note-cta:hover {
+  color: #f3ede2;
 }
 
 /* Final CTA */
@@ -2231,17 +2343,43 @@ a.info-row:hover .info-value {
 }
 
 @media (max-width: 900px) {
-  .pkg-grid {
+  .exp,
+  .flagship {
     grid-template-columns: 1fr;
   }
-  .pkg-card.popular {
-    order: -1;
+  .exp.reverse .exp-media {
+    order: 0;
   }
-  .steps {
-    grid-template-columns: 1fr;
+  .exp-media {
+    aspect-ratio: 4 / 3;
   }
-  .step p {
-    max-width: 480px;
+  /* Флагман: фото сверху на всю ширину, текст ниже — пауза держится и в столбец */
+  .flagship-media {
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
+  .flagship-body {
+    max-width: none;
+    padding: clamp(32px, 8vw, 52px) max(24px, env(safe-area-inset-right))
+      0 max(24px, env(safe-area-inset-left));
+  }
+  /* Полка вин листается нативным свайпом — без переносов */
+  .shelf-row {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    /* съезд под кромку вьюпорта, чтобы полка читалась «продолжающейся» */
+    margin-inline: calc(-1 * max(24px, env(safe-area-inset-left)));
+    padding-inline: max(24px, env(safe-area-inset-left));
+  }
+  .shelf-row::-webkit-scrollbar {
+    display: none;
+  }
+  .shelf-item {
+    scroll-snap-align: start;
+    flex: 0 0 auto;
   }
 }
 
