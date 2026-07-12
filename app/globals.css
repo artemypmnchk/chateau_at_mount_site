@@ -48,9 +48,9 @@ body::after {
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-  opacity: 0.09;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  opacity: 0.32;
   mix-blend-mode: overlay;
 }
 @media print {
@@ -2078,21 +2078,14 @@ a.info-row:hover .info-value {
 }
 .wine-page .wine-hero {
   /* Полотно сорта — тот же band-цвет, что под бутылкой в ленте на главной.
-     Вертикальный ход света: у верха теплее (примесь сорта), к низу глубже —
-     стена под светом, а не плоская заливка. Плюс мягкое пятно за бутылкой. */
-  background:
-    radial-gradient(
-      ellipse 58% 70% at 28% 44%,
-      rgba(255, 255, 255, 0.08) 0%,
-      rgba(23, 17, 20, 0) 42%,
-      rgba(23, 17, 20, 0.55) 100%
-    ),
-    linear-gradient(
-      180deg,
-      color-mix(in oklab, var(--accent) 26%, var(--band, var(--dark))) 0%,
-      var(--band, var(--dark)) 46%,
-      color-mix(in oklab, black 30%, var(--band, var(--dark))) 100%
-    );
+     Только вертикальный тон-градиент (цвет, не свет): у верха чуть насыщеннее
+     сортом, к низу уходит в глубокое. Без светлых пятен-подсветов. */
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--accent) 22%, var(--band, var(--dark))) 0%,
+    var(--band, var(--dark)) 50%,
+    color-mix(in oklab, black 32%, var(--band, var(--dark))) 100%
+  );
 }
 /* Светлая секция истории — отсвет того же тона */
 .wine-story-section {
@@ -2348,23 +2341,7 @@ a.info-row:hover .info-value {
   position: relative;
   height: 208px;
 }
-/* Лужица цвета сорта за бутылкой — язык ленты с главной (правило 7):
-   заливает плоский тёмный фон и различает сорта с одного взгляда */
-.wine-c-media::before {
-  content: "";
-  position: absolute;
-  inset: -6% -10%;
-  border-radius: 50%;
-  background: radial-gradient(
-    ellipse 50% 46% at 50% 54%,
-    color-mix(in oklab, var(--v, var(--accent)) 62%, transparent) 0%,
-    transparent 70%
-  );
-  opacity: 0.5;
-  filter: blur(6px);
-}
 .wine-c-media img {
-  position: relative;
   filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.5));
 }
 .wine-c-body {
