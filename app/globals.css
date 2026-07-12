@@ -2409,14 +2409,6 @@ a.info-row:hover .info-value {
   margin: 0 0 9px;
   letter-spacing: -0.01em;
 }
-.wine-c h3 .vint {
-  color: var(--v, var(--accent));
-  font-variant-numeric: tabular-nums;
-  /* отступ даёт настоящий пробел в разметке — так «Viorica 2023»
-     правильно читается и скринридером, и поисковиком */
-  margin-left: 0.08em;
-  font-size: 0.82em;
-}
 .wine-c-notes {
   font-family: var(--serif);
   font-style: italic;
@@ -2503,9 +2495,6 @@ a.info-row:hover .info-value {
   }
   .wine-c h3 {
     font-size: 30px;
-  }
-  .wine-c h3 .vint {
-    font-size: 0.72em;
   }
   .wine-c-notes {
     font-size: 19px;

@@ -167,10 +167,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
                       {L(o.type)} · {L(o.alcohol)}
                     </span>
                   </div>
-                  <h3>
-                    {o.name}
-                    {o.vintage && <> <span className="vint">{o.vintage}</span></>}
-                  </h3>
+                  <h3>{o.name}</h3>
                   <p className="wine-c-notes">{L(o.notes).join(" · ")}</p>
                   <p className="wine-c-desc">{L(o.desc)}</p>
                   {o.awards && o.awards.length > 0 && (
