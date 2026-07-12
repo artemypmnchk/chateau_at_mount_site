@@ -23,12 +23,11 @@ export default function WinesPage() {
 
   return (
     <main className="wines-page">
-      {/* ---------- Hero — текстовый, как на /visit ---------- */}
+      {/* ---------- Hero — киккер + заголовок, без подписи ---------- */}
       <section className="visit-hero">
         <div className="container">
           <span className="hero-eyebrow">{L(t.winesSection.eyebrow)}</span>
           <h1>{L(t.winesSection.title)}</h1>
-          <p className="lead">{L(t.winesPage.intro)}</p>
         </div>
       </section>
 

@@ -1786,7 +1786,8 @@ a.info-row:hover .info-value {
   text-align: center;
   padding-top: 210px;
   padding-bottom: 110px;
-  border-bottom: 1px solid var(--line-light);
+  /* без линии-разделителя: хиро и лента карточек — одно тёмное полотно,
+     разделяет воздух, а не хейрлайн */
 }
 .visit-hero h1 {
   font-size: clamp(44px, 7.5vw, 88px);

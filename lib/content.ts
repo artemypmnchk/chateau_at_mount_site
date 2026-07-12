@@ -698,11 +698,6 @@ export const t = {
     },
   },
   winesPage: {
-    intro: {
-      ru: "Семейная винодельня в Гагаузии, на юге Молдовы.",
-      en: "A family winery in Gagauzia, southern Moldova.",
-      ro: "O cramă de familie în Găgăuzia, sudul Moldovei.",
-    },
     wholesaleCta: {
       ru: "Запросить оптовый прайс",
       en: "Request wholesale prices",
