@@ -14,7 +14,8 @@
   --radius-sm: 2px;
   --maxw: 1200px;
   --font: var(--font-inter), Inter, "Helvetica Neue", Arial, sans-serif;
-  --serif: var(--font-serif), Piazzolla, Georgia, "Times New Roman", serif;
+  --serif: var(--font-serif), Oranienbaum, Georgia, "Times New Roman", serif;
+  --serif-italic: var(--font-serif-italic), Piazzolla, Georgia, serif;
 }
 
 * {
@@ -35,6 +36,10 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   line-height: 1.55;
+  /* Oranienbaum — единственное начертание (400). Заголовки в стилях просят
+     вес 500; без этого браузер синтезировал бы фейковый жир и утолщал рисунок.
+     Отключаем синтез веса — 500 отдаётся живым 400. */
+  font-synthesis-weight: none;
   /* 100vw в .slider включает скроллбар — не даём странице уехать вбок */
   overflow-x: clip;
 }
@@ -720,6 +725,7 @@ section {
   opacity: 1;
 }
 .m-accent {
+  font-family: var(--serif-italic);
   font-style: italic;
 }
 .m-accent .m-char.lit {
@@ -1115,7 +1121,7 @@ section {
      честное многоточие вместо обрезанного полуслова у кромки */
   max-width: 100%;
   text-overflow: ellipsis;
-  font-family: var(--serif);
+  font-family: var(--serif-italic);
   font-style: italic;
   font-size: clamp(12.5px, 1vw, 15px);
   line-height: 1.45;
@@ -1275,7 +1281,7 @@ section {
   position: absolute;
   top: 22px;
   left: 4px;
-  font-family: var(--serif);
+  font-family: var(--serif-italic);
   font-style: italic;
   font-size: 17px;
   color: var(--accent);
@@ -1304,7 +1310,7 @@ section {
   border-radius: var(--radius);
 }
 .review-card p {
-  font-family: var(--serif);
+  font-family: var(--serif-italic);
   font-style: italic;
   font-size: 18px;
   line-height: 1.55;
@@ -2006,7 +2012,7 @@ a.info-row:hover .info-value {
 }
 .step-num {
   display: block;
-  font-family: var(--serif);
+  font-family: var(--serif-italic);
   font-style: italic;
   font-size: clamp(44px, 5vw, 62px);
   font-weight: 500;
@@ -2273,7 +2279,7 @@ a.info-row:hover .info-value {
 }
 /* Гастрономические пары — строка-меню курсивом, не чек-лист */
 .pairings-line {
-  font-family: var(--serif);
+  font-family: var(--serif-italic);
   font-style: italic;
   font-size: clamp(17px, 1.8vw, 20px);
   line-height: 1.75;
