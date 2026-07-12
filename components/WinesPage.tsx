@@ -25,15 +25,10 @@ export default function WinesPage() {
 
   return (
     <main className="wines-page">
-      {/* ---------- Hero — киккер + заголовок, без подписи ---------- */}
+      {/* ---------- Hero — только заголовок «Наши вина» ---------- */}
       <section className="visit-hero">
         <div className="container">
-          <span className="hero-eyebrow" data-reveal>
-            {L(t.winesSection.eyebrow)}
-          </span>
-          <h1 data-reveal style={{ "--reveal-delay": "0.08s" } as React.CSSProperties}>
-            {L(t.winesSection.title)}
-          </h1>
+          <h1 data-reveal>{L(t.winesSection.eyebrow)}</h1>
         </div>
       </section>
 
