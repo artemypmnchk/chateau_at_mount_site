@@ -100,7 +100,7 @@ export default function WinesPage() {
               onClick={() => openBooking("Опт · страница вин")}
               className="btn btn-accent"
             >
-              {L(t.winesPage.wholesaleCta)}
+              <span>{L(t.winesPage.wholesaleCta)}</span>
             </button>
             <a href="/visit" className="btn btn-outline">
               {L(t.visitPage.bookCta)}

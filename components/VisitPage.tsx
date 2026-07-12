@@ -178,7 +178,7 @@ export default function VisitPage() {
               rel="noopener noreferrer"
               className="btn btn-accent"
             >
-              {L(v.bookCta)}
+              <span>{L(v.bookCta)}</span>
             </a>
             <a href={site.contacts.phoneHref} className="btn btn-outline">
               {site.contacts.phone}

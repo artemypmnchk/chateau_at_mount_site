@@ -290,7 +290,7 @@ export default function Site() {
           <p className="final-cta-sub">{L(t.finalCta.subtitle)}</p>
           <div className="hero-actions">
             <button onClick={() => openBooking()} className="btn btn-accent">
-              {L(t.visitPage.formLink)}
+              <span>{L(t.visitPage.formLink)}</span>
             </button>
             <a href="/wines" className="btn btn-ghost-dark">
               {L(t.winesSection.all)}
@@ -302,7 +302,7 @@ export default function Site() {
             rel="noopener noreferrer"
             className="cta-telegram"
           >
-            Telegram →
+            Telegram
           </a>
         </div>
       </section>

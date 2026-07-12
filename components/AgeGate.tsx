@@ -47,7 +47,7 @@ export default function AgeGate() {
             <p>{L(t.ageGate.text)}</p>
             <div className="age-gate-actions">
               <button className="btn btn-accent" onClick={confirm}>
-                {L(t.ageGate.yes)}
+                <span>{L(t.ageGate.yes)}</span>
               </button>
               <button
                 className="btn btn-outline"

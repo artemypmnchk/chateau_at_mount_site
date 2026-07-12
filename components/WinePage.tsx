@@ -110,7 +110,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
             )}
             <div className="hero-actions">
               <a href="/visit" className="btn btn-accent">
-                {L(t.visitPage.bookCta)}
+                <span>{L(t.visitPage.bookCta)}</span>
               </a>
               <a href="/wines" className="btn btn-outline">
                 {L(w.allWines)}
@@ -191,7 +191,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
           <p>{L(w.tasteText)}</p>
           <div className="contact-actions">
             <a href="/visit" className="btn btn-accent">
-              {L(t.visitPage.bookCta)}
+              <span>{L(t.visitPage.bookCta)}</span>
             </a>
             <button onClick={() => openBooking()} className="btn btn-outline">
               {L(t.visitPage.formLink)}

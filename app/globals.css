@@ -103,48 +103,136 @@ a {
   color: var(--accent);
 }
 
-/* ---------- Buttons ---------- */
+/* ---------- Buttons ----------
+   Форма «мягкий камень»: 2px на углах, тёплая тень, просторный кап.
+   Ховеры: главная — блик по стеклу + подъём; второстепенные — тихий подъём.
+   Инверсий в белый больше нет — палитра не размывается. */
 .btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: 54px;
-  padding: 0 36px;
-  border-radius: 0;
+  height: 60px;
+  padding: 0 48px;
+  border-radius: 2px;
   font-family: var(--font);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   cursor: pointer;
   border: 1px solid transparent;
   transition:
-    background 0.25s ease,
-    color 0.25s ease,
-    border-color 0.25s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.25s ease;
   white-space: nowrap;
 }
+.btn:active {
+  transform: translateY(0);
+}
+/* «Уголёк»: по кромке кнопки медленно ходит винно-розовая дуга (адаптация приёма
+   Пачки). Три слоя: вращающийся ::before с conic-дугой (z0), поверх ::after с
+   заливкой и отступом 1px оставляет только рамку, текст в span сверху (z2).
+   Вращаем сам псевдоэлемент через transform:rotate() — анимация @property-угла
+   в conic не тикает в части движков. overflow режет ::before до кромки. */
 .btn-accent {
+  overflow: hidden;
+  isolation: isolate;
+  border-color: transparent;
   background: var(--wine);
-  color: #fff;
+  color: #f4f1ea;
+  box-shadow:
+    0 16px 28px -16px rgba(36, 26, 28, 0.4),
+    0 2px 6px rgba(36, 26, 28, 0.1);
+}
+.btn-accent > span {
+  position: relative;
+  z-index: 2;
+}
+.btn-accent::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  width: 340%;
+  aspect-ratio: 1;
+  background: conic-gradient(
+    from 0deg,
+    rgba(208, 160, 155, 0.16) 0deg,
+    rgba(208, 160, 155, 0.16) 54%,
+    rgba(208, 160, 155, 0.85) 66%,
+    #f4dcd7 72%,
+    rgba(208, 160, 155, 0.85) 78%,
+    rgba(208, 160, 155, 0.16) 90%,
+    rgba(208, 160, 155, 0.16) 360deg
+  );
+  opacity: 0.65;
+  animation: ember-spin 5s linear infinite;
+  transition: opacity 0.45s ease;
+}
+.btn-accent::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 1px;
+  border-radius: 1px;
+  background: var(--wine);
 }
 .btn-accent:hover {
-  background: #fff;
-  color: var(--wine);
+  transform: translateY(-2px);
+  color: #f4f1ea;
+  box-shadow:
+    0 22px 34px -16px rgba(36, 26, 28, 0.5),
+    0 0 28px -6px rgba(208, 160, 155, 0.55);
 }
-/* На тёмном бордовая заливка тонет — кнопка становится светлой
+.btn-accent:hover::before {
+  opacity: 1;
+}
+@keyframes ember-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+/* На тёмном бордовая заливка тонет — кнопка светлая, дуга с бордовым тлением.
    (правило 2 DESIGN.md; .wine-hero — тёмное полотно сорта, не .section-dark) */
 .section-dark .btn-accent,
 .wine-hero .btn-accent {
   background: #f3ede2;
   color: var(--ink);
+  box-shadow: 0 16px 30px -14px rgba(0, 0, 0, 0.55);
+}
+.section-dark .btn-accent::after,
+.wine-hero .btn-accent::after {
+  background: #f3ede2;
+}
+.section-dark .btn-accent::before,
+.wine-hero .btn-accent::before {
+  background: conic-gradient(
+    from 0deg,
+    rgba(94, 42, 51, 0.22) 0deg,
+    rgba(94, 42, 51, 0.22) 54%,
+    rgba(94, 42, 51, 0.9) 66%,
+    #d0a09b 72%,
+    rgba(94, 42, 51, 0.9) 78%,
+    rgba(94, 42, 51, 0.22) 90%,
+    rgba(94, 42, 51, 0.22) 360deg
+  );
 }
 .section-dark .btn-accent:hover,
 .wine-hero .btn-accent:hover {
-  background: #fff;
   color: var(--ink);
+  box-shadow:
+    0 20px 34px -14px rgba(0, 0, 0, 0.6),
+    0 0 30px -4px rgba(208, 160, 155, 0.45);
 }
 .btn-outline {
   background: transparent;
@@ -152,9 +240,10 @@ a {
   color: #fff;
 }
 .btn-outline:hover {
-  background: #fff;
+  transform: translateY(-2px);
+  background: rgba(243, 237, 226, 0.1);
   border-color: #fff;
-  color: var(--dark);
+  color: #fff;
 }
 .btn-ghost-dark {
   background: transparent;
@@ -162,9 +251,17 @@ a {
   color: var(--ink);
 }
 .btn-ghost-dark:hover {
-  background: var(--ink);
+  transform: translateY(-2px);
+  background: rgba(94, 42, 51, 0.05);
   border-color: var(--ink);
-  color: var(--bg);
+  color: var(--ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn-accent::before {
+    transition-duration: 0.01ms;
+    animation: none;
+  }
 }
 
 /* ---------- Header ---------- */
@@ -528,40 +625,62 @@ a {
   gap: 14px 40px;
   margin-top: 40px;
 }
-/* CTA на фото — текстовые ссылки, никакого цвета поверх кадра */
+/* CTA на фото — текстовые ссылки, никакого цвета поверх кадра.
+   Жест «линия-штрих»: длинная линия со стрелкой вытягивается навстречу */
 .hero-link {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 18px;
   padding: 13px 0; /* тач-таргет ≥44px (12px давали 42) */
   background: none;
   border: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
   cursor: pointer;
   font-family: var(--font);
-  font-size: 12.5px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: #fff;
-  transition: border-color 0.25s ease;
+  transition: color 0.3s ease;
 }
 .hero-link::after {
-  content: "→";
-  font-size: 14px;
-  letter-spacing: 0;
-  transition: transform 0.25s ease;
+  content: "";
+  width: 56px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+  transition:
+    width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.3s ease;
 }
-.hero-link:hover {
-  border-color: #fff;
+.hero-link::before {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.5);
+  transform: translateY(-50%) rotate(45deg);
+  transition: border-color 0.3s ease;
 }
 .hero-link:hover::after {
-  transform: translateX(4px);
+  width: 88px;
+  background: #fff;
+}
+.hero-link:hover::before {
+  border-color: #fff;
 }
 /* Второе действие хиро — тише первого: одинаковые CTA спорили за палец */
 .hero-link-secondary {
   color: rgba(255, 255, 255, 0.74);
-  border-bottom-color: rgba(255, 255, 255, 0.28);
+}
+.hero-link-secondary::after {
+  background: rgba(255, 255, 255, 0.32);
+}
+.hero-link-secondary::before {
+  border-color: rgba(255, 255, 255, 0.32);
 }
 .hero-link-secondary:hover {
   color: #fff;
@@ -1369,21 +1488,52 @@ section {
   max-width: 900px;
   margin: 0 auto;
 }
+/* Линия-штрих, как у хиро, но в чернилах — на светлом фоне секции */
 .final-cta .cta-telegram {
+  position: relative;
   display: inline-flex;
+  align-items: center;
+  gap: 16px;
   margin-top: 26px;
   padding: 13px 0 12px; /* тач-таргет ≥44px */
-  border-bottom: 1px solid rgba(36, 26, 28, 0.35);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ink);
   text-decoration: none;
-  transition: border-color 0.25s ease;
+  transition: color 0.3s ease;
+}
+.final-cta .cta-telegram::after {
+  content: "";
+  width: 48px;
+  height: 1px;
+  background: rgba(36, 26, 28, 0.45);
+  transition:
+    width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.3s ease;
+}
+.final-cta .cta-telegram::before {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid rgba(36, 26, 28, 0.45);
+  border-right: 1px solid rgba(36, 26, 28, 0.45);
+  transform: translateY(-50%) rotate(45deg);
+  transition: border-color 0.3s ease;
 }
 .final-cta .cta-telegram:hover {
-  border-color: var(--ink);
+  color: var(--accent-dark);
+}
+.final-cta .cta-telegram:hover::after {
+  width: 76px;
+  background: var(--accent-dark);
+}
+.final-cta .cta-telegram:hover::before {
+  border-color: var(--accent-dark);
 }
 /* Подстрочник — спокойно закрывает опт (прайс/презентация) и дегустацию */
 .final-cta .final-cta-sub {
@@ -1689,15 +1839,57 @@ section {
   margin-top: 8px;
   width: 100%;
 }
+/* Жест «серифный курсив» — тихая ссылка в ткани текста:
+   Piazzolla italic, подчёркивание на ховере перерисовывается */
 .tg-link {
+  position: relative;
+  align-self: center;
   text-align: center;
-  font-size: 15px;
-  color: var(--accent-dark);
-  font-weight: 500;
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink);
+  font-weight: 400;
   margin-top: 4px;
+  padding-bottom: 3px;
+  text-decoration: none;
+}
+.tg-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
 }
 .tg-link:hover {
-  text-decoration: underline;
+  color: var(--accent-dark);
+  text-decoration: none;
+}
+.tg-link:hover::after {
+  opacity: 1;
+  animation: link-redraw 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes link-redraw {
+  0% {
+    transform: scaleX(1);
+    transform-origin: right;
+  }
+  45% {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+  46% {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  100% {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
 }
 .form-success {
   background: var(--bg-soft);

@@ -134,7 +134,7 @@ export default function BookingForm({ source }: { source?: string }) {
         className="btn btn-accent"
         disabled={status === "sending"}
       >
-        {status === "sending" ? L(c.sending) : L(c.submit)}
+        <span>{status === "sending" ? L(c.sending) : L(c.submit)}</span>
       </button>
       <a
         className="tg-link"
