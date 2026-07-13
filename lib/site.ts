@@ -8,7 +8,7 @@ import { links } from "./content";
  * винодельни (сейчас заполнены ориентировочно по городу Чадыр-Лунга).
  */
 export const site = {
-  url: "https://chateauatmount.md", // TODO: заменить на реальный домен
+  url: "https://chateauatmount.com",
   name: "Chateau At Mount",
   shortName: "Chateau At Mount",
   description:
