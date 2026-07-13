@@ -56,16 +56,6 @@ export default function WinePage({ wine }: { wine: Wine }) {
             </span>
             <h1>{wine.name}</h1>
             <p className="lead">{L(wine.desc)}</p>
-            <dl className="wine-facts">
-              <div>
-                <dt>{L(w.facts.alcohol)}</dt>
-                <dd>{L(wine.alcohol)}</dd>
-              </div>
-              <div>
-                <dt>{L(w.facts.serving)}</dt>
-                <dd>{wine.servingTemp}</dd>
-              </div>
-            </dl>
             {wine.awards && wine.awards.length > 0 && (
               /* Почётный ряд: официальная графика медали (DWM разрешает
                  призёрам промо-использование) живёт в строке своей награды —
@@ -153,7 +143,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
                 </div>
                 <div className="wine-c-body">
                   <span className="wine-c-meta">
-                    {L(o.type)} · {L(o.alcohol)}
+                    {L(o.type)}
                   </span>
                   <h3>{o.name}</h3>
                   <p className="wine-c-desc">{L(o.desc)}</p>

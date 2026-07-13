@@ -108,9 +108,9 @@ export const wines: Wine[] = [
       ],
     },
     about: {
-      ru: "Произведено из винограда сорта мерло, собранного и отобранного вручную на юге Молдовы, с собственных виноградников, по традиционной технологии с выдержкой в дубовых бочках не менее 12 месяцев. Вино интенсивного рубинового цвета с ароматом спелой вишни и ежевики и лёгкими нотами дуба; мягкие танины дают округлость и долгое бархатистое послевкусие.",
-      en: "Made from hand-picked Merlot grapes selected from our own vineyards in southern Moldova, by the traditional method with at least 12 months of ageing in oak barrels. An intense ruby wine with aromas of ripe cherry and blackberry and light oak notes; soft tannins give it roundness and a long, velvety finish.",
-      ro: "Produs din struguri de Merlot culeși și selectați manual din viile proprii din sudul Moldovei, prin metoda tradițională, cu maturare în butoaie de stejar cel puțin 12 luni. Vin de culoare rubinie intensă, cu arome de cireșe coapte și mure și note ușoare de stejar; taninurile moi îi dau rotunjime și un final lung, catifelat.",
+      ru: "Сухое красное вино. Произведено из винограда сорта Мерло, собранного и отобранного вручную в южной части Республики Молдова с собственных виноградников, по традиционной технологии. Обладает насыщенным рубиновым цветом и богатым ароматом спелых вишен и ежевики, тонко дополненным нотами дуба. Мягкие танины подчёркивают полноту и округлость вкуса.",
+      en: "Dry red wine. Made from Merlot grapes, hand-picked and selected in southern Moldova from our own vineyards, by the traditional method. An intense ruby wine with a rich aroma of ripe cherry and blackberry, subtly layered with oak notes. Soft tannins underline its fullness and rounded taste.",
+      ro: "Vin roșu sec. Produs din struguri de Merlot, culeși și selectați manual în sudul Republicii Moldova, din viile proprii, prin metoda tradițională. Are o culoare rubinie intensă și o aromă bogată de cireșe coapte și mure, completată subtil de note de stejar. Taninurile moi îi subliniază plinătatea și rotunjimea gustului.",
     },
     story: {
       ru: "Мерло родом из Бордо — сегодня это один из самых распространённых красных сортов мира. Название связывают с французским «merle» — чёрным дроздом, любителем сладких тёмных ягод. Сорт ценят за мягкие танины и щедрый фруктовый вкус. На тёплых склонах Гагаузии мерло вызревает полностью и даёт округлое вино с ароматом спелой вишни, ежевики и нотами дуба.",
@@ -163,6 +163,11 @@ export const wines: Wine[] = [
         "Brânză de capră",
         "Deserturi cu fructe",
       ],
+    },
+    about: {
+      ru: "Сухое розовое вино. Произведено из винограда, собранного и отобранного вручную в южной части Республики Молдова. Обладает нежным розовым цветом, раскрывающим ароматы дикой клубники, приятно дополненные нотами малины и черники. Вкус хрустящий, фруктовый, с хорошо сбалансированной кислотностью.",
+      en: "Dry rosé wine. Made from grapes hand-picked and selected in southern Moldova. A delicate pink wine that opens with aromas of wild strawberry, pleasantly layered with notes of raspberry and blueberry. Crisp and fruity, with well-balanced acidity.",
+      ro: "Vin rozé sec. Produs din struguri culeși și selectați manual în sudul Republicii Moldova. Are o culoare roz delicată, ce dezvăluie arome de căpșune sălbatice, completate plăcut de note de zmeură și afine. Gust crocant, fructat, cu o aciditate bine echilibrată.",
     },
     story: {
       ru: "Розе из каберне совиньон делают по «короткой» технологии: сок остаётся на кожице всего несколько часов, забирая нежный цвет и ягодный аромат, но не танины. Так строгий бордоский сорт раскрывается с неожиданной стороны — свежей и летней. Наше розе сохраняет фирменную кислотность вин Chateau At Mount и аромат клубники с нотками малины и черники.",
@@ -254,6 +259,11 @@ export const wines: Wine[] = [
         "Ca aperitiv, fără gustări",
       ],
     },
+    about: {
+      ru: "Сухое белое вино. Произведено из винограда сорта Виорика, собранного и отобранного вручную в южной части Республики Молдова с собственных виноградников. Используются современные технологии, которые позволяют получить вино с интенсивным ароматом и особой свежестью. Обладает ярким соломенно-жёлтым цветом и раскрывает тонкие ароматы полевых цветов и базилика, дополненные приятными нотами груши и цитрусовых. Вкус свежий и освежающий, с хорошо сбалансированной кислотностью, обеспечивающей приятную свежесть и ощущение прохлады.",
+      en: "Dry white wine. Made from Viorica grapes, hand-picked and selected in southern Moldova from our own vineyards. Modern methods bring out an intense aroma and a special freshness. A bright straw-yellow wine that reveals delicate aromas of wildflowers and basil, layered with pleasant notes of pear and citrus. Fresh and refreshing, with well-balanced acidity that gives a pleasant freshness and a sense of coolness.",
+      ro: "Vin alb sec. Produs din struguri de Viorica, culeși și selectați manual în sudul Republicii Moldova, din viile proprii. Se folosesc tehnologii moderne care permit obținerea unui vin cu aromă intensă și o prospețime aparte. Are o culoare galben-pai strălucitoare și dezvăluie arome fine de flori de câmp și busuioc, completate de note plăcute de pară și citrice. Gust proaspăt și răcoritor, cu o aciditate bine echilibrată, care oferă o prospețime plăcută și o senzație de răcoare.",
+    },
     story: {
       ru: "Виорика — редкий ароматный сорт, созданный молдавскими селекционерами в середине XX века и названный женским именем. За пределами Молдовы его почти не выращивают, поэтому каждая бутылка — возможность попробовать вкус, которого нет больше нигде. Сорт даёт лёгкие вина с ароматом полевых цветов, базилика и цитрусовых — визитная карточка современного молдавского виноделия.",
       en: "Viorica is a rare aromatic variety created by Moldovan vine breeders in the mid-20th century and given a woman's name. It is hardly grown anywhere outside Moldova, so every bottle is a chance to taste something that exists nowhere else. The variety gives light wines with aromas of wildflowers, basil and citrus — a calling card of modern Moldovan winemaking.",
@@ -305,6 +315,11 @@ export const wines: Wine[] = [
         "Mititei și cârnăciori de casă",
         "Brânzeturi tari, maturate",
       ],
+    },
+    about: {
+      ru: "Сухое красное вино. Произведено из винограда сорта Fetească Neagră, собранного и отобранного вручную в южной части Республики Молдова на наших собственных виноградниках, с использованием современных технологий для достижения высокого качества. Обладает гранатовым цветом и раскрывает ароматы лесных ягод, приятно дополненные нотами малины и инжира. Вкус насыщенный, с бархатистой текстурой и долгим послевкусием.",
+      en: "Dry red wine. Made from Fetească Neagră grapes, hand-picked and selected in southern Moldova at our own vineyards, using modern methods to achieve high quality. A garnet-coloured wine that opens with aromas of wild berries, pleasantly layered with notes of raspberry and fig. Rich in taste, with a velvety texture and a long finish.",
+      ro: "Vin roșu sec. Produs din struguri de Fetească Neagră, culeși și selectați manual în sudul Republicii Moldova, în viile proprii, folosind tehnologii moderne pentru a atinge o calitate înaltă. Are o culoare de granat și dezvăluie arome de fructe de pădure, completate plăcut de note de zmeură și smochine. Gust bogat, cu o textură catifelată și un final lung.",
     },
     story: {
       ru: "Фетяска нягрэ — «чёрная девичья ягода» — один из древнейших сортов этих мест: его выращивали на землях между Прутом и Днестром задолго до того, как сюда пришли международные сорта. В XX веке он почти исчез и лишь недавно вернулся на виноградники Молдовы и Румынии. Сорт даёт глубокие гранатовые вина с ароматом лесных ягод, малины и инжира — вкус, в котором слышна история края.",
@@ -371,9 +386,9 @@ export const wines: Wine[] = [
       ],
     },
     about: {
-      ru: "Изготовлено из винограда сорта каберне совиньон, собранного и отобранного вручную на юге Молдовы, с собственных виноградников, по традиционной технологии с выдержкой в бочках минимум 12 месяцев. Вино интенсивного рубинового цвета с богатым ароматом черешни и спелой сливы, дополненным нотами специй и карамели; мягкие танины подчёркивают его округлость и мягкое послевкусие.",
-      en: "Made from hand-picked Cabernet Sauvignon grapes selected from our own vineyards in southern Moldova, by the traditional method with at least 12 months of barrel ageing. An intense ruby wine with a rich aroma of sweet cherry and ripe plum, layered with notes of spice and caramel; soft tannins underline its roundness and gentle finish.",
-      ro: "Produs din struguri de Cabernet Sauvignon culeși și selectați manual din viile proprii din sudul Moldovei, prin metoda tradițională, cu maturare în butoaie minimum 12 luni. Vin de culoare rubinie intensă, cu aromă bogată de cireșe și prune coapte, completată de note de condimente și caramel; taninurile moi îi subliniază rotunjimea și finalul catifelat.",
+      ru: "Сухое красное вино. Произведено из винограда сорта Каберне Совиньон, собранного и отобранного вручную в южной части Республики Молдова на наших собственных виноградниках, по традиционной технологии. Обладает насыщенным рубиновым цветом и богатым ароматом, в котором доминируют чёрные вишни и спелые сливы, тонко дополненный нотами специй.",
+      en: "Dry red wine. Made from Cabernet Sauvignon grapes, hand-picked and selected in southern Moldova at our own vineyards, by the traditional method. An intense ruby wine with a rich aroma dominated by black cherry and ripe plum, subtly layered with notes of spice.",
+      ro: "Vin roșu sec. Produs din struguri de Cabernet Sauvignon, culeși și selectați manual în sudul Republicii Moldova, în viile proprii, prin metoda tradițională. Are o culoare rubinie intensă și o aromă bogată, dominată de vișine negre și prune coapte, completată subtil de note de condimente.",
     },
     story: {
       ru: "Каберне совиньон называют королём красных сортов. Он появился в Бордо в XVII веке как природное скрещивание каберне фран и совиньон блан — и с тех пор покорил все винодельческие регионы мира. Сорт ценят за плотную структуру, благородные танины и способность к выдержке. На юге Молдовы каберне совиньон набирает полную спелость и даёт вино с ароматом чёрной вишни, спелых слив и специй.",
@@ -429,9 +444,9 @@ export const wines: Wine[] = [
       ],
     },
     about: {
-      ru: "Изготовлено из винограда сорта фетяска албэ, собранного и отобранного вручную на юге Молдовы, с собственных виноградников, по современной технологии, сохраняющей ароматику сорта. Вино яркого соломенно-жёлтого цвета: в аромате раскрываются полевые цветы, барбарис и мёд, дополненные нотами зелёного яблока и цитрусовых.",
-      en: "Made from hand-picked Fetească Albă grapes selected from our own vineyards in southern Moldova, using a modern method that preserves the variety's aromatics. A bright straw-yellow wine whose bouquet opens with wildflowers, barberry and honey, rounded out by green-apple and citrus notes.",
-      ro: "Produs din struguri de Fetească Albă culeși și selectați manual din viile proprii din sudul Moldovei, printr-o tehnologie modernă care păstrează aromatica soiului. Vin de culoare galben-pai strălucitoare, al cărui buchet dezvăluie flori de câmp, dracilă și miere, completate de note de măr verde și citrice.",
+      ru: "Сухое белое вино. Произведено из винограда сорта Fetească Albă, собранного и отобранного вручную в южной части Республики Молдова с собственных виноградников. Используются современные технологии, которые позволяют получить вино с интенсивным ароматом и особой свежестью. Обладает ярким соломенно-жёлтым цветом и раскрывает тонкие ароматы полевых цветов, приятно дополненные нотами зелёного яблока и цитрусовых. Вкус свежий, хрустящий, с лёгкими оттенками мёда и цитрусовых.",
+      en: "Dry white wine. Made from Fetească Albă grapes, hand-picked and selected in southern Moldova from our own vineyards. Modern methods bring out an intense aroma and a special freshness. A bright straw-yellow wine that reveals delicate aromas of wildflowers, pleasantly layered with notes of green apple and citrus. Fresh and crisp, with light hints of honey and citrus.",
+      ro: "Vin alb sec. Produs din struguri de Fetească Albă, culeși și selectați manual în sudul Republicii Moldova, din viile proprii. Se folosesc tehnologii moderne care permit obținerea unui vin cu aromă intensă și o prospețime aparte. Are o culoare galben-pai strălucitoare și dezvăluie arome fine de flori de câmp, completate plăcut de note de măr verde și citrice. Gust proaspăt, crocant, cu ușoare nuanțe de miere și citrice.",
     },
     story: {
       ru: "Фетяска албэ — один из старейших белых сортов Молдовы и Румынии, его выращивают здесь не одну сотню лет. Как и «сестра» фетяска нягрэ, он относится к семье «девичьих» сортов — лёгких, изящных и тонких. Вина из фетяски албэ узнают по деликатному аромату полевых цветов с нотами зелёного яблока и цитрусовых — это классика молдавского белого виноделия.",
@@ -495,6 +510,11 @@ export const wines: Wine[] = [
         "Pilaf și mâncăruri cu mirodenii orientale",
         "Brânzeturi maturate",
       ],
+    },
+    about: {
+      ru: "Сухое красное вино. Произведено из винограда сорта Шираз, собранного и отобранного вручную в южной части Республики Молдова на наших собственных виноградниках, с использованием современных технологий для получения интенсивного вкуса. Обладает насыщенным рубиново-фиолетовым цветом и раскрывает интенсивные ароматы чёрных вишен и спелых слив, приятно дополненные нотами граната. Вкус бархатистый, фруктовый и сбалансированный, с мягкими танинами и живой кислотностью.",
+      en: "Dry red wine. Made from Shiraz grapes, hand-picked and selected in southern Moldova at our own vineyards, using modern methods for an intense taste. A deep ruby-violet wine that opens with intense aromas of black cherry and ripe plum, pleasantly layered with notes of pomegranate. Velvety, fruity and balanced, with soft tannins and lively acidity.",
+      ro: "Vin roșu sec. Produs din struguri de Shiraz, culeși și selectați manual în sudul Republicii Moldova, în viile proprii, folosind tehnologii moderne pentru un gust intens. Are o culoare rubinie-violetă intensă și dezvăluie arome intense de vișine negre și prune coapte, completate plăcut de note de rodie. Gust catifelat, fructat și echilibrat, cu taninuri moi și o aciditate vie.",
     },
     story: {
       ru: "Шираз (он же сира) — сорт из долины Роны во Франции. Долго считалось, что его привезли из персидского города Шираз, но анализ ДНК доказал французское происхождение — а красивая легенда осталась. Сорт любит солнце и тепло, поэтому в Гагаузии чувствует себя как дома: даёт насыщенные вина с ароматом чёрной вишни, спелой сливы и граната.",
