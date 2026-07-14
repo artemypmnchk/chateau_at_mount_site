@@ -64,50 +64,10 @@ function WineBreadcrumbSchema({ wine }: { wine: Wine }) {
   );
 }
 
-/**
- * JSON-LD Product (schema.org) — карточка вина для поисковиков:
- * сорт, награды, производитель. Без offers — на сайте нет цен.
- */
-function WineProductSchema({ wine }: { wine: Wine }) {
-  const data = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: `${wine.name} — ${wine.type.ru.toLowerCase()} вино`,
-    image: `${site.url}${wine.image}`,
-    description: wine.seo.description,
-    brand: { "@type": "Brand", name: site.name },
-    manufacturer: {
-      "@type": "Organization",
-      name: site.name,
-      url: site.url,
-    },
-    category: "Вино",
-    countryOfOrigin: { "@type": "Country", name: "Молдова" },
-    ...(wine.awards?.length
-      ? { award: wine.awards.map((a) => a.text.ru) }
-      : {}),
-    additionalProperty: [
-      {
-        "@type": "PropertyValue",
-        name: "Крепость",
-        value: wine.alcohol.ru,
-      },
-      {
-        "@type": "PropertyValue",
-        name: "Температура подачи",
-        value: wine.servingTemp,
-      },
-    ],
-  };
-
-  return (
-    <script
-      type="application/ld+json"
-      // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
-}
+// Product-разметка (@type Product) намеренно НЕ используется: Google требует
+// у неё offers/review/aggregateRating, а на сайте нет ни цен, ни отзывов —
+// такая разметка даёт критическую ошибку в Search Console и всё равно не даёт
+// rich-карточку. Вернуть вместе с offers, если начнём публиковать цены.
 
 export default function Page({ params }: Props) {
   const wine = wines.find((w) => w.slug === params.slug);
@@ -117,7 +77,6 @@ export default function Page({ params }: Props) {
     <>
       <WinePage wine={wine} />
       <WineBreadcrumbSchema wine={wine} />
-      <WineProductSchema wine={wine} />
     </>
   );
 }
