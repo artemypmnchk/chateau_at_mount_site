@@ -3,70 +3,80 @@
 import { t, links } from "@/lib/content";
 import { site } from "@/lib/site";
 import { useLocale } from "./locale";
+import { useReveal } from "./useReveal";
 import BookingForm from "./BookingForm";
 
-function Check() {
-  return (
-    <svg
-      className="check"
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden
-    >
-      <path
-        d="M20 6 9 17l-5-5"
-        stroke="currentColor"
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 export default function ContactsPage() {
+  useReveal();
   const { L, locale } = useLocale();
   const c = t.contactsPage;
 
   return (
     <main className="contacts">
-      {/* ---------- Intro ---------- */}
+      {/* ---------- Intro ----------
+          Контакты на первом экране: почта и телефон текстовыми ссылками
+          жестом «линия-штрих», без залитых кнопок (правило 1 DESIGN.md). */}
       <section className="contacts-hero section-dark">
         <div className="container">
-          <span className="eyebrow">{L(c.eyebrow)}</span>
-          <h1>{L(c.title)}</h1>
-          <p className="lead">{L(c.intro)}</p>
+          <span className="eyebrow" data-reveal>
+            {L(c.eyebrow)}
+          </span>
+          <h1
+            data-reveal
+            style={{ "--reveal-delay": "0.06s" } as React.CSSProperties}
+          >
+            {L(c.title)}
+          </h1>
+          <p
+            className="lead"
+            data-reveal
+            style={{ "--reveal-delay": "0.12s" } as React.CSSProperties}
+          >
+            {L(c.intro)}
+          </p>
+          <div
+            className="contacts-hero-links"
+            data-reveal
+            style={{ "--reveal-delay": "0.18s" } as React.CSSProperties}
+          >
+            <a className="hero-link" href={`mailto:${site.contacts.email}`}>
+              {site.contacts.email}
+            </a>
+            <a className="hero-link" href={site.contacts.phoneHref}>
+              {site.contacts.phone}
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* ---------- Offer + Together ---------- */}
-      <section>
+      {/* ---------- Сотрудничество: редакторские блоки ----------
+          Заголовок слева, строки-хейрлайны справа. Без галочек и чипов —
+          та же тихая «таблица», что на странице дегустаций (.exp-list). */}
+      <section className="coop">
         <div className="container">
-          <div className="coop-grid">
-            <div className="coop-card">
-              <h2>{L(c.offerTitle)}</h2>
-              <ul className="coop-list">
-                {c.offer[locale].map((item) => (
-                  <li key={item}>
-                    <Check />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="coop-card">
-              <h2>{L(c.togetherTitle)}</h2>
-              <ul className="coop-list">
-                {c.together[locale].map((item) => (
-                  <li key={item}>
-                    <Check />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div
+            className="coop-block"
+            data-reveal
+            style={{ "--reveal-delay": "0.06s" } as React.CSSProperties}
+          >
+            <h2>{L(c.offerTitle)}</h2>
+            <ul className="coop-rows">
+              {c.offer[locale].map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div
+            className="coop-block"
+            data-reveal
+            style={{ "--reveal-delay": "0.06s" } as React.CSSProperties}
+          >
+            <h2>{L(c.togetherTitle)}</h2>
+            <ul className="coop-rows">
+              {c.together[locale].map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
@@ -76,14 +86,18 @@ export default function ContactsPage() {
         <div className="container">
           <div className="form-grid">
             {/* Form */}
-            <div className="form-card">
+            <div className="form-card" data-reveal>
               <h2>{L(c.formTitle)}</h2>
               <p className="form-note">{L(c.formNote)}</p>
               <BookingForm />
             </div>
 
             {/* Contact details */}
-            <div className="contacts-info">
+            <div
+              className="contacts-info"
+              data-reveal
+              style={{ "--reveal-delay": "0.12s" } as React.CSSProperties}
+            >
               <h2>{L(c.contactsTitle)}</h2>
               <a className="info-row" href={`mailto:${site.contacts.email}`}>
                 <span className="info-label">{L(c.emailLabel)}</span>

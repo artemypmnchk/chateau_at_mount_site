@@ -16,7 +16,7 @@ function isLightBand(hex: string) {
 }
 
 export default function WinePage({ wine }: { wine: Wine }) {
-  const { L, locale } = useLocale();
+  const { L, lp } = useLocale();
   const { openBooking } = useBookingModal();
   const w = t.winePage;
   const others = wines.filter((x) => x.slug !== wine.slug);
@@ -56,22 +56,6 @@ export default function WinePage({ wine }: { wine: Wine }) {
             </span>
             <h1>{wine.name}</h1>
             <p className="lead">{L(wine.desc)}</p>
-            <dl className="wine-facts">
-              {wine.vintage && (
-                <div>
-                  <dt>{L(w.facts.vintage)}</dt>
-                  <dd>{wine.vintage}</dd>
-                </div>
-              )}
-              <div>
-                <dt>{L(w.facts.alcohol)}</dt>
-                <dd>{L(wine.alcohol)}</dd>
-              </div>
-              <div>
-                <dt>{L(w.facts.serving)}</dt>
-                <dd>{wine.servingTemp}</dd>
-              </div>
-            </dl>
             {wine.awards && wine.awards.length > 0 && (
               /* Почётный ряд: официальная графика медали (DWM разрешает
                  призёрам промо-использование) живёт в строке своей награды —
@@ -109,10 +93,10 @@ export default function WinePage({ wine }: { wine: Wine }) {
               </ul>
             )}
             <div className="hero-actions">
-              <a href="/visit" className="btn btn-accent">
+              <a href={lp("/visit")} className="btn btn-accent">
                 <span>{L(t.visitPage.bookCta)}</span>
               </a>
-              <a href="/wines" className="btn btn-outline">
+              <a href={lp("/wines")} className="btn btn-outline">
                 {L(w.allWines)}
               </a>
             </div>
@@ -122,16 +106,15 @@ export default function WinePage({ wine }: { wine: Wine }) {
 
       {/* ---------- История сорта (редакционно) + гастропары сбоку ---------- */}
       <section className="wine-story-section">
-        <div className="container story-grid">
+        <div className="container">
           <div className="story-main">
-            <span className="eyebrow">{L(w.storyTitle)}</span>
-            <p className="wine-story">{L(wine.story)}</p>
+            <span className="eyebrow">
+              {L(wine.about ? w.aboutTitle : w.storyTitle)}
+            </span>
+            {/* Есть верифицированное описание по этикетке — показываем только его;
+                иначе нейтральная история сорта. */}
+            <p className="wine-story">{L(wine.about ?? wine.story)}</p>
           </div>
-          <aside className="story-aside">
-            <h3>{L(w.pairingsTitle)}</h3>
-            {/* Строка-меню, не чек-лист: еда — не выполненные задачи */}
-            <p className="pairings-line">{wine.pairings[locale].join(" · ")}</p>
-          </aside>
         </div>
       </section>
 
@@ -145,7 +128,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
             {others.map((o) => (
               <a
                 className="wine-c"
-                href={`/wines/${o.slug}`}
+                href={lp(`/wines/${o.slug}`)}
                 key={o.slug}
                 style={{ "--v": o.accent } as React.CSSProperties}
               >
@@ -160,7 +143,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
                 </div>
                 <div className="wine-c-body">
                   <span className="wine-c-meta">
-                    {L(o.type)} · {L(o.alcohol)}
+                    {L(o.type)}
                   </span>
                   <h3>{o.name}</h3>
                   <p className="wine-c-desc">{L(o.desc)}</p>
@@ -190,7 +173,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
           <h2>{L(w.tasteTitle)}</h2>
           <p>{L(w.tasteText)}</p>
           <div className="contact-actions">
-            <a href="/visit" className="btn btn-accent">
+            <a href={lp("/visit")} className="btn btn-accent">
               <span>{L(t.visitPage.bookCta)}</span>
             </a>
             <button onClick={() => openBooking()} className="btn btn-outline">

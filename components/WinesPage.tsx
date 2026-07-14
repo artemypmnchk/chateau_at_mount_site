@@ -19,7 +19,7 @@ function awardScore(w: (typeof wines)[number]) {
 const orderedWines = [...wines].sort((a, b) => awardScore(b) - awardScore(a));
 
 export default function WinesPage() {
-  const { L } = useLocale();
+  const { L, lp } = useLocale();
   const { openBooking } = useBookingModal();
   useReveal();
 
@@ -39,7 +39,7 @@ export default function WinesPage() {
             {orderedWines.map((w, i) => (
               <a
                 className="wine-c"
-                href={`/wines/${w.slug}`}
+                href={lp(`/wines/${w.slug}`)}
                 key={w.slug}
                 data-reveal
                 style={
@@ -60,7 +60,7 @@ export default function WinesPage() {
                 </div>
                 <div className="wine-c-body">
                   <span className="wine-c-meta">
-                    {L(w.type)} · {L(w.alcohol)}
+                    {L(w.type)}
                   </span>
                   <h3>{w.name}</h3>
                   <p className="wine-c-desc">{L(w.desc)}</p>
@@ -102,7 +102,7 @@ export default function WinesPage() {
             >
               <span>{L(t.winesPage.wholesaleCta)}</span>
             </button>
-            <a href="/visit" className="btn btn-outline">
+            <a href={lp("/visit")} className="btn btn-outline">
               {L(t.visitPage.bookCta)}
             </a>
           </div>

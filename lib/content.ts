@@ -37,19 +37,20 @@ export interface Wine {
   notes: Record<Locale, string[]>;
   /** Тип вина для плашки и характеристик: «Сухое красное» и т.п. */
   type: Record<Locale, string>;
-  /** Год урожая. Пустая строка — год не подтверждён винодельней и на
-   *  витрине не показывается (карточка ленты и факты страницы вина). */
-  vintage: string;
   alcohol: Record<Locale, string>;
   servingTemp: string;
   pairings: Record<Locale, string[]>;
+  /** Верифицированное винодельней описание конкретного вина (по этикетке):
+   *  способ производства + дегустация. Есть не у всех сортов; где есть —
+   *  идёт первым абзацем «О вине», за ним нейтральная история сорта (story). */
+  about?: Record<Locale, string>;
   story: Record<Locale, string>;
   /** Русские title/description для метаданных и JSON-LD страницы вина. */
   seo: { title: string; description: string };
 }
 
 // Порядок бутылок — как в оригинальном слайдере.
-// ⚠️ Год урожая и крепость заполнены ориентировочно — уточните у винодельни.
+// ⚠️ Крепость заполнена ориентировочно — уточните у винодельни.
 export const wines: Wine[] = [
   {
     slug: "merlot",
@@ -84,7 +85,6 @@ export const wines: Wine[] = [
       ro: ["cireșe", "mure", "stejar"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    vintage: "2020",
     alcohol: { ru: "13,5 % об.", en: "13.5% ABV", ro: "13,5% vol." },
     servingTemp: "16–18 °C",
     pairings: {
@@ -107,6 +107,11 @@ export const wines: Wine[] = [
         "Rață cu sos de fructe de pădure",
       ],
     },
+    about: {
+      ru: "Сухое красное вино. Произведено из винограда сорта Мерло, собранного и отобранного вручную в южной части Республики Молдова с собственных виноградников, по традиционной технологии. Обладает насыщенным рубиновым цветом и богатым ароматом спелых вишен и ежевики, тонко дополненным нотами дуба. Мягкие танины подчёркивают полноту и округлость вкуса.",
+      en: "Dry red wine. Made from Merlot grapes, hand-picked and selected in southern Moldova from our own vineyards, by the traditional method. An intense ruby wine with a rich aroma of ripe cherry and blackberry, subtly layered with oak notes. Soft tannins underline its fullness and rounded taste.",
+      ro: "Vin roșu sec. Produs din struguri de Merlot, culeși și selectați manual în sudul Republicii Moldova, din viile proprii, prin metoda tradițională. Are o culoare rubinie intensă și o aromă bogată de cireșe coapte și mure, completată subtil de note de stejar. Taninurile moi îi subliniază plinătatea și rotunjimea gustului.",
+    },
     story: {
       ru: "Мерло родом из Бордо — сегодня это один из самых распространённых красных сортов мира. Название связывают с французским «merle» — чёрным дроздом, любителем сладких тёмных ягод. Сорт ценят за мягкие танины и щедрый фруктовый вкус. На тёплых склонах Гагаузии мерло вызревает полностью и даёт округлое вино с ароматом спелой вишни, ежевики и нотами дуба.",
       en: "Merlot comes from Bordeaux and is now one of the most widely planted red varieties in the world. Its name is linked to the French “merle” — the blackbird, fond of sweet dark berries. The variety is loved for its soft tannins and generous fruit. On the warm slopes of Gagauzia, Merlot ripens fully, giving a rounded wine with aromas of ripe cherry, blackberry and oak.",
@@ -115,7 +120,7 @@ export const wines: Wine[] = [
     seo: {
       title: "Вино Мерло (Merlot) из Молдовы — сухое красное",
       description:
-        "Сухое красное вино Merlot от семейной винодельни Chateau At Mount (Гагаузия, Молдова): год урожая, крепость, температура подачи, гастрономические пары и история сорта.",
+        "Сухое красное вино Merlot от семейной винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и история сорта.",
     },
   },
   {
@@ -137,7 +142,6 @@ export const wines: Wine[] = [
       ro: ["căpșuni", "zmeură", "afine"],
     },
     type: { ru: "Сухое розовое", en: "Dry rosé", ro: "Rozé sec" },
-    vintage: "",
     alcohol: { ru: "12,5 % об.", en: "12.5% ABV", ro: "12,5% vol." },
     servingTemp: "8–10 °C",
     pairings: {
@@ -160,6 +164,11 @@ export const wines: Wine[] = [
         "Deserturi cu fructe",
       ],
     },
+    about: {
+      ru: "Сухое розовое вино. Произведено из винограда, собранного и отобранного вручную в южной части Республики Молдова. Обладает нежным розовым цветом, раскрывающим ароматы дикой клубники, приятно дополненные нотами малины и черники. Вкус хрустящий, фруктовый, с хорошо сбалансированной кислотностью.",
+      en: "Dry rosé wine. Made from grapes hand-picked and selected in southern Moldova. A delicate pink wine that opens with aromas of wild strawberry, pleasantly layered with notes of raspberry and blueberry. Crisp and fruity, with well-balanced acidity.",
+      ro: "Vin rozé sec. Produs din struguri culeși și selectați manual în sudul Republicii Moldova. Are o culoare roz delicată, ce dezvăluie arome de căpșune sălbatice, completate plăcut de note de zmeură și afine. Gust crocant, fructat, cu o aciditate bine echilibrată.",
+    },
     story: {
       ru: "Розе из каберне совиньон делают по «короткой» технологии: сок остаётся на кожице всего несколько часов, забирая нежный цвет и ягодный аромат, но не танины. Так строгий бордоский сорт раскрывается с неожиданной стороны — свежей и летней. Наше розе сохраняет фирменную кислотность вин Chateau At Mount и аромат клубники с нотками малины и черники.",
       en: "Rosé from Cabernet Sauvignon is made the “short” way: the juice spends only a few hours on the skins, taking on a delicate colour and berry aromas, but not the tannins. The stern Bordeaux variety shows an unexpected side of itself — fresh and summery. Our rosé keeps the signature acidity of Chateau At Mount wines, with strawberry aromas and hints of raspberry and blueberry.",
@@ -168,7 +177,7 @@ export const wines: Wine[] = [
     seo: {
       title: "Розовое вино Cabernet Rose из Молдовы — сухое розе",
       description:
-        "Сухое розовое вино Cabernet Rose от семейной винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи, гастрономические пары и история вина.",
+        "Сухое розовое вино Cabernet Rose от семейной винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и история вина.",
     },
   },
   {
@@ -228,7 +237,6 @@ export const wines: Wine[] = [
       ro: ["flori de câmp", "busuioc", "citrice"],
     },
     type: { ru: "Сухое белое", en: "Dry white", ro: "Alb sec" },
-    vintage: "2023",
     alcohol: { ru: "12,5 % об.", en: "12.5% ABV", ro: "12,5% vol." },
     servingTemp: "10–12 °C",
     pairings: {
@@ -251,6 +259,11 @@ export const wines: Wine[] = [
         "Ca aperitiv, fără gustări",
       ],
     },
+    about: {
+      ru: "Сухое белое вино. Произведено из винограда сорта Виорика, собранного и отобранного вручную в южной части Республики Молдова с собственных виноградников. Используются современные технологии, которые позволяют получить вино с интенсивным ароматом и особой свежестью. Обладает ярким соломенно-жёлтым цветом и раскрывает тонкие ароматы полевых цветов и базилика, дополненные приятными нотами груши и цитрусовых. Вкус свежий и освежающий, с хорошо сбалансированной кислотностью, обеспечивающей приятную свежесть и ощущение прохлады.",
+      en: "Dry white wine. Made from Viorica grapes, hand-picked and selected in southern Moldova from our own vineyards. Modern methods bring out an intense aroma and a special freshness. A bright straw-yellow wine that reveals delicate aromas of wildflowers and basil, layered with pleasant notes of pear and citrus. Fresh and refreshing, with well-balanced acidity that gives a pleasant freshness and a sense of coolness.",
+      ro: "Vin alb sec. Produs din struguri de Viorica, culeși și selectați manual în sudul Republicii Moldova, din viile proprii. Se folosesc tehnologii moderne care permit obținerea unui vin cu aromă intensă și o prospețime aparte. Are o culoare galben-pai strălucitoare și dezvăluie arome fine de flori de câmp și busuioc, completate de note plăcute de pară și citrice. Gust proaspăt și răcoritor, cu o aciditate bine echilibrată, care oferă o prospețime plăcută și o senzație de răcoare.",
+    },
     story: {
       ru: "Виорика — редкий ароматный сорт, созданный молдавскими селекционерами в середине XX века и названный женским именем. За пределами Молдовы его почти не выращивают, поэтому каждая бутылка — возможность попробовать вкус, которого нет больше нигде. Сорт даёт лёгкие вина с ароматом полевых цветов, базилика и цитрусовых — визитная карточка современного молдавского виноделия.",
       en: "Viorica is a rare aromatic variety created by Moldovan vine breeders in the mid-20th century and given a woman's name. It is hardly grown anywhere outside Moldova, so every bottle is a chance to taste something that exists nowhere else. The variety gives light wines with aromas of wildflowers, basil and citrus — a calling card of modern Moldovan winemaking.",
@@ -259,7 +272,7 @@ export const wines: Wine[] = [
     seo: {
       title: "Вино Виорика (Viorica) — редкое молдавское белое вино",
       description:
-        "Viorica (Виорика) — сухое белое вино из редкого ароматного сорта, который выращивают почти только в Молдове. Год урожая, крепость, температура подачи, гастрономические пары и история сорта. Винодельня Chateau At Mount, Гагаузия.",
+        "Viorica (Виорика) — сухое белое вино из редкого ароматного сорта, который выращивают почти только в Молдове. Крепость, температура подачи и история сорта. Винодельня Chateau At Mount, Гагаузия.",
     },
   },
   {
@@ -281,7 +294,6 @@ export const wines: Wine[] = [
       ro: ["fructe de pădure", "zmeură", "smochine"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    vintage: "",
     alcohol: { ru: "13,5 % об.", en: "13.5% ABV", ro: "13,5% vol." },
     servingTemp: "16–18 °C",
     pairings: {
@@ -304,6 +316,11 @@ export const wines: Wine[] = [
         "Brânzeturi tari, maturate",
       ],
     },
+    about: {
+      ru: "Сухое красное вино. Произведено из винограда сорта Fetească Neagră, собранного и отобранного вручную в южной части Республики Молдова на наших собственных виноградниках, с использованием современных технологий для достижения высокого качества. Обладает гранатовым цветом и раскрывает ароматы лесных ягод, приятно дополненные нотами малины и инжира. Вкус насыщенный, с бархатистой текстурой и долгим послевкусием.",
+      en: "Dry red wine. Made from Fetească Neagră grapes, hand-picked and selected in southern Moldova at our own vineyards, using modern methods to achieve high quality. A garnet-coloured wine that opens with aromas of wild berries, pleasantly layered with notes of raspberry and fig. Rich in taste, with a velvety texture and a long finish.",
+      ro: "Vin roșu sec. Produs din struguri de Fetească Neagră, culeși și selectați manual în sudul Republicii Moldova, în viile proprii, folosind tehnologii moderne pentru a atinge o calitate înaltă. Are o culoare de granat și dezvăluie arome de fructe de pădure, completate plăcut de note de zmeură și smochine. Gust bogat, cu o textură catifelată și un final lung.",
+    },
     story: {
       ru: "Фетяска нягрэ — «чёрная девичья ягода» — один из древнейших сортов этих мест: его выращивали на землях между Прутом и Днестром задолго до того, как сюда пришли международные сорта. В XX веке он почти исчез и лишь недавно вернулся на виноградники Молдовы и Румынии. Сорт даёт глубокие гранатовые вина с ароматом лесных ягод, малины и инжира — вкус, в котором слышна история края.",
       en: "Fetească Neagră — the “black maiden grape” — is one of the oldest varieties of this land: it was grown between the Prut and the Dniester long before international varieties arrived. In the 20th century it nearly disappeared, returning to the vineyards of Moldova and Romania only recently. The variety gives deep garnet wines with aromas of wild berries, raspberry and fig — a taste that carries the history of the region.",
@@ -312,7 +329,7 @@ export const wines: Wine[] = [
     seo: {
       title: "Вино Фетяска Нягрэ (Fetească Neagră) — красное вино из Молдовы",
       description:
-        "Fetească Neagră (Фетяска Нягрэ) — сухое красное вино из древнего молдавского сорта. Год урожая, крепость, температура подачи, гастрономические пары и история сорта. Семейная винодельня Chateau At Mount, Гагаузия, Молдова.",
+        "Fetească Neagră (Фетяска Нягрэ) — сухое красное вино из древнего молдавского сорта. Крепость, температура подачи и история сорта. Семейная винодельня Chateau At Mount, Гагаузия, Молдова.",
     },
   },
   {
@@ -346,7 +363,6 @@ export const wines: Wine[] = [
       ro: ["vișine negre", "prune", "condimente"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    vintage: "2020",
     alcohol: { ru: "14 % об.", en: "14% ABV", ro: "14% vol." },
     servingTemp: "16–18 °C",
     pairings: {
@@ -369,6 +385,11 @@ export const wines: Wine[] = [
         "Brânzeturi tari, maturate",
       ],
     },
+    about: {
+      ru: "Сухое красное вино. Произведено из винограда сорта Каберне Совиньон, собранного и отобранного вручную в южной части Республики Молдова на наших собственных виноградниках, по традиционной технологии. Обладает насыщенным рубиновым цветом и богатым ароматом, в котором доминируют чёрные вишни и спелые сливы, тонко дополненный нотами специй.",
+      en: "Dry red wine. Made from Cabernet Sauvignon grapes, hand-picked and selected in southern Moldova at our own vineyards, by the traditional method. An intense ruby wine with a rich aroma dominated by black cherry and ripe plum, subtly layered with notes of spice.",
+      ro: "Vin roșu sec. Produs din struguri de Cabernet Sauvignon, culeși și selectați manual în sudul Republicii Moldova, în viile proprii, prin metoda tradițională. Are o culoare rubinie intensă și o aromă bogată, dominată de vișine negre și prune coapte, completată subtil de note de condimente.",
+    },
     story: {
       ru: "Каберне совиньон называют королём красных сортов. Он появился в Бордо в XVII веке как природное скрещивание каберне фран и совиньон блан — и с тех пор покорил все винодельческие регионы мира. Сорт ценят за плотную структуру, благородные танины и способность к выдержке. На юге Молдовы каберне совиньон набирает полную спелость и даёт вино с ароматом чёрной вишни, спелых слив и специй.",
       en: "Cabernet Sauvignon is called the king of red varieties. It appeared in 17th-century Bordeaux as a natural cross between Cabernet Franc and Sauvignon Blanc — and has since conquered every wine region in the world. The variety is prized for its firm structure, noble tannins and ageing potential. In southern Moldova, Cabernet Sauvignon ripens fully, giving a wine with aromas of black cherry, ripe plum and spice.",
@@ -377,7 +398,7 @@ export const wines: Wine[] = [
     seo: {
       title: "Вино Каберне Совиньон (Cabernet Sauvignon) из Молдовы",
       description:
-        "Сухое красное вино Cabernet Sauvignon от семейной винодельни Chateau At Mount (Гагаузия, Молдова): год урожая, крепость, температура подачи, гастрономические пары и история сорта.",
+        "Сухое красное вино Cabernet Sauvignon от семейной винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и история сорта.",
     },
   },
   {
@@ -400,9 +421,8 @@ export const wines: Wine[] = [
       ro: ["flori de câmp", "măr verde", "citrice"],
     },
     type: { ru: "Сухое белое", en: "Dry white", ro: "Alb sec" },
-    vintage: "",
     alcohol: { ru: "12 % об.", en: "12% ABV", ro: "12% vol." },
-    servingTemp: "8–10 °C",
+    servingTemp: "8–12 °C",
     pairings: {
       ru: [
         "Речная и морская рыба",
@@ -423,6 +443,11 @@ export const wines: Wine[] = [
         "Brânzeturi moi, tinere",
       ],
     },
+    about: {
+      ru: "Сухое белое вино. Произведено из винограда сорта Fetească Albă, собранного и отобранного вручную в южной части Республики Молдова с собственных виноградников. Используются современные технологии, которые позволяют получить вино с интенсивным ароматом и особой свежестью. Обладает ярким соломенно-жёлтым цветом и раскрывает тонкие ароматы полевых цветов, приятно дополненные нотами зелёного яблока и цитрусовых. Вкус свежий, хрустящий, с лёгкими оттенками мёда и цитрусовых.",
+      en: "Dry white wine. Made from Fetească Albă grapes, hand-picked and selected in southern Moldova from our own vineyards. Modern methods bring out an intense aroma and a special freshness. A bright straw-yellow wine that reveals delicate aromas of wildflowers, pleasantly layered with notes of green apple and citrus. Fresh and crisp, with light hints of honey and citrus.",
+      ro: "Vin alb sec. Produs din struguri de Fetească Albă, culeși și selectați manual în sudul Republicii Moldova, din viile proprii. Se folosesc tehnologii moderne care permit obținerea unui vin cu aromă intensă și o prospețime aparte. Are o culoare galben-pai strălucitoare și dezvăluie arome fine de flori de câmp, completate plăcut de note de măr verde și citrice. Gust proaspăt, crocant, cu ușoare nuanțe de miere și citrice.",
+    },
     story: {
       ru: "Фетяска албэ — один из старейших белых сортов Молдовы и Румынии, его выращивают здесь не одну сотню лет. Как и «сестра» фетяска нягрэ, он относится к семье «девичьих» сортов — лёгких, изящных и тонких. Вина из фетяски албэ узнают по деликатному аромату полевых цветов с нотами зелёного яблока и цитрусовых — это классика молдавского белого виноделия.",
       en: "Fetească Albă is one of the oldest white varieties of Moldova and Romania, grown here for many centuries. Like its “sister” Fetească Neagră, it belongs to the family of “maiden” varieties — light, elegant and delicate. Fetească Albă wines are recognised by their gentle aroma of wildflowers with notes of green apple and citrus — a classic of Moldovan white winemaking.",
@@ -431,7 +456,7 @@ export const wines: Wine[] = [
     seo: {
       title: "Вино Фетяска Албэ (Fetească Albă) — белое вино из Молдовы",
       description:
-        "Fetească Albă (Фетяска Албэ) — сухое белое вино из старинного молдавского сорта. Год урожая, крепость, температура подачи, гастрономические пары и история сорта. Винодельня Chateau At Mount, Гагаузия.",
+        "Fetească Albă (Фетяска Албэ) — сухое белое вино из старинного молдавского сорта. Крепость, температура подачи и история сорта. Винодельня Chateau At Mount, Гагаузия.",
     },
   },
   {
@@ -464,7 +489,6 @@ export const wines: Wine[] = [
       ro: ["vișine negre", "prune", "rodie"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    vintage: "2021",
     alcohol: { ru: "14 % об.", en: "14% ABV", ro: "14% vol." },
     servingTemp: "16–18 °C",
     pairings: {
@@ -487,6 +511,11 @@ export const wines: Wine[] = [
         "Brânzeturi maturate",
       ],
     },
+    about: {
+      ru: "Сухое красное вино. Произведено из винограда сорта Шираз, собранного и отобранного вручную в южной части Республики Молдова на наших собственных виноградниках, с использованием современных технологий для получения интенсивного вкуса. Обладает насыщенным рубиново-фиолетовым цветом и раскрывает интенсивные ароматы чёрных вишен и спелых слив, приятно дополненные нотами граната. Вкус бархатистый, фруктовый и сбалансированный, с мягкими танинами и живой кислотностью.",
+      en: "Dry red wine. Made from Shiraz grapes, hand-picked and selected in southern Moldova at our own vineyards, using modern methods for an intense taste. A deep ruby-violet wine that opens with intense aromas of black cherry and ripe plum, pleasantly layered with notes of pomegranate. Velvety, fruity and balanced, with soft tannins and lively acidity.",
+      ro: "Vin roșu sec. Produs din struguri de Shiraz, culeși și selectați manual în sudul Republicii Moldova, în viile proprii, folosind tehnologii moderne pentru un gust intens. Are o culoare rubinie-violetă intensă și dezvăluie arome intense de vișine negre și prune coapte, completate plăcut de note de rodie. Gust catifelat, fructat și echilibrat, cu taninuri moi și o aciditate vie.",
+    },
     story: {
       ru: "Шираз (он же сира) — сорт из долины Роны во Франции. Долго считалось, что его привезли из персидского города Шираз, но анализ ДНК доказал французское происхождение — а красивая легенда осталась. Сорт любит солнце и тепло, поэтому в Гагаузии чувствует себя как дома: даёт насыщенные вина с ароматом чёрной вишни, спелой сливы и граната.",
       en: "Shiraz (also known as Syrah) is a variety from the Rhône Valley in France. For a long time it was believed to have come from the Persian city of Shiraz, but DNA analysis proved its French origin — though the beautiful legend remains. The variety loves sun and warmth, so it feels at home in Gagauzia, giving rich wines with aromas of black cherry, ripe plum and pomegranate.",
@@ -495,7 +524,7 @@ export const wines: Wine[] = [
     seo: {
       title: "Вино Шираз (Shiraz) из Молдовы — сухое красное",
       description:
-        "Сухое красное вино Shiraz от семейной винодельни Chateau At Mount (Гагаузия, Молдова): год урожая, крепость, температура подачи, гастрономические пары и история сорта.",
+        "Сухое красное вино Shiraz от семейной винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и история сорта.",
     },
   },
 ];
@@ -551,17 +580,17 @@ export const t = {
     learn: {
       ru: "Узнать больше о вине",
       en: "Discover the wine",
-      ro: "Descoperă vinurile",
+      ro: "Descoperiți vinurile",
     },
     book: {
       ru: "Забронировать мероприятие",
       en: "Book an event",
-      ro: "Rezervă un eveniment",
+      ro: "Rezervați un eveniment",
     },
     request: {
       ru: "Оставить заявку",
       en: "Leave a request",
-      ro: "Lasă o cerere",
+      ro: "Lăsați o cerere",
     },
     wines: {
       ru: "Наши вина",
@@ -588,7 +617,7 @@ export const t = {
     cta: {
       ru: "Приехать в гости",
       en: "Come visit us",
-      ro: "Vino în vizită",
+      ro: "Veniți în vizită",
     },
   },
   features: {
@@ -689,7 +718,7 @@ export const t = {
     all: {
       ru: "Смотреть все вина",
       en: "See all wines",
-      ro: "Vezi toate vinurile",
+      ro: "Vedeți toate vinurile",
     },
     medals: {
       ru: "Шесть медалей международных конкурсов · 2023–2025",
@@ -706,7 +735,6 @@ export const t = {
   },
   winePage: {
     facts: {
-      vintage: { ru: "Год урожая", en: "Vintage", ro: "Anul recoltei" },
       alcohol: { ru: "Крепость", en: "Alcohol", ro: "Alcool" },
       serving: {
         ru: "Температура подачи",
@@ -723,6 +751,11 @@ export const t = {
       ru: "История сорта",
       en: "The story of the variety",
       ro: "Povestea soiului",
+    },
+    aboutTitle: {
+      ru: "О вине",
+      en: "About the wine",
+      ro: "Despre vin",
     },
     awardProof: {
       ru: "Запись в базе конкурса",
@@ -854,11 +887,6 @@ export const t = {
     },
   },
   visitPage: {
-    eyebrow: {
-      ru: "Дегустации и визиты",
-      en: "Tastings & visits",
-      ro: "Degustări și vizite",
-    },
     title: {
       ru: "Приезжайте к нам в гости",
       en: "Come and visit us",
@@ -869,45 +897,23 @@ export const t = {
       en: "A winery tour, a walk through the vineyards and a wine tasting overlooking Ceadîr-Lunga — all from the highest point of the hill.",
       ro: "Un tur al cramei, o plimbare prin podgorii și o degustare de vinuri cu vedere spre Ceadîr-Lunga — totul de pe cel mai înalt punct al dealului.",
     },
-    tableSplit: {
-      title: {
-        ru: "Стол в виноградниках",
-        en: "A table in the vineyards",
-        ro: "O masă în podgorii",
-      },
-      text: {
-        ru: "Накрываем стол прямо у лоз — с видом на холмы и закат. К дегустации можно добавить пикник, фотосессию или мастер-класс.",
-        en: "We set the table right by the vines, with the hills and the sunset in view. Add a picnic, a photoshoot or a workshop to your tasting.",
-        ro: "Punem masa chiar lângă vie, cu dealurile și apusul în fața ochilor. La degustare puteți adăuga un picnic, o ședință foto sau un atelier.",
-      },
-    },
-    gastroSplit: {
-      title: {
-        ru: "К вину — гагаузская кухня",
-        en: "Gagauz cooking with your wine",
-        ro: "Bucătăria găgăuză lângă vin",
-      },
-      text: {
-        ru: "Гёзлеме, домашний хлеб с гагаузскими специями, крафтовые сыры и горячее — готовим сами и подбираем к винам дегустации.",
-        en: "Gözleme, homemade bread with Gagauz spices, craft cheeses and a hot dish — we cook everything ourselves and pair it with the wines you taste.",
-        ro: "Gözleme, pâine de casă cu mirodenii găgăuze, brânzeturi artizanale și un fel cald — gătim totul noi și îl potrivim cu vinurile degustate.",
-      },
-    },
     packagesTitle: {
       ru: "Форматы дегустаций",
       en: "Tasting formats",
       ro: "Formate de degustare",
     },
     packagesIntro: {
-      ru: "Три формата — от знакомства с винодельней до гагаузского стола. Все визиты по предварительной записи, меню адаптируем под вашу компанию.",
-      en: "Three formats — from a first acquaintance with the winery to the Gagauz table. All visits are by appointment, and we adapt the menu to your group.",
-      ro: "Trei formate — de la o primă cunoștință cu crama până la masa găgăuză. Toate vizitele sunt cu programare, iar meniul îl adaptăm grupului vostru.",
+      ru: "Три формата — от первого знакомства с винодельней до гагаузского стола. Меню адаптируем под вашу компанию.",
+      en: "Three formats — from a first introduction to the winery to the Gagauz table. We adapt the menu to your group.",
+      ro: "Trei formate — de la o primă cunoștință cu crama până la masa găgăuză. Meniul îl adaptăm grupului vostru.",
     },
-    popularTag: {
-      ru: "Чаще всего выбирают",
-      en: "Most popular",
-      ro: "Cel mai ales",
+    shelfTitle: {
+      ru: "Что будем пробовать",
+      en: "What you'll taste",
+      ro: "Ce veți degusta",
     },
+    allWines: { ru: "Все вина", en: "All wines", ro: "Toate vinurile" },
+    noteCta: { ru: "Напишите нам", en: "Write to us", ro: "Scrieți-ne" },
     priceUnit: { ru: "лей / чел", en: "MDL / person", ro: "lei / pers." },
     packages: [
       {
@@ -918,7 +924,11 @@ export const t = {
           en: "4 wines · 4+ guests · ≈ 1 hour",
           ro: "4 vinuri · min. 4 oaspeți · ≈ 1 oră",
         },
-        popular: false,
+        blurb: {
+          ru: "Первый визит: гуляем по виноградникам и винодельне и пробуем четыре вина — с рассказом, как они рождаются.",
+          en: "A first visit: we walk the vineyards and the winery and taste four wines — with the story of how they are made.",
+          ro: "Prima vizită: ne plimbăm prin podgorii și cramă și degustăm patru vinuri — cu povestea felului în care se nasc.",
+        },
         includes: {
           ru: [
             "Экскурсия по винодельне и рассказ о технологии",
@@ -949,7 +959,11 @@ export const t = {
           en: "6 wines · 4+ guests · ≈ 1.5 hours",
           ro: "6 vinuri · min. 4 oaspeți · ≈ 1,5 ore",
         },
-        popular: true,
+        blurb: {
+          ru: "Дальше — по виноградникам к выдержанным красным: шесть вин под мясную тарелку и сыр, не торопясь.",
+          en: "Further on — through the vineyards to the aged reds: six wines with charcuterie and cheese, unhurried.",
+          ro: "Mai departe — prin podgorii spre roșiile maturate: șase vinuri cu platou de mezeluri și brânză, pe îndelete.",
+        },
         includes: {
           ru: [
             "Экскурсия по винодельне и виноградникам",
@@ -983,7 +997,11 @@ export const t = {
           en: "7 wines · 2+ guests · ≈ 2.5 hours",
           ro: "7 vinuri · min. 2 oaspeți · ≈ 2,5 ore",
         },
-        popular: false,
+        blurb: {
+          ru: "Долгий стол на вершине холма: вся линейка вин, горячее и гагаузские гёзлеме — на неспешный вечер.",
+          en: "A long table at the top of the hill: the full range, a hot dish and Gagauz gözleme — for an unhurried evening.",
+          ro: "O masă lungă pe vârful dealului: toată gama, un fel cald și gözleme găgăuze — pentru o seară fără grabă.",
+        },
         includes: {
           ru: [
             "Вся линейка: четыре классических и три выдержанных вина",
@@ -1007,53 +1025,14 @@ export const t = {
       },
     ],
     priceNote: {
-      ru: "Можно добавить пикник в виноградниках, мастер-класс или аренду локации. Для групп и партнёров — отдельные условия, напишите нам.",
-      en: "You can add a picnic in the vineyards, a workshop or venue hire. For groups and partners we offer special terms — write to us.",
-      ro: "Puteți adăuga un picnic în podgorii, un atelier sau închirierea locației. Pentru grupuri și parteneri oferim condiții speciale — scrieți-ne.",
+      ru: "Можно добавить пикник в виноградниках, мастер-класс или аренду локации. Для групп и партнёров — отдельные условия.",
+      en: "You can add a picnic in the vineyards, a workshop or venue hire. For groups and partners we offer special terms.",
+      ro: "Puteți adăuga un picnic în podgorii, un atelier sau închirierea locației. Pentru grupuri și parteneri oferim condiții speciale.",
     },
-    howTitle: {
-      ru: "Как проходит визит",
-      en: "How a visit works",
-      ro: "Cum decurge vizita",
-    },
-    steps: [
-      {
-        title: { ru: "Напишите нам", en: "Write to us", ro: "Scrieți-ne" },
-        text: {
-          ru: "В Telegram или через форму на сайте — все визиты по предварительной записи.",
-          en: "On Telegram or via the form — all visits are by appointment.",
-          ro: "Pe Telegram sau prin formular — toate vizitele sunt cu programare.",
-        },
-      },
-      {
-        title: {
-          ru: "Согласуем дату и формат",
-          en: "We agree on a date and format",
-          ro: "Stabilim data și formatul",
-        },
-        text: {
-          ru: "Подберём день, время и дегустацию под вашу компанию — от пары до большой группы.",
-          en: "We'll pick a day, a time and a tasting to suit your group — from a couple to a big party.",
-          ro: "Alegem ziua, ora și degustarea potrivită grupului vostru — de la un cuplu la un grup mare.",
-        },
-      },
-      {
-        title: {
-          ru: "Приезжайте в гости",
-          en: "Come and visit",
-          ro: "Veniți în ospeție",
-        },
-        text: {
-          ru: "Встретим вас, покажем винодельню и виноградники и нальём первый бокал.",
-          en: "We'll welcome you, show you the winery and vineyards and pour the first glass.",
-          ro: "Vă întâmpinăm, vă arătăm crama și podgoriile și vă turnăm primul pahar.",
-        },
-      },
-    ],
     finalTitle: {
-      ru: "Ждём вас на вершине холма",
-      en: "We'll be waiting at the top of the hill",
-      ro: "Vă așteptăm pe vârful dealului",
+      ru: "Будем рады видеть вас",
+      en: "We'll be glad to see you",
+      ro: "Vom fi bucuroși să vă vedem",
     },
     gettingTitle: {
       ru: "Как добраться",
@@ -1068,30 +1047,30 @@ export const t = {
     bookCta: {
       ru: "Забронировать дегустацию",
       en: "Book a tasting",
-      ro: "Rezervă o degustare",
+      ro: "Rezervați o degustare",
     },
     formLink: {
       ru: "Оставить заявку",
       en: "Leave a request",
-      ro: "Lasă o cerere",
+      ro: "Lăsați o cerere",
     },
     showOnMap: {
       ru: "Показать на карте",
       en: "Show on map",
-      ro: "Arată pe hartă",
+      ro: "Arătați pe hartă",
     },
   },
   contactsPage: {
-    eyebrow: { ru: "Сотрудничество", en: "Partnership", ro: "Parteneriat" },
+    eyebrow: { ru: "Контакты", en: "Contacts", ro: "Contacte" },
     title: {
-      ru: "Давайте сотрудничать",
-      en: "Let's work together",
-      ro: "Hai să colaborăm",
+      ru: "Давайте знакомиться",
+      en: "Let's get acquainted",
+      ro: "Să facem cunoștință",
     },
     intro: {
-      ru: "Chateau At Mount станет надёжным партнёром для магазина, бара или ресторана, который хочет предложить гостям первоклассные молдавские вина.",
-      en: "Chateau At Mount is a reliable partner for any shop, bar or restaurant that wants to offer its guests first-class Moldovan wines.",
-      ro: "Chateau At Mount este un partener de încredere pentru orice magazin, bar sau restaurant care vrea să le ofere oaspeților vinuri moldovenești de primă clasă.",
+      ru: "Работаем с магазинами, барами и ресторанами — поставляем вино, проводим дегустации, придумываем совместные ужины и события.",
+      en: "We work with shops, bars and restaurants — supplying wine, running tastings and creating joint dinners and events.",
+      ro: "Lucrăm cu magazine, baruri și restaurante — livrăm vin, organizăm degustări și creăm cine și evenimente comune.",
     },
     offerTitle: {
       ru: "Что мы предлагаем",
@@ -1101,11 +1080,11 @@ export const t = {
     offer: {
       ru: [
         "Натуральные вина местного производства",
-        "Гибкую систему цен и бонусов",
+        "Гибкая система цен и бонусов",
         "Индивидуальные условия сотрудничества",
-        "Быструю доставку",
+        "Быстрая доставка",
         "Помощь в составлении винной карты",
-        "Обучение персонала",
+        "Помощь в обучении персонала",
       ],
       en: [
         "Natural, locally made wines",
@@ -1113,7 +1092,7 @@ export const t = {
         "Tailored partnership terms",
         "Fast delivery",
         "Help building your wine list",
-        "Staff training",
+        "Help with staff training",
       ],
       ro: [
         "Vinuri naturale, produse local",
@@ -1121,7 +1100,7 @@ export const t = {
         "Condiții individuale de colaborare",
         "Livrare rapidă",
         "Ajutor la alcătuirea listei de vinuri",
-        "Instruirea personalului",
+        "Ajutor la instruirea personalului",
       ],
     },
     togetherTitle: {
@@ -1141,7 +1120,7 @@ export const t = {
         "A photoshoot or event at the winery",
       ],
       ro: [
-        "O colaborare sau o cină tematică",
+        "O cină tematică sau o colaborare",
         "O degustare pentru echipa și oaspeții voștri",
         "O ședință foto sau un eveniment la cramă",
       ],
@@ -1152,9 +1131,9 @@ export const t = {
       ro: "Lăsați o cerere",
     },
     formNote: {
-      ru: "Заполните форму — и мы свяжемся с вами сами.",
-      en: "Fill in the form and we'll get back to you.",
-      ro: "Completați formularul și vă contactăm noi.",
+      ru: "Заполните форму — и мы свяжемся с вами.",
+      en: "Fill in the form and we'll get in touch.",
+      ro: "Completați formularul și vă contactăm.",
     },
     // Форма — два обязательных поля (кто и куда ответить) и один
     // необязательный вопрос. Телефон и телеграм не разводим по разным
@@ -1183,7 +1162,7 @@ export const t = {
       },
       optional: { ru: "необязательно", en: "optional", ro: "opțional" },
     },
-    submit: { ru: "Отправить", en: "Send", ro: "Trimite" },
+    submit: { ru: "Отправить", en: "Send", ro: "Trimiteți" },
     sending: { ru: "Отправляем…", en: "Sending…", ro: "Se trimite…" },
     orTelegram: {
       ru: "или напишите нам в Telegram",
@@ -1220,7 +1199,7 @@ export const t = {
     showOnMap: {
       ru: "Показать на карте",
       en: "Show on map",
-      ro: "Arată pe hartă",
+      ro: "Arătați pe hartă",
     },
     backHome: { ru: "На главную", en: "Back home", ro: "Pagina principală" },
   },

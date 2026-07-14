@@ -8,13 +8,13 @@ import { links } from "./content";
  * винодельни (сейчас заполнены ориентировочно по городу Чадыр-Лунга).
  */
 export const site = {
-  url: "https://chateauatmount.md", // TODO: заменить на реальный домен
+  url: "https://chateauatmount.com",
   name: "Chateau At Mount",
   shortName: "Chateau At Mount",
   description:
     "Семейная винодельня Chateau At Mount в Гагаузии, Молдова. Винные традиции юга Молдовы: 15 Га виноградников, 7 сортов винограда, авторские вина с характером.",
   locale: "ru_RU",
-  ogImage: "/images/hero-winery.png",
+  ogImage: "/og.jpg", // 1200×630, ~120 КБ — превью для соцсетей и мессенджеров
   foundingDate: "2019",
   address: {
     locality: "Чадыр-Лунга", // Ceadîr-Lunga
@@ -30,7 +30,7 @@ export const site = {
   // Контактные данные (из оригинальной страницы /contacts).
   contacts: {
     email: "chateauatmount@gmail.com",
-    phone: "0 (76) 007737",
+    phone: "+373 76 007 737",
     phoneHref: "tel:+37376007737",
     addressLine: "Чадыр-Лунга, Гагаузия, Молдова", // TODO: уточнить улицу и дом
     mapUrl:

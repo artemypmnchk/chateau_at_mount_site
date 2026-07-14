@@ -14,6 +14,9 @@ export function WinerySchema() {
     image: `${site.url}${site.ogImage}`,
     logo: `${site.url}/images/logo.png`,
     foundingDate: site.foundingDate,
+    telephone: site.contacts.phone,
+    email: site.contacts.email,
+    hasMap: site.contacts.mapUrl,
     address: {
       "@type": "PostalAddress",
       addressLocality: site.address.locality,

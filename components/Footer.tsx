@@ -5,7 +5,7 @@ import { site } from "@/lib/site";
 import { useLocale } from "./locale";
 
 export default function Footer() {
-  const { L } = useLocale();
+  const { L, lp } = useLocale();
   return (
     // data-header-theme: над тёмным футером шапка-хамелеон растворяется,
     // а не лежит кремовой плашкой поверх тёмного (аудит 2026-07-11, F-13)
@@ -13,9 +13,9 @@ export default function Footer() {
       <div className="container">
         <div className="footer-top">
           <div className="footer-brand">
-            <a className="brand" href="/">
+            <a className="brand" href={lp("/")}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/logo.png" alt="Chateau At Mount" />
+              <img src="/images/logo.png" alt="" />
               <span className="brand-name" style={{ color: "#fff" }}>
                 Chateau At Mount
               </span>
@@ -24,9 +24,9 @@ export default function Footer() {
           </div>
           <div className="footer-col">
             <h4>{L(t.footer.brandCol)}</h4>
-            <a href="/#about">{L(t.nav.about)}</a>
-            <a href="/wines">{L(t.nav.wines)}</a>
-            <a href="/#events">{L(t.nav.events)}</a>
+            <a href={lp("/#about")}>{L(t.nav.about)}</a>
+            <a href={lp("/wines")}>{L(t.nav.wines)}</a>
+            <a href={lp("/#events")}>{L(t.nav.events)}</a>
           </div>
           <div className="footer-col">
             <h4>{L(t.footer.socialCol)}</h4>
@@ -42,8 +42,8 @@ export default function Footer() {
           </div>
           <div className="footer-col">
             <h4>{L(t.footer.extraCol)}</h4>
-            <a href="/visit">{L(t.nav.visit)}</a>
-            <a href="/contacts">{L(t.nav.contacts)}</a>
+            <a href={lp("/visit")}>{L(t.nav.visit)}</a>
+            <a href={lp("/contacts")}>{L(t.nav.contacts)}</a>
           </div>
           <div className="footer-col">
             <h4>{L(t.footer.contactsCol)}</h4>

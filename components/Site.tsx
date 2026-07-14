@@ -38,7 +38,7 @@ import vatsImg from "@/public/images/cellar-vats-2.jpg";
 import familyImg from "@/public/images/family.jpeg";
 
 export default function Site() {
-  const { L } = useLocale();
+  const { L, lp } = useLocale();
   const { openBooking } = useBookingModal();
   const bandWrapRef = useRef<HTMLDivElement>(null);
   const bandTrackRef = useRef<HTMLDivElement>(null);
@@ -77,7 +77,7 @@ export default function Site() {
               {L(t.cta.request)}
             </button>
             {/* Второе действие тише: два одинаковых CTA спорили за палец */}
-            <a href="/wines" className="hero-link hero-link-secondary">
+            <a href={lp("/wines")} className="hero-link hero-link-secondary">
               {L(t.cta.wines)}
             </a>
           </div>
@@ -104,7 +104,7 @@ export default function Site() {
             data-reveal
             style={{ "--reveal-delay": "120ms" } as React.CSSProperties}
           >
-            <a href="/visit" className="manifesto-link">
+            <a href={lp("/visit")} className="manifesto-link">
               {L(t.about.cta)} →
             </a>
           </div>
@@ -126,7 +126,7 @@ export default function Site() {
                 <h2>{L(t.winesSection.title)}</h2>
                 <span className="band-medals">{L(t.winesSection.medals)}</span>
               </div>
-              <a href="/wines" className="band-all">
+              <a href={lp("/wines")} className="band-all">
                 {L(t.winesSection.all)} →
               </a>
             </div>
@@ -134,7 +134,7 @@ export default function Site() {
               {wines.map((w, i) => (
                 <a
                   className="band-slide"
-                  href={`/wines/${w.slug}`}
+                  href={lp(`/wines/${w.slug}`)}
                   key={w.slug}
                 >
                   <div className="band-bottle-v">
@@ -274,7 +274,7 @@ export default function Site() {
               <p>{L(t.memories.text)}</p>
               {/* Секция рассказывала и обрывалась — до финального CTA
                   далеко, даём путь сразу (аудит, F-08) */}
-              <a href="/visit" className="split-link">
+              <a href={lp("/visit")} className="split-link">
                 {L(t.memories.cta)} →
               </a>
             </div>
@@ -292,7 +292,7 @@ export default function Site() {
             <button onClick={() => openBooking()} className="btn btn-accent">
               <span>{L(t.visitPage.formLink)}</span>
             </button>
-            <a href="/wines" className="btn btn-ghost-dark">
+            <a href={lp("/wines")} className="btn btn-ghost-dark">
               {L(t.winesSection.all)}
             </a>
           </div>
