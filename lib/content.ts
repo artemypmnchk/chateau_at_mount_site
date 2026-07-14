@@ -580,17 +580,17 @@ export const t = {
     learn: {
       ru: "Узнать больше о вине",
       en: "Discover the wine",
-      ro: "Descoperă vinurile",
+      ro: "Descoperiți vinurile",
     },
     book: {
       ru: "Забронировать мероприятие",
       en: "Book an event",
-      ro: "Rezervă un eveniment",
+      ro: "Rezervați un eveniment",
     },
     request: {
       ru: "Оставить заявку",
       en: "Leave a request",
-      ro: "Lasă o cerere",
+      ro: "Lăsați o cerere",
     },
     wines: {
       ru: "Наши вина",
@@ -617,7 +617,7 @@ export const t = {
     cta: {
       ru: "Приехать в гости",
       en: "Come visit us",
-      ro: "Vino în vizită",
+      ro: "Veniți în vizită",
     },
   },
   features: {
@@ -718,7 +718,7 @@ export const t = {
     all: {
       ru: "Смотреть все вина",
       en: "See all wines",
-      ro: "Vezi toate vinurile",
+      ro: "Vedeți toate vinurile",
     },
     medals: {
       ru: "Шесть медалей международных конкурсов · 2023–2025",
@@ -904,7 +904,7 @@ export const t = {
     },
     packagesIntro: {
       ru: "Три формата — от первого знакомства с винодельней до гагаузского стола. Меню адаптируем под вашу компанию.",
-      en: "Three formats — from a first acquaintance with the winery to the Gagauz table. We adapt the menu to your group.",
+      en: "Three formats — from a first introduction to the winery to the Gagauz table. We adapt the menu to your group.",
       ro: "Trei formate — de la o primă cunoștință cu crama până la masa găgăuză. Meniul îl adaptăm grupului vostru.",
     },
     shelfTitle: {
@@ -1047,17 +1047,17 @@ export const t = {
     bookCta: {
       ru: "Забронировать дегустацию",
       en: "Book a tasting",
-      ro: "Rezervă o degustare",
+      ro: "Rezervați o degustare",
     },
     formLink: {
       ru: "Оставить заявку",
       en: "Leave a request",
-      ro: "Lasă o cerere",
+      ro: "Lăsați o cerere",
     },
     showOnMap: {
       ru: "Показать на карте",
       en: "Show on map",
-      ro: "Arată pe hartă",
+      ro: "Arătați pe hartă",
     },
   },
   contactsPage: {
@@ -1162,7 +1162,7 @@ export const t = {
       },
       optional: { ru: "необязательно", en: "optional", ro: "opțional" },
     },
-    submit: { ru: "Отправить", en: "Send", ro: "Trimite" },
+    submit: { ru: "Отправить", en: "Send", ro: "Trimiteți" },
     sending: { ru: "Отправляем…", en: "Sending…", ro: "Se trimite…" },
     orTelegram: {
       ru: "или напишите нам в Telegram",
@@ -1199,7 +1199,7 @@ export const t = {
     showOnMap: {
       ru: "Показать на карте",
       en: "Show on map",
-      ro: "Arată pe hartă",
+      ro: "Arătați pe hartă",
     },
     backHome: { ru: "На главную", en: "Back home", ro: "Pagina principală" },
   },
