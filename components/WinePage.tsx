@@ -16,7 +16,7 @@ function isLightBand(hex: string) {
 }
 
 export default function WinePage({ wine }: { wine: Wine }) {
-  const { L } = useLocale();
+  const { L, lp } = useLocale();
   const { openBooking } = useBookingModal();
   const w = t.winePage;
   const others = wines.filter((x) => x.slug !== wine.slug);
@@ -93,10 +93,10 @@ export default function WinePage({ wine }: { wine: Wine }) {
               </ul>
             )}
             <div className="hero-actions">
-              <a href="/visit" className="btn btn-accent">
+              <a href={lp("/visit")} className="btn btn-accent">
                 <span>{L(t.visitPage.bookCta)}</span>
               </a>
-              <a href="/wines" className="btn btn-outline">
+              <a href={lp("/wines")} className="btn btn-outline">
                 {L(w.allWines)}
               </a>
             </div>
@@ -128,7 +128,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
             {others.map((o) => (
               <a
                 className="wine-c"
-                href={`/wines/${o.slug}`}
+                href={lp(`/wines/${o.slug}`)}
                 key={o.slug}
                 style={{ "--v": o.accent } as React.CSSProperties}
               >
@@ -173,7 +173,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
           <h2>{L(w.tasteTitle)}</h2>
           <p>{L(w.tasteText)}</p>
           <div className="contact-actions">
-            <a href="/visit" className="btn btn-accent">
+            <a href={lp("/visit")} className="btn btn-accent">
               <span>{L(t.visitPage.bookCta)}</span>
             </a>
             <button onClick={() => openBooking()} className="btn btn-outline">

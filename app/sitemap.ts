@@ -1,38 +1,37 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
-import { wines } from "@/lib/content";
+import { wines, type Locale } from "@/lib/content";
+import { i18nLocales, localizePath } from "@/lib/i18n";
 
+/**
+ * Sitemap на трёх языках: каждая страница отдаётся по всем локалям, у каждой
+ * записи — hreflang-альтернативы на другие языки (ru на корне, en/ro с префиксом).
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: site.url,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-    {
-      url: `${site.url}/visit`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${site.url}/contacts`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${site.url}/wines`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    ...wines.map((w) => ({
-      url: `${site.url}/wines/${w.slug}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    })),
+  const now = new Date();
+
+  // Приоритеты «голых» ru-путей; языковые версии наследуют.
+  const paths: { path: string; priority: number }[] = [
+    { path: "/", priority: 1 },
+    { path: "/visit", priority: 0.9 },
+    { path: "/wines", priority: 0.9 },
+    { path: "/contacts", priority: 0.8 },
+    ...wines.map((w) => ({ path: `/wines/${w.slug}`, priority: 0.8 })),
   ];
+
+  const abs = (locale: Locale, path: string) =>
+    `${site.url}${localizePath(locale, path)}`;
+
+  return paths.flatMap(({ path, priority }) => {
+    const languages = Object.fromEntries(
+      i18nLocales.map((l) => [l, abs(l, path)])
+    );
+    return i18nLocales.map((locale) => ({
+      url: abs(locale, path),
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority,
+      alternates: { languages },
+    }));
+  });
 }

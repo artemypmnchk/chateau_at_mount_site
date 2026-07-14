@@ -29,7 +29,7 @@ const shelfWines = [...wines].sort((a, b) => awardScore(b) - awardScore(a));
 
 export default function VisitPage() {
   useReveal();
-  const { L, locale } = useLocale();
+  const { L, locale, lp } = useLocale();
   const { openBooking } = useBookingModal();
   const v = t.visitPage;
 
@@ -171,7 +171,7 @@ export default function VisitPage() {
           <h3 className="shelf-title">{L(v.shelfTitle)}</h3>
           <div className="shelf-row">
             {shelfWines.map((w) => (
-              <a className="shelf-item" href={`/wines/${w.slug}`} key={w.slug}>
+              <a className="shelf-item" href={lp(`/wines/${w.slug}`)} key={w.slug}>
                 <span className="shelf-bottle">
                   <Image
                     src={w.image}
@@ -185,7 +185,7 @@ export default function VisitPage() {
               </a>
             ))}
           </div>
-          <a href="/wines" className="split-link shelf-all">
+          <a href={lp("/wines")} className="split-link shelf-all">
             {L(v.allWines)} →
           </a>
         </div>

@@ -1,49 +1,39 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
-import { locales, type Locale } from "@/lib/content";
+import { createContext, useContext, useEffect, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
+import type { Locale } from "@/lib/content";
+import { localizePath, stripLocale } from "@/lib/i18n";
 
 interface LocaleCtx {
   locale: Locale;
-  setLocale: (l: Locale) => void;
   /** Хелпер: достаёт значение нужного языка из словаря { ru, en, ro }.
    *  Дженерик — работает и со строкой, и с массивом (напр. вкусовые ноты). */
   L: <T,>(s: Record<Locale, T>) => T;
+  /** Локализует внутренний путь под текущий язык: ru → как есть, en/ro →
+   *  с префиксом. Оборачивать им href всех внутренних ссылок. */
+  lp: (path: string) => string;
 }
 
 const Ctx = createContext<LocaleCtx | null>(null);
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("ru");
+  // Локаль детерминирована первым сегментом URL (/en, /ro, иначе ru). Так
+  // серверный HTML сразу рендерится на нужном языке — поисковик видит три
+  // отдельных адреса, а не одну русскую страницу с клиентским переключением.
+  const pathname = usePathname();
+  const locale = stripLocale(pathname).locale;
 
-  // Восстанавливаем выбор языка из localStorage на клиенте (один раз при монтировании).
-  useEffect(() => {
-    const saved = window.localStorage.getItem("locale");
-    if (locales.includes(saved as Locale)) setLocaleState(saved as Locale);
-  }, []);
-
+  // Правим <html lang> на клиенте (корневой layout статичен и не знает
+  // вложенную локаль — начальный ru корректируется после гидрации).
   useEffect(() => {
     document.documentElement.lang = locale;
   }, [locale]);
 
-  // Пишем в localStorage только при явном переключении — без эффекта,
-  // чтобы не перезаписать сохранённый выбор начальным значением при монтировании.
-  const setLocale = (l: Locale) => {
-    setLocaleState(l);
-    window.localStorage.setItem("locale", l);
-  };
-
   const L = <T,>(s: Record<Locale, T>) => s[locale];
+  const lp = (path: string) => localizePath(locale, path);
 
-  return (
-    <Ctx.Provider value={{ locale, setLocale, L }}>{children}</Ctx.Provider>
-  );
+  return <Ctx.Provider value={{ locale, L, lp }}>{children}</Ctx.Provider>;
 }
 
 export function useLocale() {

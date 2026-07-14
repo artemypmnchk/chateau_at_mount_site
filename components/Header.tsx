@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { t, locales } from "@/lib/content";
+import { switchLocalePath } from "@/lib/i18n";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
 
@@ -15,24 +16,30 @@ const navItems = [
 ];
 
 function LangToggle({ style }: { style?: React.CSSProperties }) {
-  const { locale, setLocale } = useLocale();
+  // Переключатель ведёт на ту же страницу на другом языке (меняет префикс
+  // пути), а не переключает клиентский state — это настоящий переход по URL,
+  // который поисковик видит и индексирует.
+  const { locale } = useLocale();
+  const pathname = usePathname();
   return (
     <div className="lang" role="group" aria-label="Language" style={style}>
       {locales.map((l) => (
-        <button
+        <a
           key={l}
+          href={switchLocalePath(pathname, l)}
           className={locale === l ? "active" : ""}
-          onClick={() => setLocale(l)}
+          hrefLang={l}
+          aria-current={locale === l ? "true" : undefined}
         >
           {l.toUpperCase()}
-        </button>
+        </a>
       ))}
     </div>
   );
 }
 
 export default function Header() {
-  const { L } = useLocale();
+  const { L, lp } = useLocale();
   const { openBooking } = useBookingModal();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
@@ -82,7 +89,7 @@ export default function Header() {
         data-theme={chameleon ? theme : undefined}
       >
         <div className="container header-inner">
-          <a href="/" className="brand" aria-label="Chateau At Mount">
+          <a href={lp("/")} className="brand" aria-label="Chateau At Mount">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/images/logo.png" alt="Chateau At Mount" />
             <span className="brand-name">Chateau At Mount</span>
@@ -91,7 +98,7 @@ export default function Header() {
           <nav className="nav">
             <div className="nav-links">
               {navItems.map((n) => (
-                <a key={n.href} href={n.href}>
+                <a key={n.href} href={lp(n.href)}>
                   {L(n.label)}
                 </a>
               ))}
@@ -115,7 +122,7 @@ export default function Header() {
 
       <div className={`mobile-menu${menuOpen ? " open" : ""}`}>
         {navItems.map((n) => (
-          <a key={n.href} href={n.href} onClick={() => setMenuOpen(false)}>
+          <a key={n.href} href={lp(n.href)} onClick={() => setMenuOpen(false)}>
             {L(n.label)}
           </a>
         ))}
