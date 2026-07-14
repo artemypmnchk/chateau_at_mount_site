@@ -5,7 +5,6 @@ import { t, wines } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useReveal } from "./useReveal";
 import { HighlightOnScroll } from "./HighlightOnScroll";
-import Medal from "./Medal";
 
 export default function AboutPage() {
   const { L } = useLocale();
@@ -310,7 +309,7 @@ export default function AboutPage() {
                     <ul className="about-wine-medals">
                       {w.awards.map((aw, j) => (
                         <li className={`medal-${aw.level}`} key={j}>
-                          <Medal size={15} />
+                          <span className="dot" />
                           <span>{L(aw.text)}</span>
                         </li>
                       ))}
