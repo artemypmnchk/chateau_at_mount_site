@@ -31,8 +31,42 @@ export function generateMetadata({ params }: Props): Metadata {
 }
 
 /**
+ * JSON-LD BreadcrumbList — «хлебные крошки» в выдаче:
+ * Главная → Вина → Название сорта (вместо голого URL).
+ */
+function WineBreadcrumbSchema({ wine }: { wine: Wine }) {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Главная", item: site.url },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Вина",
+        item: `${site.url}/wines`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: wine.name,
+        item: `${site.url}/wines/${wine.slug}`,
+      },
+    ],
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      // eslint-disable-next-line react/no-danger
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
+/**
  * JSON-LD Product (schema.org) — карточка вина для поисковиков:
- * сорт, крепость, производитель. Без offers — на сайте нет цен.
+ * сорт, награды, производитель. Без offers — на сайте нет цен.
  */
 function WineProductSchema({ wine }: { wine: Wine }) {
   const data = {
@@ -49,6 +83,9 @@ function WineProductSchema({ wine }: { wine: Wine }) {
     },
     category: "Вино",
     countryOfOrigin: { "@type": "Country", name: "Молдова" },
+    ...(wine.awards?.length
+      ? { award: wine.awards.map((a) => a.text.ru) }
+      : {}),
     additionalProperty: [
       {
         "@type": "PropertyValue",
@@ -79,6 +116,7 @@ export default function Page({ params }: Props) {
   return (
     <>
       <WinePage wine={wine} />
+      <WineBreadcrumbSchema wine={wine} />
       <WineProductSchema wine={wine} />
     </>
   );
