@@ -92,12 +92,24 @@ export const metadata: Metadata = {
     images: [site.ogImage],
   },
   icons: {
-    icon: "/images/logo.png",
-    apple: "/images/logo.png",
+    icon: [
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/icon.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
   },
+  manifest: "/manifest.webmanifest",
   robots: {
     index: true,
     follow: true,
+  },
+  // Коды подтверждения владения сайтом. Значения — из Google Search Console
+  // и Яндекс.Вебмастера, задаются env-переменными на Vercel. Если пусто —
+  // Next просто не выводит мета-теги (не ломается).
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
   },
 };
 

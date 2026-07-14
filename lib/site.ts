@@ -14,7 +14,7 @@ export const site = {
   description:
     "Семейная винодельня Chateau At Mount в Гагаузии, Молдова. Винные традиции юга Молдовы: 15 Га виноградников, 7 сортов винограда, авторские вина с характером.",
   locale: "ru_RU",
-  ogImage: "/images/hero-winery.png",
+  ogImage: "/og.jpg", // 1200×630, ~120 КБ — превью для соцсетей и мессенджеров
   foundingDate: "2019",
   address: {
     locality: "Чадыр-Лунга", // Ceadîr-Lunga

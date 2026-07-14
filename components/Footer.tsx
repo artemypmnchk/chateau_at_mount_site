@@ -15,7 +15,7 @@ export default function Footer() {
           <div className="footer-brand">
             <a className="brand" href="/">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/logo.png" alt="Chateau At Mount" />
+              <img src="/images/logo.png" alt="" />
               <span className="brand-name" style={{ color: "#fff" }}>
                 Chateau At Mount
               </span>

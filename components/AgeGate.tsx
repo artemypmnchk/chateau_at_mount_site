@@ -38,7 +38,7 @@ export default function AgeGate() {
     <div className="age-gate" role="dialog" aria-modal="true" aria-label="18+">
       <div className="age-gate-card">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/logo.png" alt="Chateau At Mount" />
+        <img src="/images/logo.png" alt="" />
         {denied ? (
           <p className="age-gate-denied">{L(t.ageGate.denied)}</p>
         ) : (
