@@ -8,8 +8,9 @@ import { site } from "@/lib/site";
  * грузится (безопасно). Навигация по сайту — обычными <a> (полные перезагрузки),
  * поэтому SPA-хиты слать не нужно: Метрика инициализируется на каждой странице.
  *
- * webvisor (запись сессий) намеренно выключен: на сайте форма заявки с именем
- * и телефоном — запись таких полей чувствительна. Включать осознанно.
+ * webvisor (запись сессий) включён. Содержимое полей формы (имя, телефон)
+ * вебвизор по умолчанию не записывает — значения маскируются, если в настройках
+ * счётчика не включена явная запись контента полей.
  */
 export default function Metrika() {
   const id = site.metrikaId;
@@ -22,8 +23,8 @@ export default function Metrika() {
         m[i].l=1*new Date();
         for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
         k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-        ym(${id}, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:false });`}
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js?id=${id}", "ym");
+        ym(${id}, "init", { ssr:true, webvisor:true, clickmap:true, accurateTrackBounce:true, trackLinks:true });`}
       </Script>
       <noscript>
         <div>

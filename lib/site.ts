@@ -17,7 +17,7 @@ export const site = {
   ogImage: "/og.jpg", // 1200×630, ~120 КБ — превью для соцсетей и мессенджеров
   // Номер счётчика Яндекс.Метрики. 0 — аналитика выключена. Создать счётчик:
   // metrika.yandex.ru → «Добавить счётчик» → скопировать номер.
-  metrikaId: 0,
+  metrikaId: 110771681,
   foundingDate: "2019",
   address: {
     locality: "Чадыр-Лунга", // Ceadîr-Lunga
