@@ -8,6 +8,7 @@ import { BookingModalProvider } from "@/components/BookingModal";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AgeGate from "@/components/AgeGate";
+import Metrika from "@/components/Metrika";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -135,6 +136,7 @@ export default function RootLayout({
           </BookingModalProvider>
         </LocaleProvider>
         <WinerySchema />
+        <Metrika />
       </body>
     </html>
   );
