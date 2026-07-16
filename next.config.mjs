@@ -2,13 +2,14 @@
 
 // Content-Security-Policy. 'unsafe-eval' нужен только для dev (HMR Next.js);
 // 'unsafe-inline' — для инлайн-стилей/скриптов Next и JSON-LD.
+// mc.yandex.ru / mc.yandex.com — Яндекс.Метрика (tag.js, пиксель, отправка хитов).
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://mc.yandex.ru",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  "img-src 'self' data: blob: https://mc.yandex.ru",
   "font-src 'self' data:",
-  "connect-src 'self'",
+  "connect-src 'self' https://mc.yandex.ru https://mc.yandex.com",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

@@ -8,6 +8,7 @@ import { BookingModalProvider } from "@/components/BookingModal";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AgeGate from "@/components/AgeGate";
+import Metrika from "@/components/Metrika";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -93,6 +94,8 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      // .ico первым — основной источник для Google (он идёт за /favicon.ico)
+      { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
       { url: "/icon.png", sizes: "512x512", type: "image/png" },
@@ -133,6 +136,7 @@ export default function RootLayout({
           </BookingModalProvider>
         </LocaleProvider>
         <WinerySchema />
+        <Metrika />
       </body>
     </html>
   );
