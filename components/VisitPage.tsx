@@ -191,16 +191,35 @@ export default function VisitPage() {
         </div>
       </section>
 
+      {/* ---------- FAQ — открытый Q&A-разворот на известняке ----------
+           Тональная пауза между двумя тёмными полотнами. Не аккордеон:
+           ответы видны сразу — редакционно и полный текст в DOM для
+           поисковиков/AI (FAQPage JSON-LD — в app/visit/page.tsx). */}
+      <section className="visit-faq" id="faq">
+        <div className="container">
+          <h2 data-reveal>{L(v.faqTitle)}</h2>
+          <dl className="faq-list">
+            {v.faq.map((item, i) => (
+              <div
+                className="faq-item"
+                key={item.q.ru}
+                data-reveal
+                style={{ "--reveal-delay": `${(i % 3) * 0.1}s` } as React.CSSProperties}
+              >
+                <dt>{L(item.q)}</dt>
+                <dd>{L(item.a)}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
       {/* ---------- Final CTA ---------- */}
-      {/* paddingTop: 0 — секция выше тоже тёмная (флагман), стык двух базовых
-          section-паддингов давал ~270px пустоты (тот же приём в WinesPage/WinePage).
-          data-header-theme="dark" — без метки шапка-хамелеон гасла между флагманом
-          и футером (оба помечены) и на миг светлела поверх тёмного фона. */}
-      <section
-        className="section-dark visit-final"
-        style={{ paddingTop: 0 }}
-        data-header-theme="dark"
-      >
+      {/* data-header-theme="dark" — без метки шапка-хамелеон гасла между флагманом
+          и футером (оба помечены) и на миг светлела поверх тёмного фона.
+          paddingTop у секции снова штатный: между флагманом и финалом теперь
+          светлый FAQ, тёмного стыка нет. */}
+      <section className="section-dark visit-final" data-header-theme="dark">
         <div className="container">
           <span className="eyebrow">{L(v.gettingTitle)}</span>
           <h2>{L(v.finalTitle)}</h2>
