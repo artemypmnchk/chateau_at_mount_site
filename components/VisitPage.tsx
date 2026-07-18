@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { t, wines, links } from "@/lib/content";
 import { site } from "@/lib/site";
@@ -32,6 +33,13 @@ export default function VisitPage() {
   const { L, locale, lp } = useLocale();
   const { openBooking } = useBookingModal();
   const v = t.visitPage;
+
+  // Аккордеон FAQ: открытых может быть несколько, по умолчанию все закрыты.
+  const [openFaq, setOpenFaq] = useState<number[]>([]);
+  const toggleFaq = (i: number) =>
+    setOpenFaq((prev) =>
+      prev.includes(i) ? prev.filter((n) => n !== i) : [...prev, i],
+    );
 
   const lightPackages = v.packages.slice(0, 2);
   const flagship = v.packages[2];
@@ -191,25 +199,48 @@ export default function VisitPage() {
         </div>
       </section>
 
-      {/* ---------- FAQ — открытый Q&A-разворот на известняке ----------
-           Тональная пауза между двумя тёмными полотнами. Не аккордеон:
-           ответы видны сразу — редакционно и полный текст в DOM для
-           поисковиков/AI (FAQPage JSON-LD — в app/visit/page.tsx). */}
+      {/* ---------- FAQ — типографский аккордеон на известняке ----------
+           Тональная пауза между двумя тёмными полотнами. Строка-вопрос
+           серифом с голым «+» (без кружков), ответ раскрывается под ней
+           (grid-rows 0fr→1fr). Тексты всегда в DOM — FAQPage JSON-LD
+           (app/visit/page.tsx) ничего не теряет. */}
       <section className="visit-faq" id="faq">
         <div className="container">
           <h2 data-reveal>{L(v.faqTitle)}</h2>
           <dl className="faq-list">
-            {v.faq.map((item, i) => (
-              <div
-                className="faq-item"
-                key={item.q.ru}
-                data-reveal
-                style={{ "--reveal-delay": `${(i % 3) * 0.1}s` } as React.CSSProperties}
-              >
-                <dt>{L(item.q)}</dt>
-                <dd>{L(item.a)}</dd>
-              </div>
-            ))}
+            {v.faq.map((item, i) => {
+              const isOpen = openFaq.includes(i);
+              return (
+                <div
+                  /* Открытость — через data-open, НЕ через className: reveal-хук
+                     вешает .is-in прямо на DOM, и перезапись className из React
+                     при тоггле стирала его — элемент «гас» после клика. */
+                  className="faq-item"
+                  data-open={isOpen || undefined}
+                  key={item.q.ru}
+                  data-reveal
+                  style={{ "--reveal-delay": `${(i % 3) * 0.1}s` } as React.CSSProperties}
+                >
+                  <dt>
+                    <button
+                      type="button"
+                      aria-expanded={isOpen}
+                      onClick={() => toggleFaq(i)}
+                    >
+                      <span>{L(item.q)}</span>
+                      <span className="faq-x" aria-hidden="true">
+                        +
+                      </span>
+                    </button>
+                  </dt>
+                  <dd>
+                    <div className="faq-a">
+                      <p>{L(item.a)}</p>
+                    </div>
+                  </dd>
+                </div>
+              );
+            })}
           </dl>
         </div>
       </section>

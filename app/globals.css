@@ -2352,10 +2352,10 @@ a.info-row:hover .info-value {
   font-size: 16px;
   max-width: 640px;
 }
-/* ---------- FAQ на /visit — открытый Q&A-разворот на известняке ----------
-   Не аккордеон и не виджет: вопрос серифом слева, ответ обычным текстом
-   справа, пары разделяет hairline (ритм Epoch). Ответы — основным --ink,
-   не soft: это контент, а не подпись; --ink-soft на --bg держит лишь 4.6:1. */
+/* ---------- FAQ на /visit — типографский аккордеон на известняке ----------
+   Строка-вопрос серифом во всю ширину, справа голый «+» (никаких кружков
+   и чипов), ответ раскрывается под вопросом. Высота анимируется через
+   grid-template-rows 0fr→1fr — только трек, без layout-дёрганий. */
 .visit-faq h2 {
   font-size: clamp(32px, 4.5vw, 52px);
   margin-bottom: clamp(40px, 6vw, 72px);
@@ -2365,36 +2365,72 @@ a.info-row:hover .info-value {
   margin: 0;
 }
 .faq-item {
-  display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: clamp(24px, 5vw, 72px);
-  padding: clamp(28px, 4vw, 44px) 0;
   border-top: 1px solid var(--line);
 }
-.faq-item dt {
+.faq-item dt button {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding: clamp(20px, 2.6vw, 28px) 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
   font-family: var(--serif);
   font-size: clamp(22px, 2.6vw, 30px);
   line-height: 1.15;
-  text-wrap: balance;
+}
+.faq-item dt button:focus-visible {
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 4px;
+}
+/* «+» — типографский знак: тонкий, в тоне вторичного текста; на открытии
+   поворачивается в «×». Ховер строки подкрашивает его винным. */
+.faq-x {
+  flex: none;
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--ink-soft);
+  transition:
+    transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1),
+    color 0.2s ease-out;
+}
+.faq-item dt button:hover .faq-x {
+  color: var(--accent-dark);
+}
+.faq-item[data-open] .faq-x {
+  transform: rotate(45deg);
 }
 .faq-item dd {
   margin: 0;
-  /* 6px сводит первую базовую линию ответа (Inter 18/1.65) с базовой
-     вопроса (Oranienbaum 30/1.15) — без этого ответ «всплывает» над
-     вопросом на разнице полулидингов */
-  padding-top: 6px;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.faq-item[data-open] dd {
+  grid-template-rows: 1fr;
+}
+.faq-a {
+  overflow: hidden;
+  min-height: 0;
+}
+/* Отступ снизу — margin-ом на p внутри клип-обёртки: padding на .faq-a
+   торчал бы и в закрытом состоянии (grid ужимает только контент). */
+.faq-a p {
+  margin: 0 0 clamp(24px, 3vw, 32px);
+  max-width: 640px;
   font-size: clamp(16px, 1.8vw, 18px);
   line-height: 1.65;
-  max-width: 560px;
 }
-@media (max-width: 900px) {
-  .faq-item {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-  /* В одну колонку вопрос стоит над ответом — компенсация не нужна */
-  .faq-item dd {
-    padding-top: 0;
+@media (prefers-reduced-motion: reduce) {
+  .faq-item dd,
+  .faq-x {
+    transition: none;
   }
 }
 
