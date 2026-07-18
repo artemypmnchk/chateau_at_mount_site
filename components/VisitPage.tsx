@@ -34,8 +34,9 @@ export default function VisitPage() {
   const { openBooking } = useBookingModal();
   const v = t.visitPage;
 
-  // Аккордеон FAQ: открытых может быть несколько, по умолчанию все закрыты.
-  const [openFaq, setOpenFaq] = useState<number[]>([]);
+  // Аккордеон FAQ: открытых может быть несколько. Первый вопрос (цены)
+  // открыт по умолчанию — иллюстрирует паттерн и держит цены на виду.
+  const [openFaq, setOpenFaq] = useState<number[]>([0]);
   const toggleFaq = (i: number) =>
     setOpenFaq((prev) =>
       prev.includes(i) ? prev.filter((n) => n !== i) : [...prev, i],
