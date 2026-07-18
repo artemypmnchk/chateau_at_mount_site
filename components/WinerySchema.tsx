@@ -23,6 +23,7 @@ export function WinerySchema() {
     priceRange: "$$",
     address: {
       "@type": "PostalAddress",
+      streetAddress: site.address.plusCode,
       addressLocality: site.address.locality,
       addressRegion: site.address.region,
       addressCountry: site.address.country,
