@@ -9,7 +9,9 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://mc.yandex.ru",
   "font-src 'self' data:",
-  "connect-src 'self' https://mc.yandex.ru https://mc.yandex.com",
+  // wss://mc.yandex.ru — вебсокет Метрики (solid.ws): без него в консоли
+  // CSP-ошибка и деградирует сбор данных (вебвизор/часть хитов)
+  "connect-src 'self' https://mc.yandex.ru https://mc.yandex.com wss://mc.yandex.ru",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
