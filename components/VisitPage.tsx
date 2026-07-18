@@ -34,13 +34,12 @@ export default function VisitPage() {
   const { openBooking } = useBookingModal();
   const v = t.visitPage;
 
-  // Аккордеон FAQ: открытых может быть несколько. Первый вопрос (цены)
-  // открыт по умолчанию — иллюстрирует паттерн и держит цены на виду.
-  const [openFaq, setOpenFaq] = useState<number[]>([0]);
+  // Аккордеон FAQ: открыт максимум один ответ (клик по другому вопросу
+  // закрывает предыдущий). Первый (цены) открыт по умолчанию —
+  // иллюстрирует паттерн и держит цены на виду.
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
   const toggleFaq = (i: number) =>
-    setOpenFaq((prev) =>
-      prev.includes(i) ? prev.filter((n) => n !== i) : [...prev, i],
-    );
+    setOpenFaq((prev) => (prev === i ? null : i));
 
   const lightPackages = v.packages.slice(0, 2);
   const flagship = v.packages[2];
@@ -210,7 +209,7 @@ export default function VisitPage() {
           <h2 data-reveal>{L(v.faqTitle)}</h2>
           <dl className="faq-list">
             {v.faq.map((item, i) => {
-              const isOpen = openFaq.includes(i);
+              const isOpen = openFaq === i;
               return (
                 <div
                   /* Открытость — через data-open, НЕ через className: reveal-хук
