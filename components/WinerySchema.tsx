@@ -8,6 +8,9 @@ export function WinerySchema() {
   const data = {
     "@context": "https://schema.org",
     "@type": "Winery",
+    // Стабильный идентификатор сущности — на него смогут ссылаться будущие
+    // Product/Review-разметки и внешние источники (Knowledge Graph).
+    "@id": `${site.url}/#winery`,
     name: site.name,
     description: site.description,
     url: site.url,
@@ -17,8 +20,10 @@ export function WinerySchema() {
     telephone: site.contacts.phone,
     email: site.contacts.email,
     hasMap: site.contacts.mapUrl,
+    priceRange: "$$",
     address: {
       "@type": "PostalAddress",
+      streetAddress: site.address.plusCode,
       addressLocality: site.address.locality,
       addressRegion: site.address.region,
       addressCountry: site.address.country,
@@ -28,6 +33,14 @@ export function WinerySchema() {
       latitude: site.geo.latitude,
       longitude: site.geo.longitude,
     },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      telephone: site.contacts.phone,
+      email: site.contacts.email,
+      availableLanguage: ["ru", "en", "ro"],
+    },
+    areaServed: { "@type": "Country", name: "Moldova" },
     sameAs: site.social,
     servesCuisine: "Wine",
   };

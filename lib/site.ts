@@ -3,9 +3,6 @@ import { links } from "./content";
 /**
  * Единый источник правды о сайте: используется в metadata (layout),
  * sitemap.ts, robots.ts и JSON-LD (WinerySchema).
- *
- * ⚠️ Перед публикацией укажите реальный домен, точный адрес и координаты
- * винодельни (сейчас заполнены ориентировочно по городу Чадыр-Лунга).
  */
 export const site = {
   url: "https://chateauatmount.com",
@@ -20,14 +17,18 @@ export const site = {
   metrikaId: 110771681,
   foundingDate: "2019",
   address: {
+    // Улицы у винодельни нет — Google для таких мест использует plus-код
+    // (дан владельцем 2026-07-18). Он же уходит в streetAddress схемы.
+    plusCode: "3QPW+HR",
     locality: "Чадыр-Лунга", // Ceadîr-Lunga
     region: "Гагаузия", // Gagauzia
     country: "MD",
   },
-  // Ориентировочные координаты Чадыр-Лунги — уточните при необходимости.
+  // Точные координаты — из plus-кода 3QPW+HR (8GRC3QPW+HR): холм на
+  // северо-западном въезде в город.
   geo: {
-    latitude: 46.0561,
-    longitude: 28.8316,
+    latitude: 46.08644,
+    longitude: 28.79706,
   },
   social: [links.instagram, links.telegram, links.tiktok],
   // Контактные данные (из оригинальной страницы /contacts).
@@ -35,8 +36,9 @@ export const site = {
     email: "chateauatmount@gmail.com",
     phone: "+373 76 007 737",
     phoneHref: "tel:+37376007737",
-    addressLine: "Чадыр-Лунга, Гагаузия, Молдова", // TODO: уточнить улицу и дом
-    mapUrl:
-      "https://www.google.com/maps/search/?api=1&query=Chateau+At+Mount+Ceadir-Lunga",
+    addressLine: "3QPW+HR, Чадыр-Лунга, Гагаузия, Молдова",
+    // Точка по plus-коду — точнее текстового поиска, пока нет карточки
+    // в Google Business Profile.
+    mapUrl: "https://www.google.com/maps/search/?api=1&query=3QPW%2BHR+Ceadir-Lunga",
   },
 } as const;

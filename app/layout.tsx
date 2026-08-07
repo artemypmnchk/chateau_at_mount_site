@@ -53,17 +53,6 @@ export const metadata: Metadata = {
     template: "%s | Chateau At Mount",
   },
   description: site.description,
-  keywords: [
-    "винодельня",
-    "вино Молдова",
-    "вино Гагаузия",
-    "Chateau At Mount",
-    "Чадыр-Лунга",
-    "молдавское вино",
-    "купить вино",
-    "винные туры",
-    "мероприятия на винодельне",
-  ],
   authors: [{ name: site.name }],
   creator: site.name,
   publisher: site.name,
@@ -86,12 +75,9 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Chateau At Mount — Винные традиции юга Молдовы",
-    description: site.description,
-    images: [site.ogImage],
-  },
+  // twitter:* сознательно не задаём: платформы берут og:*, а глобальный
+  // twitter из layout перекрывал бы заголовки внутренних страниц (Next
+  // заменяет вложенные объекты metadata целиком, не сливает).
   icons: {
     icon: [
       // .ico первым — основной источник для Google (он идёт за /favicon.ico)
@@ -122,11 +108,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+    // suppressHydrationWarning: инлайн-скрипт ниже меняет lang на en/ro до
+    // гидрации, React не должен ругаться на расхождение атрибута.
     <html
       lang="ru"
+      suppressHydrationWarning
       className={`${inter.variable} ${oranienbaum.variable} ${piazzolla.variable}`}
     >
       <body>
+        {/* Единственный <html> живёт в корневом layout, а он не знает пути —
+            поэтому для /en и /ro атрибут lang правим до гидрации. Серверный
+            HTML остаётся lang="ru", языковые сигналы поисковикам несёт
+            hreflang (см. alternatesFor в lib/i18n.ts). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              '(function(){var m=location.pathname.match(/^\\/(en|ro)(\\/|$)/);if(m)document.documentElement.lang=m[1];})()',
+          }}
+        />
         <LocaleProvider>
           <BookingModalProvider>
             <Header />

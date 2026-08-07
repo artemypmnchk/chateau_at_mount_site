@@ -19,6 +19,15 @@ const ogLocale: Record<Locale, string> = {
   ro: "ro_RO",
 };
 
+/**
+ * og:image для всех страниц. Next заменяет объект openGraph целиком (не
+ * сливает с layout), поэтому картинку надо задавать в каждом page-level
+ * openGraph явно — иначе превью в соцсетях/мессенджерах пропадает.
+ */
+const ogImages = [
+  { url: site.ogImage, width: 1200, height: 630, alt: site.name },
+];
+
 /** Добавляет языковой префикс к «голому» ru-пути. ru → путь как есть. */
 export function localizePath(locale: Locale, path: string): string {
   if (locale === defaultLocale) return path;
@@ -162,6 +171,7 @@ export function pageMetadata(
       description: m.description,
       url: alternates.canonical as string,
       locale: ogLocale[locale],
+      images: ogImages,
     },
   };
 }
@@ -190,7 +200,9 @@ export function wineMetadata(wine: Wine, locale: Locale): Metadata {
       description,
       url: alternates.canonical as string,
       locale: ogLocale[locale],
-      images: [{ url: wine.image, alt: wine.name }],
+      // Общая og-карточка 1200×630: вертикальный PNG бутылки на прозрачном
+      // фоне в превью Telegram/WhatsApp выглядел случайно обрезанным.
+      images: ogImages,
     },
   };
 }

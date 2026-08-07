@@ -1059,6 +1059,88 @@ export const t = {
       en: "Show on map",
       ro: "Arătați pe hartă",
     },
+    /* FAQ: открытый Q&A-список (не аккордеон) — редакционный разворот и полный
+       текст в DOM для поисковиков/AI. Те же строки уходят в FAQPage JSON-LD
+       (app/visit/page.tsx) — тексты на странице и в разметке обязаны совпадать. */
+    faqTitle: {
+      ru: "Вопросы перед визитом",
+      en: "Questions before your visit",
+      ro: "Întrebări înainte de vizită",
+    },
+    faq: [
+      {
+        q: {
+          ru: "Сколько стоит дегустация?",
+          en: "How much does a tasting cost?",
+          ro: "Cât costă o degustare?",
+        },
+        a: {
+          ru: "Три формата: «Знакомство» — 300 лей с человека (4 вина, около часа), «Классика и выдержка» — 450 лей (6 вин, примерно полтора часа), «Гагаузский стол» — 850 лей (7 вин, около двух с половиной часов).",
+          en: "Three formats: Introduction — 300 MDL per person (4 wines, about an hour), Classics and Reserve — 450 MDL (6 wines, about an hour and a half), the Gagauz Table — 850 MDL (7 wines, around two and a half hours).",
+          ro: "Trei formate: Cunoștință — 300 de lei de persoană (4 vinuri, circa o oră), Clasică și maturate — 450 de lei (6 vinuri, circa o oră și jumătate), Masa găgăuză — 850 de lei (7 vinuri, aproximativ două ore și jumătate).",
+        },
+      },
+      {
+        q: {
+          ru: "Нужно ли записываться заранее?",
+          en: "Do I need to book in advance?",
+          ro: "Trebuie să mă programez din timp?",
+        },
+        a: {
+          ru: "Да, мы принимаем гостей по предварительной записи. Написать можно в Telegram, через форму на сайте или позвонить по телефону.",
+          en: "Yes, visits are by prior appointment. You can write to us on Telegram, use the form on the site or call us.",
+          ro: "Da, primim oaspeți pe bază de programare. Ne puteți scrie pe Telegram, folosi formularul de pe site sau suna.",
+        },
+      },
+      {
+        q: {
+          ru: "Какая минимальная компания?",
+          en: "What is the minimum group size?",
+          ro: "Care este grupul minim?",
+        },
+        a: {
+          ru: "«Знакомство» и «Классика и выдержка» — от четырёх гостей, «Гагаузский стол» — от двух. Большие группы и пикники обсуждаем отдельно.",
+          en: "Introduction and Classics and Reserve start from four guests, the Gagauz Table from two. Larger groups and picnics are arranged individually.",
+          ro: "Cunoștință și Clasică și maturate — de la patru oaspeți, Masa găgăuză — de la doi. Grupurile mari și picnicurile le discutăm separat.",
+        },
+      },
+      {
+        q: {
+          ru: "Как добраться до винодельни?",
+          en: "How do I get to the winery?",
+          ro: "Cum ajung la cramă?",
+        },
+        a: {
+          ru: "Винодельня стоит на вершине холма на въезде в Чадыр-Лунгу (Гагаузия, Молдова) — около двух часов на машине от Кишинёва. Точка на карте — внизу страницы.",
+          en: "The winery sits on top of the hill at the entrance to Ceadîr-Lunga (Gagauzia, Moldova) — about a two-hour drive from Chișinău. The map link is at the bottom of the page.",
+          ro: "Crama se află pe vârful dealului, la intrarea în Ceadîr-Lunga (Găgăuzia, Moldova) — la circa două ore de mers cu mașina de la Chișinău. Punctul pe hartă e în josul paginii.",
+        },
+      },
+      {
+        q: {
+          ru: "Можно ли приехать с детьми?",
+          en: "Can we come with children?",
+          ro: "Putem veni cu copii?",
+        },
+        a: {
+          ru: "Да, с детьми приезжать можно: прогулка по виноградникам и вид с холма интересны и без бокала. Само вино — только для гостей старше 18 лет.",
+          en: "Yes, children are welcome: the vineyard walk and the hilltop view are worth the trip even without a glass. The wine itself is for guests over 18 only.",
+          ro: "Da, copiii sunt bineveniți: plimbarea prin podgorii și priveliștea de pe deal merită și fără un pahar. Vinul în sine este doar pentru oaspeții de peste 18 ani.",
+        },
+      },
+      {
+        q: {
+          ru: "Можно ли купить вино с собой?",
+          en: "Can I buy wine to take home?",
+          ro: "Pot cumpăra vin la pachet?",
+        },
+        a: {
+          ru: "Да. Всё, что понравилось на дегустации, продаётся прямо на винодельне — заберёте бутылки с собой.",
+          en: "Yes. Everything you enjoyed at the tasting is sold right at the winery — take your bottles home with you.",
+          ro: "Da. Tot ce v-a plăcut la degustare se vinde direct la cramă — luați sticlele cu voi acasă.",
+        },
+      },
+    ],
   },
   contactsPage: {
     eyebrow: { ru: "Контакты", en: "Contacts", ro: "Contacte" },

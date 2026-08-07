@@ -8,7 +8,10 @@ import { i18nLocales, localizePath } from "@/lib/i18n";
  * записи — hreflang-альтернативы на другие языки (ru на корне, en/ro с префиксом).
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  // Дата последнего содержательного обновления контента — поднимать вручную
+  // при заметных правках текстов/страниц. new Date() здесь нельзя: каждый
+  // деплой помечал бы все страницы «обновлёнными», обесценивая сигнал.
+  const lastModified = new Date("2026-07-17");
 
   // Приоритеты «голых» ru-путей; языковые версии наследуют.
   const paths: { path: string; priority: number }[] = [
@@ -28,7 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     );
     return i18nLocales.map((locale) => ({
       url: abs(locale, path),
-      lastModified: now,
+      lastModified,
       changeFrequency: "monthly" as const,
       priority,
       alternates: { languages },

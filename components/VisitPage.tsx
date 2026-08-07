@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { t, wines, links } from "@/lib/content";
 import { site } from "@/lib/site";
@@ -32,6 +33,13 @@ export default function VisitPage() {
   const { L, locale, lp } = useLocale();
   const { openBooking } = useBookingModal();
   const v = t.visitPage;
+
+  // Аккордеон FAQ: открыт максимум один ответ (клик по другому вопросу
+  // закрывает предыдущий). Первый (цены) открыт по умолчанию —
+  // иллюстрирует паттерн и держит цены на виду.
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const toggleFaq = (i: number) =>
+    setOpenFaq((prev) => (prev === i ? null : i));
 
   const lightPackages = v.packages.slice(0, 2);
   const flagship = v.packages[2];
@@ -191,16 +199,58 @@ export default function VisitPage() {
         </div>
       </section>
 
+      {/* ---------- FAQ — типографский аккордеон на известняке ----------
+           Тональная пауза между двумя тёмными полотнами. Строка-вопрос
+           серифом с голым «+» (без кружков), ответ раскрывается под ней
+           (grid-rows 0fr→1fr). Тексты всегда в DOM — FAQPage JSON-LD
+           (app/visit/page.tsx) ничего не теряет. */}
+      <section className="visit-faq" id="faq">
+        <div className="container">
+          <h2 data-reveal>{L(v.faqTitle)}</h2>
+          <dl className="faq-list">
+            {v.faq.map((item, i) => {
+              const isOpen = openFaq === i;
+              return (
+                <div
+                  /* Открытость — через data-open, НЕ через className: reveal-хук
+                     вешает .is-in прямо на DOM, и перезапись className из React
+                     при тоггле стирала его — элемент «гас» после клика. */
+                  className="faq-item"
+                  data-open={isOpen || undefined}
+                  key={item.q.ru}
+                  data-reveal
+                  style={{ "--reveal-delay": `${(i % 3) * 0.1}s` } as React.CSSProperties}
+                >
+                  <dt>
+                    <button
+                      type="button"
+                      aria-expanded={isOpen}
+                      onClick={() => toggleFaq(i)}
+                    >
+                      <span>{L(item.q)}</span>
+                      <span className="faq-x" aria-hidden="true">
+                        +
+                      </span>
+                    </button>
+                  </dt>
+                  <dd>
+                    <div className="faq-a">
+                      <p>{L(item.a)}</p>
+                    </div>
+                  </dd>
+                </div>
+              );
+            })}
+          </dl>
+        </div>
+      </section>
+
       {/* ---------- Final CTA ---------- */}
-      {/* paddingTop: 0 — секция выше тоже тёмная (флагман), стык двух базовых
-          section-паддингов давал ~270px пустоты (тот же приём в WinesPage/WinePage).
-          data-header-theme="dark" — без метки шапка-хамелеон гасла между флагманом
-          и футером (оба помечены) и на миг светлела поверх тёмного фона. */}
-      <section
-        className="section-dark visit-final"
-        style={{ paddingTop: 0 }}
-        data-header-theme="dark"
-      >
+      {/* data-header-theme="dark" — без метки шапка-хамелеон гасла между флагманом
+          и футером (оба помечены) и на миг светлела поверх тёмного фона.
+          paddingTop у секции снова штатный: между флагманом и финалом теперь
+          светлый FAQ, тёмного стыка нет. */}
+      <section className="section-dark visit-final" data-header-theme="dark">
         <div className="container">
           <span className="eyebrow">{L(v.gettingTitle)}</span>
           <h2>{L(v.finalTitle)}</h2>
