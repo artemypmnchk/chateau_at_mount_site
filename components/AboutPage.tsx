@@ -4,7 +4,8 @@ import Image from "next/image";
 import { wines, links } from "@/lib/content";
 import { useReveal } from "./useReveal";
 import { HighlightOnScroll } from "./HighlightOnScroll";
-import { useBookingModal } from "./BookingModal";
+import { VineSpine } from "./VineSpine";
+import { CtaWreath } from "./CtaWreath";
 
 // Витрина вин страницы «О нас»: короткое знакомство, не паспорт сорта.
 // Картинка бутылки и акцент-цвет берутся из lib/content.ts по слагу, чтобы
@@ -82,11 +83,12 @@ function Ph({ label }: { label: string }) {
 }
 
 export default function AboutPage() {
-  const { openBooking } = useBookingModal();
   useReveal();
 
   return (
     <main className="about-v2">
+      <VineSpine />
+
       {/* ======= 02 · Название + анимация розлива ======= */}
       <section className="ab-hero">
         <div className="container ab-hero-inner">
@@ -196,26 +198,24 @@ export default function AboutPage() {
       {/* Цифры-факты */}
       <section className="ab-facts">
         <div className="container ab-facts-grid" data-reveal>
-          <div className="ab-fact">
-            <span className="ab-fact-n">2019</span>
-            <span className="ab-fact-l">первые лозы</span>
-          </div>
-          <div className="ab-fact">
-            <span className="ab-fact-n">2020</span>
-            <span className="ab-fact-l">первый урожай</span>
-          </div>
-          <div className="ab-fact">
-            <span className="ab-fact-n">8 га</span>
-            <span className="ab-fact-l">виноградников</span>
-          </div>
-          <div className="ab-fact">
-            <span className="ab-fact-n">100 м</span>
-            <span className="ab-fact-l">от лоз до шато</span>
-          </div>
-          <div className="ab-fact">
-            <span className="ab-fact-n">150 000</span>
-            <span className="ab-fact-l">бутылок в год</span>
-          </div>
+          {[
+            { n: "2019", l: "первые лозы" },
+            { n: "2020", l: "первый урожай" },
+            { n: "8 га", l: "виноградников" },
+            { n: "100 м", l: "от лоз до шато" },
+            { n: "150 000", l: "бутылок в год" },
+          ].map((f, i) => (
+            <div className="ab-fact" key={f.l}>
+              <span
+                className="ab-fact-n"
+                data-num={f.n}
+                style={{ "--fill-delay": `${i * 90}ms` } as React.CSSProperties}
+              >
+                {f.n}
+              </span>
+              <span className="ab-fact-l">{f.l}</span>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -332,59 +332,31 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ======= 05 · Приглашение ======= */}
+      {/* ======= 05 · Приглашение — единственный призыв в венке лозы ======= */}
       <section className="ab-invite">
         <div className="container">
           <div className="ab-invite-head" data-reveal>
-            <span className="eyebrow">Визит и сотрудничество</span>
-            <h2>Будем рады видеть вас на вершине холма</h2>
+            <span className="eyebrow">Визит</span>
+            <h2>Приезжайте к нам в гости</h2>
+            <p className="ab-invite-lead">
+              Купите вино прямо у шато, приезжайте на дегустацию или отметьте у
+              нас событие — с видом на Чадыр-Лунгу, за столом прямо у лоз.
+            </p>
           </div>
-          <div className="ab-invite-cols">
-            <div className="ab-invite-col" data-reveal>
-              <span className="ab-invite-kicker">Гостям</span>
-              <p>
-                Приезжайте купить вино прямо у шато, провести дегустацию с видом
-                на Чадыр-Лунгу или отметить у нас событие — накроем стол прямо у
-                лоз.
-              </p>
-              <div className="ab-invite-actions">
-                <button
-                  onClick={() => openBooking()}
-                  className="btn btn-accent"
-                >
-                  <span>Приехать на дегустацию</span>
-                </button>
-                <a href="/wines" className="btn btn-outline">
-                  Выбрать вино
-                </a>
-              </div>
-            </div>
 
-            <div className="ab-invite-col" data-reveal>
-              <span className="ab-invite-kicker">Партнёрам</span>
-              <p>
-                Опт по Молдове и на экспорт, приватные линейки, HoReCa и
-                коллаборации — открыты к любому виду сотрудничества. Расскажите о
-                вашей задаче, и мы найдём формат.
-              </p>
-              <div className="ab-invite-actions">
-                <button
-                  onClick={() => openBooking()}
-                  className="btn btn-outline"
-                >
-                  Обсудить сотрудничество
-                </button>
-                <a
-                  href={links.telegram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="cta-telegram"
-                >
-                  Telegram
-                </a>
-              </div>
-            </div>
-          </div>
+          <CtaWreath />
+
+          <p className="ab-invite-b2b" data-reveal>
+            Опт, экспорт и коллаборации —{" "}
+            <a
+              href={links.telegram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="tg-link"
+            >
+              напишите нам в Telegram
+            </a>
+          </p>
         </div>
       </section>
     </main>

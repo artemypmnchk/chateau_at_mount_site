@@ -1,0 +1,309 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
+/**
+ * Виноградная лоза-хребет страницы «О нас» (спека: docs/spec-about-page.md).
+ * Формы листа/гроздей/усика/узлов — по мотивам casamoldovei.ru. Побег
+ * прорастает сверху вниз по скроллу (stroke-dashoffset); по всей ветке —
+ * частые крупные грозди и множество курчавых усиков с обеих сторон,
+ * растущих прямо из ветки. Всё «распускается», когда до него дорастает
+ * лоза. Заодно ведёт «свет за скроллом» (--ab-warm на <html>).
+ * Декоративно (aria-hidden); при reduced-motion всё раскрыто статично.
+ */
+
+const BAND = 130;
+
+// Зубчатый лист + пальчатое жилкование
+const LEAF_D =
+  "M0 0 L3 -3 L2 -6 L7 -7 L4 -9 L3 -11 L9 -13 L6 -15 L5 -17 L8 -20 L4 -21 L3 -23 L0 -26 L-3 -23 L-4 -21 L-8 -20 L-5 -17 L-6 -15 L-9 -13 L-3 -11 L-4 -9 L-7 -7 L-2 -6 L-3 -3 Z";
+const LEAF_VEINS =
+  "M0 -1 L0 -24 M0 -4 L7 -7 M0 -4 L-7 -7 M0 -9 L9 -13 M0 -9 L-9 -13 M0 -14 L8 -20 M0 -14 L-8 -20";
+
+// Курчавые усики-кудри (2 варианта), растут из ветки и сворачиваются в спираль
+const TENDRILS = [
+  "M0 0 C6 -3 13 -1 13 5 C13 10 5 12 3 5 C1.5 0 9 -1 9 4 C9 7 5 7 5 4",
+  "M0 0 C7 -2 11 4 7 9 C3 13 -3 10 -1 4 C0.5 0.5 7 0 7 5 C7 8 4 8 4 5",
+];
+
+// Грозди трёх размеров: ягоды + золотые блики (сужаются книзу)
+const CL: Record<
+  string,
+  { r: number; b: [number, number][]; h: [number, number, number][] }
+> = {
+  cl2: {
+    r: 3.4,
+    b: [
+      [-3, -1], [3, -1], [-6, 3.4], [0, 3.4], [6, 3.4], [-3, 7.8], [3, 7.8],
+      [-4.5, 12.2], [1.5, 12.2], [-1.5, 16.4],
+    ],
+    h: [[-3.8, -1.8, 1], [2.2, -1.8, 1], [-6.8, 2.6, 1]],
+  },
+  cl3: {
+    r: 3.2,
+    b: [
+      [-2.5, -1], [2.5, -1], [-5, 3], [0, 3], [5, 3], [-2.5, 7], [2.5, 7], [0, 11],
+    ],
+    h: [[-3.3, -1.8, 1], [1.7, -1.8, 1]],
+  },
+  cl4: {
+    r: 3.7,
+    b: [
+      [-3.4, -2], [3.4, -2], [-8, 2.6], [-1.5, 2.6], [4.5, 2.6], [9, 3],
+      [-5.2, 7.2], [1.2, 7.2], [6.8, 7.6], [-7, 11.8], [-1, 12], [4.8, 12],
+      [-3.4, 16.4], [2.4, 16.6], [-0.6, 21],
+    ],
+    h: [[-4.2, -2.8, 0.9], [2.6, -2.8, 0.9], [-8.8, 1.8, 0.9], [-2.3, 1.8, 0.9]],
+  },
+};
+
+type Recipe = {
+  stem: string;
+  leaves: [number, number][];
+  cl: string;
+  ct: [number, number, number, number];
+};
+
+const NODES: Recipe[] = [
+  { stem: "M0 -2 L1 3", leaves: [[-52, 0.5], [-8, 0.44], [40, 0.5]], cl: "cl4", ct: [1, 3, 5, 0.86] },
+  { stem: "M0 -2 L0 3", leaves: [[-42, 0.5], [28, 0.46]], cl: "cl3", ct: [0, 3, -6, 0.8] },
+  { stem: "M0 -2 L0 3", leaves: [[-62, 0.46], [-28, 0.5], [8, 0.46], [48, 0.48]], cl: "cl4", ct: [0, 3, -4, 0.82] },
+  { stem: "M0 -2 L1 3", leaves: [[-46, 0.56], [2, 0.5], [50, 0.54]], cl: "cl4", ct: [1, 4, 4, 1] },
+  { stem: "M0 -2 L0 3", leaves: [[-58, 0.48], [-10, 0.5]], cl: "cl3", ct: [0, 3, -8, 0.9] },
+  { stem: "M0 -2 L1 3", leaves: [[-50, 0.5], [-18, 0.46], [18, 0.5], [58, 0.46]], cl: "cl4", ct: [1, 3, 6, 0.84] },
+  { stem: "M0 -2 L0 3", leaves: [[-58, 0.48], [-22, 0.5], [12, 0.46], [52, 0.5]], cl: "cl3", ct: [0, 3, 5, 0.8] },
+  { stem: "M0 -2 L-1 3", leaves: [[-50, 0.5], [-6, 0.48]], cl: "cl4", ct: [-1, 3, -8, 0.82] },
+];
+
+type Deco =
+  | { kind: "cluster"; t: number; sideX: 1 | -1; size: number; r: number; rot: number }
+  | { kind: "tendril"; t: number; sideX: 1 | -1; size: number; v: number; rot: number };
+
+// Грозди — равномерно по всей странице, все разные (размер, вид, наклон, сторона)
+const CLUSTER_N = 23;
+const CLUSTER_SIZES = [1.9, 1.5, 2.15, 1.7, 1.35, 2.0, 1.6, 1.85, 1.45, 2.1, 1.75];
+const RECIPE_ORDER = [0, 3, 6, 1, 4, 7, 2, 5];
+const CLUSTER_ROTS = [0, -6, 5, -3, 7, -4, 3, -8, 4];
+const CLUSTERS: Deco[] = Array.from({ length: CLUSTER_N }, (_, i) => ({
+  kind: "cluster" as const,
+  t: 0.03 + (0.94 * i) / (CLUSTER_N - 1),
+  sideX: (i % 2 ? -1 : 1) as 1 | -1,
+  size: CLUSTER_SIZES[i % CLUSTER_SIZES.length],
+  r: RECIPE_ORDER[i % RECIPE_ORDER.length],
+  rot: CLUSTER_ROTS[i % CLUSTER_ROTS.length],
+}));
+
+// Много курчавых усиков по обе стороны
+const TENDRIL_ITEMS: Deco[] = Array.from({ length: 30 }, (_, i) => ({
+  kind: "tendril" as const,
+  t: 0.03 + i * 0.032,
+  sideX: (i % 2 ? 1 : -1) as 1 | -1,
+  size: 1.2 + (i % 4) * 0.28,
+  v: i % 2,
+  rot: [8, 20, -6, 32][i % 4],
+}));
+
+const DECOS: Deco[] = [...CLUSTERS, ...TENDRIL_ITEMS];
+
+function xAt(y: number): number {
+  return 84 + 14 * Math.sin(y * 0.02) + 6 * Math.sin(y * 0.055 + 1);
+}
+
+type Placed = Deco & { nx: number; ny: number };
+
+export function VineSpine() {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const caneRef = useRef<SVGPathElement>(null);
+  const tipRef = useRef<SVGGElement>(null);
+  const [geo, setGeo] = useState<{ h: number; d: string; placed: Placed[] }>({
+    h: 0,
+    d: "",
+    placed: [],
+  });
+
+  useEffect(() => {
+    const main = wrapRef.current?.parentElement;
+    if (!main) return;
+    const build = () => {
+      const h = main.scrollHeight;
+      let d = `M ${xAt(0).toFixed(1)} 0`;
+      for (let y = 14; y <= h; y += 14) d += ` L ${xAt(y).toFixed(1)} ${y}`;
+      const placed = DECOS.map((dc) => ({
+        ...dc,
+        nx: +xAt(dc.t * h).toFixed(1),
+        ny: +(dc.t * h).toFixed(1),
+      }));
+      setGeo((g) => (g.h === h ? g : { h, d, placed }));
+    };
+    build();
+    const ro = new ResizeObserver(build);
+    ro.observe(main);
+    window.addEventListener("resize", build);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", build);
+    };
+  }, []);
+
+  useEffect(() => {
+    const cane = caneRef.current;
+    const main = wrapRef.current?.parentElement;
+    if (!cane || !main || !geo.d) return;
+    const len = cane.getTotalLength();
+    cane.style.strokeDasharray = String(len);
+    const decos = Array.from(
+      wrapRef.current!.querySelectorAll<SVGGElement>(".ab-vine-deco")
+    );
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      cane.style.strokeDashoffset = "0";
+      decos.forEach((el) => {
+        el.setAttribute(
+          "transform",
+          `translate(${el.dataset.nx} ${el.dataset.ny}) scale(${el.dataset.s})`
+        );
+        el.style.opacity = "1";
+      });
+      if (tipRef.current) tipRef.current.style.opacity = "0";
+      document.documentElement.style.setProperty("--ab-warm", "0.4");
+      return;
+    }
+
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const rect = main.getBoundingClientRect();
+      const scrollable = rect.height - window.innerHeight;
+      const p =
+        scrollable > 0 ? Math.min(1, Math.max(0, -rect.top / scrollable)) : 0;
+      cane.style.strokeDashoffset = String(len * (1 - p));
+      for (const el of decos) {
+        const t = +el.dataset.t!;
+        const s = +el.dataset.s!;
+        const g = Math.min(1, Math.max(0, (p - t) / 0.04));
+        const ge = 1 - (1 - g) * (1 - g);
+        el.setAttribute(
+          "transform",
+          `translate(${el.dataset.nx} ${el.dataset.ny}) scale(${(ge * s).toFixed(
+            3
+          )})`
+        );
+        el.style.opacity = Math.min(1, ge * 1.6).toFixed(3);
+      }
+      if (tipRef.current) {
+        const pt = cane.getPointAtLength(len * p);
+        tipRef.current.setAttribute(
+          "transform",
+          `translate(${pt.x.toFixed(1)} ${pt.y.toFixed(1)})`
+        );
+        tipRef.current.style.opacity = p > 0.01 && p < 0.99 ? "1" : "0";
+      }
+      document.documentElement.style.setProperty("--ab-warm", p.toFixed(3));
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, [geo.d]);
+
+  return (
+    <>
+      <div className="ab-warm-layer" aria-hidden />
+      <div className="ab-spine" aria-hidden ref={wrapRef}>
+        <svg
+          width={BAND}
+          height={geo.h || undefined}
+          viewBox={`0 0 ${BAND} ${geo.h || 1}`}
+          preserveAspectRatio="none"
+          fill="none"
+        >
+          <path ref={caneRef} className="ab-vine-cane" d={geo.d} />
+
+          {geo.placed.map((dc, i) => {
+            const flip = dc.sideX < 0;
+            if (dc.kind === "tendril") {
+              return (
+                <g
+                  key={i}
+                  className="ab-vine-deco"
+                  data-t={dc.t}
+                  data-nx={dc.nx}
+                  data-ny={dc.ny}
+                  data-s={dc.size}
+                  transform={`translate(${dc.nx} ${dc.ny}) scale(0)`}
+                  style={{ opacity: 0 }}
+                >
+                  <g
+                    transform={`${flip ? "scale(-1,1) " : ""}rotate(${dc.rot})`}
+                  >
+                    <path className="ab-vine-tendril" d={TENDRILS[dc.v]} />
+                  </g>
+                </g>
+              );
+            }
+            const n = NODES[dc.r];
+            const cl = CL[n.cl];
+            return (
+              <g
+                key={i}
+                className="ab-vine-deco"
+                data-t={dc.t}
+                data-nx={dc.nx}
+                data-ny={dc.ny}
+                data-s={dc.size}
+                transform={`translate(${dc.nx} ${dc.ny}) scale(0)`}
+                style={{ opacity: 0 }}
+              >
+                <g
+                  transform={`${flip ? "scale(-1,1) " : ""}rotate(${dc.rot})`}
+                >
+                  <path className="ab-vine-stem" d={n.stem} />
+                  {n.leaves.map(([rot, sc], j) => (
+                    <g key={j} transform={`rotate(${rot}) scale(${sc})`}>
+                      <path className="ab-vine-leaf" d={LEAF_D} />
+                      <path className="ab-vine-vein" d={LEAF_VEINS} />
+                    </g>
+                  ))}
+                  <g
+                    transform={`translate(${n.ct[0]} ${n.ct[1]}) rotate(${n.ct[2]}) scale(${n.ct[3]})`}
+                  >
+                    {cl.b.map(([cx, cy], j) => (
+                      <circle
+                        key={j}
+                        className="ab-vine-berry"
+                        cx={cx}
+                        cy={cy}
+                        r={cl.r}
+                      />
+                    ))}
+                    {cl.h.map(([cx, cy, r], j) => (
+                      <circle
+                        key={`h${j}`}
+                        className="ab-vine-hi"
+                        cx={cx}
+                        cy={cy}
+                        r={r}
+                      />
+                    ))}
+                  </g>
+                </g>
+              </g>
+            );
+          })}
+
+          <g ref={tipRef} className="ab-vine-tip" style={{ opacity: 0 }}>
+            <circle r="2.4" />
+          </g>
+        </svg>
+      </div>
+    </>
+  );
+}

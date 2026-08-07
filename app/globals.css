@@ -3433,9 +3433,83 @@ a.info-row:hover .info-value {
 
 /* ===================== About v2 — «вино на известняке» ===================== */
 .about-v2 {
+  position: relative;
+  isolation: isolate;
   background: var(--bg);
   color: var(--ink);
   overflow-x: clip;
+}
+
+/* Линия-хребет + свет за скроллом (см. LineSpine.tsx) */
+.ab-warm-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, #e7d4ac 100%);
+  opacity: calc(var(--ab-warm, 0) * 0.5);
+}
+.ab-spine {
+  position: absolute;
+  top: 0;
+  left: calc((100% - 1200px) / 2 - 140px);
+  width: 130px;
+  z-index: 4;
+  pointer-events: none;
+}
+.ab-spine svg {
+  display: block;
+  width: 130px;
+  height: auto;
+  overflow: visible;
+}
+.ab-vine-cane,
+.ab-vine-stem,
+.ab-vine-tendril {
+  fill: none;
+  stroke: var(--wine);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ab-vine-cane {
+  stroke-width: 2.6;
+}
+.ab-vine-stem {
+  stroke-width: 1.6;
+}
+.ab-vine-tendril {
+  stroke-width: 1.2;
+}
+.ab-vine-leaf {
+  fill: var(--bg-soft);
+  stroke: var(--wine);
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+.ab-vine-vein {
+  fill: none;
+  stroke: var(--accent-dark);
+  stroke-width: 0.7;
+  opacity: 0.7;
+}
+.ab-vine-berry {
+  fill: #5b1520;
+  stroke: #340f18;
+  stroke-width: 0.6;
+}
+.ab-vine-hi {
+  fill: var(--accent);
+  opacity: 0.55;
+}
+.ab-vine-tip circle {
+  fill: var(--wine);
+}
+/* Лоза живёт строго в левом поле — показываем только там, где поле реально
+   есть (≥1480px гарантирует зазор до контейнера под крупные грозди) */
+@media (max-width: 1479px) {
+  .ab-spine {
+    display: none;
+  }
 }
 
 /* ——— 02 · Название + розлив ——— */
@@ -3649,10 +3723,31 @@ a.info-row:hover .info-value {
   gap: 6px;
 }
 .ab-fact-n {
+  position: relative;
+  display: inline-block;
   font-family: var(--serif);
   font-size: clamp(28px, 3.4vw, 48px);
   line-height: 1;
-  color: var(--ink);
+  /* «пустая» цифра — бледный винный контур, наливается вином снизу вверх */
+  color: rgba(94, 42, 51, 0.24);
+}
+.ab-fact-n::after {
+  content: attr(data-num);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--wine);
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.05s cubic-bezier(0.4, 0.1, 0.2, 1)
+    var(--fill-delay, 0ms);
+}
+.ab-facts-grid.is-in .ab-fact-n::after {
+  clip-path: inset(0 0 0 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ab-fact-n::after {
+    transition: none;
+  }
 }
 .ab-fact-l {
   font-family: var(--serif-italic);
@@ -3856,5 +3951,75 @@ a.info-row:hover .info-value {
   .ab-pour-stream {
     animation: none;
     opacity: 0;
+  }
+}
+
+/* ——— Финал: единственный призыв в венке лозы ——— */
+.ab-invite-lead {
+  max-width: 620px;
+  margin: 0.9em auto 0;
+  font-size: clamp(16px, 1.7vw, 19px);
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+.ab-cta-wreath {
+  position: relative;
+  width: min(360px, 92vw);
+  aspect-ratio: 360 / 300;
+  margin: clamp(24px, 4vw, 44px) auto 0;
+}
+.ab-wreath-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.ab-cta-btn {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
+/* Кольцо прорисовывается при въезде секции в экран */
+.ab-wreath-ring {
+  stroke-dasharray: 760;
+  stroke-dashoffset: 760;
+}
+[data-reveal].is-in .ab-wreath-ring {
+  animation: wreathDraw 1.7s cubic-bezier(0.4, 0.1, 0.2, 1) forwards;
+}
+@keyframes wreathDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+/* Листья и грозди венка проявляются следом за кольцом */
+.ab-wreath-deco {
+  opacity: 0;
+  transition: opacity 0.8s ease 0.7s;
+}
+.ab-wreath-final {
+  transition-delay: 1.15s;
+}
+[data-reveal].is-in .ab-wreath-deco {
+  opacity: 1;
+}
+.ab-invite-b2b {
+  margin: clamp(28px, 4vw, 48px) auto 0;
+  text-align: center;
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ab-wreath-ring {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .ab-wreath-deco {
+    transition: none;
+    opacity: 1;
   }
 }
