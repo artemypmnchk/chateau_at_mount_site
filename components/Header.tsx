@@ -42,8 +42,6 @@ export default function Header() {
   const { L, lp } = useLocale();
   const { openBooking } = useBookingModal();
   const pathname = usePathname();
-  // Страницы со светлым хиро: текст шапки тёмный поверх известняка
-  const onLight = pathname === "/about";
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   // «Хамелеон»: пока под шапкой тёмное помеченное полотно (хиро → манифест →
@@ -52,6 +50,10 @@ export default function Header() {
   // разметки), хамелеон гаснет и шапка возвращается к обычному виду.
   const [chameleon, setChameleon] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  // Страницы со светлым хиро: текст шапки тёмный поверх известняка. Но пока
+  // под шапкой тёмное полотно, командует хамелеон — иначе на странице «О нас»
+  // тёмный текст оставался бы поверх чёрного блока вин и пропадал.
+  const onLight = pathname.endsWith("/about") && !(chameleon && theme === "dark");
 
   useEffect(() => {
     // Линия, по которой «читаем» полотно — примерно на уровне навигации

@@ -26,25 +26,21 @@ const TENDRILS = [
   "M0 0 C7 -2 11 4 7 9 C3 13 -3 10 -1 4 C0.5 0.5 7 0 7 5 C7 8 4 8 4 5",
 ];
 
-// Грозди трёх размеров: ягоды + золотые блики (сужаются книзу)
-const CL: Record<
-  string,
-  { r: number; b: [number, number][]; h: [number, number, number][] }
-> = {
+// Грозди трёх размеров: конус из перекрывающихся ягод, сужается книзу.
+// Блики не хранятся — считаются от каждой ягоды при отрисовке.
+const CL: Record<string, { r: number; b: [number, number][] }> = {
   cl2: {
     r: 3.4,
     b: [
       [-3, -1], [3, -1], [-6, 3.4], [0, 3.4], [6, 3.4], [-3, 7.8], [3, 7.8],
       [-4.5, 12.2], [1.5, 12.2], [-1.5, 16.4],
     ],
-    h: [[-3.8, -1.8, 1], [2.2, -1.8, 1], [-6.8, 2.6, 1]],
   },
   cl3: {
     r: 3.2,
     b: [
       [-2.5, -1], [2.5, -1], [-5, 3], [0, 3], [5, 3], [-2.5, 7], [2.5, 7], [0, 11],
     ],
-    h: [[-3.3, -1.8, 1], [1.7, -1.8, 1]],
   },
   cl4: {
     r: 3.7,
@@ -53,7 +49,6 @@ const CL: Record<
       [-5.2, 7.2], [1.2, 7.2], [6.8, 7.6], [-7, 11.8], [-1, 12], [4.8, 12],
       [-3.4, 16.4], [2.4, 16.6], [-0.6, 21],
     ],
-    h: [[-4.2, -2.8, 0.9], [2.6, -2.8, 0.9], [-8.8, 1.8, 0.9], [-2.3, 1.8, 0.9]],
   },
 };
 
@@ -80,23 +75,34 @@ type Deco =
   | { kind: "tendril"; t: number; sideX: 1 | -1; size: number; v: number; rot: number };
 
 // Грозди — равномерно по всей странице, все разные (размер, вид, наклон, сторона)
-const CLUSTER_N = 23;
+const CLUSTER_N = 35;
 const CLUSTER_SIZES = [1.9, 1.5, 2.15, 1.7, 1.35, 2.0, 1.6, 1.85, 1.45, 2.1, 1.75];
 const RECIPE_ORDER = [0, 3, 6, 1, 4, 7, 2, 5];
 const CLUSTER_ROTS = [0, -6, 5, -3, 7, -4, 3, -8, 4];
+const clusterT = (i: number) => 0.02 + (0.96 * i) / (CLUSTER_N - 1);
 const CLUSTERS: Deco[] = Array.from({ length: CLUSTER_N }, (_, i) => ({
   kind: "cluster" as const,
-  t: 0.03 + (0.94 * i) / (CLUSTER_N - 1),
+  t: clusterT(i),
   sideX: (i % 2 ? -1 : 1) as 1 | -1,
   size: CLUSTER_SIZES[i % CLUSTER_SIZES.length],
   r: RECIPE_ORDER[i % RECIPE_ORDER.length],
   rot: CLUSTER_ROTS[i % CLUSTER_ROTS.length],
 }));
 
-// Много курчавых усиков по обе стороны
-const TENDRIL_ITEMS: Deco[] = Array.from({ length: 30 }, (_, i) => ({
+// Усики — строго в промежутках между гроздьями (по одному в каждый просвет
+// плюс по одному до первой и после последней). Раньше два независимых ряда
+// расходились шагами и местами накладывались друг на друга.
+const TENDRIL_TS = [
+  clusterT(0) - (clusterT(1) - clusterT(0)) / 2,
+  ...Array.from(
+    { length: CLUSTER_N - 1 },
+    (_, i) => (clusterT(i) + clusterT(i + 1)) / 2
+  ),
+  clusterT(CLUSTER_N - 1) + (clusterT(1) - clusterT(0)) / 2,
+];
+const TENDRIL_ITEMS: Deco[] = TENDRIL_TS.map((t, i) => ({
   kind: "tendril" as const,
-  t: 0.03 + i * 0.032,
+  t,
   sideX: (i % 2 ? 1 : -1) as 1 | -1,
   size: 1.2 + (i % 4) * 0.28,
   v: i % 2,
@@ -174,14 +180,20 @@ export function VineSpine() {
     const update = () => {
       raf = 0;
       const rect = main.getBoundingClientRect();
-      const scrollable = rect.height - window.innerHeight;
-      const p =
-        scrollable > 0 ? Math.min(1, Math.max(0, -rect.top / scrollable)) : 0;
+      const viewed = -rect.top; // сколько страницы уже пролистано
+      // Кончик побега идёт внутри экрана: на входе — примерно на середине
+      // первого экрана (лоза с виноградом видна сразу), дальше плавно
+      // смещается к нижней кромке и доходит ровно до низа страницы. Так рост
+      // всё время происходит в поле зрения, а не выше или ниже него.
+      const maxScroll = Math.max(1, rect.height - window.innerHeight);
+      const readP = Math.min(1, Math.max(0, viewed / maxScroll));
+      const p0 = Math.min(0.5, (window.innerHeight * 0.55) / rect.height);
+      const p = p0 + (1 - p0) * readP;
       cane.style.strokeDashoffset = String(len * (1 - p));
       for (const el of decos) {
         const t = +el.dataset.t!;
         const s = +el.dataset.s!;
-        const g = Math.min(1, Math.max(0, (p - t) / 0.04));
+        const g = Math.min(1, Math.max(0, (p - t) / 0.025));
         const ge = 1 - (1 - g) * (1 - g);
         el.setAttribute(
           "transform",
@@ -197,9 +209,10 @@ export function VineSpine() {
           "transform",
           `translate(${pt.x.toFixed(1)} ${pt.y.toFixed(1)})`
         );
-        tipRef.current.style.opacity = p > 0.01 && p < 0.99 ? "1" : "0";
+        tipRef.current.style.opacity = p > 0.01 && p < 0.995 ? "1" : "0";
       }
-      document.documentElement.style.setProperty("--ab-warm", p.toFixed(3));
+      // Тёплый свет идёт за фактическим чтением, а не за кончиком лозы
+      document.documentElement.style.setProperty("--ab-warm", readP.toFixed(3));
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);
@@ -284,13 +297,14 @@ export function VineSpine() {
                         r={cl.r}
                       />
                     ))}
-                    {cl.h.map(([cx, cy, r], j) => (
+                    {/* блик у каждой ягоды — свет падает с одной стороны */}
+                    {cl.b.map(([cx, cy], j) => (
                       <circle
                         key={`h${j}`}
                         className="ab-vine-hi"
-                        cx={cx}
-                        cy={cy}
-                        r={r}
+                        cx={cx - cl.r * 0.32}
+                        cy={cy - cl.r * 0.34}
+                        r={cl.r * 0.3}
                       />
                     ))}
                   </g>

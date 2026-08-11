@@ -3523,13 +3523,29 @@ a.info-row:hover .info-value {
 }
 
 /* Линия-хребет + свет за скроллом (см. LineSpine.tsx) */
+/* Путь света: прохладное утро вверху → золотой час к финалу. Тёмные секции
+   (манифест и вина) непрозрачны и сами прорезают этот градиент — после них
+   свет продолжается с того же места, где прервался. */
 .ab-warm-layer {
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: linear-gradient(180deg, transparent 0%, #e7d4ac 100%);
-  opacity: calc(var(--ab-warm, 0) * 0.5);
+  background: linear-gradient(
+    180deg,
+    #f1efe8 0%,
+    #f5edde 34%,
+    #f1e3c6 66%,
+    #e9cfa6 100%
+  );
+}
+/* Живой блик: к низу золото чуть набирает силу по мере чтения */
+.ab-warm-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 55% at 50% 100%, #e3bf88, transparent 72%);
+  opacity: calc(var(--ab-warm, 0) * 0.4);
 }
 .ab-spine {
   position: absolute;
@@ -3563,7 +3579,8 @@ a.info-row:hover .info-value {
   stroke-width: 1.2;
 }
 .ab-vine-leaf {
-  fill: var(--bg-soft);
+  /* тёплый кремовый — держит контраст и на утреннем, и на золотом фоне */
+  fill: #f5eddd;
   stroke: var(--wine);
   stroke-width: 1.2;
   stroke-linejoin: round;
@@ -3579,9 +3596,12 @@ a.info-row:hover .info-value {
   stroke: #340f18;
   stroke-width: 0.6;
 }
+/* Блик на каждой ягоде — единственное, что отделяет её от соседних:
+   обводка тут не годится, от светлого ободка гроздь перестаёт читаться
+   как виноград. */
 .ab-vine-hi {
-  fill: var(--accent);
-  opacity: 0.55;
+  fill: #e0b48f;
+  opacity: 0.75;
 }
 .ab-vine-tip circle {
   fill: var(--wine);
@@ -3596,7 +3616,97 @@ a.info-row:hover .info-value {
 
 /* ——— 02 · Название + розлив ——— */
 .ab-hero {
-  padding: clamp(128px, 20vh, 240px) 0 clamp(40px, 7vh, 88px);
+  padding: clamp(112px, 17vh, 210px) 0 clamp(22px, 3.6vh, 46px);
+}
+/* Имя слева, гравюрный пейзаж справа — правая половина была пустой */
+.ab-hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr);
+  align-items: center;
+  gap: clamp(20px, 3.5vw, 56px);
+}
+.ab-hill {
+  align-self: center;
+}
+.ab-hill-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* ряды намеренно шире кадра — обрезаем по рамке, иначе лезут на заголовок */
+  overflow: hidden;
+}
+/* Массив листвы ряда. Заливка — цвет фона в этом месте страницы: без неё
+   ближние ряды просвечивают дальние и виноградник превращается в кашу. */
+.ab-hill-foliage {
+  fill: #f1efe8;
+  stroke: var(--wine);
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+/* Пейзаж проявляется мягко, слоями: горизонт → ряды → солнце */
+.ab-hill-far,
+.ab-hill-rows,
+.ab-hill-sun {
+  opacity: 0;
+  animation: abHillIn 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+}
+.ab-hill-far {
+  animation-delay: 0.15s;
+}
+.ab-hill-rows {
+  animation-delay: 0.35s;
+}
+.ab-hill-sun {
+  animation-delay: 0.6s;
+}
+@keyframes abHillIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Лучи еле заметно дышат — солнце живое, но не мельтешит */
+.ab-hill-rays {
+  transform-box: view-box;
+  transform-origin: 322px 104px;
+  animation: abSunBreathe 14s ease-in-out infinite;
+}
+@keyframes abSunBreathe {
+  0%,
+  100% {
+    opacity: 0.32;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.06);
+  }
+}
+@media (max-width: 900px) {
+  .ab-hero-inner {
+    grid-template-columns: 1fr;
+  }
+  .ab-hill {
+    max-width: 420px;
+    margin-top: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ab-hill-far,
+  .ab-hill-rows,
+  .ab-hill-sun {
+    animation: none;
+    opacity: 1;
+  }
+  .ab-hill-rays {
+    animation: none;
+    opacity: 0.4;
+  }
 }
 .ab-hero-name {
   margin: 0;
@@ -3629,7 +3739,7 @@ a.info-row:hover .info-value {
   line-height: 0;
 }
 .ab-pour-svg {
-  width: clamp(92px, 12vw, 124px);
+  width: clamp(168px, 21vw, 248px);
   height: auto;
   overflow: visible;
 }
@@ -3654,90 +3764,142 @@ a.info-row:hover .info-value {
   border-radius: 58% 42% 55% 45% / 52% 58% 42% 48%;
 }
 
-/* Анимация розлива (чистый CSS/SVG, играет на загрузке) */
-.ab-ln {
+/* Гравюрная сцена розлива. Толщины линий разные: силуэт плотнее,
+   детали тоньше, разметка этикетки — волосяная. Торцы прямые, стыки острые —
+   рисунок резцом, а не фломастером. Движется жидкость, посуда почти нет. */
+.ab-ln,
+.ab-ln-fine,
+.ab-ln-hair {
   fill: none;
   stroke: var(--wine);
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
 }
-.ab-bottle-label {
-  stroke-width: 1.6;
-  opacity: 0.5;
+.ab-ln {
+  stroke-width: 1.3;
 }
-.ab-pour-wine {
+.ab-ln-fine {
+  stroke-width: 0.9;
+}
+.ab-ln-hair {
+  stroke-width: 0.7;
+  opacity: 0.4;
+}
+.ab-meniscus {
+  fill: none;
+  stroke: #3d1a21;
+  stroke-width: 0.9;
+}
+/* Исходный кадр: бутылка полна, бокал пуст, струи нет */
+.ab-pour-bottle {
+  transform-box: view-box;
+  transform-origin: 34px 100px;
+}
+.ab-bottle-wine {
   fill: var(--wine);
-  transform: translateY(30px);
-  animation: abFill 4.6s cubic-bezier(0.4, 0.1, 0.2, 1) forwards;
+  transform-box: view-box;
+  transform-origin: 34px 100px;
+}
+.ab-glass-wine {
+  fill: var(--wine);
+  transform: translateY(34px);
 }
 .ab-pour-stream {
   fill: none;
   stroke: var(--wine);
-  stroke-width: 2.2;
-  stroke-linecap: round;
+  stroke-width: 1.5;
+  stroke-linecap: butt;
+  stroke-dasharray: 17;
+  stroke-dashoffset: 17;
   opacity: 0;
-  animation: abStream 4.6s linear forwards;
 }
-.ab-pour-bottle {
-  transform-box: fill-box;
-  transform-origin: 50% 0%;
-  animation: abBottle 4.6s cubic-bezier(0.45, 0.05, 0.3, 1) forwards;
+[data-reveal].is-in .ab-pour-bottle {
+  animation: abBottle 6.2s cubic-bezier(0.33, 0, 0.2, 1) 0.3s both;
 }
+[data-reveal].is-in .ab-bottle-wine {
+  animation: abBottleWine 6.2s cubic-bezier(0.33, 0, 0.2, 1) 0.3s both;
+}
+[data-reveal].is-in .ab-glass-wine {
+  animation: abGlassFill 6.2s cubic-bezier(0.32, 0, 0.25, 1) 0.3s both;
+}
+[data-reveal].is-in .ab-pour-stream {
+  animation: abStream 6.2s linear 0.3s both;
+}
+/* Бутылка почти не переезжает — только кренится над бокалом */
 @keyframes abBottle {
-  0% {
-    transform: translate(-8px, 22px) rotate(0deg);
-    opacity: 0;
-  }
-  8% {
-    opacity: 1;
-  }
-  12% {
+  0%,
+  10% {
     transform: translate(0, 0) rotate(0deg);
   }
-  24% {
-    transform: translate(44px, -8px) rotate(0deg);
+  26%,
+  62% {
+    transform: translate(-5px, -17px) rotate(44deg);
   }
-  32%,
-  60% {
-    transform: translate(44px, -8px) rotate(-58deg);
-  }
-  72% {
-    transform: translate(44px, -8px) rotate(0deg);
-  }
-  86%,
+  80%,
   100% {
     transform: translate(0, 0) rotate(0deg);
+  }
+}
+@keyframes abBottleWine {
+  0%,
+  10% {
+    transform: rotate(0deg) translateY(0);
+  }
+  26%,
+  32% {
+    transform: rotate(-44deg) translateY(0);
+  }
+  58%,
+  62% {
+    transform: rotate(-44deg) translateY(16px);
+  }
+  80%,
+  100% {
+    transform: rotate(0deg) translateY(16px);
+  }
+}
+/* Уровень поднимается и мягко оседает — как настоящая жидкость */
+@keyframes abGlassFill {
+  0%,
+  30% {
+    transform: translateY(34px);
+  }
+  58% {
+    transform: translateY(8.5px);
+  }
+  66%,
+  100% {
+    transform: translateY(10px);
   }
 }
 @keyframes abStream {
   0%,
-  30% {
+  28% {
+    stroke-dashoffset: 17;
     opacity: 0;
   }
-  34%,
-  60% {
-    opacity: 0.9;
-  }
-  64%,
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes abFill {
-  0%,
   30% {
-    transform: translateY(30px);
+    opacity: 1;
+  }
+  35%,
+  56% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  61% {
+    stroke-dashoffset: -17;
+    opacity: 1;
   }
   62%,
   100% {
-    transform: translateY(2px);
+    stroke-dashoffset: -17;
+    opacity: 0;
   }
 }
 
 /* ——— 03 · Рассказ ——— */
 .ab-statement {
-  padding: clamp(44px, 7vw, 96px) 0;
+  padding: clamp(24px, 3.6vw, 52px) 0 clamp(16px, 2vw, 30px);
 }
 .ab-statement p {
   margin: 0;
@@ -3768,7 +3930,8 @@ a.info-row:hover .info-value {
 .ab-ph {
   position: absolute;
   inset: 0;
-  background: #d6d2c8;
+  /* тёплая заглушка — холодный серый выпадал из «золотого часа» */
+  background: #d9cdb6;
 }
 .section-dark .ab-ph {
   background: #2c2226;
@@ -3788,175 +3951,38 @@ a.info-row:hover .info-value {
   color: var(--ink-soft);
 }
 
-/* ——— Цифры-факты ——— */
-.ab-facts {
-  padding: clamp(30px, 5vw, 68px) 0;
-  border-top: 1px solid rgba(94, 42, 51, 0.14);
-  border-bottom: 1px solid rgba(94, 42, 51, 0.14);
-}
-.ab-facts-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: clamp(16px, 2vw, 28px);
-}
-.ab-fact {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.ab-fact-n {
-  position: relative;
-  display: inline-block;
-  font-family: var(--serif);
-  font-size: clamp(28px, 3.4vw, 48px);
-  line-height: 1;
-  /* «пустая» цифра — бледный винный контур, наливается вином снизу вверх */
-  color: rgba(94, 42, 51, 0.24);
-}
-.ab-fact-n::after {
-  content: attr(data-num);
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: var(--wine);
-  clip-path: inset(100% 0 0 0);
-  transition: clip-path 1.05s cubic-bezier(0.4, 0.1, 0.2, 1)
-    var(--fill-delay, 0ms);
-}
-.ab-facts-grid.is-in .ab-fact-n::after {
-  clip-path: inset(0 0 0 0);
-}
-@media (prefers-reduced-motion: reduce) {
-  .ab-fact-n::after {
-    transition: none;
-  }
-}
-.ab-fact-l {
-  font-family: var(--serif-italic);
-  font-style: italic;
-  font-size: 14px;
-  color: var(--ink-soft);
-}
-
 /* ——— 04 · Манифест + витрина вин ——— */
 .ab-manifesto {
   text-align: center;
 }
-.ab-wines {
-  padding-top: clamp(16px, 3vw, 36px);
+/* Базовая фраза манифеста имеет max-width: 13em и прижата влево — на «О нас»
+   она идёт по центру, поэтому колонку тоже центрируем, иначе центрированные
+   строки висят в левом краю секции. */
+.ab-manifesto .manifesto-phrase {
+  margin-inline: auto;
 }
-.ab-wines-head {
-  max-width: 740px;
-  margin: 0 auto clamp(32px, 5vw, 64px);
-  text-align: center;
+/* Нижний мост базового манифеста уводит цвет в #171114 — это оттенок ленты
+   вин на главной. Здесь под манифестом такое же полотно --dark, и мост
+   рисовал лишнюю тёмную ступеньку. */
+.ab-manifesto::after {
+  display: none;
 }
-.ab-wines-head h2 {
-  margin: 0.2em 0 0.3em;
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: clamp(30px, 4.6vw, 60px);
-  line-height: 1.04;
-  color: var(--bg);
-}
-.ab-quote {
-  font-family: var(--serif-italic);
-  font-style: italic;
-  color: var(--accent);
-}
-.ab-wines-sub {
-  margin: 0;
-  font-family: var(--serif-italic);
-  font-style: italic;
-  font-size: clamp(16px, 2vw, 22px);
-  color: rgba(244, 241, 234, 0.72);
-}
-.ab-wine-grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
-  gap: clamp(18px, 2.6vw, 36px);
-}
-.ab-wine {
+/* Переход к странице вин под манифестом. Кнопка — фирменная «уголёк»
+   (.btn-accent), на тёмном полотне она светлая по правилу 2 DESIGN.md;
+   инверсий заливки на ховере система не допускает, поэтому «креатив» здесь
+   в самой дуге-угольке, что ходит по кромке. */
+.ab-manifesto-foot {
+  margin-top: clamp(28px, 4.5vw, 56px);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  justify-content: center;
 }
-.ab-wine-bottle {
-  position: relative;
-  width: 100%;
-  height: clamp(210px, 26vw, 300px);
-  margin-bottom: 18px;
-}
-.ab-wine-bottle::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 54%;
-  transform: translate(-50%, -50%);
-  width: 82%;
-  height: 68%;
-  background: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--v) 60%, transparent),
-    transparent
-  );
-  opacity: 0.45;
-  z-index: 0;
-}
-.ab-wine-bottle img {
-  z-index: 1;
-}
-.ab-wine-medal {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 8px;
-  font-family: var(--serif-italic);
-  font-style: italic;
-  font-size: 12.5px;
-  line-height: 1.35;
-  color: #d7b25c;
-}
-.ab-wine-medal .dot {
-  flex: none;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: currentColor;
-}
-.ab-wine-body h3 {
-  margin: 0 0 5px;
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: clamp(20px, 2.4vw, 26px);
-  color: var(--bg);
-}
-.ab-wine-meta {
-  display: block;
-  margin-bottom: 9px;
-  font-size: 12px;
-  letter-spacing: 0.03em;
-  color: rgba(244, 241, 234, 0.6);
-}
-.ab-wine-meta i {
-  font-family: var(--serif-italic);
-  font-style: italic;
-  letter-spacing: 0;
-}
-.ab-wine-desc {
-  margin: 0 auto;
-  max-width: 30ch;
-  font-size: 14px;
-  line-height: 1.6;
-  color: rgba(244, 241, 234, 0.76);
+.ab-wines-cta {
+  letter-spacing: 0.16em;
 }
 
 /* ——— 05 · Приглашение ——— */
 .ab-invite {
-  padding: clamp(60px, 9vw, 120px) 0;
+  padding: clamp(24px, 3.1vw, 44px) 0 clamp(28px, 2.8vw, 40px);
 }
 .ab-invite-head {
   max-width: 760px;
@@ -3970,39 +3996,6 @@ a.info-row:hover .info-value {
   font-size: clamp(28px, 4vw, 52px);
   line-height: 1.08;
 }
-.ab-invite-cols {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(24px, 4vw, 56px);
-  max-width: 960px;
-  margin: 0 auto;
-}
-.ab-invite-col {
-  padding: clamp(24px, 3vw, 38px);
-  background: var(--bg-soft);
-  border-radius: 4px;
-}
-.ab-invite-kicker {
-  display: block;
-  margin-bottom: 12px;
-  font-family: var(--serif-italic);
-  font-style: italic;
-  font-size: 21px;
-  color: var(--wine);
-}
-.ab-invite-col p {
-  margin: 0 0 22px;
-  font-size: 16px;
-  line-height: 1.7;
-  color: var(--ink-soft);
-}
-.ab-invite-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  align-items: center;
-}
-
 @media (max-width: 900px) {
   .ab-row {
     grid-template-columns: 1fr;
@@ -4010,28 +4003,22 @@ a.info-row:hover .info-value {
   .ab-row.reverse .ab-row-media {
     order: 0;
   }
-  .ab-facts-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .ab-invite-cols {
-    grid-template-columns: 1fr;
-  }
-}
-@media (max-width: 560px) {
-  .ab-facts-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ab-pour-bottle {
-    animation: none;
-  }
-  .ab-pour-wine {
-    animation: none;
-    transform: translateY(2px);
-  }
+  .ab-pour-bottle,
+  .ab-bottle-wine,
+  .ab-glass-wine,
   .ab-pour-stream {
     animation: none;
+  }
+  /* Финальный кадр: бутылка на месте, бокал налит, струи нет */
+  .ab-bottle-wine {
+    transform: translateY(16px);
+  }
+  .ab-glass-wine {
+    transform: translateY(10px);
+  }
+  .ab-pour-stream {
     opacity: 0;
   }
 }
@@ -4044,64 +4031,41 @@ a.info-row:hover .info-value {
   line-height: 1.7;
   color: var(--ink-soft);
 }
-.ab-cta-wreath {
-  position: relative;
-  width: min(360px, 92vw);
-  aspect-ratio: 360 / 300;
-  margin: clamp(24px, 4vw, 44px) auto 0;
+/* ——— Финал: бокал наливается на глазах ——— */
+.ab-finale {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 4vw, 56px);
+  margin-top: clamp(26px, 4vw, 52px);
 }
-.ab-wreath-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  pointer-events: none;
+.ab-finale-body {
+  display: flex;
+  flex-direction: column;
+  /* кнопка договаривает фразу — стоит по центру под ней */
+  align-items: center;
+  text-align: center;
+  gap: clamp(14px, 2vw, 22px);
+}
+.ab-finale-line {
+  margin: 0;
+  max-width: 14ch;
+  font-family: var(--serif);
+  font-size: clamp(26px, 3.4vw, 44px);
+  line-height: 1.06;
+  color: var(--ink);
 }
 .ab-cta-btn {
-  position: absolute;
-  left: 50%;
-  top: 40%;
-  transform: translate(-50%, -50%);
   white-space: nowrap;
 }
-/* Кольцо прорисовывается при въезде секции в экран */
-.ab-wreath-ring {
-  stroke-dasharray: 760;
-  stroke-dashoffset: 760;
-}
-[data-reveal].is-in .ab-wreath-ring {
-  animation: wreathDraw 1.7s cubic-bezier(0.4, 0.1, 0.2, 1) forwards;
-}
-@keyframes wreathDraw {
-  to {
-    stroke-dashoffset: 0;
+@media (max-width: 600px) {
+  .ab-finale {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .ab-finale-body {
+    align-items: center;
+    text-align: center;
   }
 }
-/* Листья и грозди венка проявляются следом за кольцом */
-.ab-wreath-deco {
-  opacity: 0;
-  transition: opacity 0.8s ease 0.7s;
-}
-.ab-wreath-final {
-  transition-delay: 1.15s;
-}
-[data-reveal].is-in .ab-wreath-deco {
-  opacity: 1;
-}
-.ab-invite-b2b {
-  margin: clamp(28px, 4vw, 48px) auto 0;
-  text-align: center;
-  font-size: 15px;
-  color: var(--ink-soft);
-}
-@media (prefers-reduced-motion: reduce) {
-  .ab-wreath-ring {
-    animation: none;
-    stroke-dashoffset: 0;
-  }
-  .ab-wreath-deco {
-    transition: none;
-    opacity: 1;
-  }
-}
+
