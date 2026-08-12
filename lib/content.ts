@@ -1,4 +1,4 @@
-export type Locale = "ru" | "en" | "ro";
+﻿export type Locale = "ru" | "en" | "ro";
 
 export const locales: Locale[] = ["ru", "en", "ro"];
 
@@ -1286,169 +1286,320 @@ export const t = {
     backHome: { ru: "На главную", en: "Back home", ro: "Pagina principală" },
   },
   aboutPage: {
-    hero: {
-      eyebrow: {
-        ru: "О винодельне",
-        en: "About the winery",
-        ro: "Despre cramă",
+    /* ——— Действующая страница (components/AboutPage.tsx) ———
+       Вступление разбито на три части: винное «пятно» лежит только на
+       названии города. Манифест — с разметкой звёздочками (акцентные
+       слова), при переводе её сохранять. */
+    tagline: {
+      ru: "Семейная гагаузская винодельня",
+      en: "A Gagauz family winery",
+      ro: "Cramă de familie găgăuză",
+    },
+    statement: {
+      before: {
+        ru: "Наша винодельня находится на юге Молдовы, у въезда в солнечную ",
+        en: "Our winery stands in southern Moldova, at the entrance to sunny ",
+        ro: "Crama noastră se află în sudul Moldovei, la intrarea în însoritul ",
       },
-      // Единственная надпись в хиро-сцене (слева сверху)
-      growing: {
-        ru: "Растём с 2019 года",
-        en: "Growing since 2019",
-        ro: "Creștem din 2019",
+      ink: {
+        ru: "Чадыр-Лунгу",
+        en: "Ceadîr-Lunga",
+        ro: "Ceadîr-Lunga",
       },
-      title: {
-        ru: "На самой высокой точке холма над Чадыр-Лунгой",
-        en: "On the highest point of the hill above Ceadîr-Lunga",
-        ro: "Pe cel mai înalt punct al dealului de deasupra Ceadîr-Lunga",
-      },
-      subtitle: {
-        ru: "Гагаузская семейная винодельня · Чадыр-Лунга · Гагаузия",
-        en: "A Gagauz family winery · Ceadîr-Lunga · Gagauzia",
-        ro: "Cramă de familie găgăuză · Ceadîr-Lunga · Găgăuzia",
+      after: {
+        ru: ", на самой высокой точке холма.",
+        en: ", on the highest point of the hill.",
+        ro: ", pe cel mai înalt punct al dealului.",
       },
     },
-    // Фраза-манифест страницы. *звёздочки* — акцентные слова (курсив +
-    // пыльная роза при подсветке), см. components/HighlightOnScroll.tsx.
+    chapters: {
+      story: {
+        eyebrow: { ru: "История", en: "Story", ro: "Istorie" },
+        title: {
+          ru: "Зов предков",
+          en: "The call of our ancestors",
+          ro: "Chemarea strămoșilor",
+        },
+        media: {
+          ru: "Семья винодельни",
+          en: "The winery family",
+          ro: "Familia cramei",
+        },
+        p1: {
+          ru: "Мы — семейный проект, выросший из «зова предков». Chateau At Mount — детище гагаузской семьи, и её традиции слышны в характере и вкусе вина.",
+          en: "We are a family project that grew out of the call of our ancestors. Chateau At Mount is the work of a Gagauz family, and its traditions can be heard in the character and taste of the wine.",
+          ro: "Suntem un proiect de familie născut din chemarea strămoșilor. Chateau At Mount este opera unei familii găgăuze, iar tradițiile ei se aud în caracterul și gustul vinului.",
+        },
+        p2: {
+          ru: "Вино здесь делали задолго до нас — по-домашнему, для себя и для гостей. Основатель вырос на этом вкусе и, повзрослев, вернулся на землю родителей: из уважения к тем, кто был до него, и ради тех, кто будет после. Вкус из детства он повторил в своих винах — и рад разделить его с каждым гостем.",
+          en: "Wine was made here long before us — at home, for the family and for guests. The founder grew up on that taste and, once grown, returned to his parents' land: out of respect for those who came before him, and for the sake of those who will come after. He recreated the taste of his childhood in his own wines — and is glad to share it with every guest.",
+          ro: "Vinul se făcea aici cu mult înaintea noastră — în casă, pentru familie și pentru oaspeți. Fondatorul a crescut cu acest gust și, la maturitate, s-a întors pe pământul părinților: din respect pentru cei dinaintea lui și de dragul celor care vor veni după. Gustul copilăriei l-a repetat în vinurile sale — și se bucură să îl împartă cu fiecare oaspete.",
+        },
+      },
+      vineyards: {
+        eyebrow: { ru: "Виноградники", en: "Vineyards", ro: "Podgorii" },
+        title: {
+          ru: "От первой лозы до бутылки",
+          en: "From the first vine to the bottle",
+          ro: "De la prima viță la sticlă",
+        },
+        media: {
+          ru: "Виноградники винодельни",
+          en: "The winery vineyards",
+          ro: "Viile cramei",
+        },
+        p1: {
+          ru: "Первые лозы посадили в 2019-м, а уже в 2020-м собрали первый урожай. Сегодня семья развивает 8 га виноградников — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz и другие сорта. В будущем — расширение ещё на 3–5 га и выпуск до 150 000 бутылок в год.",
+          en: "The first vines were planted in 2019, and the first harvest came in 2020. Today the family tends 8 hectares of vineyards — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz and other varieties. Ahead lie another 3–5 hectares and an output of up to 150,000 bottles a year.",
+          ro: "Primele vițe au fost plantate în 2019, iar prima recoltă a venit în 2020. Astăzi familia îngrijește 8 ha de vie — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz și alte soiuri. Urmează încă 3–5 ha și o producție de până la 150 000 de sticle pe an.",
+        },
+      },
+      terroir: {
+        eyebrow: { ru: "Терруар", en: "Terroir", ro: "Teroir" },
+        title: {
+          ru: "Солнце, ветер и виноград",
+          en: "Sun, wind and vines",
+          ro: "Soare, vânt și viță de vie",
+        },
+        media: {
+          ru: "Терруар и климат",
+          en: "Terroir and climate",
+          ro: "Teroir și climă",
+        },
+        p1: {
+          ru: "Участок — в 100 метрах от шато: виноград доставляется максимально свежим, а контролируемая ферментация и минимум сульфитов сохраняют натуральный вкус и кислотность.",
+          en: "The plot lies 100 metres from the château: the grapes arrive as fresh as they can be, while controlled fermentation and minimal sulphites preserve the natural taste and acidity.",
+          ro: "Parcela se află la 100 de metri de cramă: strugurii ajung cât se poate de proaspeți, iar fermentația controlată și sulfiții minimi păstrează gustul natural și aciditatea.",
+        },
+        p2: {
+          ru: "Континентальный климат юга — жаркие сухие лета, много солнца и заметные перепады дневных и ночных температур к концу сезона — даёт ягоде и сахар, и живую кислотность.",
+          en: "The continental climate of the south — hot dry summers, abundant sun and marked day-to-night temperature swings towards the end of the season — gives the berry both sugar and lively acidity.",
+          ro: "Clima continentală a sudului — veri calde și uscate, soare din belșug și diferențe însemnate între temperaturile de zi și de noapte spre finalul sezonului — dă boabei și zahăr, și o aciditate vie.",
+        },
+      },
+      making: {
+        eyebrow: { ru: "Виноделие", en: "Winemaking", ro: "Vinificație" },
+        title: {
+          ru: "Три дуба, три характера",
+          en: "Three oaks, three characters",
+          ro: "Trei stejari, trei caractere",
+        },
+        media: {
+          ru: "Погреб и дубовые баррики",
+          en: "The cellar and oak barriques",
+          ro: "Pivnița și baricurile de stejar",
+        },
+        p1: {
+          ru: "За вином стоит простая философия: как можно меньше вмешательства. Виноград приходит свежим, ферментация под контролем, сульфитов — минимум.",
+          en: "A simple philosophy stands behind the wine: as little intervention as possible. The grapes arrive fresh, fermentation is controlled, sulphites are kept to a minimum.",
+          ro: "În spatele vinului stă o filosofie simplă: cât mai puțină intervenție. Strugurii ajung proaspeți, fermentația este controlată, sulfiții — la minimum.",
+        },
+        p2: {
+          ru: "Дальше выдержка: где-то в нержавеющей стали, чтобы сберечь фрукт, где-то в барриках из молдавского, карпатского и французского дуба, чтобы добавить глубины. Три дуба, три характера — бочку подбираем под каждое вино.",
+          en: "Then comes ageing: some wines in stainless steel to keep the fruit, others in barriques of Moldovan, Carpathian and French oak to add depth. Three oaks, three characters — we choose the barrel to suit each wine.",
+          ro: "Urmează maturarea: unele vinuri în inox, pentru a păstra fructul, altele în baricuri de stejar moldovenesc, carpatin și francez, pentru a adăuga profunzime. Trei stejari, trei caractere — alegem butoiul potrivit fiecărui vin.",
+        },
+      },
+    },
     manifesto: {
-      ru: "Дать каждому почувствовать *великую историю* нашего народа — в каждом *бокале*",
-      en: "To let everyone feel the *great history* of our people — in every *glass*",
-      ro: "Să dăruim fiecăruia *marea istorie* a poporului nostru — în fiecare *pahar*",
+      ru: "Мы работаем, чтобы дать вам ощутить *многолетнюю историю* и традиции нашего народа — в каждом *бокале* нашего вина",
+      en: "We work to let you feel the *long history* and traditions of our people — in every *glass* of our wine",
+      ro: "Lucrăm pentru a vă face să simțiți *istoria de veacuri* și tradițiile poporului nostru — în fiecare *pahar* de vin al nostru",
     },
-    name: {
+    winesCta: {
+      ru: "Наши вина",
+      en: "Our wines",
+      ro: "Vinurile noastre",
+    },
+    invite: {
       title: {
-        ru: "Имя и зов предков",
-        en: "The name and the call of our ancestors",
-        ro: "Numele și chemarea strămoșilor",
+        ru: "Рады вам в любой день",
+        en: "We're glad to see you any day",
+        ro: "Vă așteptăm cu drag în orice zi",
       },
-      text: {
-        ru: "«Chateau At Mount» соединяет идею шато с образом Mount — древнего кургана, возвышенности, что хранит тысячелетнюю историю этих мест. Наша винодельня — семейный проект гагаузской семьи, выросший из зова предков: желания вернуть земле то, что она веками дарила нашему народу.",
-        en: "“Chateau At Mount” brings together the idea of a château and the image of the Mount — an ancient burial mound, a rise that holds the millennia-old history of this land. Our winery is a family project born of the call of our ancestors — the wish to give back to the land what it has given our people for centuries.",
-        ro: "„Chateau At Mount” îmbină ideea de château cu imaginea de Mount — o movilă străveche, o înălțime care păstrează istoria milenară a acestor locuri. Crama noastră este proiectul unei familii găgăuze, născut din chemarea strămoșilor — dorința de a reda pământului ceea ce el a dăruit poporului nostru timp de secole.",
+      lead: {
+        ru: "Купите вино прямо у шато, приезжайте на дегустацию или отметьте у нас событие — с видом на Чадыр-Лунгу, за столом прямо у лоз.",
+        en: "Buy wine right at the château, come for a tasting or celebrate an occasion with us — overlooking Ceadîr-Lunga, at a table set among the vines.",
+        ro: "Cumpărați vin chiar la cramă, veniți la o degustare sau sărbătoriți un eveniment la noi — cu vedere spre Ceadîr-Lunga, la o masă chiar lângă vie.",
+      },
+      /* Фраза намеренно не закончена — её договаривает кнопка ниже
+         (about.cta). При переводе многоточие сохранять. */
+      finale: {
+        ru: "Бокал уже налит, осталось только…",
+        en: "The glass is poured — all that's left is to…",
+        ro: "Paharul e turnat, mai rămâne doar să…",
       },
     },
-    facts: [
-      {
-        num: { ru: "2019", en: "2019", ro: "2019" },
-        label: { ru: "первые лозы", en: "first vines", ro: "primele vițe" },
-      },
-      {
-        num: { ru: "2020", en: "2020", ro: "2020" },
-        label: {
-          ru: "первый урожай",
-          en: "first harvest",
-          ro: "prima recoltă",
+    /* ——— Прежняя версия страницы ———
+       Тексты дизайна, который заменён нынешним (хиро с фактами, блоки
+       place/process/sustain/varieties/awards). В разметке сейчас не
+       используются, но переводы выверены — оставлены до решения владельца:
+       вернуть эти блоки или удалить. */
+    legacy: {
+      hero: {
+        eyebrow: {
+          ru: "О винодельне",
+          en: "About the winery",
+          ro: "Despre cramă",
+        },
+        // Единственная надпись в хиро-сцене (слева сверху)
+        growing: {
+          ru: "Растём с 2019 года",
+          en: "Growing since 2019",
+          ro: "Creștem din 2019",
+        },
+        title: {
+          ru: "На самой высокой точке холма над Чадыр-Лунгой",
+          en: "On the highest point of the hill above Ceadîr-Lunga",
+          ro: "Pe cel mai înalt punct al dealului de deasupra Ceadîr-Lunga",
+        },
+        subtitle: {
+          ru: "Гагаузская семейная винодельня · Чадыр-Лунга · Гагаузия",
+          en: "A Gagauz family winery · Ceadîr-Lunga · Gagauzia",
+          ro: "Cramă de familie găgăuză · Ceadîr-Lunga · Găgăuzia",
         },
       },
-      {
-        num: { ru: "15 га", en: "15 ha", ro: "15 ha" },
-        label: {
-          ru: "своих виноградников",
-          en: "of our own vineyards",
-          ro: "de podgorii proprii",
+      // Фраза-манифест страницы. *звёздочки* — акцентные слова (курсив +
+      // пыльная роза при подсветке), см. components/HighlightOnScroll.tsx.
+      manifesto: {
+        ru: "Дать каждому почувствовать *великую историю* нашего народа — в каждом *бокале*",
+        en: "To let everyone feel the *great history* of our people — in every *glass*",
+        ro: "Să dăruim fiecăruia *marea istorie* a poporului nostru — în fiecare *pahar*",
+      },
+      name: {
+        title: {
+          ru: "Имя и зов предков",
+          en: "The name and the call of our ancestors",
+          ro: "Numele și chemarea strămoșilor",
+        },
+        text: {
+          ru: "«Chateau At Mount» соединяет идею шато с образом Mount — древнего кургана, возвышенности, что хранит тысячелетнюю историю этих мест. Наша винодельня — семейный проект гагаузской семьи, выросший из зова предков: желания вернуть земле то, что она веками дарила нашему народу.",
+          en: "“Chateau At Mount” brings together the idea of a château and the image of the Mount — an ancient burial mound, a rise that holds the millennia-old history of this land. Our winery is a family project born of the call of our ancestors — the wish to give back to the land what it has given our people for centuries.",
+          ro: "„Chateau At Mount” îmbină ideea de château cu imaginea de Mount — o movilă străveche, o înălțime care păstrează istoria milenară a acestor locuri. Crama noastră este proiectul unei familii găgăuze, născut din chemarea strămoșilor — dorința de a reda pământului ceea ce el a dăruit poporului nostru timp de secole.",
         },
       },
-      {
-        num: { ru: "7", en: "7", ro: "7" },
-        label: {
-          ru: "сортов винограда",
-          en: "grape varieties",
-          ro: "soiuri de struguri",
+      facts: [
+        {
+          num: { ru: "2019", en: "2019", ro: "2019" },
+          label: { ru: "первые лозы", en: "first vines", ro: "primele vițe" },
+        },
+        {
+          num: { ru: "2020", en: "2020", ro: "2020" },
+          label: {
+            ru: "первый урожай",
+            en: "first harvest",
+            ro: "prima recoltă",
+          },
+        },
+        {
+          num: { ru: "15 га", en: "15 ha", ro: "15 ha" },
+          label: {
+            ru: "своих виноградников",
+            en: "of our own vineyards",
+            ro: "de podgorii proprii",
+          },
+        },
+        {
+          num: { ru: "7", en: "7", ro: "7" },
+          label: {
+            ru: "сортов винограда",
+            en: "grape varieties",
+            ro: "soiuri de struguri",
+          },
+        },
+        {
+          num: { ru: "100 м", en: "100 m", ro: "100 m" },
+          label: {
+            ru: "от лоз до шато",
+            en: "from vines to the château",
+            ro: "de la viță la cramă",
+          },
+        },
+        {
+          num: { ru: "100 кВт", en: "100 kW", ro: "100 kW" },
+          label: {
+            ru: "солнечной энергии",
+            en: "of solar power",
+            ro: "de energie solară",
+          },
+        },
+        {
+          num: { ru: "150 000", en: "150,000", ro: "150 000" },
+          label: {
+            ru: "бутылок в год",
+            en: "bottles a year",
+            ro: "sticle pe an",
+          },
+        },
+      ],
+      place: {
+        title: {
+          ru: "Холм и солнце",
+          en: "The hill and the sun",
+          ro: "Dealul și soarele",
+        },
+        text: {
+          ru: "На юге Молдовы, у въезда в Чадыр-Лунгу — самый солнечный город страны — на самой высокой точке холма стоит наша винодельня. Отсюда открываются 15 гектаров виноградников; южный ветер приносит на склоны прохладу и оставляет в вине солоноватую ноту бриза рядом с черносливом и черешней.",
+          en: "In the south of Moldova, at the entrance to Ceadîr-Lunga — the sunniest town in the country — our winery stands on the highest point of the hill. From here, 15 hectares of vineyards open out; a southern wind brings coolness to the slopes and leaves in the wine a faintly saline note of the breeze, alongside prune and cherry.",
+          ro: "În sudul Moldovei, la intrarea în Ceadîr-Lunga — cel mai însorit oraș al țării — crama noastră se află pe cel mai înalt punct al dealului. De aici se deschid 15 hectare de podgorii; un vânt dinspre sud aduce răcoare pe pante și lasă în vin o notă ușor sărată de briză, alături de prune uscate și cireșe.",
         },
       },
-      {
-        num: { ru: "100 м", en: "100 m", ro: "100 m" },
-        label: {
-          ru: "от лоз до шато",
-          en: "from vines to the château",
-          ro: "de la viță la cramă",
+      process: {
+        title: {
+          ru: "От первой лозы до бутылки",
+          en: "From the first vine to the bottle",
+          ro: "De la prima viță la sticlă",
+        },
+        text: {
+          ru: "Первые лозы мы посадили в 2019-м, а уже в 2020-м собрали первый урожай. Сегодня семья развивает 15 гектаров — каберне-совиньон, мерло, фетяска-нягрэ, фетяска-албэ, виорика, шираз и другие сорта — и планирует расширение ещё на 3–5 га. Участок в 100 метрах от шато: виноград идёт в работу максимально свежим. Контролируемая ферментация и минимум сульфитов сохраняют натуральный вкус и живую кислотность. Камеры выдержки — нержавеющие ёмкости и баррики из молдавского, карпатского и французского дуба.",
+          en: "We planted the first vines in 2019 and gathered the first harvest in 2020. Today the family tends 15 hectares — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz and other varieties — with plans to expand by a further 3–5 hectares. The plot lies 100 metres from the château, so the grapes reach the cellar at their freshest. Controlled fermentation and minimal sulphites preserve their natural taste and lively acidity. Our ageing rooms hold stainless-steel tanks and barriques of Moldovan, Carpathian and French oak.",
+          ro: "Am plantat primele vițe în 2019, iar în 2020 am cules prima recoltă. Astăzi familia îngrijește 15 hectare — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz și alte soiuri — și plănuiește o extindere cu încă 3–5 hectare. Parcela se află la 100 de metri de cramă, așa că strugurii ajung la lucru cât mai proaspeți. Fermentația controlată și un minim de sulfiți le păstrează gustul natural și aciditatea vie. Camerele de maturare adăpostesc cisterne din inox și baricuri din stejar moldovenesc, carpatin și franțuzesc.",
         },
       },
-      {
-        num: { ru: "100 кВт", en: "100 kW", ro: "100 kW" },
-        label: {
-          ru: "солнечной энергии",
-          en: "of solar power",
-          ro: "de energie solară",
+      sustain: {
+        title: {
+          ru: "С заботой о природе",
+          en: "With care for nature",
+          ro: "Cu grijă pentru natură",
+        },
+        text: {
+          ru: "Мы бережём землю так же, как берегли её предки. Накопительное озеро питает орошение, а собственная солнечная электростанция на 100 кВт обеспечивает энергией всю винодельню — излишки мы отдаём в общую сеть.",
+          en: "We look after the land the way our ancestors did. A reservoir lake feeds the irrigation, while our own 100 kW solar power plant supplies the entire winery — and we feed the surplus back into the grid.",
+          ro: "Avem grijă de pământ așa cum aveau și strămoșii noștri. Un lac de acumulare alimentează irigația, iar propria centrală solară de 100 kW asigură energia întregii crame — iar surplusul îl dăm înapoi în rețea.",
         },
       },
-      {
-        num: { ru: "150 000", en: "150,000", ro: "150 000" },
-        label: {
-          ru: "бутылок в год",
-          en: "bottles a year",
-          ro: "sticle pe an",
+      varieties: {
+        title: { ru: "Наши сорта", en: "Our varieties", ro: "Soiurile noastre" },
+        text: {
+          ru: "Семь сортов, среди них редкая виорика, которую почти не встретишь за пределами Молдовы. У каждого — своя история и свой характер.",
+          en: "Seven varieties, among them the rare Viorica, hardly grown anywhere outside Moldova. Each has its own story and character.",
+          ro: "Șapte soiuri, printre care rarul Viorica, aproape necultivat în afara Moldovei. Fiecare cu povestea și caracterul său.",
         },
       },
-    ],
-    place: {
-      title: {
-        ru: "Холм и солнце",
-        en: "The hill and the sun",
-        ro: "Dealul și soarele",
+      awards: {
+        eyebrow: { ru: "Награды", en: "Awards", ro: "Premii" },
+        title: {
+          ru: "Вина, отмеченные международным жюри",
+          en: "Wines recognised by international juries",
+          ro: "Vinuri premiate de jurii internaționale",
+        },
       },
-      text: {
-        ru: "На юге Молдовы, у въезда в Чадыр-Лунгу — самый солнечный город страны — на самой высокой точке холма стоит наша винодельня. Отсюда открываются 15 гектаров виноградников; южный ветер приносит на склоны прохладу и оставляет в вине солоноватую ноту бриза рядом с черносливом и черешней.",
-        en: "In the south of Moldova, at the entrance to Ceadîr-Lunga — the sunniest town in the country — our winery stands on the highest point of the hill. From here, 15 hectares of vineyards open out; a southern wind brings coolness to the slopes and leaves in the wine a faintly saline note of the breeze, alongside prune and cherry.",
-        ro: "În sudul Moldovei, la intrarea în Ceadîr-Lunga — cel mai însorit oraș al țării — crama noastră se află pe cel mai înalt punct al dealului. De aici se deschid 15 hectare de podgorii; un vânt dinspre sud aduce răcoare pe pante și lasă în vin o notă ușor sărată de briză, alături de prune uscate și cireșe.",
-      },
-    },
-    process: {
-      title: {
-        ru: "От первой лозы до бутылки",
-        en: "From the first vine to the bottle",
-        ro: "De la prima viță la sticlă",
-      },
-      text: {
-        ru: "Первые лозы мы посадили в 2019-м, а уже в 2020-м собрали первый урожай. Сегодня семья развивает 15 гектаров — каберне-совиньон, мерло, фетяска-нягрэ, фетяска-албэ, виорика, шираз и другие сорта — и планирует расширение ещё на 3–5 га. Участок в 100 метрах от шато: виноград идёт в работу максимально свежим. Контролируемая ферментация и минимум сульфитов сохраняют натуральный вкус и живую кислотность. Камеры выдержки — нержавеющие ёмкости и баррики из молдавского, карпатского и французского дуба.",
-        en: "We planted the first vines in 2019 and gathered the first harvest in 2020. Today the family tends 15 hectares — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz and other varieties — with plans to expand by a further 3–5 hectares. The plot lies 100 metres from the château, so the grapes reach the cellar at their freshest. Controlled fermentation and minimal sulphites preserve their natural taste and lively acidity. Our ageing rooms hold stainless-steel tanks and barriques of Moldovan, Carpathian and French oak.",
-        ro: "Am plantat primele vițe în 2019, iar în 2020 am cules prima recoltă. Astăzi familia îngrijește 15 hectare — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz și alte soiuri — și plănuiește o extindere cu încă 3–5 hectare. Parcela se află la 100 de metri de cramă, așa că strugurii ajung la lucru cât mai proaspeți. Fermentația controlată și un minim de sulfiți le păstrează gustul natural și aciditatea vie. Camerele de maturare adăpostesc cisterne din inox și baricuri din stejar moldovenesc, carpatin și franțuzesc.",
-      },
-    },
-    sustain: {
-      title: {
-        ru: "С заботой о природе",
-        en: "With care for nature",
-        ro: "Cu grijă pentru natură",
-      },
-      text: {
-        ru: "Мы бережём землю так же, как берегли её предки. Накопительное озеро питает орошение, а собственная солнечная электростанция на 100 кВт обеспечивает энергией всю винодельню — излишки мы отдаём в общую сеть.",
-        en: "We look after the land the way our ancestors did. A reservoir lake feeds the irrigation, while our own 100 kW solar power plant supplies the entire winery — and we feed the surplus back into the grid.",
-        ro: "Avem grijă de pământ așa cum aveau și strămoșii noștri. Un lac de acumulare alimentează irigația, iar propria centrală solară de 100 kW asigură energia întregii crame — iar surplusul îl dăm înapoi în rețea.",
-      },
-    },
-    varieties: {
-      title: { ru: "Наши сорта", en: "Our varieties", ro: "Soiurile noastre" },
-      text: {
-        ru: "Семь сортов, среди них редкая виорика, которую почти не встретишь за пределами Молдовы. У каждого — своя история и свой характер.",
-        en: "Seven varieties, among them the rare Viorica, hardly grown anywhere outside Moldova. Each has its own story and character.",
-        ro: "Șapte soiuri, printre care rarul Viorica, aproape necultivat în afara Moldovei. Fiecare cu povestea și caracterul său.",
-      },
-    },
-    awards: {
-      eyebrow: { ru: "Награды", en: "Awards", ro: "Premii" },
-      title: {
-        ru: "Вина, отмеченные международным жюри",
-        en: "Wines recognised by international juries",
-        ro: "Vinuri premiate de jurii internaționale",
-      },
-    },
-    cta: {
-      title: {
-        ru: "Приезжайте на вершину холма",
-        en: "Come to the top of the hill",
-        ro: "Veniți pe vârful dealului",
-      },
-      visit: {
-        ru: "Приехать на дегустацию",
-        en: "Come for a tasting",
-        ro: "Veniți la o degustare",
-      },
-      wines: {
-        ru: "Выбрать вино",
-        en: "Choose a wine",
-        ro: "Alegeți un vin",
+      cta: {
+        title: {
+          ru: "Приезжайте на вершину холма",
+          en: "Come to the top of the hill",
+          ro: "Veniți pe vârful dealului",
+        },
+        visit: {
+          ru: "Приехать на дегустацию",
+          en: "Come for a tasting",
+          ro: "Veniți la o degustare",
+        },
+        wines: {
+          ru: "Выбрать вино",
+          en: "Choose a wine",
+          ro: "Alegeți un vin",
+        },
       },
     },
   },

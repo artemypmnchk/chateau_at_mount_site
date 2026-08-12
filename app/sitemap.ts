@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Приоритеты «голых» ru-путей; языковые версии наследуют.
   const paths: { path: string; priority: number }[] = [
     { path: "/", priority: 1 },
+    { path: "/about", priority: 0.9 },
     { path: "/visit", priority: 0.9 },
     { path: "/wines", priority: 0.9 },
     { path: "/contacts", priority: 0.8 },
