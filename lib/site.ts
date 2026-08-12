@@ -5,7 +5,9 @@ import { links } from "./content";
  * sitemap.ts, robots.ts и JSON-LD (WinerySchema).
  */
 export const site = {
-  url: "https://chateauatmount.com",
+  // Домен сменён 2026-07-18 (было chateauatmount.com — тот удалён у
+  // регистратора и в DNS не существует, 301 с него поставить нельзя).
+  url: "https://atmountwinery.com",
   name: "Chateau At Mount",
   shortName: "Chateau At Mount",
   description:
