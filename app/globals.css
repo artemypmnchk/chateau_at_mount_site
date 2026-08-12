@@ -3099,13 +3099,17 @@ a.info-row:hover .info-value {
 
 /* ============ About page ============ */
 /* Тёмный текст шапки на странице со светлым хиро */
+/* Переключатель языков размечен ссылками (см. .lang a выше), а не кнопками:
+   селекторы на button тут ни к чему не приводили, и на светлом хиро языки
+   оставались белыми по известняку — видно их становилось только после
+   прокрутки, когда подхватывал .header.scrolled. */
 .header.on-light .brand-name,
 .header.on-light .nav-links a,
-.header.on-light .lang button.active,
+.header.on-light .lang a.active,
 .header.on-light .burger {
   color: var(--ink);
 }
-.header.on-light .lang button {
+.header.on-light .lang a {
   color: var(--ink-soft);
 }
 
