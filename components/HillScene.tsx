@@ -1,275 +1,284 @@
 /**
- * Гравюрный пейзаж в первом экране «О нас» — по композиции классической
- * виноградниковой сцены: дорога уходит к горизонту, по обе стороны ряды лозы,
- * на холмах кипарисы, в небе облака и небольшое солнце. Передний план
- * обрамляют шпалерные столбы с крупными листьями, усиками и гроздьями —
- * именно они «объясняют» зрителю, что это виноградник.
+ * Пейзаж в первом экране «О нас»: взгляд издалека и сбоку.
+ * Земля, на которой всё стоит, — одна прямая линия; за ней несколько дальних
+ * гряд, они дают глубину. Слева на земле ряд виноградника в профиль, справа —
+ * наше шато, над ними небольшое солнце.
  *
- * Манера прежняя: волосяные линии трёх толщин, прямые торцы. Единственная
- * заливка — у массивов листвы, и та цветом фона: она нужна, чтобы ближний ряд
- * перекрывал дальний. Ряды строятся к точке схода и обрезаются по краю дороги
- * (clipPath), чтобы не пересекать её. Декоративно (aria-hidden).
+ * Здание срисовано с фотографий (`hero-building.jpg`): длинный низкий объём под
+ * пологой двускатной кровлей с широким свесом, ритм высоких окон с импостом
+ * посередине, справа высокий остеклённый угол под плоской плитой, а на плите
+ * открытый бельведер: четыре колонны держат пологую пирамиду кровли. Пол
+ * бельведера лежит на уровне конька основной кровли — как в оригинале.
+ *
+ * Геометрия строго фронтальная: карниз и конёк горизонтальны, скаты и вальма
+ * симметричны. Перспективные завалы тут читаются не как ракурс, а как кривизна.
+ * Внизу — цоколь: без него здание прорастает из земли, а не стоит на ней.
+ *
+ * Манера прежняя: волосяные линии трёх толщин, прямые торцы. Заливка только
+ * цветом фона и только там, где ближний объём должен перекрыть дальний.
+ * Декоративно (aria-hidden).
  */
 
-const W = 420;
-const H = 400;
-const HZ = 150; // горизонт
-const VP = { x: 211, y: 146 }; // точка схода рядов
+const W = 440;
+const H = 304;
+const GY = 248; // земля — на ней стоит и ряд, и здание
 
-// --- формы винограда (те же, что у лозы-хребта) ---
-const LEAF_D =
-  "M0 0 L3 -3 L2 -6 L7 -7 L4 -9 L3 -11 L9 -13 L6 -15 L5 -17 L8 -20 L4 -21 L3 -23 L0 -26 L-3 -23 L-4 -21 L-8 -20 L-5 -17 L-6 -15 L-9 -13 L-3 -11 L-4 -9 L-7 -7 L-2 -6 L-3 -3 Z";
-const LEAF_VEINS =
-  "M0 -1 L0 -23 M0 -6 L8 -11 M0 -6 L-8 -11 M0 -13 L7 -18 M0 -13 L-7 -18";
-const TENDRIL_D = "M0 0 C6 -2 10 2 9 6 C8 10 2 10 2 6 C2 3 7 3 7 6";
-const BERRIES: [number, number][] = [
-  [-4, 0], [1, 0], [-6.5, 4.4], [-1.5, 4.4], [3.5, 4.4],
-  [-4, 8.8], [1, 8.8], [-6.5, 13.2], [-1.5, 13.2], [-4, 17.4],
-];
+// ——————————————————————————————————————————————————————————————
+// Здание. Локальные координаты: земля — y = 0, вверх — минус.
+// ——————————————————————————————————————————————————————————————
 
-// --- дорога ---
-const ROAD_L = "M206 151 C195 198 168 282 124 400";
-const ROAD_R = "M216 151 C228 196 254 284 300 400";
+const BASE = -3.5; // верх цоколя: с него начинаются стены
+const WALL_TOP = -32;
 
-// --- ряды лозы: сходятся к точке схода, обрезаются по полям ---
-const ROW_X = [-300, -215, -135, -60, 10, 78, 340, 410, 484, 562, 646, 736];
-const rowEndY = 158;
-/**
- * Ряд лозы как сплошной массив листвы: низ идёт по линии ряда, верх —
- * фестонами (лоб за лобом), которые мельчают к горизонту. Заливка цветом
- * фона нужна, чтобы ближний ряд перекрывал дальний, — без неё листва
- * просвечивает насквозь и превращается в кашу.
- */
-const FOLIAGE_N = 18;
-function foliage(x0: number) {
-  const t1 = (H - rowEndY) / (H - VP.y);
-  const x1 = x0 + (VP.x - x0) * t1;
-  const pts: { x: number; y: number; h: number }[] = [];
-  for (let i = 0; i <= FOLIAGE_N; i++) {
-    const t = i / FOLIAGE_N;
-    const x = x0 + (x1 - x0) * t;
-    const y = H + (rowEndY - H) * t;
-    const h = 34 * Math.pow(1 - t, 1.45) + 3.5;
-    pts.push({ x, y: y - h, h });
-  }
-  // низ — по земле, затем назад по кромке листвы фестонами
-  let d = `M${x0.toFixed(1)} ${H} L${x1.toFixed(1)} ${rowEndY}`;
-  d += ` L${pts[FOLIAGE_N].x.toFixed(1)} ${pts[FOLIAGE_N].y.toFixed(1)}`;
-  for (let i = FOLIAGE_N - 1; i >= 0; i--) {
-    const cur = pts[i];
-    const prev = pts[i + 1];
-    const mx = (cur.x + prev.x) / 2;
-    const my = (cur.y + prev.y) / 2;
-    const bulge = cur.h * 0.5 + 2;
-    d += ` Q${mx.toFixed(1)} ${(my - bulge).toFixed(1)} ${cur.x.toFixed(1)} ${cur.y.toFixed(1)}`;
-  }
-  return d + " Z";
-}
-
-/** Лёгкая фактура внутри ближней части ряда — намёк на листья */
-function foliageTexture(x0: number) {
-  const t1 = (H - rowEndY) / (H - VP.y);
-  const x1 = x0 + (VP.x - x0) * t1;
-  const out: string[] = [];
-  for (const t of [0.06, 0.16, 0.26, 0.37, 0.48]) {
-    const x = x0 + (x1 - x0) * t;
-    const y = H + (rowEndY - H) * t;
-    const h = 34 * Math.pow(1 - t, 1.45) + 3.5;
-    out.push(
-      `M${x.toFixed(1)} ${(y - h * 0.25).toFixed(1)} C${(x - h * 0.3).toFixed(1)} ${(y - h * 0.5).toFixed(1)} ${(x - h * 0.34).toFixed(1)} ${(y - h * 0.7).toFixed(1)} ${(x - h * 0.16).toFixed(1)} ${(y - h * 0.86).toFixed(1)}`
-    );
-    out.push(
-      `M${(x + h * 0.12).toFixed(1)} ${(y - h * 0.2).toFixed(1)} C${(x + h * 0.36).toFixed(1)} ${(y - h * 0.45).toFixed(1)} ${(x + h * 0.4).toFixed(1)} ${(y - h * 0.66).toFixed(1)} ${(x + h * 0.22).toFixed(1)} ${(y - h * 0.82).toFixed(1)}`
-    );
-  }
-  return out.join(" ");
-}
-
-// --- кипарис ---
-function cypress(x: number, base: number, h: number) {
-  const w = h * 0.17;
-  return `M${x} ${base} L${x} ${base - 4} M${x} ${base - 2} C${x - w} ${
-    base - h * 0.42
-  } ${(x - w * 0.72).toFixed(1)} ${base - h * 0.8} ${x} ${base - h} C${(
-    x + w * 0.72
-  ).toFixed(1)} ${base - h * 0.8} ${x + w} ${base - h * 0.42} ${x} ${base - 2} Z`;
-}
-
-// --- облако ---
-function cloud(x: number, y: number, s: number) {
-  return `M${x - 26 * s} ${y} C${x - 32 * s} ${y - 8 * s} ${x - 24 * s} ${
-    y - 15 * s
-  } ${x - 15 * s} ${y - 13 * s} C${x - 12 * s} ${y - 23 * s} ${x + 4 * s} ${
-    y - 24 * s
-  } ${x + 8 * s} ${y - 14 * s} C${x + 19 * s} ${y - 18 * s} ${x + 29 * s} ${
-    y - 9 * s
-  } ${x + 24 * s} ${y} Z`;
-}
-
-// --- трава пучком ---
-function grass(x: number, y: number) {
-  return `M${x - 7} ${y} C${x - 6} ${y - 8} ${x - 5} ${y - 11} ${x - 7} ${
-    y - 15
-  } M${x - 2} ${y} C${x - 1} ${y - 9} ${x} ${y - 13} ${x - 1} ${y - 18} M${
-    x + 3
-  } ${y} C${x + 4} ${y - 8} ${x + 6} ${y - 11} ${x + 8} ${y - 15}`;
-}
-
-const SUN = { x: 348, y: 46, r: 15 };
-const RAYS = Array.from({ length: 8 }, (_, i) => {
-  const a = (i * Math.PI * 2) / 8 - Math.PI / 2;
-  const r0 = SUN.r + 6;
-  const r1 = SUN.r + 12;
-  return `M${(SUN.x + Math.cos(a) * r0).toFixed(1)} ${(SUN.y + Math.sin(a) * r0).toFixed(1)} L${(SUN.x + Math.cos(a) * r1).toFixed(1)} ${(SUN.y + Math.sin(a) * r1).toFixed(1)}`;
-}).join(" ");
-
-/** Шпалерный столб с лозой — обрамляет кадр слева или справа */
-function Post({ side }: { side: 1 | -1 }) {
-  const x = side > 0 ? 38 : 382;
-  const dir = side; // куда уходит рукав
+/** Окно с импостом: высокий прямоугольник, перемычка посередине */
+function Win({ x, w }: { x: number; w: number }) {
+  const top = -28;
+  const h = 22.5;
   return (
     <g>
-      <path
-        className="ab-ln"
-        d={`M${x - 8} ${H} L${x - 8} 236 C${x - 8} 232 ${x + 8} 232 ${x + 8} 236 L${
-          x + 8
-        } ${H}`}
-      />
-      <path className="ab-ln-hair" d={`M${x - 8} 252 L${x + 8} 252`} />
-      {/* проволока внутрь кадра */}
-      <path
-        className="ab-ln-hair"
-        d={`M${x + 8 * dir} 268 L${x + 96 * dir} 276 M${x + 8 * dir} 316 L${
-          x + 92 * dir
-        } 322`}
-      />
-      {/* рукав лозы вдоль проволоки */}
-      <path
-        className="ab-ln-fine"
-        d={`M${x + 6 * dir} ${H - 6} C${x + 14 * dir} 340 ${x + 10 * dir} 300 ${
-          x + 26 * dir
-        } 274 C${x + 40 * dir} 252 ${x + 62 * dir} 262 ${x + 78 * dir} 272`}
-      />
-      {/* листья */}
-      <g transform={`translate(${x + 30 * dir} 258) rotate(${-18 * dir}) scale(1.75)`}>
-        <path className="ab-ln-fine" d={LEAF_D} />
-        <path className="ab-ln-hair" d={LEAF_VEINS} />
-      </g>
-      <g transform={`translate(${x + 72 * dir} 296) rotate(${26 * dir}) scale(1.5)`}>
-        <path className="ab-ln-fine" d={LEAF_D} />
-        <path className="ab-ln-hair" d={LEAF_VEINS} />
-      </g>
-      <g transform={`translate(${x + 4 * dir} 312) rotate(${-40 * dir}) scale(1.55)`}>
-        <path className="ab-ln-fine" d={LEAF_D} />
-        <path className="ab-ln-hair" d={LEAF_VEINS} />
-      </g>
-      {/* усик */}
-      <g transform={`translate(${x + 52 * dir} 268) scale(${1.25 * dir} 1.25)`}>
-        <path className="ab-ln-hair" d={TENDRIL_D} />
-      </g>
-      {/* гроздь */}
-      <g transform={`translate(${x + 44 * dir} 306) scale(1.35)`}>
-        <path className="ab-ln-hair" d="M0 -7 L0.5 -1" />
-        {BERRIES.map(([bx, by], i) => (
-          <circle key={i} className="ab-ln-fine" cx={bx} cy={by} r="3" />
-        ))}
-      </g>
-      <path className="ab-ln-hair" d={grass(x, H)} />
+      <rect className="ab-hill-glass" x={x} y={top} width={w} height={h} />
+      <rect className="ab-ln-fine" x={x} y={top} width={w} height={h} />
+      <path className="ab-ln-fine" d={`M${x} -16.8 L${x + w} -16.8`} />
     </g>
   );
 }
+
+/**
+ * Тонированная плоскость кровли: непрозрачная подложка, поверх — тон с
+ * обводкой. Одним слоем нельзя — сквозь полупрозрачную заливку просвечивает
+ * то, что под ней, и кровля двоится.
+ */
+function Roof({ d }: { d: string }) {
+  return (
+    <>
+      <path className="ab-hill-mask" d={d} />
+      <path className="ab-hill-solid is-roof" d={d} />
+    </>
+  );
+}
+
+/** Угловая колонна бельведера */
+function Col({ x }: { x: number }) {
+  return <rect className="ab-hill-solid" x={x - 1.5} y={-58} width={3} height={10.5} />;
+}
+
+function Winery() {
+  return (
+    <g className="ab-hill-bld">
+      {/* — цоколь: здание стоит на земле, а не растёт из неё — */}
+      <path className="ab-hill-solid" d={`M3 0 L3 ${BASE} L143 ${BASE} L143 0 Z`} />
+
+      {/* — основной объём — */}
+      <path
+        className="ab-hill-solid"
+        d={`M6 ${BASE} L6 ${WALL_TOP} L104 ${WALL_TOP} L104 ${BASE} Z`}
+      />
+      {/* торец — два окна */}
+      <Win x={13} w={11} />
+      <Win x={27} w={11} />
+      {/* угол между торцом и длинным фасадом */}
+      <path className="ab-ln-fine" d={`M44 ${WALL_TOP} L44 ${BASE}`} />
+      {/* длинный фасад — три окна */}
+      <Win x={53.25} w={10.5} />
+      <Win x={68.75} w={10.5} />
+      <Win x={84.25} w={10.5} />
+      {/* водосточные трубы */}
+      <path className="ab-ln-hair" d={`M45.6 ${WALL_TOP} L45.6 ${BASE} M98 ${WALL_TOP} L98 ${BASE}`} />
+
+      {/* — кровля: щипец слева, горизонтальный конёк, справа вальма — */}
+      <Roof d="M2 -32 L23 -46 L86 -46 L110 -32 Z" />
+      {/* правый скат щипца отделяет торцовую плоскость от длинной */}
+      <path className="ab-ln-fine" d="M23 -46 L47 -32" />
+      <path className="ab-ln-hair" d="M2 -30.6 L110 -30.6" />
+
+      {/* — высокий остеклённый угол; переплёт по центру грани — */}
+      <path className="ab-hill-solid" d={`M104 ${BASE} L104 -44.5 L140 -44.5 L140 ${BASE} Z`} />
+      <rect className="ab-hill-glass" x={111} y={-41.5} width={22} height={35.5} />
+      <rect className="ab-ln-fine" x={111} y={-41.5} width={22} height={35.5} />
+      {/* Переплёт как в оригинале: три неравные колонки — узкая, широкая, узкая;
+          снизу одна большая створка в два ряда высотой, над ней глухой тёмный
+          поясок, а выше два обычных ряда. Стойки в поясок не заходят — он
+          монолитный, иначе полоса читается кладкой. */}
+      <path
+        className="ab-ln-fine"
+        d="M117.2 -41.5 L117.2 -23.1 M127.8 -41.5 L127.8 -23.1
+           M117.2 -20.7 L117.2 -6 M127.8 -20.7 L127.8 -6
+           M111 -31.7 L133 -31.7"
+      />
+      <rect className="ab-hill-band" x={111} y={-23.1} width={22} height={2.4} />
+
+      {/* — плита: пол бельведера на уровне конька основной кровли — */}
+      <path className="ab-hill-solid" d="M100 -47.5 L144 -47.5 L144 -44.5 L100 -44.5 Z" />
+
+      {/* — бельведер: три колонны, пустой балочный пояс, пологая пирамида.
+           Пояс без насечек: с ними он читался кирпичной кладкой. — */}
+      <Col x={109} />
+      <Col x={123.25} />
+      <Col x={137.5} />
+      <path className="ab-hill-solid" d="M105 -61.5 L141 -61.5 L141 -58 L105 -58 Z" />
+      <Roof d="M97 -62 L113 -69 L133 -69 L149 -62 Z" />
+    </g>
+  );
+}
+
+// ——————————————————————————————————————————————————————————————
+// Ряд виноградника — в профиль: шпалерные столбы, сплошной полог листвы
+// и грозди под ним.
+// ——————————————————————————————————————————————————————————————
+
+const ROW_L = 8;
+const ROW_R = 196;
+const POSTS = [8, 45.6, 83.2, 120.8, 158.4, 196];
+const CANOPY_BOTTOM = -8.4;
+const CANOPY_TOP = -20.5;
+const LOBES = 22;
+const STEP = (ROW_R - ROW_L) / LOBES;
+
+/** Разброс кромок — детерминированный, чтобы полог не был причёсан гребёнкой */
+function jit(i: number, seed: number) {
+  if (i === 0 || i === LOBES) return 0;
+  const s = Math.sin((i + 1) * seed) * 10000;
+  return (s - Math.floor(s)) * 2 - 1;
+}
+/** К концам ряда полог оседает — иначе он обрывается как отпиленный брус */
+const taper = (i: number) => {
+  const e = Math.min(i, LOBES - i);
+  return e >= 3 ? 0 : e === 2 ? 1.2 : e === 1 ? 2.6 : 4.4;
+};
+
+const topY = (i: number) => CANOPY_TOP + jit(i, 12.9898) * 2.3 + taper(i);
+const botY = (i: number) => CANOPY_BOTTOM + jit(i, 78.233) * 1.3 - taper(i) * 0.35;
+
+/**
+ * Полог ряда — сплошная масса листвы с рваными кромками. На этом масштабе
+ * отдельный лист не читается, а масса читается сразу — так ряд лозы и
+ * выглядит издалека.
+ */
+function canopy() {
+  let d = `M${ROW_L} ${botY(0).toFixed(1)}`;
+  for (let i = 1; i <= LOBES; i++) {
+    const x = ROW_L + STEP * i;
+    d += ` Q${(x - STEP / 2).toFixed(1)} ${(botY(i - 1) + 1.8).toFixed(1)} ${x.toFixed(
+      1
+    )} ${botY(i).toFixed(1)}`;
+  }
+  d += ` L${ROW_R} ${topY(LOBES).toFixed(1)}`;
+  for (let i = LOBES - 1; i >= 0; i--) {
+    const x = ROW_L + STEP * i;
+    d += ` Q${(x + STEP / 2).toFixed(1)} ${(topY(i) - 2.9).toFixed(1)} ${x.toFixed(
+      1
+    )} ${topY(i).toFixed(1)}`;
+  }
+  return `${d} Z`;
+}
+
+/** Псевдослучайное в [-1, 1]: грозди должны быть похожими, но не одинаковыми */
+function rnd(i: number, seed: number) {
+  const s = Math.sin(i * 12.9898 + seed * 78.233) * 43758.5453;
+  return (s - Math.floor(s)) * 2 - 1;
+}
+
+/**
+ * Гроздь. Настоящая кисть — не треугольник: самый широкий ряд не верхний, а
+ * второй (это «плечи»), ягоды лежат смещёнными рядами и перекрывают друг друга,
+ * книзу кисть сходит на одну ягоду, а бок слегка неровный. Ряды идут сверху
+ * вниз, ближние ложатся поверх дальних — от этого кисть читается объёмной.
+ */
+const GRAPE_ROWS = [3, 4, 4, 3, 3, 2, 1];
+function grapes(seed: number): [number, number, number][] {
+  const out: [number, number, number][] = [];
+  GRAPE_ROWS.forEach((n, i) => {
+    const shift = rnd(i + 1, seed) * 0.3;
+    for (let k = 0; k < n; k++) {
+      out.push([
+        (k - (n - 1) / 2) * 1.1 + shift,
+        i * 1,
+        0.62 + rnd(i * 7 + k + 3, seed) * 0.07,
+      ]);
+    }
+  });
+  return out;
+}
+
+/** Грозди — по три на пролёт между столбами: шаг ровный, и ни одна не садится
+    на опору */
+const SPAN = (POSTS[1] - POSTS[0]) / 3;
+const CLUSTERS = Array.from(
+  { length: (POSTS.length - 1) * 3 },
+  (_, i) => POSTS[0] + SPAN / 2 + i * SPAN
+);
+
+function VineRow() {
+  return (
+    <g className="ab-hill-rows">
+      {/* шпалерные столбы — держат проволоку, макушки торчат над листвой */}
+      <path className="ab-ln-fine" d={POSTS.map((x) => `M${x} 0 L${x} -25`).join(" ")} />
+      <path className="ab-hill-mask" d={canopy()} />
+      <path className="ab-hill-solid is-leaf" d={canopy()} />
+      {CLUSTERS.map((x, i) => (
+        <g key={i} transform={`translate(${x.toFixed(1)} -9.2)`}>
+          <path className="ab-ln-hair" d="M0 -1.6 L0.2 0" />
+          {grapes(i + 1).map(([bx, by, r], k) => (
+            <circle
+              key={k}
+              className="ab-hill-berry"
+              cx={bx.toFixed(2)}
+              cy={by}
+              r={r.toFixed(2)}
+            />
+          ))}
+        </g>
+      ))}
+    </g>
+  );
+}
+
+// ——————————————————————————————————————————————————————————————
+// Солнце
+// ——————————————————————————————————————————————————————————————
+
+const SUN = { x: 318, y: 90, r: 14 };
+const RAYS = Array.from({ length: 8 }, (_, i) => {
+  const a = (i * Math.PI * 2) / 8 - Math.PI / 2;
+  const r0 = SUN.r + 5;
+  const r1 = SUN.r + 13;
+  return `M${(SUN.x + Math.cos(a) * r0).toFixed(1)} ${(SUN.y + Math.sin(a) * r0).toFixed(
+    1
+  )} L${(SUN.x + Math.cos(a) * r1).toFixed(1)} ${(SUN.y + Math.sin(a) * r1).toFixed(1)}`;
+}).join(" ");
 
 export function HillScene() {
   return (
     <div className="ab-hill" aria-hidden>
       <svg viewBox={`0 0 ${W} ${H}`} className="ab-hill-svg">
-        <defs>
-          <clipPath id="ab-field-l">
-            <path d={`M0 ${HZ} L206 ${HZ} ${ROAD_L.slice(1)} L0 ${H} Z`} />
-          </clipPath>
-          <clipPath id="ab-field-r">
-            <path d={`M216 ${HZ} L${W} ${HZ} L${W} ${H} L300 ${H} C254 284 228 196 216 151 Z`} />
-          </clipPath>
-        </defs>
-
-        {/* Небо */}
+        {/* Солнце */}
         <g className="ab-hill-sun">
           <circle className="ab-ln-fine" cx={SUN.x} cy={SUN.y} r={SUN.r} />
           <path className="ab-ln-hair ab-hill-rays" d={RAYS} />
         </g>
-        <g className="ab-hill-sky">
-          <path className="ab-ln-fine" d={cloud(96, 56, 1.15)} />
-          <path className="ab-ln-fine" d={cloud(238, 40, 0.85)} />
-          <path className="ab-ln-hair" d={cloud(330, 104, 0.7)} />
-        </g>
 
-        {/* Дальние холмы и кипарисы */}
+        {/* Дальние гряды: чем дальше, тем выше линия и тем мельче её волна */}
         <g className="ab-hill-far">
           <path
             className="ab-ln-hair"
-            d="M0 128 C58 112 116 128 168 120 C226 111 288 126 350 116 C384 111 404 116 420 113"
+            d="M0 200 C60 192 130 204 210 196 C290 188 360 201 440 194"
           />
           <path
             className="ab-ln-fine"
-            d={`M0 ${HZ - 8} C70 ${HZ - 20} 140 ${HZ - 4} 214 ${HZ - 12} C286 ${
-              HZ - 20
-            } 356 ${HZ - 4} 420 ${HZ - 12}`}
+            d="M0 224 C50 215 120 229 200 220 C280 211 360 226 440 218"
           />
-          <path className="ab-ln-fine" d={cypress(58, HZ - 6, 62)} />
-          <path className="ab-ln-fine" d={cypress(80, HZ - 4, 74)} />
-          <path className="ab-ln-fine" d={cypress(101, HZ - 5, 56)} />
-          <path className="ab-ln-fine" d={cypress(318, HZ - 5, 58)} />
-          <path className="ab-ln-fine" d={cypress(339, HZ - 4, 72)} />
-          <path className="ab-ln-fine" d={cypress(360, HZ - 6, 52)} />
+          {/* земля — прямая: на неё опирается цоколь */}
+          <path className="ab-ln" d={`M0 ${GY} L${W} ${GY}`} />
         </g>
 
-        {/* Линия горизонта */}
-        <path
-          className="ab-ln"
-          d={`M0 ${HZ} C82 ${HZ - 4} 168 ${HZ + 3} 244 ${HZ - 1} C320 ${
-            HZ - 5
-          } 376 ${HZ + 2} 420 ${HZ - 2}`}
-        />
-
-        {/* Виноградник — по обе стороны дороги */}
-        {/* Ряды рисуются от дальних к ближним: заливка листвы цветом фона
-            даёт перекрытие, поэтому порядок важен */}
-        <g className="ab-hill-rows">
-          <g clipPath="url(#ab-field-l)">
-            {ROW_X.slice(0, 6).map((x0, i) => (
-              <g key={i}>
-                <path className="ab-hill-foliage" d={foliage(x0)} />
-                <path className="ab-ln-hair" d={foliageTexture(x0)} />
-              </g>
-            ))}
-          </g>
-          <g clipPath="url(#ab-field-r)">
-            {[...ROW_X.slice(6)].reverse().map((x0, i) => (
-              <g key={i}>
-                <path className="ab-hill-foliage" d={foliage(x0)} />
-                <path className="ab-ln-hair" d={foliageTexture(x0)} />
-              </g>
-            ))}
-          </g>
+        {/* Ряд лозы слева */}
+        <g transform={`translate(0 ${GY})`}>
+          <VineRow />
         </g>
 
-        {/* Дорога */}
-        <g className="ab-hill-road">
-          <path className="ab-ln-fine" d={ROAD_L} />
-          <path className="ab-ln-fine" d={ROAD_R} />
-          <g className="ab-ln-hair">
-            <ellipse cx="205" cy="214" rx="2.6" ry="1.5" />
-            <ellipse cx="219" cy="252" rx="3" ry="1.7" />
-            <ellipse cx="198" cy="286" rx="3.4" ry="1.9" />
-            <ellipse cx="228" cy="330" rx="3.8" ry="2.1" />
-            <ellipse cx="196" cy="366" rx="4.2" ry="2.3" />
-          </g>
-        </g>
-
-        {/* Передний план: шпалера слева и справа обрамляет кадр */}
-        <g className="ab-hill-front">
-          <Post side={1} />
-          <Post side={-1} />
+        {/* Шато справа */}
+        <g transform={`translate(222 ${GY}) scale(1.42)`}>
+          <Winery />
         </g>
       </svg>
     </div>
