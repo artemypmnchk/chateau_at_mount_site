@@ -92,31 +92,29 @@ const pageMeta: Record<PageKey, Record<Locale, { title: string; description: str
     en: {
       title: "Chateau At Mount — Family Winery in Gagauzia, Moldova",
       description:
-        "Chateau At Mount, a family winery in Gagauzia, southern Moldova: 15 ha of vineyards, 7 grape varieties and characterful wines from our own estate.",
+        "Chateau At Mount, a family winery in Gagauzia, southern Moldova: 8 ha of vineyards, 7 grape varieties and characterful wines from our own estate.",
     },
     ro: {
       title: "Chateau At Mount — Cramă de familie în Găgăuzia, Moldova",
       description:
-        "Chateau At Mount, cramă de familie în Găgăuzia, sudul Moldovei: 15 ha de viță de vie, 7 soiuri de struguri și vinuri de autor din viile proprii.",
+        "Chateau At Mount, cramă de familie în Găgăuzia, sudul Moldovei: 8 ha de viță de vie, 7 soiuri de struguri și vinuri de autor din viile proprii.",
     },
   },
   about: {
     ru: {
       title: "О винодельне Chateau At Mount — Чадыр-Лунга, Гагаузия",
-      // ⚠️ «15 га» — как в исходном описании и на главной. В теле страницы
-      // «О нас» при этом стоит 8 га; расхождение ждёт решения владельца.
       description:
-        "Семейная гагаузская винодельня Chateau At Mount на самой высокой точке холма в Чадыр-Лунге: 15 га своих виноградников, 7 сортов, солнечная энергия, выдержка в дубовых барриках и международные награды.",
+        "Семейная гагаузская винодельня Chateau At Mount на самой высокой точке холма в Чадыр-Лунге: 8 га своих виноградников, 7 сортов, солнечная энергия, выдержка в дубовых барриках и международные награды.",
     },
     en: {
       title: "About the Winery — Ceadîr-Lunga, Gagauzia",
       description:
-        "Chateau At Mount, a Gagauz family winery on the highest point of the hill in Ceadîr-Lunga: 15 hectares of our own vineyards, 7 varieties, solar power, ageing in oak barriques and international awards.",
+        "Chateau At Mount, a Gagauz family winery on the highest point of the hill in Ceadîr-Lunga: 8 hectares of our own vineyards, 7 varieties, solar power, ageing in oak barriques and international awards.",
     },
     ro: {
       title: "Despre cramă — Ceadîr-Lunga, Găgăuzia",
       description:
-        "Chateau At Mount, cramă de familie găgăuză pe cel mai înalt punct al dealului din Ceadîr-Lunga: 15 ha de vii proprii, 7 soiuri, energie solară, maturare în baricuri de stejar și premii internaționale.",
+        "Chateau At Mount, cramă de familie găgăuză pe cel mai înalt punct al dealului din Ceadîr-Lunga: 8 ha de vii proprii, 7 soiuri, energie solară, maturare în baricuri de stejar și premii internaționale.",
     },
   },
   wines: {
