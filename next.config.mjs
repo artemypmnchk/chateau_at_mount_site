@@ -44,6 +44,18 @@ const nextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  // www → apex: канонический хост один — atmountwinery.com. Без этого
+  // www-вариант отдаёт 200 и плодит дубли в индексе.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.atmountwinery.com" }],
+        destination: "https://atmountwinery.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
