@@ -1321,9 +1321,14 @@ export const t = {
           ro: "Chemarea strămoșilor",
         },
         media: {
-          ru: "Семья винодельни",
-          en: "The winery family",
-          ro: "Familia cramei",
+          ru: "Николай, основатель винодельни, открывает бутылку в поле у виноградников",
+          en: "Nikolai, the winery's founder, opening a bottle in the field by the vineyards",
+          ro: "Nicolae, fondatorul cramei, deschide o sticlă pe câmp, lângă vii",
+        },
+        caption: {
+          ru: "Николай — основатель винодельни",
+          en: "Nikolai — founder of the winery",
+          ro: "Nicolae — fondatorul cramei",
         },
         p1: {
           ru: "Мы — семейный проект, выросший из «зова предков». Chateau At Mount — детище гагаузской семьи, и её традиции слышны в характере и вкусе вина.",
@@ -1344,9 +1349,9 @@ export const t = {
           ro: "De la prima viță la sticlă",
         },
         media: {
-          ru: "Виноградники винодельни",
-          en: "The winery vineyards",
-          ro: "Viile cramei",
+          ru: "Грозди белого винограда и бутылки вина на столе в день урожая",
+          en: "Bunches of white grapes and bottles of wine on a table on harvest day",
+          ro: "Ciorchini de struguri albi și sticle de vin pe masă în ziua recoltei",
         },
         p1: {
           ru: "Первые лозы посадили в 2019-м, а уже в 2020-м собрали первый урожай. Сегодня семья развивает 8 га виноградников — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz и другие сорта. В будущем — расширение ещё на 3–5 га и выпуск до 150 000 бутылок в год.",
@@ -1362,9 +1367,9 @@ export const t = {
           ro: "Soare, vânt și viță de vie",
         },
         media: {
-          ru: "Терруар и климат",
-          en: "Terroir and climate",
-          ro: "Teroir și climă",
+          ru: "Ряды лозы на склоне и степной горизонт до самого края",
+          en: "Rows of vines on the slope and the steppe horizon stretching to the edge",
+          ro: "Rânduri de viță pe pantă și orizontul de stepă până departe",
         },
         p1: {
           ru: "Участок — в 100 метрах от шато: виноград доставляется максимально свежим, а контролируемая ферментация и минимум сульфитов сохраняют натуральный вкус и кислотность.",
@@ -1385,9 +1390,9 @@ export const t = {
           ro: "Trei stejari, trei caractere",
         },
         media: {
-          ru: "Погреб и дубовые баррики",
-          en: "The cellar and oak barriques",
-          ro: "Pivnița și baricurile de stejar",
+          ru: "Ряд ёмкостей из нержавеющей стали в цехе винодельни",
+          en: "A row of stainless steel tanks in the winery hall",
+          ro: "Un șir de cisterne de inox în hala cramei",
         },
         p1: {
           ru: "За вином стоит простая философия: как можно меньше вмешательства. Виноград приходит свежим, ферментация под контролем, сульфитов — минимум.",

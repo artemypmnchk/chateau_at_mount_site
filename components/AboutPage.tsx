@@ -1,5 +1,6 @@
 "use client";
 
+import Image, { type StaticImageData } from "next/image";
 import { t } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useReveal } from "./useReveal";
@@ -9,6 +10,11 @@ import { HillScene } from "./HillScene";
 import { PourScene } from "./PourScene";
 import { useBookingModal } from "./BookingModal";
 
+import founderImg from "@/public/images/about-founder.jpg";
+import vineyardsImg from "@/public/images/about-vineyards.jpg";
+import terroirImg from "@/public/images/about-terroir.jpg";
+import cellarImg from "@/public/images/about-cellar.jpg";
+
 const a = t.aboutPage;
 
 // Серая однотонная заглушка вместо фото (фотоматериала пока мало).
@@ -17,27 +23,52 @@ function Ph({ label }: { label: string }) {
 }
 
 /**
- * Блок рассказа: заглушка фото и текст рядом. Микролейбл держит тонкая
- * линейка до края колонки — она и обозначает начало нового блока.
+ * Блок рассказа: фото (или заглушка, пока кадра нет) и текст рядом. Микролейбл
+ * держит тонкая линейка до края колонки — она и обозначает начало нового блока.
+ * `image` — статический импорт, next/image сам считает размеры и blur.
+ * `caption` — подпись под кадром, если на нём есть кого назвать.
  */
 function Chapter({
   eyebrow,
   title,
   media,
+  image,
+  imagePosition,
+  caption,
   reverse,
   children,
 }: {
   eyebrow: string;
   title: string;
   media: string;
+  image?: StaticImageData;
+  imagePosition?: string;
+  caption?: string;
   reverse?: boolean;
   children: React.ReactNode;
 }) {
   return (
     <div className={`ab-row${reverse ? " reverse" : ""}`} data-reveal>
-      <div className="ab-row-media">
-        <Ph label={media} />
-      </div>
+      <figure className="ab-row-media-col">
+        <div className="ab-row-media">
+          {image ? (
+            <Image
+              src={image}
+              alt={media}
+              fill
+              placeholder="blur"
+              sizes="(max-width: 900px) 100vw, 50vw"
+              style={{
+                objectFit: "cover",
+                objectPosition: imagePosition ?? "center",
+              }}
+            />
+          ) : (
+            <Ph label={media} />
+          )}
+        </div>
+        {caption && <figcaption className="ab-row-caption">{caption}</figcaption>}
+      </figure>
       <div className="ab-row-body">
         <div className="ab-row-head">
           <span className="eyebrow">{eyebrow}</span>
@@ -95,6 +126,8 @@ export default function AboutPage() {
             eyebrow={L(ch.story.eyebrow)}
             title={L(ch.story.title)}
             media={L(ch.story.media)}
+            image={founderImg}
+            caption={L(ch.story.caption)}
           >
             <p>{L(ch.story.p1)}</p>
             <p>{L(ch.story.p2)}</p>
@@ -104,6 +137,9 @@ export default function AboutPage() {
             eyebrow={L(ch.vineyards.eyebrow)}
             title={L(ch.vineyards.title)}
             media={L(ch.vineyards.media)}
+            image={vineyardsImg}
+            /* Кадр вертикальный, рамка 4:3 — держим бутылки и грозди целиком */
+            imagePosition="center 65%"
             reverse
           >
             <p>{L(ch.vineyards.p1)}</p>
@@ -117,6 +153,7 @@ export default function AboutPage() {
             eyebrow={L(ch.terroir.eyebrow)}
             title={L(ch.terroir.title)}
             media={L(ch.terroir.media)}
+            image={terroirImg}
           >
             <p>{L(ch.terroir.p1)}</p>
             <p>{L(ch.terroir.p2)}</p>
@@ -126,6 +163,7 @@ export default function AboutPage() {
             eyebrow={L(ch.making.eyebrow)}
             title={L(ch.making.title)}
             media={L(ch.making.media)}
+            image={cellarImg}
             reverse
           >
             <p>{L(ch.making.p1)}</p>
