@@ -155,8 +155,9 @@ export function VineSpine() {
     const cane = caneRef.current;
     const main = wrapRef.current?.parentElement;
     if (!cane || !main || !geo.d) return;
+    // len — настоящая длина, нужна только для getPointAtLength (pathLength
+    // на неё не влияет). Штрих же считается в нормированных единицах.
     const len = cane.getTotalLength();
-    cane.style.strokeDasharray = String(len);
     const decos = Array.from(
       wrapRef.current!.querySelectorAll<SVGGElement>(".ab-vine-deco")
     );
@@ -189,7 +190,7 @@ export function VineSpine() {
       const readP = Math.min(1, Math.max(0, viewed / maxScroll));
       const p0 = Math.min(0.5, (window.innerHeight * 0.55) / rect.height);
       const p = p0 + (1 - p0) * readP;
-      cane.style.strokeDashoffset = String(len * (1 - p));
+      cane.style.strokeDashoffset = String(1 - p);
       for (const el of decos) {
         const t = +el.dataset.t!;
         const s = +el.dataset.s!;
@@ -238,7 +239,9 @@ export function VineSpine() {
           preserveAspectRatio="none"
           fill="none"
         >
-          <path ref={caneRef} className="ab-vine-cane" d={geo.d} />
+          {/* pathLength="1" нормирует длину: стартовое «свёрнуто» задаётся в
+              CSS и работает с первого кадра, до всякого JS */}
+          <path ref={caneRef} className="ab-vine-cane" d={geo.d} pathLength={1} />
 
           {geo.placed.map((dc, i) => {
             const flip = dc.sideX < 0;

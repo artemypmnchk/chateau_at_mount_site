@@ -3171,6 +3171,11 @@ a.info-row:hover .info-value {
 }
 .ab-vine-cane {
   stroke-width: 2.6;
+  /* Побег свёрнут ещё до того, как отработает JS: у пути pathLength="1", так
+     что длина нормирована и стартовое состояние задаётся статикой. Иначе
+     первый кадр успевал отрисовать лозу проросшей на всю страницу. */
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
 }
 .ab-vine-stem {
   stroke-width: 1.6;
