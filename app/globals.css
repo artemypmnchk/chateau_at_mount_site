@@ -3470,8 +3470,9 @@ a.info-row:hover .info-value {
   stroke: var(--wine);
   stroke-width: 1.5;
   stroke-linecap: butt;
-  stroke-dasharray: 17;
-  stroke-dashoffset: 17;
+  /* Длина пути струи — 25.4, dash чуть длиннее, чтобы покрыть её целиком */
+  stroke-dasharray: 26;
+  stroke-dashoffset: 26;
   opacity: 0;
 }
 [data-reveal].is-in .ab-pour-bottle {
@@ -3486,7 +3487,10 @@ a.info-row:hover .info-value {
 [data-reveal].is-in .ab-pour-stream {
   animation: abStream 6.2s linear 0.3s both;
 }
-/* Бутылка почти не переезжает — только кренится над бокалом */
+/* Бутылка почти не переезжает — только кренится над бокалом. Подъём на 26px
+   обязателен: при меньшем горлышко на 44° опускается ниже кромки (y=34) и
+   силуэт бутылки пересекается с бокалом — она «проходит сквозь» стекло.
+   На 26px просвет между контурами держится ~2.4 ед. на всём проходе. */
 @keyframes abBottle {
   0%,
   10% {
@@ -3494,7 +3498,7 @@ a.info-row:hover .info-value {
   }
   26%,
   62% {
-    transform: translate(-5px, -17px) rotate(44deg);
+    transform: translate(-5px, -26px) rotate(44deg);
   }
   80%,
   100% {
@@ -3536,7 +3540,7 @@ a.info-row:hover .info-value {
 @keyframes abStream {
   0%,
   28% {
-    stroke-dashoffset: 17;
+    stroke-dashoffset: 26;
     opacity: 0;
   }
   30% {
@@ -3548,12 +3552,12 @@ a.info-row:hover .info-value {
     opacity: 1;
   }
   61% {
-    stroke-dashoffset: -17;
+    stroke-dashoffset: -26;
     opacity: 1;
   }
   62%,
   100% {
-    stroke-dashoffset: -17;
+    stroke-dashoffset: -26;
     opacity: 0;
   }
 }

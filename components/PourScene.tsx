@@ -42,8 +42,8 @@ export function PourScene() {
           <ellipse className="ab-ln-fine" cx="93" cy="95.4" rx="11" ry="2.6" />
         </g>
 
-        {/* Струя из горлышка */}
-        <path className="ab-pour-stream" d="M86 25 Q88 32 90.5 40" />
+        {/* Струя из горлышка: начало совпадает с носиком поднятой бутылки */}
+        <path className="ab-pour-stream" d="M86 15 Q88.5 27.5 90.5 40" />
 
         {/* Бутылка: бордоский силуэт, вино внутри видно */}
         <g className="ab-pour-bottle">
