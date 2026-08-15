@@ -1183,11 +1183,16 @@ export const t = {
     },
     offersEyebrow: { ru: "Что мы предлагаем", en: "What we offer", ro: "Ce oferim" },
     offersTitle: {
-      ru: "Восемь способов провести у нас время",
-      en: "Eight ways to spend time with us",
-      ro: "Opt feluri de a petrece timpul la noi",
+      ru: "Девять способов провести у нас время",
+      en: "Nine ways to spend time with us",
+      ro: "Nouă feluri de a petrece timpul la noi",
     },
     offerMore: { ru: "Подробнее", en: "Learn more", ro: "Detalii" },
+    offerCta: {
+      ru: "Забронировать мероприятие",
+      en: "Book an event",
+      ro: "Rezervați un eveniment",
+    },
     offers: [
       {
         name: {
@@ -1233,6 +1238,11 @@ export const t = {
           en: "A bottle-painting workshop",
           ro: "Un atelier de pictură pe sticle",
         },
+        price: {
+          ru: "450 лей с человека",
+          en: "450 MDL per person",
+          ro: "450 MDL de persoană",
+        },
       },
       {
         name: {
@@ -1249,6 +1259,16 @@ export const t = {
           ru: "Пикник среди виноградных лоз",
           en: "A picnic among the vines",
           ro: "Un picnic printre vițele de vie",
+        },
+        price: {
+          ru: "200 лей за двоих",
+          en: "200 MDL for two",
+          ro: "200 MDL pentru doi",
+        },
+        includes: {
+          ru: ["Бутылка вина", "Плед и подушки", "Корзинка для пикника"],
+          en: ["A bottle of wine", "A blanket and cushions", "A picnic basket"],
+          ro: ["O sticlă de vin", "O pătură și perne", "Un coș de picnic"],
         },
       },
       {
@@ -1267,6 +1287,38 @@ export const t = {
           en: "Swings and the lavender field",
           ro: "Leagănele și câmpul de lavandă",
         },
+        price: {
+          ru: "90 лей с человека",
+          en: "90 MDL per person",
+          ro: "90 MDL de persoană",
+        },
+      },
+      {
+        name: {
+          ru: "Девичники",
+          en: "Hen parties",
+          ro: "Petreceri ale burlăcițelor",
+        },
+        blurb: {
+          ru: "Накрытый стол, вино и вечер только для вашей компании.",
+          en: "A laid table, wine and an evening just for your group.",
+          ro: "O masă pregătită, vin și o seară doar pentru compania voastră.",
+        },
+        media: {
+          ru: "Девичник за длинным столом на закате",
+          en: "A hen party at a long table at sunset",
+          ro: "O petrecere a burlăcițelor la o masă lungă, la apus",
+        },
+        price: {
+          ru: "550 лей с человека",
+          en: "550 MDL per person",
+          ro: "550 MDL de persoană",
+        },
+        includes: {
+          ru: ["Декор", "Вино", "Мастер-класс", "Закуски"],
+          en: ["Decor", "Wine", "A workshop", "Snacks"],
+          ro: ["Decor", "Vin", "Un atelier", "Gustări"],
+        },
       },
       {
         name: {
@@ -1275,14 +1327,19 @@ export const t = {
           ro: "Închirierea domeniului",
         },
         blurb: {
-          ru: "Дни рождения, девичники, корпоративы, семейные праздники и любые другие мероприятия по вашему запросу.",
-          en: "Birthdays, hen parties, company days, family celebrations and any other occasion you have in mind.",
-          ro: "Zile de naștere, petreceri ale burlăcițelor, evenimente corporative, sărbători de familie și orice altă ocazie doriți.",
+          ru: "Дни рождения, корпоративы, семейные праздники и любые другие мероприятия по вашему запросу.",
+          en: "Birthdays, company days, family celebrations and any other occasion you have in mind.",
+          ro: "Zile de naștere, evenimente corporative, sărbători de familie și orice altă ocazie doriți.",
         },
         media: {
           ru: "Накрытый стол для праздника",
           en: "A table laid for a celebration",
           ro: "O masă pregătită pentru sărbătoare",
+        },
+        price: {
+          ru: "Цена индивидуальная",
+          en: "Priced individually",
+          ro: "Preț individual",
         },
       },
       {
@@ -1301,6 +1358,13 @@ export const t = {
           en: "A screen and armchairs among the vineyards",
           ro: "Un ecran și fotolii printre podgorii",
         },
+        /* Две ступени в одной строке: отдельного поля под детский тариф
+           заводить не стали — он есть только здесь. */
+        price: {
+          ru: "Взрослый 90 лей, детский 50 лей",
+          en: "Adults 90 MDL, children 50 MDL",
+          ro: "Adulți 90 MDL, copii 50 MDL",
+        },
       },
       {
         name: {
@@ -1317,6 +1381,16 @@ export const t = {
           ru: "Свечи и накрытый стол на двоих",
           en: "Candles and a table for two",
           ro: "Lumânări și o masă pentru doi",
+        },
+        price: {
+          ru: "900 лей за двоих",
+          en: "900 MDL for two",
+          ro: "900 MDL pentru doi",
+        },
+        includes: {
+          ru: ["Бутылка вина", "Декор", "Сырное плато"],
+          en: ["A bottle of wine", "Decor", "A cheese board"],
+          ro: ["O sticlă de vin", "Decor", "Un platou de brânzeturi"],
         },
       },
       {

@@ -3958,11 +3958,12 @@ a.info-row:hover .info-value {
   font-size: clamp(23px, 2.9vw, 36px);
   line-height: 1.1;
 }
+/* Цвет и кегль абзацев здесь НЕ задаём: текст и цена набраны классами
+   .exp-text и .exp-price, общими с карточками дегустаций, и приносят свои.
+   Правило `.ev-row-body p` перебивало их по специфичности — цена и описание
+   гасли до вторичного тона вместо насыщенного. */
 .ev-row-body p {
-  margin: 0 0 1em;
   max-width: 44ch;
-  font-size: clamp(15px, 1.5vw, 18px);
-  color: var(--ink-soft);
 }
 
 /* Финал — тёмный край дуги */
@@ -3998,27 +3999,7 @@ a.info-row:hover .info-value {
   }
 }
 
-/* Два занятия внутри одного предложения (роспись бутылок и живопись вином):
-   разные вещи, поэтому строками с засечкой-тире, а не через запятую. */
-.ev-sublist {
-  list-style: none;
-  margin: -0.4em 0 1em;
-  padding: 0;
-  max-width: 44ch;
-}
-.ev-sublist li {
-  position: relative;
-  padding-left: 20px;
-  font-size: clamp(15px, 1.5vw, 18px);
-  color: var(--ink-soft);
-  margin-bottom: 0.2em;
-}
-.ev-sublist li::before {
-  content: "—";
-  position: absolute;
-  left: 0;
-  color: var(--accent-dark);
-}
+
 
 /* Этикетка на бутылке в сцене розлива: поле между волосяными линиями,
    которые размечали её зону изначально.
@@ -4030,3 +4011,4 @@ a.info-row:hover .info-value {
 .ab-label {
   fill: #f5e9d0;
 }
+

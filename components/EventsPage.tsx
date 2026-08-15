@@ -66,7 +66,7 @@ function Ph({ label }: { label: string }) {
 }
 
 export default function EventsPage() {
-  const { L, lp } = useLocale();
+  const { L, lp, locale } = useLocale();
   const { openBooking } = useBookingModal();
   useReveal();
 
@@ -150,18 +150,42 @@ export default function EventsPage() {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <h3>{L(o.name)}</h3>
-                  {"blurb" in o && <p>{L(o.blurb)}</p>}
+                  {/* Порядок и классы — те же, что у карточек дегустаций
+                      (.exp-*): цена сразу под заголовком, текст, состав
+                      строками таблицы, ссылка-штрих внизу. Классы
+                      переиспользуются, а не копируются, — иначе два блока
+                      начнут расходиться при первой же правке.
+                      У дегустаций своей цены тут нет: у них отдельная
+                      страница с тремя пакетами, дублировать одну нечестно. */}
+                  {"price" in o && <p className="exp-price">{L(o.price)}</p>}
+                  {"blurb" in o && <p className="exp-text">{L(o.blurb)}</p>}
                   {"items" in o && (
-                    <ul className="ev-sublist">
+                    <ul className="exp-list">
                       {o.items.map((it) => (
                         <li key={it.ru}>{L(it)}</li>
                       ))}
                     </ul>
                   )}
-                  {href && (
-                    <a href={lp(href)} className="split-link">
-                      {L(e.offerMore)} →
+                  {"includes" in o && (
+                    <ul className="exp-list">
+                      {o.includes[locale].map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {href ? (
+                    <a href={lp(href)} className="hero-link exp-cta">
+                      {L(e.offerMore)}
                     </a>
+                  ) : (
+                    /* Метка источника — русское название предложения: по ней
+                       владелец видит, из какого блока пришла заявка */
+                    <button
+                      onClick={() => openBooking(`Мероприятия · ${o.name.ru}`)}
+                      className="hero-link exp-cta"
+                    >
+                      {L(e.offerCta)}
+                    </button>
                   )}
                 </div>
               </article>
