@@ -1,11 +1,50 @@
 "use client";
 
+import Image, { type StaticImageData } from "next/image";
 import { t, links } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useReveal } from "./useReveal";
 import { useBookingModal } from "./BookingModal";
 
+import tastingImg from "@/public/images/event-tasting.jpg";
+import workshopImg from "@/public/images/event-workshop.jpg";
+import picnicImg from "@/public/images/event-picnic.jpg";
+import photoImg from "@/public/images/event-photo.jpg";
+import henImg from "@/public/images/event-hen.jpg";
+import hireImg from "@/public/images/event-hire.jpg";
+import cinemaImg from "@/public/images/event-cinema.jpg";
+import dateImg from "@/public/images/event-date.jpg";
+
 const e = t.eventsPage;
+
+/**
+ * Кадры по предложениям. Ключ — русское название из lib/content.ts, а не
+ * индекс: порядок предложений задаёт световую дугу и может меняться, а
+ * привязка по индексу тихо разъехалась бы. Чего нет в карте — остаётся
+ * с заглушкой.
+ *
+ * `position` — точка кадрирования. Рамка 4:5 подобрана под вертикальный
+ * материал, поэтому обрезка небольшая и почти всем подходит центр; отклонения
+ * заданы там, где сюжет смещён от середины.
+ */
+const OFFER_MEDIA: Record<
+  string,
+  { img: StaticImageData; position?: string }
+> = {
+  // Стол уходит вглубь: верх кадра держит и сервировку, и перспективу
+  "Дегустация и экскурсия": { img: tastingImg, position: "center 20%" },
+  // Кадр 9:16, сверху много неба — опускаем на стол, гирлянда остаётся в кадре
+  "Творческие мастер-классы": { img: workshopImg, position: "center 60%" },
+  "Пикники в виноградниках": { img: picnicImg },
+  // Съёмка идёт в нижней половине кадра, вверху пустое небо
+  "Фотозоны для съёмок": { img: photoImg, position: "center 60%" },
+  "Девичники": { img: henImg },
+  // Люди и закат в нижней трети — центр показал бы одно небо
+  "Аренда территории": { img: hireImg, position: "center 65%" },
+  // Экран и стол со свечами — ниже середины, сверху чернота
+  "Кинотеатр под открытым небом": { img: cinemaImg, position: "center 70%" },
+  "Романтические свидания": { img: dateImg },
+};
 
 /**
  * Страница «Мероприятия».
@@ -19,7 +58,8 @@ const e = t.eventsPage;
  * Порядок предложений в lib/content.ts идёт от дневных к ночным и совпадает с
  * дугой — от дегустации при свете дня до ночёвки. Это же порядок владельца.
  *
- * Фото пока нет: вместо них тёплые заглушки (как было на «О винодельне»).
+ * Кадры приходят по частям: у кого фото ещё нет — остаётся тёплая заглушка,
+ * как было на «О винодельне» до съёмки.
  */
 function Ph({ label }: { label: string }) {
   return <div className="ev-ph" role="img" aria-label={label} />;
@@ -79,6 +119,7 @@ export default function EventsPage() {
               // Ссылка есть только у дегустаций — у остальных ключа нет вовсе,
               // поэтому сужаем союз через `in`, а не приводим тип
               const href = "href" in o ? o.href : undefined;
+              const media = OFFER_MEDIA[o.name.ru];
               return (
               <article
                 key={o.name.ru}
@@ -86,7 +127,21 @@ export default function EventsPage() {
                 data-reveal
               >
                 <div className="ev-row-media">
-                  <Ph label={L(o.media)} />
+                  {media ? (
+                    <Image
+                      src={media.img}
+                      alt={L(o.media)}
+                      fill
+                      placeholder="blur"
+                      sizes="(max-width: 900px) 100vw, 42vw"
+                      style={{
+                        objectFit: "cover",
+                        objectPosition: media.position ?? "center",
+                      }}
+                    />
+                  ) : (
+                    <Ph label={L(o.media)} />
+                  )}
                 </div>
                 <div className="ev-row-body">
                   {/* Номер — не украшение: предложения идут по ходу дня,
