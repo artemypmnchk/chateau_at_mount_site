@@ -3768,3 +3768,240 @@ a.info-row:hover .info-value {
   }
 }
 
+
+/* ===================================================================
+   Страница «Мероприятия»
+   ===================================================================
+   Страницу организует свет. Сверху известняковый день, к низу фон уводится
+   в золотой час, финал — тёмное полотно. Дуга сделана длинным градиентом на
+   секции предложений, а не скролл-анимацией: свет привязан к месту на
+   странице, поэтому результат тот же, но без зависимости от поддержки
+   animation-timeline и без оговорок про prefers-reduced-motion.
+   Нижняя точка дуги намеренно светлее «глины»: на #e6cfa8 вторичный текст
+   (--ink-soft) держит ~4.9:1, а на более тёмном фоне провалился бы. */
+
+/* Верх страницы набран как оттиск малым тиражом: две краски — золото
+   и вино — печатаются одна поверх другой через multiply, и на пересечении
+   проступает третий тон. Новых цветов в палитру не добавляется: третий
+   не подобран, а вычислен наложением.
+   Полоса идёт во всю ширину от самого верха (шапка position: fixed и лежит
+   поверх), а низ отбит волосяной линией — она и разграничивает оттиск
+   со световой дугой, которая начинается ниже.
+   Краски уведены к левому и правому краю: по центру, где стоит текст,
+   поле остаётся чистым, поэтому контраст не страдает. */
+.ev-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(104px, 12vw, 172px) 0 clamp(56px, 7vw, 96px);
+  background: #f2ead9;
+  border-bottom: 1px solid rgba(109, 52, 64, 0.22);
+}
+.ev-hero::before,
+.ev-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+/* Золото — левый верх */
+.ev-hero::before {
+  background: radial-gradient(
+    54% 68% at 10% 6%,
+    rgba(227, 191, 136, 0.82),
+    rgba(227, 191, 136, 0) 70%
+  );
+}
+/* Вино — правый край, чуть выше середины. Гаснет, не доходя до низа:
+   иначе нижняя кромка полосы приходила бы к линии разного тона.
+   Смещение приводки на 2px — как у настоящего ризографа, где слои
+   никогда не совпадают идеально. */
+.ev-hero::after {
+  background: radial-gradient(
+    48% 60% at 92% 46%,
+    rgba(94, 42, 51, 0.26),
+    rgba(94, 42, 51, 0) 66%
+  );
+  transform: translate(2px, -2px);
+}
+
+.ev-invite {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* Линейка обрамляет заголовок, а не делит страницу, — потому короткая */
+.ev-rule {
+  display: block;
+  width: clamp(64px, 12vw, 130px);
+  height: 1px;
+  background: var(--accent-dark);
+  opacity: 0.32;
+}
+.ev-hero-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: clamp(20px, 3vw, 34px) 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(36px, 6.6vw, 86px);
+  line-height: 1.03;
+}
+.ev-t-line {
+  display: block;
+  white-space: nowrap;
+}
+/* Висячая пунктуация: тире не участвует в ширине строки, поэтому строки
+   центруются по словам. Иначе первая перевешивает на ширину « —» и вся
+   открытка выглядит сдвинутой влево. */
+.ev-t-dash {
+  display: inline-block;
+  width: 0;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+.ev-hero-lead {
+  margin: clamp(22px, 3.4vw, 36px) 0 clamp(24px, 3.6vw, 38px);
+  max-width: 42ch;
+  font-size: clamp(15px, 1.6vw, 19px);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.ev-ph {
+  position: absolute;
+  inset: 0;
+  background: #d9cdb6;
+}
+
+/* Тело дуги */
+.ev-offers {
+  /* Земля тут теплеет, поэтому вторичный текст переопределяется на более
+     тёмный и тёплый: штатный --ink-soft на нижнем стопе дуги давал 4.15:1 —
+     ниже нормы. Приём тот же, что с --accent на страницах вин: токен
+     переопределяется под другую подложку, а не правится каждое правило. */
+  --ink-soft: #57484a;
+  padding: clamp(28px, 4vw, 56px) 0 clamp(56px, 8vw, 104px);
+  /* Дуга подхватывает тон оттиска (#f2ead9), а не начинается со светлого
+     --bg: иначе после полосы свет проваливался бы назад и теплел заново. */
+  background: linear-gradient(
+    180deg,
+    #f2ead9 0%,
+    #f0e6cf 26%,
+    #ebdec0 62%,
+    #e6cfa8 100%
+  );
+}
+.ev-offers-head {
+  margin-bottom: clamp(28px, 4vw, 56px);
+}
+.ev-offers-head h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(28px, 4vw, 50px);
+  line-height: 1.08;
+  margin-top: 0.3em;
+}
+.ev-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 6vw, 88px);
+}
+
+/* Раскладка нарочно асимметричная (7/5), а не 50/50 как на «О винодельне» —
+   иначе две страницы читаются одинаково. Фото шире текста. */
+.ev-row {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: clamp(24px, 4vw, 60px);
+  align-items: center;
+}
+.ev-row.reverse .ev-row-media {
+  order: 2;
+}
+.ev-row-media {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.ev-num {
+  display: block;
+  font-family: var(--serif-italic);
+  font-size: clamp(15px, 1.6vw, 18px);
+  /* Без прозрачности: на тёплом низу дуги 0.75 сажали контраст до 3.67:1 */
+  color: var(--accent-dark);
+  margin-bottom: 0.5em;
+}
+.ev-row-body h3 {
+  margin: 0 0 0.42em;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(23px, 2.9vw, 36px);
+  line-height: 1.1;
+}
+.ev-row-body p {
+  margin: 0 0 1em;
+  max-width: 44ch;
+  font-size: clamp(15px, 1.5vw, 18px);
+  color: var(--ink-soft);
+}
+
+/* Финал — тёмный край дуги */
+.ev-final {
+  padding: clamp(56px, 8vw, 108px) 0;
+  text-align: center;
+}
+.ev-final h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(25px, 3.4vw, 42px);
+  line-height: 1.16;
+  max-width: 22ch;
+  margin: 0 auto clamp(26px, 3.6vw, 40px);
+}
+.ev-final .contact-actions {
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .ev-row {
+    grid-template-columns: 1fr;
+  }
+  .ev-row.reverse .ev-row-media {
+    order: 0;
+  }
+  .ev-final h2 {
+    max-width: none;
+  }
+}
+
+/* Два занятия внутри одного предложения (роспись бутылок и живопись вином):
+   разные вещи, поэтому строками с засечкой-тире, а не через запятую. */
+.ev-sublist {
+  list-style: none;
+  margin: -0.4em 0 1em;
+  padding: 0;
+  max-width: 44ch;
+}
+.ev-sublist li {
+  position: relative;
+  padding-left: 20px;
+  font-size: clamp(15px, 1.5vw, 18px);
+  color: var(--ink-soft);
+  margin-bottom: 0.2em;
+}
+.ev-sublist li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--accent-dark);
+}

@@ -77,7 +77,7 @@ export const breadcrumbLabels: Record<Locale, { home: string; wines: string }> =
   ro: { home: "Acasă", wines: "Vinuri" },
 };
 
-type PageKey = "home" | "about" | "wines" | "visit" | "contacts";
+type PageKey = "home" | "about" | "wines" | "visit" | "events" | "contacts";
 
 /**
  * SEO title/description по страницам на трёх языках.
@@ -132,6 +132,23 @@ const pageMeta: Record<PageKey, Record<Locale, { title: string; description: str
       title: "Vinurile noastre — 7 soiuri din Găgăuzia",
       description:
         "Vinuri de la crama de familie Chateau At Mount (Găgăuzia, Moldova): Merlot, Cabernet Sauvignon, Shiraz, Cabernet Rosé, Viorica, Fetească Albă și Fetească Neagră. Vinuri seci din viile proprii.",
+    },
+  },
+  events: {
+    ru: {
+      title: "Мероприятия на винодельне — пикники, свидания, аренда",
+      description:
+        "Мероприятия на винодельне Chateau At Mount в Чадыр-Лунге, Гагаузия: пикники среди лоз, мастер-классы, кино под открытым небом, романтические вечера, аренда территории и проживание.",
+    },
+    en: {
+      title: "Events at the Winery — Picnics, Dates, Estate Hire",
+      description:
+        "Events at Chateau At Mount in Ceadîr-Lunga, Gagauzia: picnics among the vines, creative workshops, open-air cinema, romantic evenings, hire of the estate and overnight stays.",
+    },
+    ro: {
+      title: "Evenimente la cramă — picnicuri, întâlniri, închiriere",
+      description:
+        "Evenimente la Chateau At Mount în Ceadîr-Lunga, Găgăuzia: picnicuri printre vii, ateliere creative, cinema sub cerul liber, seri romantice, închirierea domeniului și cazare.",
     },
   },
   visit: {

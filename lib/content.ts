@@ -803,6 +803,13 @@ export const t = {
       en: "Tastings & visits",
       ro: "Degustări și vizite",
     },
+    /* Секция на главной осталась под якорем #events (на него ведут старые
+       ссылки), но теперь это анонс — ведёт на отдельную страницу. */
+    ctaEvents: {
+      ru: "Что мы устраиваем",
+      en: "What we host",
+      ro: "Ce organizăm",
+    },
   },
   reviews: {
     eyebrow: { ru: "Отзывы", en: "Reviews", ro: "Recenzii" },
@@ -1141,6 +1148,206 @@ export const t = {
         },
       },
     ],
+  },
+  /**
+   * Страница «Мероприятия». Порядок предложений — от дневных к ночным: он
+   * задаёт световую дугу страницы (день → золотой час → вечер → ночь), фон
+   * светлеет и темнеет вслед за ним. Менять порядок — значит ломать дугу.
+   * `href` есть только у дегустаций: они живут отдельной страницей.
+   */
+  eventsPage: {
+    eyebrow: { ru: "Мероприятия", en: "Events", ro: "Evenimente" },
+    /* Заголовок разрезан надвое намеренно: половины встают по сторонам кадра,
+       и фраза буквально обнимает место, о котором говорит. Тире на конце
+       первой половины показывает на кадр. */
+    titleA: {
+      ru: "Ваш повод",
+      en: "Your occasion",
+      ro: "Motivul vostru",
+    },
+    titleB: {
+      ru: "наше место",
+      en: "our place",
+      ro: "locul nostru",
+    },
+    intro: {
+      ru: "Дегустации, пикники среди лоз, кино под открытым небом и территория, на которой можно организовать свой праздник.",
+      en: "Tastings, picnics among the vines, open-air cinema and an estate where you can host a celebration of your own.",
+      ro: "Degustări, picnicuri printre vii, cinema sub cerul liber și un domeniu unde vă puteți organiza propria sărbătoare.",
+    },
+    /* Верхняя кнопка ведёт в телеграм, нижняя пара — телеграм + форма */
+    heroCta: {
+      ru: "Забронировать мероприятие",
+      en: "Book an event",
+      ro: "Rezervați un eveniment",
+    },
+    offersEyebrow: { ru: "Что мы предлагаем", en: "What we offer", ro: "Ce oferim" },
+    offersTitle: {
+      ru: "Восемь способов провести у нас время",
+      en: "Eight ways to spend time with us",
+      ro: "Opt feluri de a petrece timpul la noi",
+    },
+    offerMore: { ru: "Подробнее", en: "Learn more", ro: "Detalii" },
+    offers: [
+      {
+        name: {
+          ru: "Дегустация и экскурсия",
+          en: "Tasting and tour",
+          ro: "Degustare și tur",
+        },
+        blurb: {
+          ru: "Три пакета на выбор — от лёгкого знакомства до полноценного винного путешествия.",
+          en: "Three packages to choose from — from a light introduction to a full wine journey.",
+          ro: "Trei pachete la alegere — de la o cunoștință ușoară până la o adevărată călătorie a vinului.",
+        },
+        media: {
+          ru: "Дегустация вин на винодельне",
+          en: "A wine tasting at the winery",
+          ro: "O degustare de vinuri la cramă",
+        },
+        href: "/visit",
+      },
+      {
+        name: {
+          ru: "Творческие мастер-классы",
+          en: "Creative workshops",
+          ro: "Ateliere creative",
+        },
+        /* Роспись и живопись вином — не одно и то же, поэтому идут
+           отдельными строками, а не через запятую в одном предложении.
+           Подводки нет намеренно: строки говорят сами за себя. */
+        items: [
+          {
+            ru: "Роспись винных бутылок",
+            en: "Painting wine bottles",
+            ro: "Pictură pe sticle de vin",
+          },
+          {
+            ru: "Написание картины вином",
+            en: "Painting a picture with wine",
+            ro: "Pictarea unui tablou cu vin",
+          },
+        ],
+        media: {
+          ru: "Мастер-класс по росписи бутылок",
+          en: "A bottle-painting workshop",
+          ro: "Un atelier de pictură pe sticle",
+        },
+      },
+      {
+        name: {
+          ru: "Пикники в виноградниках",
+          en: "Picnics in the vineyards",
+          ro: "Picnicuri în podgorii",
+        },
+        blurb: {
+          ru: "Уютный отдых среди лоз с бутылкой вина, красивой сервировкой и приятной атмосферой полного спокойствия.",
+          en: "A cosy break among the vines with a bottle of wine, a beautifully laid table and complete calm.",
+          ro: "O pauză tihnită printre vii, cu o sticlă de vin, o masă frumos aranjată și liniște deplină.",
+        },
+        media: {
+          ru: "Пикник среди виноградных лоз",
+          en: "A picnic among the vines",
+          ro: "Un picnic printre vițele de vie",
+        },
+      },
+      {
+        name: {
+          ru: "Фотозоны для съёмок",
+          en: "Photo settings",
+          ro: "Zone foto",
+        },
+        blurb: {
+          ru: "Лавандовое поле, большие качели и закаты — всё для вашего самого красивого кадра.",
+          en: "A lavender field, big swings and sunsets — everything for your most beautiful shot.",
+          ro: "Un câmp de lavandă, leagăne mari și apusuri — totul pentru cel mai frumos cadru al vostru.",
+        },
+        media: {
+          ru: "Качели и лавандовое поле",
+          en: "Swings and the lavender field",
+          ro: "Leagănele și câmpul de lavandă",
+        },
+      },
+      {
+        name: {
+          ru: "Аренда территории",
+          en: "Hire of the estate",
+          ro: "Închirierea domeniului",
+        },
+        blurb: {
+          ru: "Дни рождения, девичники, корпоративы, семейные праздники и любые другие мероприятия по вашему запросу.",
+          en: "Birthdays, hen parties, company days, family celebrations and any other occasion you have in mind.",
+          ro: "Zile de naștere, petreceri ale burlăcițelor, evenimente corporative, sărbători de familie și orice altă ocazie doriți.",
+        },
+        media: {
+          ru: "Накрытый стол для праздника",
+          en: "A table laid for a celebration",
+          ro: "O masă pregătită pentru sărbătoare",
+        },
+      },
+      {
+        name: {
+          ru: "Кинотеатр под открытым небом",
+          en: "Open-air cinema",
+          ro: "Cinema sub cerul liber",
+        },
+        blurb: {
+          ru: "Просмотр фильмов среди виноградников, в уютном мягком кресле, с бокалом вина и любимыми закусками.",
+          en: "Films among the vineyards, in a soft armchair, with a glass of wine and your favourite snacks.",
+          ro: "Filme printre podgorii, într-un fotoliu moale, cu un pahar de vin și gustările preferate.",
+        },
+        media: {
+          ru: "Экран и кресла среди виноградников",
+          en: "A screen and armchairs among the vineyards",
+          ro: "Un ecran și fotolii printre podgorii",
+        },
+      },
+      {
+        name: {
+          ru: "Романтические свидания",
+          en: "Romantic evenings",
+          ro: "Seri romantice",
+        },
+        blurb: {
+          ru: "Организуем предложение руки и сердца, годовщину или просто особенный вечер. Берём на себя всё — от декора до фотографа и музыкантов.",
+          en: "We arrange a proposal, an anniversary or simply a special evening. We take care of everything — from the decor to the photographer and the musicians.",
+          ro: "Organizăm o cerere în căsătorie, o aniversare sau pur și simplu o seară deosebită. Ne ocupăm de tot — de la decor până la fotograf și muzicanți.",
+        },
+        media: {
+          ru: "Свечи и накрытый стол на двоих",
+          en: "Candles and a table for two",
+          ro: "Lumânări și o masă pentru doi",
+        },
+      },
+      {
+        name: {
+          ru: "Проживание на винодельне",
+          en: "Staying at the winery",
+          ro: "Cazare la cramă",
+        },
+        blurb: {
+          ru: "У нас можно остаться на ночь, встретить утро с видом на виноградники и никуда не спешить.",
+          en: "You can stay the night, wake up to a view over the vineyards and be in no hurry at all.",
+          ro: "Puteți rămâne peste noapte, să întâmpinați dimineața cu vedere spre podgorii și să nu vă grăbiți nicăieri.",
+        },
+        media: {
+          ru: "Комната с видом на виноградники",
+          en: "A room overlooking the vineyards",
+          ro: "O cameră cu vedere spre podgorii",
+        },
+      },
+    ],
+    finalTitle: {
+      ru: "Задайте интересующий вас вопрос или оставьте свои контакты — мы обязательно свяжемся с вами",
+      en: "Ask us anything you need to know, or leave your contacts — we will get back to you",
+      ro: "Puneți-ne orice întrebare sau lăsați-vă datele de contact — vă vom răspunde negreșit",
+    },
+    finalForm: { ru: "Оставить заявку", en: "Make a request", ro: "Lăsați o cerere" },
+    finalTg: {
+      ru: "Связаться с нами",
+      en: "Get in touch",
+      ro: "Contactați-ne",
+    },
   },
   contactsPage: {
     eyebrow: { ru: "Контакты", en: "Contacts", ro: "Contacte" },

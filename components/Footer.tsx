@@ -26,7 +26,7 @@ export default function Footer() {
             <h4>{L(t.footer.brandCol)}</h4>
             <a href={lp("/#about")}>{L(t.nav.about)}</a>
             <a href={lp("/wines")}>{L(t.nav.wines)}</a>
-            <a href={lp("/#events")}>{L(t.nav.events)}</a>
+            <a href={lp("/events")}>{L(t.nav.events)}</a>
           </div>
           <div className="footer-col">
             <h4>{L(t.footer.socialCol)}</h4>
