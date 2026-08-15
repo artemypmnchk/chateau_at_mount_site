@@ -22,6 +22,15 @@ export function PourScene() {
           <clipPath id="ab-bottle-clip">
             <path d="M24 98 L24 58.5 C24 50 31 47 32 41 L32 20 L36 20 L36 41 C37 47 44 50 44 58.5 L44 98 Z" />
           </clipPath>
+          {/* Монограмма — готовый PNG, но бежевой она вносила бы третий цвет
+              в двухкрасочную гравюру. Фильтр заливает её силуэт по альфе
+              винным: форма знака остаётся точной, обводить путь вручную и
+              рисковать искажением логотипа не нужно.
+              Чтобы вернуть фирменный бежевый — снять filter с <image>. */}
+          <filter id="ab-label-ink" colorInterpolationFilters="sRGB">
+            <feFlood floodColor="var(--wine, #5e2a33)" result="ink" />
+            <feComposite in="ink" in2="SourceAlpha" operator="in" />
+          </filter>
         </defs>
 
         {/* Бокал-тюльпан */}
@@ -58,6 +67,30 @@ export function PourScene() {
           />
           <path className="ab-ln" d="M28.6 18 L39.4 18" />
           <path className="ab-ln-fine" d="M30 25.5 L38 25.5" />
+          {/* Этикетка. Зона под неё была размечена волосяными линиями с самого
+              начала — теперь она залита белым, а линии ниже рисуются поверх и
+              работают её кромками. Стоит после вина и до контура: этикетка
+              снаружи стекла, но не перекрывает силуэт бутылки.
+              Едет вместе с группой бутылки, поэтому кренится в розливе. */}
+          <rect
+            className="ab-label"
+            x="22.8"
+            y="68"
+            width="22.4"
+            height="16"
+          />
+          {/* Знак занимает почти всю этикетку: в реальном размере (сцена
+              168–248px) мелкая монограмма превращается в пятно. Запас до
+              кромок оставлен ~1.4 по вертикали и 3.2 по горизонтали. */}
+          <image
+            href="/images/logo.png"
+            x="26"
+            y="69.4"
+            width="16"
+            height="13.2"
+            preserveAspectRatio="xMidYMid meet"
+            filter="url(#ab-label-ink)"
+          />
           <path className="ab-ln-hair" d="M22.8 68 L45.2 68" />
           <path className="ab-ln-hair" d="M22.8 84 L45.2 84" />
         </g>
