@@ -3146,10 +3146,7 @@ a.info-row:hover .info-value {
     );
   }
   .about-v2 .container {
-    padding-left: max(
-      max(24px, env(safe-area-inset-left)),
-      var(--ab-gutter)
-    );
+    padding-left: max(max(24px, env(safe-area-inset-left)), var(--ab-gutter));
   }
   /* Тёмный манифест поле получает наравне со всеми: лоза идёт сквозь него
      насквозь (винным по почти чёрному — приглушённо, как и задумано), и без
@@ -3227,11 +3224,14 @@ a.info-row:hover .info-value {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-/* Толщины линий тоже идут через --ab-vk: viewBox лозы совпадает с её
-   размером в пикселях один к одному, поэтому нескорректированный штрих на
-   мелком рисунке выглядел бы вдвое жирнее, чем задумано. */
+/* Толщины линий идут через --ab-orn, а не --ab-vk: viewBox лозы совпадает с
+   её размером в пикселях один к одному, поэтому нескорректированный штрих на
+   мелком рисунке выглядел бы вдвое жирнее задуманного. Множитель именно
+   орнаментный (см. ornScale в VineSpine): по ширине полосы линии выходили
+   волосяными под крупными гроздьями. Значение проставляет JS — до него
+   работает запасная единица, но лоза в этот момент ещё свёрнута и невидима. */
 .ab-vine-cane {
-  stroke-width: calc(2.6 * var(--ab-vk));
+  stroke-width: calc(2.6 * var(--ab-orn, 1));
   /* Побег свёрнут ещё до того, как отработает JS: у пути pathLength="1", так
      что длина нормирована и стартовое состояние задаётся статикой. Иначе
      первый кадр успевал отрисовать лозу проросшей на всю страницу. */
@@ -3239,28 +3239,28 @@ a.info-row:hover .info-value {
   stroke-dashoffset: 1;
 }
 .ab-vine-stem {
-  stroke-width: calc(1.6 * var(--ab-vk));
+  stroke-width: calc(1.6 * var(--ab-orn, 1));
 }
 .ab-vine-tendril {
-  stroke-width: calc(1.2 * var(--ab-vk));
+  stroke-width: calc(1.2 * var(--ab-orn, 1));
 }
 .ab-vine-leaf {
   /* тёплый кремовый — держит контраст и на утреннем, и на золотом фоне */
   fill: #f5eddd;
   stroke: var(--wine);
-  stroke-width: calc(1.2 * var(--ab-vk));
+  stroke-width: calc(1.2 * var(--ab-orn, 1));
   stroke-linejoin: round;
 }
 .ab-vine-vein {
   fill: none;
   stroke: var(--accent-dark);
-  stroke-width: calc(0.7 * var(--ab-vk));
+  stroke-width: calc(0.7 * var(--ab-orn, 1));
   opacity: 0.7;
 }
 .ab-vine-berry {
   fill: #5b1520;
   stroke: #340f18;
-  stroke-width: calc(0.6 * var(--ab-vk));
+  stroke-width: calc(0.6 * var(--ab-orn, 1));
 }
 /* Блик на каждой ягоде — единственное, что отделяет её от соседних:
    обводка тут не годится, от светлого ободка гроздь перестаёт читаться
@@ -3822,7 +3822,6 @@ a.info-row:hover .info-value {
   }
 }
 
-
 /* ===================================================================
    Страница «Мероприятия»
    ===================================================================
@@ -4053,8 +4052,6 @@ a.info-row:hover .info-value {
   }
 }
 
-
-
 /* Этикетка на бутылке в сцене розлива: поле между волосяными линиями,
    которые размечали её зону изначально.
    Тон тёплый бежевый, а не белый: белый выпадал из «золотого часа» холодом.
@@ -4065,4 +4062,3 @@ a.info-row:hover .info-value {
 .ab-label {
   fill: #f5e9d0;
 }
-

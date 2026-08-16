@@ -79,45 +79,62 @@ const CLUSTER_N = 35;
 const CLUSTER_SIZES = [1.9, 1.5, 2.15, 1.7, 1.35, 2.0, 1.6, 1.85, 1.45, 2.1, 1.75];
 const RECIPE_ORDER = [0, 3, 6, 1, 4, 7, 2, 5];
 const CLUSTER_ROTS = [0, -6, 5, -3, 7, -4, 3, -8, 4];
-const clusterT = (i: number) => 0.02 + (0.96 * i) / (CLUSTER_N - 1);
-const CLUSTERS: Deco[] = Array.from({ length: CLUSTER_N }, (_, i) => ({
-  kind: "cluster" as const,
-  t: clusterT(i),
-  sideX: (i % 2 ? -1 : 1) as 1 | -1,
-  size: CLUSTER_SIZES[i % CLUSTER_SIZES.length],
-  r: RECIPE_ORDER[i % RECIPE_ORDER.length],
-  rot: CLUSTER_ROTS[i % CLUSTER_ROTS.length],
-}));
-
-// Усики — строго в промежутках между гроздьями (по одному в каждый просвет
-// плюс по одному до первой и после последней). Раньше два независимых ряда
-// расходились шагами и местами накладывались друг на друга.
-const TENDRIL_TS = [
-  clusterT(0) - (clusterT(1) - clusterT(0)) / 2,
-  ...Array.from(
-    { length: CLUSTER_N - 1 },
-    (_, i) => (clusterT(i) + clusterT(i + 1)) / 2
-  ),
-  clusterT(CLUSTER_N - 1) + (clusterT(1) - clusterT(0)) / 2,
-];
-const TENDRIL_ITEMS: Deco[] = TENDRIL_TS.map((t, i) => ({
-  kind: "tendril" as const,
-  t,
-  sideX: (i % 2 ? 1 : -1) as 1 | -1,
-  size: 1.2 + (i % 4) * 0.28,
-  v: i % 2,
-  rot: [8, 20, -6, 32][i % 4],
-}));
-
-const DECOS: Deco[] = [...CLUSTERS, ...TENDRIL_ITEMS];
 
 /**
- * Горизонтальное положение побега на высоте y. k — во сколько раз лоза уже
- * полосы, заданной BAND: на узких экранах поле для неё меньше, и вся
- * геометрия (размах побега, грозди, усики, толщина линий) ужимается тем же
- * множителем, поэтому рисунок остаётся тем же, только мельче.
- * Вертикаль не масштабируется: лоза всегда идёт во всю высоту страницы.
+ * Грозди и усики для заданного их числа. Число зависит от ширины полосы:
+ * на узких экранах орнамент мельче, и чтобы плотность рисунка осталась
+ * прежней, гроздей нужно больше — иначе лоза читается голой ниткой с
+ * редкими крапинками вместо сплошного орнамента.
+ * Усики идут строго в просветах между гроздьями (по одному в каждый плюс по
+ * одному до первой и после последней): два независимых ряда расходились
+ * шагами и местами накладывались друг на друга.
  */
+function makeDecos(n: number): Deco[] {
+  const t = (i: number) => 0.02 + (0.96 * i) / (n - 1);
+  const clusters: Deco[] = Array.from({ length: n }, (_, i) => ({
+    kind: "cluster" as const,
+    t: t(i),
+    sideX: (i % 2 ? -1 : 1) as 1 | -1,
+    size: CLUSTER_SIZES[i % CLUSTER_SIZES.length],
+    r: RECIPE_ORDER[i % RECIPE_ORDER.length],
+    rot: CLUSTER_ROTS[i % CLUSTER_ROTS.length],
+  }));
+  const half = (t(1) - t(0)) / 2;
+  const ts = [
+    t(0) - half,
+    ...Array.from({ length: n - 1 }, (_, i) => (t(i) + t(i + 1)) / 2),
+    t(n - 1) + half,
+  ];
+  const tendrils: Deco[] = ts.map((tt, i) => ({
+    kind: "tendril" as const,
+    t: tt,
+    sideX: (i % 2 ? 1 : -1) as 1 | -1,
+    size: 1.2 + (i % 4) * 0.28,
+    v: i % 2,
+    rot: [8, 20, -6, 32][i % 4],
+  }));
+  return [...clusters, ...tendrils];
+}
+
+/**
+ * Два разных множителя, и это намеренно.
+ *
+ * k — во сколько раз полоса уже эталонных BAND. Им ужимается только
+ * горизонтальная геометрия побега: размах ветки должен уложиться в отведённое
+ * поле, каким бы узким оно ни было.
+ *
+ * orn — насколько мельче сам орнамент: грозди, усики, толщина линий. Он
+ * растёт медленнее (k^0.55), потому что при честном k рисунок на телефоне
+ * распадался — грозди по 12px на нитке в 1px с шагом в 70px читались не
+ * лозой, а проволокой с крапинами. Замерено: плотность (ширина грозди к шагу
+ * между соседями) падала с 0.43 на десктопе до 0.17 на телефоне.
+ *
+ * Вертикаль не масштабируется никогда: лоза идёт во всю высоту страницы,
+ * а плотность выравнивается числом гроздей, а не сжатием побега.
+ */
+const ornScale = (k: number) => Math.pow(k, 0.55);
+
+/** Горизонтальное положение побега на высоте y (см. k выше). */
 function xAt(y: number, k: number): number {
   return (84 + 14 * Math.sin(y * 0.02) + 6 * Math.sin(y * 0.055 + 1)) * k;
 }
@@ -154,11 +171,19 @@ export function VineSpine() {
       // строка «calc(130px * 0.4)», из которой парсится не то число.
       const band = wrap.getBoundingClientRect().width || BAND;
       const k = band / BAND;
+      const orn = ornScale(k);
+      // Чем мельче орнамент, тем чаще грозди — так шаг между ними ужимается
+      // вместе с ними и плотность рисунка держится одинаковой на всех
+      // экранах. Потолок в 70 — чтобы на очень длинной странице не разносить
+      // в DOM лишние тысячи ягод ради разницы, которой не видно.
+      const n = Math.min(70, Math.round(CLUSTER_N / orn));
+      // Толщину линий считает CSS, но множитель знает только здесь
+      wrap.style.setProperty("--ab-orn", orn.toFixed(3));
       let d = `M ${xAt(0, k).toFixed(1)} 0`;
       for (let y = 14; y <= h; y += 14) d += ` L ${xAt(y, k).toFixed(1)} ${y}`;
-      const placed = DECOS.map((dc) => ({
+      const placed = makeDecos(n).map((dc) => ({
         ...dc,
-        size: dc.size * k,
+        size: dc.size * orn,
         nx: +xAt(dc.t * h, k).toFixed(1),
         ny: +(dc.t * h).toFixed(1),
       }));
@@ -201,6 +226,8 @@ export function VineSpine() {
     }
 
     let raf = 0;
+    // Последнее применённое раскрытие каждой грозди; -1 — «ещё не писали»
+    const lastGe = new Float32Array(decos.length).fill(-1);
     const update = () => {
       raf = 0;
       const rect = main.getBoundingClientRect();
@@ -214,11 +241,20 @@ export function VineSpine() {
       const p0 = Math.min(0.5, (window.innerHeight * 0.55) / rect.height);
       const p = p0 + (1 - p0) * readP;
       cane.style.strokeDashoffset = String(1 - p);
-      for (const el of decos) {
+      // Раскрытие занимает узкую полоску прогресса (0.025), поэтому в любой
+      // момент меняются считанные грозди: остальные либо ещё свёрнуты, либо
+      // давно раскрыты. Записываем только изменившиеся — иначе каждый кадр
+      // трогает сотню узлов ради значений, которые и так на месте. Прогресс
+      // не монотонен (вверх листают тоже), поэтому сравниваем с прошлым
+      // значением, а не «досчитали — и забыли».
+      for (let i = 0; i < decos.length; i++) {
+        const el = decos[i];
         const t = +el.dataset.t!;
-        const s = +el.dataset.s!;
         const g = Math.min(1, Math.max(0, (p - t) / 0.025));
         const ge = 1 - (1 - g) * (1 - g);
+        if (Math.abs(ge - lastGe[i]) < 0.002) continue;
+        lastGe[i] = ge;
+        const s = +el.dataset.s!;
         el.setAttribute(
           "transform",
           `translate(${el.dataset.nx} ${el.dataset.ny}) scale(${(ge * s).toFixed(
