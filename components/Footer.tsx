@@ -51,7 +51,7 @@ export default function Footer() {
             <h4>{L(t.footer.contactsCol)}</h4>
             <a href={site.contacts.phoneHref}>{site.contacts.phone}</a>
             <a href={`mailto:${site.contacts.email}`}>{site.contacts.email}</a>
-            <p className="footer-address">{site.contacts.addressLine}</p>
+            <p className="footer-address">{L(site.contacts.addressLine)}</p>
             <a
               href={site.contacts.mapUrl}
               target="_blank"

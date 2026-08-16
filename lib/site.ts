@@ -38,7 +38,15 @@ export const site = {
     email: "chateauatmount@gmail.com",
     phone: "+373 76 007 737",
     phoneHref: "tel:+37376007737",
-    addressLine: "3QPW+HR, Чадыр-Лунга, Гагаузия, Молдова",
+    // Строка адреса для показа людям (подвал и страница контактов) — по
+    // языкам: в EN/RO город и регион пишутся латиницей, как в title и
+    // description этих версий. В JSON-LD и метаданных уходит не она, а
+    // site.address.* — там намеренно оставлена кириллица родного написания.
+    addressLine: {
+      ru: "3QPW+HR, Чадыр-Лунга, Гагаузия, Молдова",
+      en: "3QPW+HR, Ceadîr-Lunga, Gagauzia, Moldova",
+      ro: "3QPW+HR, Ceadîr-Lunga, Găgăuzia, Moldova",
+    },
     // Точка по plus-коду — точнее текстового поиска, пока нет карточки
     // в Google Business Profile.
     mapUrl: "https://www.google.com/maps/search/?api=1&query=3QPW%2BHR+Ceadir-Lunga",
