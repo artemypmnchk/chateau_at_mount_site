@@ -57,7 +57,12 @@ function Chapter({
               alt={media}
               fill
               placeholder="blur"
-              sizes="(max-width: 900px) 100vw, 50vw"
+              /* Замерено по вёрстке: до 480px кадр занимает ~78vw (колонка
+                 минус поле под лозу), до 900px доходит до 87vw, выше — около
+                 42vw половины сетки, а с 1441px гэп упирается в максимум и
+                 кадр застывает на 540px. Прежние «100vw / 50vw» просили
+                 ступень srcset крупнее той, что реально показывается. */
+              sizes="(max-width: 480px) 80vw, (max-width: 900px) 88vw, (max-width: 1440px) 43vw, 540px"
               style={{
                 objectFit: "cover",
                 objectPosition: imagePosition ?? "center",

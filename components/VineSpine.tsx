@@ -111,8 +111,15 @@ const TENDRIL_ITEMS: Deco[] = TENDRIL_TS.map((t, i) => ({
 
 const DECOS: Deco[] = [...CLUSTERS, ...TENDRIL_ITEMS];
 
-function xAt(y: number): number {
-  return 84 + 14 * Math.sin(y * 0.02) + 6 * Math.sin(y * 0.055 + 1);
+/**
+ * Горизонтальное положение побега на высоте y. k — во сколько раз лоза уже
+ * полосы, заданной BAND: на узких экранах поле для неё меньше, и вся
+ * геометрия (размах побега, грозди, усики, толщина линий) ужимается тем же
+ * множителем, поэтому рисунок остаётся тем же, только мельче.
+ * Вертикаль не масштабируется: лоза всегда идёт во всю высоту страницы.
+ */
+function xAt(y: number, k: number): number {
+  return (84 + 14 * Math.sin(y * 0.02) + 6 * Math.sin(y * 0.055 + 1)) * k;
 }
 
 type Placed = Deco & { nx: number; ny: number };
@@ -121,25 +128,41 @@ export function VineSpine() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const caneRef = useRef<SVGPathElement>(null);
   const tipRef = useRef<SVGGElement>(null);
-  const [geo, setGeo] = useState<{ h: number; d: string; placed: Placed[] }>({
+  const [geo, setGeo] = useState<{
+    h: number;
+    band: number;
+    d: string;
+    placed: Placed[];
+  }>({
     h: 0,
+    band: BAND,
     d: "",
     placed: [],
   });
 
   useEffect(() => {
-    const main = wrapRef.current?.parentElement;
-    if (!main) return;
+    const wrap = wrapRef.current;
+    const main = wrap?.parentElement;
+    if (!wrap || !main) return;
     const build = () => {
       const h = main.scrollHeight;
-      let d = `M ${xAt(0).toFixed(1)} 0`;
-      for (let y = 14; y <= h; y += 14) d += ` L ${xAt(y).toFixed(1)} ${y}`;
+      // Ширину полосы задаёт CSS (--ab-band по брейкпоинтам) — там же, где
+      // страница отводит под лозу левое поле. Так вёрстка и рисунок не могут
+      // разъехаться, и до гидрации поле уже правильной ширины: без скачка.
+      // Берём именно измеренную ширину обёртки, а не getPropertyValue:
+      // у некастомизированного свойства computed value — это подставленная
+      // строка «calc(130px * 0.4)», из которой парсится не то число.
+      const band = wrap.getBoundingClientRect().width || BAND;
+      const k = band / BAND;
+      let d = `M ${xAt(0, k).toFixed(1)} 0`;
+      for (let y = 14; y <= h; y += 14) d += ` L ${xAt(y, k).toFixed(1)} ${y}`;
       const placed = DECOS.map((dc) => ({
         ...dc,
-        nx: +xAt(dc.t * h).toFixed(1),
+        size: dc.size * k,
+        nx: +xAt(dc.t * h, k).toFixed(1),
         ny: +(dc.t * h).toFixed(1),
       }));
-      setGeo((g) => (g.h === h ? g : { h, d, placed }));
+      setGeo((g) => (g.h === h && g.band === band ? g : { h, band, d, placed }));
     };
     build();
     const ro = new ResizeObserver(build);
@@ -233,9 +256,9 @@ export function VineSpine() {
       <div className="ab-warm-layer" aria-hidden />
       <div className="ab-spine" aria-hidden ref={wrapRef}>
         <svg
-          width={BAND}
+          width={geo.band}
           height={geo.h || undefined}
-          viewBox={`0 0 ${BAND} ${geo.h || 1}`}
+          viewBox={`0 0 ${geo.band} ${geo.h || 1}`}
           preserveAspectRatio="none"
           fill="none"
         >

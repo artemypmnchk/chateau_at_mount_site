@@ -134,7 +134,13 @@ export default function EventsPage() {
                       alt={L(o.media)}
                       fill
                       placeholder="blur"
-                      sizes="(max-width: 900px) 100vw, 42vw"
+                      /* Замерено по вёрстке, а не на глаз: до 900px кадр
+                         занимает 90–94vw (колонка минус поля), выше — 38vw
+                         пятой доли сетки 5fr/7fr, а с 1248px контейнер
+                         упирается в максимум и кадр застывает на 460px.
+                         Прежние «42vw» завышали ширину на всех экранах —
+                         браузер брал ступень srcset крупнее нужной. */
+                      sizes="(max-width: 900px) 94vw, (max-width: 1248px) 39vw, 460px"
                       style={{
                         objectFit: "cover",
                         objectPosition: media.position ?? "center",
