@@ -92,29 +92,29 @@ const pageMeta: Record<PageKey, Record<Locale, { title: string; description: str
     en: {
       title: "Chateau At Mount — Family Winery in Gagauzia, Moldova",
       description:
-        "Chateau At Mount, a family winery in Gagauzia, southern Moldova: 8 ha of vineyards, 7 grape varieties and characterful wines from our own estate.",
+        "Chateau At Mount, a family winery in Gagauzia, southern Moldova: 15 ha of vineyards, 7 grape varieties and characterful wines from our own estate.",
     },
     ro: {
       title: "Chateau At Mount — Cramă de familie în Găgăuzia, Moldova",
       description:
-        "Chateau At Mount, cramă de familie în Găgăuzia, sudul Moldovei: 8 ha de viță de vie, 7 soiuri de struguri și vinuri de autor din viile proprii.",
+        "Chateau At Mount, cramă de familie în Găgăuzia, sudul Moldovei: 15 ha de viță de vie, 7 soiuri de struguri și vinuri de autor din viile proprii.",
     },
   },
   about: {
     ru: {
       title: "О винодельне Chateau At Mount — Чадыр-Лунга, Гагаузия",
       description:
-        "Семейная гагаузская винодельня Chateau At Mount на самой высокой точке холма в Чадыр-Лунге: 8 га своих виноградников, 7 сортов, солнечная энергия, выдержка в дубовых барриках и международные награды.",
+        "Семейная гагаузская винодельня Chateau At Mount на самой высокой точке холма в Чадыр-Лунге: 15 га своих виноградников, 7 сортов, солнечная энергия, выдержка в дубовых барриках и международные награды.",
     },
     en: {
       title: "About the Winery — Ceadîr-Lunga, Gagauzia",
       description:
-        "Chateau At Mount, a Gagauz family winery on the highest point of the hill in Ceadîr-Lunga: 8 hectares of our own vineyards, 7 varieties, solar power, ageing in oak barriques and international awards.",
+        "Chateau At Mount, a Gagauz family winery on the highest point of the hill in Ceadîr-Lunga: 15 hectares of our own vineyards, 7 varieties, solar power, ageing in oak barriques and international awards.",
     },
     ro: {
       title: "Despre cramă — Ceadîr-Lunga, Găgăuzia",
       description:
-        "Chateau At Mount, cramă de familie găgăuză pe cel mai înalt punct al dealului din Ceadîr-Lunga: 8 ha de vii proprii, 7 soiuri, energie solară, maturare în baricuri de stejar și premii internaționale.",
+        "Chateau At Mount, cramă de familie găgăuză pe cel mai înalt punct al dealului din Ceadîr-Lunga: 15 ha de vii proprii, 7 soiuri, energie solară, maturare în baricuri de stejar și premii internaționale.",
     },
   },
   wines: {
@@ -138,17 +138,17 @@ const pageMeta: Record<PageKey, Record<Locale, { title: string; description: str
     ru: {
       title: "Мероприятия на винодельне — пикники, свидания, аренда",
       description:
-        "Мероприятия на винодельне Chateau At Mount в Чадыр-Лунге, Гагаузия: пикники среди лоз, мастер-классы, кино под открытым небом, романтические вечера, аренда территории и проживание.",
+        "Мероприятия на винодельне Chateau At Mount в Чадыр-Лунге, Гагаузия: пикники среди лоз, мастер-классы, кино под открытым небом, романтические вечера, девичники и аренда территории.",
     },
     en: {
       title: "Events at the Winery — Picnics, Dates, Estate Hire",
       description:
-        "Events at Chateau At Mount in Ceadîr-Lunga, Gagauzia: picnics among the vines, creative workshops, open-air cinema, romantic evenings, hire of the estate and overnight stays.",
+        "Events at Chateau At Mount in Ceadîr-Lunga, Gagauzia: picnics among the vines, creative workshops, open-air cinema, romantic evenings, hen parties and hire of the estate.",
     },
     ro: {
       title: "Evenimente la cramă — picnicuri, întâlniri, închiriere",
       description:
-        "Evenimente la Chateau At Mount în Ceadîr-Lunga, Găgăuzia: picnicuri printre vii, ateliere creative, cinema sub cerul liber, seri romantice, închirierea domeniului și cazare.",
+        "Evenimente la Chateau At Mount în Ceadîr-Lunga, Găgăuzia: picnicuri printre vii, ateliere creative, cinema sub cerul liber, seri romantice, petreceri ale burlăcițelor și închirierea domeniului.",
     },
   },
   visit: {

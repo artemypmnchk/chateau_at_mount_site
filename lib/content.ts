@@ -628,9 +628,9 @@ export const t = {
         ro: "Podgorii proprii",
       },
       text: {
-        ru: "8 га виноградников и 7 сортов винограда. Выпуск до 150 000 бутылок в год",
-        en: "8 hectares of vineyards and 7 grape varieties. Up to 150,000 bottles a year",
-        ro: "8 ha de podgorii și 7 soiuri de struguri. Până la 150 000 de sticle pe an",
+        ru: "15 га виноградников и 7 сортов винограда. Выпуск до 150 000 бутылок в год",
+        en: "15 hectares of vineyards and 7 grape varieties. Up to 150,000 bottles a year",
+        ro: "15 ha de podgorii și 7 soiuri de struguri. Până la 150 000 de sticle pe an",
       },
     },
     taste: {
@@ -1150,8 +1150,8 @@ export const t = {
     ],
   },
   /**
-   * Страница «Мероприятия». Порядок предложений — от дневных к ночным: он
-   * задаёт световую дугу страницы (день → золотой час → вечер → ночь), фон
+   * Страница «Мероприятия». Порядок предложений — от дневных к вечерним: он
+   * задаёт световую дугу страницы (день → золотой час → вечер), фон
    * светлеет и темнеет вслед за ним. Менять порядок — значит ломать дугу.
    * `href` есть только у дегустаций: они живут отдельной страницей.
    */
@@ -1183,9 +1183,9 @@ export const t = {
     },
     offersEyebrow: { ru: "Что мы предлагаем", en: "What we offer", ro: "Ce oferim" },
     offersTitle: {
-      ru: "Девять способов провести у нас время",
-      en: "Nine ways to spend time with us",
-      ro: "Nouă feluri de a petrece timpul la noi",
+      ru: "Восемь способов провести у нас время",
+      en: "Eight ways to spend time with us",
+      ro: "Opt feluri de a petrece timpul la noi",
     },
     offerMore: { ru: "Подробнее", en: "Learn more", ro: "Detalii" },
     offerCta: {
@@ -1391,23 +1391,6 @@ export const t = {
           ru: ["Бутылка вина", "Декор", "Сырное плато"],
           en: ["A bottle of wine", "Decor", "A cheese board"],
           ro: ["O sticlă de vin", "Decor", "Un platou de brânzeturi"],
-        },
-      },
-      {
-        name: {
-          ru: "Проживание на винодельне",
-          en: "Staying at the winery",
-          ro: "Cazare la cramă",
-        },
-        blurb: {
-          ru: "У нас можно остаться на ночь, встретить утро с видом на виноградники и никуда не спешить.",
-          en: "You can stay the night, wake up to a view over the vineyards and be in no hurry at all.",
-          ro: "Puteți rămâne peste noapte, să întâmpinați dimineața cu vedere spre podgorii și să nu vă grăbiți nicăieri.",
-        },
-        media: {
-          ru: "Комната с видом на виноградники",
-          en: "A room overlooking the vineyards",
-          ro: "O cameră cu vedere spre podgorii",
         },
       },
     ],
@@ -1635,9 +1618,9 @@ export const t = {
           ro: "Ciorchini de struguri albi și sticle de vin pe masă în ziua recoltei",
         },
         p1: {
-          ru: "Первые лозы посадили в 2019-м, а уже в 2020-м собрали первый урожай. Сегодня семья развивает 8 га виноградников — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz и другие сорта. В будущем — расширение ещё на 3–5 га и выпуск до 150 000 бутылок в год.",
-          en: "The first vines were planted in 2019, and the first harvest came in 2020. Today the family tends 8 hectares of vineyards — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz and other varieties. Ahead lie another 3–5 hectares and an output of up to 150,000 bottles a year.",
-          ro: "Primele vițe au fost plantate în 2019, iar prima recoltă a venit în 2020. Astăzi familia îngrijește 8 ha de vie — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz și alte soiuri. Urmează încă 3–5 ha și o producție de până la 150 000 de sticle pe an.",
+          ru: "Первые лозы посадили в 2019-м, а уже в 2020-м собрали первый урожай. Сегодня семья развивает 15 га виноградников — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz и другие сорта. В будущем — расширение ещё на 3–5 га и выпуск до 150 000 бутылок в год.",
+          en: "The first vines were planted in 2019, and the first harvest came in 2020. Today the family tends 15 hectares of vineyards — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz and other varieties. Ahead lie another 3–5 hectares and an output of up to 150,000 bottles a year.",
+          ro: "Primele vițe au fost plantate în 2019, iar prima recoltă a venit în 2020. Astăzi familia îngrijește 15 ha de vie — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz și alte soiuri. Urmează încă 3–5 ha și o producție de până la 150 000 de sticle pe an.",
         },
       },
       terroir: {
