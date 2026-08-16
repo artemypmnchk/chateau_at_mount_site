@@ -76,9 +76,60 @@ type Deco =
 
 // Грозди — равномерно по всей странице, все разные (размер, вид, наклон, сторона)
 const CLUSTER_N = 35;
-const CLUSTER_SIZES = [1.9, 1.5, 2.15, 1.7, 1.35, 2.0, 1.6, 1.85, 1.45, 2.1, 1.75];
+/* Разброс намеренно узкий. Раньше стояло 1.35…2.15, и вместе с разной массой
+   рецептов (см. NORM ниже) соседние грозди отличались почти вдвое — на
+   мелкой лозе это читалось не «все разные», а «часть недоросла». */
+const CLUSTER_SIZES = [1.8, 1.68, 1.9, 1.74, 1.64, 1.86, 1.7, 1.82, 1.66];
 const RECIPE_ORDER = [0, 3, 6, 1, 4, 7, 2, 5];
 const CLUSTER_ROTS = [0, -6, 5, -3, 7, -4, 3, -8, 4];
+
+/**
+ * Выравнивание рецептов по видимому размеру.
+ *
+ * Рецепты разной массы: в cl4 пятнадцать ягод и полуширина 12.7 единицы,
+ * в cl3 — восемь и 8.2, плюс у каждого свой множитель ct. В сумме широкая
+ * гроздь выходила в 1.86 раза шире узкой, и это, а не список размеров, было
+ * главной причиной пестроты: рядом стояли грозди 21px и 40px.
+ *
+ * Здесь для каждого рецепта считается его собственная полуширина, и размер
+ * потом делится на неё — так рецепт задаёт рисунок грозди (сколько ягод, как
+ * лежат, крупные или мелкие), но не её габарит. Габарит остаётся за
+ * CLUSTER_SIZES, где разброс виден и управляем.
+ *
+ * Опорное значение — средняя полуширина по всем рецептам: так средний размер
+ * грозди остаётся прежним и лоза в целом не мельчает и не грубеет.
+ */
+/* Точки контура листа — из LEAF_D, парами. Нужны, чтобы честно посчитать,
+   насколько лист вылезает вбок после своего поворота: у узких гроздей листья
+   не ужимались вместе с ягодами, и нормировка по одной грозди делала разброс
+   не меньше, а больше. */
+const LEAF_PTS: [number, number][] = (() => {
+  const nums = (LEAF_D.match(/-?\d+(?:\.\d+)?/g) ?? []).map(Number);
+  const pts: [number, number][] = [];
+  for (let i = 0; i + 1 < nums.length; i += 2) pts.push([nums[i], nums[i + 1]]);
+  return pts;
+})();
+
+/** Полуширина фигуры после поворота на deg и масштаба sc */
+const spread = (pts: [number, number][], deg: number, sc: number) => {
+  const a = (deg * Math.PI) / 180;
+  const c = Math.cos(a);
+  const s = Math.sin(a);
+  return sc * Math.max(...pts.map(([x, y]) => Math.abs(x * c - y * s)));
+};
+
+/** Видимая полуширина рецепта целиком: и грозди, и листьев */
+const halfWidth = (n: Recipe) => {
+  const cl = CL[n.cl];
+  const berries = spread(cl.b, n.ct[2], n.ct[3]) + cl.r * n.ct[3];
+  const cluster = Math.abs(n.ct[0]) + berries;
+  const leaves = Math.max(
+    ...n.leaves.map(([rot, sc]) => spread(LEAF_PTS, rot, sc))
+  );
+  return Math.max(cluster, leaves);
+};
+const REF_HALF = NODES.reduce((a, n) => a + halfWidth(n), 0) / NODES.length;
+const NORM = NODES.map((n) => REF_HALF / halfWidth(n));
 
 /**
  * Грозди и усики для заданного их числа. Число зависит от ширины полосы:
@@ -91,14 +142,19 @@ const CLUSTER_ROTS = [0, -6, 5, -3, 7, -4, 3, -8, 4];
  */
 function makeDecos(n: number): Deco[] {
   const t = (i: number) => 0.02 + (0.96 * i) / (n - 1);
-  const clusters: Deco[] = Array.from({ length: n }, (_, i) => ({
-    kind: "cluster" as const,
-    t: t(i),
-    sideX: (i % 2 ? -1 : 1) as 1 | -1,
-    size: CLUSTER_SIZES[i % CLUSTER_SIZES.length],
-    r: RECIPE_ORDER[i % RECIPE_ORDER.length],
-    rot: CLUSTER_ROTS[i % CLUSTER_ROTS.length],
-  }));
+  const clusters: Deco[] = Array.from({ length: n }, (_, i) => {
+    const r = RECIPE_ORDER[i % RECIPE_ORDER.length];
+    return {
+      kind: "cluster" as const,
+      t: t(i),
+      sideX: (i % 2 ? -1 : 1) as 1 | -1,
+      // NORM снимает разницу в габарите между рецептами, CLUSTER_SIZES
+      // оставляет управляемый разброс поверх неё
+      size: CLUSTER_SIZES[i % CLUSTER_SIZES.length] * NORM[r],
+      r,
+      rot: CLUSTER_ROTS[i % CLUSTER_ROTS.length],
+    };
+  });
   const half = (t(1) - t(0)) / 2;
   const ts = [
     t(0) - half,
