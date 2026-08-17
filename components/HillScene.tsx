@@ -59,14 +59,25 @@ function Roof({ d }: { d: string }) {
 
 /** Угловая колонна бельведера */
 function Col({ x }: { x: number }) {
-  return <rect className="ab-hill-solid" x={x - 1.5} y={-58} width={3} height={10.5} />;
+  return (
+    <rect
+      className="ab-hill-solid"
+      x={x - 1.5}
+      y={-58}
+      width={3}
+      height={10.5}
+    />
+  );
 }
 
 function Winery() {
   return (
     <g className="ab-hill-bld">
       {/* — цоколь: здание стоит на земле, а не растёт из неё — */}
-      <path className="ab-hill-solid" d={`M3 0 L3 ${BASE} L143 ${BASE} L143 0 Z`} />
+      <path
+        className="ab-hill-solid"
+        d={`M3 0 L3 ${BASE} L143 ${BASE} L143 0 Z`}
+      />
 
       {/* — основной объём — */}
       <path
@@ -83,7 +94,10 @@ function Winery() {
       <Win x={68.75} w={10.5} />
       <Win x={84.25} w={10.5} />
       {/* водосточные трубы */}
-      <path className="ab-ln-hair" d={`M45.6 ${WALL_TOP} L45.6 ${BASE} M98 ${WALL_TOP} L98 ${BASE}`} />
+      <path
+        className="ab-ln-hair"
+        d={`M45.6 ${WALL_TOP} L45.6 ${BASE} M98 ${WALL_TOP} L98 ${BASE}`}
+      />
 
       {/* — кровля: щипец слева, горизонтальный конёк, справа вальма — */}
       <Roof d="M2 -32 L23 -46 L86 -46 L110 -32 Z" />
@@ -92,8 +106,17 @@ function Winery() {
       <path className="ab-ln-hair" d="M2 -30.6 L110 -30.6" />
 
       {/* — высокий остеклённый угол; переплёт по центру грани — */}
-      <path className="ab-hill-solid" d={`M104 ${BASE} L104 -44.5 L140 -44.5 L140 ${BASE} Z`} />
-      <rect className="ab-hill-glass" x={111} y={-41.5} width={22} height={35.5} />
+      <path
+        className="ab-hill-solid"
+        d={`M104 ${BASE} L104 -44.5 L140 -44.5 L140 ${BASE} Z`}
+      />
+      <rect
+        className="ab-hill-glass"
+        x={111}
+        y={-41.5}
+        width={22}
+        height={35.5}
+      />
       <rect className="ab-ln-fine" x={111} y={-41.5} width={22} height={35.5} />
       {/* Переплёт как в оригинале: три неравные колонки — узкая, широкая, узкая;
           снизу одна большая створка в два ряда высотой, над ней глухой тёмный
@@ -105,17 +128,29 @@ function Winery() {
            M117.2 -20.7 L117.2 -6 M127.8 -20.7 L127.8 -6
            M111 -31.7 L133 -31.7"
       />
-      <rect className="ab-hill-band" x={111} y={-23.1} width={22} height={2.4} />
+      <rect
+        className="ab-hill-band"
+        x={111}
+        y={-23.1}
+        width={22}
+        height={2.4}
+      />
 
       {/* — плита: пол бельведера на уровне конька основной кровли — */}
-      <path className="ab-hill-solid" d="M100 -47.5 L144 -47.5 L144 -44.5 L100 -44.5 Z" />
+      <path
+        className="ab-hill-solid"
+        d="M100 -47.5 L144 -47.5 L144 -44.5 L100 -44.5 Z"
+      />
 
       {/* — бельведер: три колонны, пустой балочный пояс, пологая пирамида.
            Пояс без насечек: с ними он читался кирпичной кладкой. — */}
       <Col x={109} />
       <Col x={123.25} />
       <Col x={137.5} />
-      <path className="ab-hill-solid" d="M105 -61.5 L141 -61.5 L141 -58 L105 -58 Z" />
+      <path
+        className="ab-hill-solid"
+        d="M105 -61.5 L141 -61.5 L141 -58 L105 -58 Z"
+      />
       <Roof d="M97 -62 L113 -69 L133 -69 L149 -62 Z" />
     </g>
   );
@@ -147,7 +182,8 @@ const taper = (i: number) => {
 };
 
 const topY = (i: number) => CANOPY_TOP + jit(i, 12.9898) * 2.3 + taper(i);
-const botY = (i: number) => CANOPY_BOTTOM + jit(i, 78.233) * 1.3 - taper(i) * 0.35;
+const botY = (i: number) =>
+  CANOPY_BOTTOM + jit(i, 78.233) * 1.3 - taper(i) * 0.35;
 
 /**
  * Полог ряда — сплошная масса листвы с рваными кромками. На этом масштабе
@@ -212,7 +248,10 @@ function VineRow() {
   return (
     <g className="ab-hill-rows">
       {/* шпалерные столбы — держат проволоку, макушки торчат над листвой */}
-      <path className="ab-ln-fine" d={POSTS.map((x) => `M${x} 0 L${x} -25`).join(" ")} />
+      <path
+        className="ab-ln-fine"
+        d={POSTS.map((x) => `M${x} 0 L${x} -25`).join(" ")}
+      />
       <path className="ab-hill-mask" d={canopy()} />
       <path className="ab-hill-solid is-leaf" d={canopy()} />
       {CLUSTERS.map((x, i) => (
@@ -242,7 +281,10 @@ const RAYS = Array.from({ length: 8 }, (_, i) => {
   const a = (i * Math.PI * 2) / 8 - Math.PI / 2;
   const r0 = SUN.r + 5;
   const r1 = SUN.r + 13;
-  return `M${(SUN.x + Math.cos(a) * r0).toFixed(1)} ${(SUN.y + Math.sin(a) * r0).toFixed(
+  return `M${(SUN.x + Math.cos(a) * r0).toFixed(1)} ${(
+    SUN.y +
+    Math.sin(a) * r0
+  ).toFixed(
     1
   )} L${(SUN.x + Math.cos(a) * r1).toFixed(1)} ${(SUN.y + Math.sin(a) * r1).toFixed(1)}`;
 }).join(" ");

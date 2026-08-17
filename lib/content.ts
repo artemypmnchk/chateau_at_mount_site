@@ -1181,7 +1181,11 @@ export const t = {
       en: "Book an event",
       ro: "Rezervați un eveniment",
     },
-    offersEyebrow: { ru: "Что мы предлагаем", en: "What we offer", ro: "Ce oferim" },
+    offersEyebrow: {
+      ru: "Что мы предлагаем",
+      en: "What we offer",
+      ro: "Ce oferim",
+    },
     offersTitle: {
       ru: "Восемь способов провести у нас время",
       en: "Eight ways to spend time with us",
@@ -1399,7 +1403,11 @@ export const t = {
       en: "Ask us anything you need to know, or leave your contacts — we will get back to you",
       ro: "Puneți-ne orice întrebare sau lăsați-vă datele de contact — vă vom răspunde negreșit",
     },
-    finalForm: { ru: "Оставить заявку", en: "Make a request", ro: "Lăsați o cerere" },
+    finalForm: {
+      ru: "Оставить заявку",
+      en: "Make a request",
+      ro: "Lăsați o cerere",
+    },
     finalTg: {
       ru: "Связаться с нами",
       en: "Get in touch",

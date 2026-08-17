@@ -10,7 +10,7 @@ import { useReveal } from "./useReveal";
 function awardScore(w: (typeof wines)[number]) {
   return (w.awards ?? []).reduce(
     (sum, a) => sum + (a.level === "gold" ? 2 : 1),
-    0,
+    0
   );
 }
 
@@ -59,9 +59,7 @@ export default function WinesPage() {
                   />
                 </div>
                 <div className="wine-c-body">
-                  <span className="wine-c-meta">
-                    {L(w.type)}
-                  </span>
+                  <span className="wine-c-meta">{L(w.type)}</span>
                   <h3>{w.name}</h3>
                   <p className="wine-c-desc">{L(w.desc)}</p>
                   {w.awards && w.awards.length > 0 && (
@@ -88,7 +86,10 @@ export default function WinesPage() {
       <section className="section-dark visit-final" style={{ paddingTop: 0 }}>
         <div className="container">
           <h2 data-reveal>{L(t.finalCta.title)}</h2>
-          <p data-reveal style={{ "--reveal-delay": "0.08s" } as React.CSSProperties}>
+          <p
+            data-reveal
+            style={{ "--reveal-delay": "0.08s" } as React.CSSProperties}
+          >
             {L(t.finalCta.subtitle)}
           </p>
           <div

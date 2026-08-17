@@ -32,22 +32,49 @@ const CL: Record<string, { r: number; b: [number, number][] }> = {
   cl2: {
     r: 3.4,
     b: [
-      [-3, -1], [3, -1], [-6, 3.4], [0, 3.4], [6, 3.4], [-3, 7.8], [3, 7.8],
-      [-4.5, 12.2], [1.5, 12.2], [-1.5, 16.4],
+      [-3, -1],
+      [3, -1],
+      [-6, 3.4],
+      [0, 3.4],
+      [6, 3.4],
+      [-3, 7.8],
+      [3, 7.8],
+      [-4.5, 12.2],
+      [1.5, 12.2],
+      [-1.5, 16.4],
     ],
   },
   cl3: {
     r: 3.2,
     b: [
-      [-2.5, -1], [2.5, -1], [-5, 3], [0, 3], [5, 3], [-2.5, 7], [2.5, 7], [0, 11],
+      [-2.5, -1],
+      [2.5, -1],
+      [-5, 3],
+      [0, 3],
+      [5, 3],
+      [-2.5, 7],
+      [2.5, 7],
+      [0, 11],
     ],
   },
   cl4: {
     r: 3.7,
     b: [
-      [-3.4, -2], [3.4, -2], [-8, 2.6], [-1.5, 2.6], [4.5, 2.6], [9, 3],
-      [-5.2, 7.2], [1.2, 7.2], [6.8, 7.6], [-7, 11.8], [-1, 12], [4.8, 12],
-      [-3.4, 16.4], [2.4, 16.6], [-0.6, 21],
+      [-3.4, -2],
+      [3.4, -2],
+      [-8, 2.6],
+      [-1.5, 2.6],
+      [4.5, 2.6],
+      [9, 3],
+      [-5.2, 7.2],
+      [1.2, 7.2],
+      [6.8, 7.6],
+      [-7, 11.8],
+      [-1, 12],
+      [4.8, 12],
+      [-3.4, 16.4],
+      [2.4, 16.6],
+      [-0.6, 21],
     ],
   },
 };
@@ -60,19 +87,105 @@ type Recipe = {
 };
 
 const NODES: Recipe[] = [
-  { stem: "M0 -2 L1 3", leaves: [[-52, 0.5], [-8, 0.44], [40, 0.5]], cl: "cl4", ct: [1, 3, 5, 0.86] },
-  { stem: "M0 -2 L0 3", leaves: [[-42, 0.5], [28, 0.46]], cl: "cl3", ct: [0, 3, -6, 0.8] },
-  { stem: "M0 -2 L0 3", leaves: [[-62, 0.46], [-28, 0.5], [8, 0.46], [48, 0.48]], cl: "cl4", ct: [0, 3, -4, 0.82] },
-  { stem: "M0 -2 L1 3", leaves: [[-46, 0.56], [2, 0.5], [50, 0.54]], cl: "cl4", ct: [1, 4, 4, 1] },
-  { stem: "M0 -2 L0 3", leaves: [[-58, 0.48], [-10, 0.5]], cl: "cl3", ct: [0, 3, -8, 0.9] },
-  { stem: "M0 -2 L1 3", leaves: [[-50, 0.5], [-18, 0.46], [18, 0.5], [58, 0.46]], cl: "cl4", ct: [1, 3, 6, 0.84] },
-  { stem: "M0 -2 L0 3", leaves: [[-58, 0.48], [-22, 0.5], [12, 0.46], [52, 0.5]], cl: "cl3", ct: [0, 3, 5, 0.8] },
-  { stem: "M0 -2 L-1 3", leaves: [[-50, 0.5], [-6, 0.48]], cl: "cl4", ct: [-1, 3, -8, 0.82] },
+  {
+    stem: "M0 -2 L1 3",
+    leaves: [
+      [-52, 0.5],
+      [-8, 0.44],
+      [40, 0.5],
+    ],
+    cl: "cl4",
+    ct: [1, 3, 5, 0.86],
+  },
+  {
+    stem: "M0 -2 L0 3",
+    leaves: [
+      [-42, 0.5],
+      [28, 0.46],
+    ],
+    cl: "cl3",
+    ct: [0, 3, -6, 0.8],
+  },
+  {
+    stem: "M0 -2 L0 3",
+    leaves: [
+      [-62, 0.46],
+      [-28, 0.5],
+      [8, 0.46],
+      [48, 0.48],
+    ],
+    cl: "cl4",
+    ct: [0, 3, -4, 0.82],
+  },
+  {
+    stem: "M0 -2 L1 3",
+    leaves: [
+      [-46, 0.56],
+      [2, 0.5],
+      [50, 0.54],
+    ],
+    cl: "cl4",
+    ct: [1, 4, 4, 1],
+  },
+  {
+    stem: "M0 -2 L0 3",
+    leaves: [
+      [-58, 0.48],
+      [-10, 0.5],
+    ],
+    cl: "cl3",
+    ct: [0, 3, -8, 0.9],
+  },
+  {
+    stem: "M0 -2 L1 3",
+    leaves: [
+      [-50, 0.5],
+      [-18, 0.46],
+      [18, 0.5],
+      [58, 0.46],
+    ],
+    cl: "cl4",
+    ct: [1, 3, 6, 0.84],
+  },
+  {
+    stem: "M0 -2 L0 3",
+    leaves: [
+      [-58, 0.48],
+      [-22, 0.5],
+      [12, 0.46],
+      [52, 0.5],
+    ],
+    cl: "cl3",
+    ct: [0, 3, 5, 0.8],
+  },
+  {
+    stem: "M0 -2 L-1 3",
+    leaves: [
+      [-50, 0.5],
+      [-6, 0.48],
+    ],
+    cl: "cl4",
+    ct: [-1, 3, -8, 0.82],
+  },
 ];
 
 type Deco =
-  | { kind: "cluster"; t: number; sideX: 1 | -1; size: number; r: number; rot: number }
-  | { kind: "tendril"; t: number; sideX: 1 | -1; size: number; v: number; rot: number };
+  | {
+      kind: "cluster";
+      t: number;
+      sideX: 1 | -1;
+      size: number;
+      r: number;
+      rot: number;
+    }
+  | {
+      kind: "tendril";
+      t: number;
+      sideX: 1 | -1;
+      size: number;
+      v: number;
+      rot: number;
+    };
 
 // Грозди — равномерно по всей странице, все разные (размер, вид, наклон, сторона)
 const CLUSTER_N = 35;
@@ -284,7 +397,9 @@ export function VineSpine() {
       wrapRef.current!.querySelectorAll<SVGGElement>(".ab-vine-deco")
     );
 
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
     if (reduce) {
       cane.style.strokeDashoffset = "0";
       decos.forEach((el) => {
@@ -338,9 +453,9 @@ export function VineSpine() {
         const s = +el.dataset.s!;
         el.setAttribute(
           "transform",
-          `translate(${el.dataset.nx} ${el.dataset.ny}) scale(${(ge * s).toFixed(
-            3
-          )})`
+          `translate(${el.dataset.nx} ${el.dataset.ny}) scale(${(
+            ge * s
+          ).toFixed(3)})`
         );
         el.style.opacity = Math.min(1, ge * 1.6).toFixed(3);
       }
@@ -396,7 +511,12 @@ export function VineSpine() {
         >
           {/* pathLength="1" нормирует длину: стартовое «свёрнуто» задаётся в
               CSS и работает с первого кадра, до всякого JS */}
-          <path ref={caneRef} className="ab-vine-cane" d={geo.d} pathLength={1} />
+          <path
+            ref={caneRef}
+            className="ab-vine-cane"
+            d={geo.d}
+            pathLength={1}
+          />
 
           {geo.placed.map((dc, i) => {
             const flip = dc.sideX < 0;
@@ -433,9 +553,7 @@ export function VineSpine() {
                 transform={`translate(${dc.nx} ${dc.ny}) scale(0)`}
                 style={{ opacity: 0 }}
               >
-                <g
-                  transform={`${flip ? "scale(-1,1) " : ""}rotate(${dc.rot})`}
-                >
+                <g transform={`${flip ? "scale(-1,1) " : ""}rotate(${dc.rot})`}>
                   <path className="ab-vine-stem" d={n.stem} />
                   {n.leaves.map(([rot, sc], j) => (
                     <g key={j} transform={`rotate(${rot}) scale(${sc})`}>

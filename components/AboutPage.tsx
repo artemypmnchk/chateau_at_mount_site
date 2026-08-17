@@ -78,7 +78,9 @@ function Chapter({
             <Ph label={media} />
           )}
         </div>
-        {caption && <figcaption className="ab-row-caption">{caption}</figcaption>}
+        {caption && (
+          <figcaption className="ab-row-caption">{caption}</figcaption>
+        )}
       </figure>
       <div className="ab-row-body">
         <div className="ab-row-head">

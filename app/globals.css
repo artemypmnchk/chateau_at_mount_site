@@ -2255,8 +2255,7 @@ a.info-row:hover .info-value {
   align-self: center;
   max-width: 620px;
   padding-block: clamp(40px, 5vw, 72px);
-  padding-inline: clamp(32px, 5vw, 72px)
-    max(24px, env(safe-area-inset-right));
+  padding-inline: clamp(32px, 5vw, 72px) max(24px, env(safe-area-inset-right));
 }
 /* Флагман тёмный: цвета по палитре section-dark */
 .flagship-body h3 {
@@ -2478,8 +2477,8 @@ a.info-row:hover .info-value {
   }
   .flagship-body {
     max-width: none;
-    padding: clamp(32px, 8vw, 52px) max(24px, env(safe-area-inset-right))
-      0 max(24px, env(safe-area-inset-left));
+    padding: clamp(32px, 8vw, 52px) max(24px, env(safe-area-inset-right)) 0
+      max(24px, env(safe-area-inset-left));
   }
   /* Полка вин листается нативным свайпом — без переносов */
   .shelf-row {

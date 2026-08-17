@@ -27,24 +27,22 @@ const e = t.eventsPage;
  * материал, поэтому обрезка небольшая и почти всем подходит центр; отклонения
  * заданы там, где сюжет смещён от середины.
  */
-const OFFER_MEDIA: Record<
-  string,
-  { img: StaticImageData; position?: string }
-> = {
-  // Стол уходит вглубь: верх кадра держит и сервировку, и перспективу
-  "Дегустация и экскурсия": { img: tastingImg, position: "center 20%" },
-  // Кадр 9:16, сверху много неба — опускаем на стол, гирлянда остаётся в кадре
-  "Творческие мастер-классы": { img: workshopImg, position: "center 60%" },
-  "Пикники в виноградниках": { img: picnicImg },
-  // Съёмка идёт в нижней половине кадра, вверху пустое небо
-  "Фотозоны для съёмок": { img: photoImg, position: "center 60%" },
-  "Девичники": { img: henImg },
-  // Люди и закат в нижней трети — центр показал бы одно небо
-  "Аренда территории": { img: hireImg, position: "center 65%" },
-  // Экран и стол со свечами — ниже середины, сверху чернота
-  "Кинотеатр под открытым небом": { img: cinemaImg, position: "center 70%" },
-  "Романтические свидания": { img: dateImg },
-};
+const OFFER_MEDIA: Record<string, { img: StaticImageData; position?: string }> =
+  {
+    // Стол уходит вглубь: верх кадра держит и сервировку, и перспективу
+    "Дегустация и экскурсия": { img: tastingImg, position: "center 20%" },
+    // Кадр 9:16, сверху много неба — опускаем на стол, гирлянда остаётся в кадре
+    "Творческие мастер-классы": { img: workshopImg, position: "center 60%" },
+    "Пикники в виноградниках": { img: picnicImg },
+    // Съёмка идёт в нижней половине кадра, вверху пустое небо
+    "Фотозоны для съёмок": { img: photoImg, position: "center 60%" },
+    Девичники: { img: henImg },
+    // Люди и закат в нижней трети — центр показал бы одно небо
+    "Аренда территории": { img: hireImg, position: "center 65%" },
+    // Экран и стол со свечами — ниже середины, сверху чернота
+    "Кинотеатр под открытым небом": { img: cinemaImg, position: "center 70%" },
+    "Романтические свидания": { img: dateImg },
+  };
 
 /**
  * Страница «Мероприятия».
@@ -122,85 +120,87 @@ export default function EventsPage() {
               const href = "href" in o ? o.href : undefined;
               const media = OFFER_MEDIA[o.name.ru];
               return (
-              <article
-                key={o.name.ru}
-                className={`ev-row${i % 2 ? " reverse" : ""}`}
-                data-reveal
-              >
-                <div className="ev-row-media">
-                  {media ? (
-                    <Image
-                      src={media.img}
-                      alt={L(o.media)}
-                      fill
-                      placeholder="blur"
-                      /* 65 вместо стандартных 75. Сравнивалось на выдаче
+                <article
+                  key={o.name.ru}
+                  className={`ev-row${i % 2 ? " reverse" : ""}`}
+                  data-reveal
+                >
+                  <div className="ev-row-media">
+                    {media ? (
+                      <Image
+                        src={media.img}
+                        alt={L(o.media)}
+                        fill
+                        placeholder="blur"
+                        /* 65 вместо стандартных 75. Сравнивалось на выдаче
                          оптимизатора: в натуральную ширину показа (459px)
                          разницы нет, среднее расхождение по пикселям 1–4
                          из 255. Восемь кадров страницы: 450 → 310 КБ. */
-                      quality={65}
-                      /* Замерено по вёрстке, а не на глаз: до 900px кадр
+                        quality={65}
+                        /* Замерено по вёрстке, а не на глаз: до 900px кадр
                          занимает 90–94vw (колонка минус поля), выше — 38vw
                          пятой доли сетки 5fr/7fr, а с 1248px контейнер
                          упирается в максимум и кадр застывает на 460px.
                          Прежние «42vw» завышали ширину на всех экранах —
                          браузер брал ступень srcset крупнее нужной. */
-                      sizes="(max-width: 900px) 94vw, (max-width: 1248px) 39vw, 460px"
-                      style={{
-                        objectFit: "cover",
-                        objectPosition: media.position ?? "center",
-                      }}
-                    />
-                  ) : (
-                    <Ph label={L(o.media)} />
-                  )}
-                </div>
-                <div className="ev-row-body">
-                  {/* Номер — не украшение: предложения идут по ходу дня,
+                        sizes="(max-width: 900px) 94vw, (max-width: 1248px) 39vw, 460px"
+                        style={{
+                          objectFit: "cover",
+                          objectPosition: media.position ?? "center",
+                        }}
+                      />
+                    ) : (
+                      <Ph label={L(o.media)} />
+                    )}
+                  </div>
+                  <div className="ev-row-body">
+                    {/* Номер — не украшение: предложения идут по ходу дня,
                       от дегустации при свете до вечера при свечах */}
-                  <span className="ev-num">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h3>{L(o.name)}</h3>
-                  {/* Порядок и классы — те же, что у карточек дегустаций
+                    <span className="ev-num">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3>{L(o.name)}</h3>
+                    {/* Порядок и классы — те же, что у карточек дегустаций
                       (.exp-*): цена сразу под заголовком, текст, состав
                       строками таблицы, ссылка-штрих внизу. Классы
                       переиспользуются, а не копируются, — иначе два блока
                       начнут расходиться при первой же правке.
                       У дегустаций своей цены тут нет: у них отдельная
                       страница с тремя пакетами, дублировать одну нечестно. */}
-                  {"price" in o && <p className="exp-price">{L(o.price)}</p>}
-                  {"blurb" in o && <p className="exp-text">{L(o.blurb)}</p>}
-                  {"items" in o && (
-                    <ul className="exp-list">
-                      {o.items.map((it) => (
-                        <li key={it.ru}>{L(it)}</li>
-                      ))}
-                    </ul>
-                  )}
-                  {"includes" in o && (
-                    <ul className="exp-list">
-                      {o.includes[locale].map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  )}
-                  {href ? (
-                    <a href={lp(href)} className="hero-link exp-cta">
-                      {L(e.offerMore)}
-                    </a>
-                  ) : (
-                    /* Метка источника — русское название предложения: по ней
+                    {"price" in o && <p className="exp-price">{L(o.price)}</p>}
+                    {"blurb" in o && <p className="exp-text">{L(o.blurb)}</p>}
+                    {"items" in o && (
+                      <ul className="exp-list">
+                        {o.items.map((it) => (
+                          <li key={it.ru}>{L(it)}</li>
+                        ))}
+                      </ul>
+                    )}
+                    {"includes" in o && (
+                      <ul className="exp-list">
+                        {o.includes[locale].map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    )}
+                    {href ? (
+                      <a href={lp(href)} className="hero-link exp-cta">
+                        {L(e.offerMore)}
+                      </a>
+                    ) : (
+                      /* Метка источника — русское название предложения: по ней
                        владелец видит, из какого блока пришла заявка */
-                    <button
-                      onClick={() => openBooking(`Мероприятия · ${o.name.ru}`)}
-                      className="hero-link exp-cta"
-                    >
-                      {L(e.offerCta)}
-                    </button>
-                  )}
-                </div>
-              </article>
+                      <button
+                        onClick={() =>
+                          openBooking(`Мероприятия · ${o.name.ru}`)
+                        }
+                        className="hero-link exp-cta"
+                      >
+                        {L(e.offerCta)}
+                      </button>
+                    )}
+                  </div>
+                </article>
               );
             })}
           </div>
@@ -209,10 +209,7 @@ export default function EventsPage() {
 
       {/* ======= Финал — тёмный край дуги. Метка темы обязательна: без неё
            шапка-хамелеон светлеет поверх тёмного фона ======= */}
-      <section
-        className="section-dark ev-final"
-        data-header-theme="dark"
-      >
+      <section className="section-dark ev-final" data-header-theme="dark">
         <div className="container">
           <h2 data-reveal>{L(e.finalTitle)}</h2>
           <div

@@ -49,6 +49,7 @@ export const site = {
     },
     // Точка по plus-коду — точнее текстового поиска, пока нет карточки
     // в Google Business Profile.
-    mapUrl: "https://www.google.com/maps/search/?api=1&query=3QPW%2BHR+Ceadir-Lunga",
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=3QPW%2BHR+Ceadir-Lunga",
   },
 } as const;

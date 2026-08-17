@@ -123,7 +123,7 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              '(function(){var m=location.pathname.match(/^\\/(en|ro)(\\/|$)/);if(m)document.documentElement.lang=m[1];})()',
+              "(function(){var m=location.pathname.match(/^\\/(en|ro)(\\/|$)/);if(m)document.documentElement.lang=m[1];})()",
           }}
         />
         <LocaleProvider>

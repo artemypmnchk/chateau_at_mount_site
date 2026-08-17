@@ -38,7 +38,10 @@ export function localizePath(locale: Locale, path: string): string {
 }
 
 /** Снимает языковой префикс, возвращая «голый» ru-путь (для канонизации/свитча). */
-export function stripLocale(pathname: string): { locale: Locale; path: string } {
+export function stripLocale(pathname: string): {
+  locale: Locale;
+  path: string;
+} {
   const m = pathname.match(/^\/(en|ro)(\/.*|$)/);
   if (m) {
     const locale = m[1] as Locale;
@@ -71,11 +74,12 @@ export function alternatesFor(
 }
 
 /** Локализованные подписи «хлебных крошек» для JSON-LD BreadcrumbList. */
-export const breadcrumbLabels: Record<Locale, { home: string; wines: string }> = {
-  ru: { home: "Главная", wines: "Вина" },
-  en: { home: "Home", wines: "Wines" },
-  ro: { home: "Acasă", wines: "Vinuri" },
-};
+export const breadcrumbLabels: Record<Locale, { home: string; wines: string }> =
+  {
+    ru: { home: "Главная", wines: "Вина" },
+    en: { home: "Home", wines: "Wines" },
+    ro: { home: "Acasă", wines: "Vinuri" },
+  };
 
 type PageKey = "home" | "about" | "wines" | "visit" | "events" | "contacts";
 
@@ -83,7 +87,10 @@ type PageKey = "home" | "about" | "wines" | "visit" | "events" | "contacts";
  * SEO title/description по страницам на трёх языках.
  * ⚠️ en/ro — черновики, ждут вычитки переводов вместе с телом сайта.
  */
-const pageMeta: Record<PageKey, Record<Locale, { title: string; description: string }>> = {
+const pageMeta: Record<
+  PageKey,
+  Record<Locale, { title: string; description: string }>
+> = {
   home: {
     ru: {
       title: "Chateau At Mount — Винодельня в Гагаузии, Молдова",

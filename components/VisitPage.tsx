@@ -23,7 +23,7 @@ const lightFormatImages = [harvestImg, basketImg];
 function awardScore(w: (typeof wines)[number]) {
   return (w.awards ?? []).reduce(
     (sum, a) => sum + (a.level === "gold" ? 2 : 1),
-    0,
+    0
   );
 }
 const shelfWines = [...wines].sort((a, b) => awardScore(b) - awardScore(a));
@@ -179,7 +179,11 @@ export default function VisitPage() {
           <h3 className="shelf-title">{L(v.shelfTitle)}</h3>
           <div className="shelf-row">
             {shelfWines.map((w) => (
-              <a className="shelf-item" href={lp(`/wines/${w.slug}`)} key={w.slug}>
+              <a
+                className="shelf-item"
+                href={lp(`/wines/${w.slug}`)}
+                key={w.slug}
+              >
                 <span className="shelf-bottle">
                   <Image
                     src={w.image}
@@ -219,7 +223,11 @@ export default function VisitPage() {
                   data-open={isOpen || undefined}
                   key={item.q.ru}
                   data-reveal
-                  style={{ "--reveal-delay": `${(i % 3) * 0.1}s` } as React.CSSProperties}
+                  style={
+                    {
+                      "--reveal-delay": `${(i % 3) * 0.1}s`,
+                    } as React.CSSProperties
+                  }
                 >
                   <dt>
                     <button

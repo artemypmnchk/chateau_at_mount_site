@@ -5,27 +5,34 @@
 ## Топ-референсы (смотреть в первую очередь)
 
 ### [Epoch Estate Wines](https://epochwines.com/) — Пасо-Роблес, США
+
 Наш исходный референс. Что брать:
-- Структура: Story → Vineyards → Wines → Experience → Purchase → Wine Club — история и место идут *перед* магазином.
+
+- Структура: Story → Vineyards → Wines → Experience → Purchase → Wine Club — история и место идут _перед_ магазином.
 - У каждого виноградника своя страница с характером (Paderewski, Catapult, York Mountain) — аналог наших терруарных страниц.
 - «Experience» как отдельный раздел — дегустации поданы как впечатление, не услуга.
 
 ### [Jordan Vineyard & Winery](https://jordanwinery.com/) — Сонома
+
 - Видео в hero, спокойные serif-шрифты, полноценный e-commerce (WooCommerce).
 - Один из лучших примеров «семейная винодельня + премиум» — близко к нашей задаче.
 
 ### [Silver Oak](https://silveroak.com/) — Напа
+
 - Ощущение «дорогого винного лаунжа», отточенный магазин.
 - Хорошая подача наследия и семьи (Duncan family) без пафоса.
 
 ### [BRAND Napa Valley](https://www.brandnapavalley.com/) — Best Beverage Website, WebAwards 2025
+
 - Смелая типографика, нумерованное меню (01–04), очень мало текста.
 - Продажа через «allocation» (закрытый список) — нам не подходит как модель, но подача дефицитности полезна.
 
 ### [Ashes & Diamonds](https://ashesdiamonds.com/) — Gold Davey Award
+
 - Ретро-модернизм, сильная айдентика, категории вин поданы просто (Blends / Single Vineyard / Library).
 
 ### [Cuvaison](https://cuvaison.com/) — несколько Davey/W3 Awards
+
 - Айдентика от этикеток 1970-х: иллюстрации в духе витражей. Пример того, как бренд-история становится визуальным языком сайта.
 
 ## Напа: расширенный список (стиль BRAND Napa Valley и рядом)
@@ -52,13 +59,13 @@
 
 ## Что подсмотреть под наши приоритеты
 
-| Приоритет | Где смотреть | Приём |
-|---|---|---|
-| Продажа вина | Jordan, Silver Oak, [Sweet Heart Winery](https://sweetheartwinery.com/) | Магазин вплетён в контент, а не отдельный «каталог»; карточка вина = история + награды + купить |
-| Награды | [Duckhorn](https://duckhorn.com/), Jordan | Медали на карточке вина и в hero, но дозированно — 2–3 самые сильные, остальное на странице вина |
-| Семья / история | [Frog's Leap](https://frogsleap.com/), Silver Oak, [Soter Vineyards](https://sotervineyards.com/) | Таймлайн, портреты, рассказ от первого лица; «Our Story» — второй пункт меню |
-| Отзывы | [Rombauer](https://rombauer.com/) | Цитаты гостей рядом с бронированием дегустаций, не отдельной страницей |
-| Дегустации | Epoch («Experience»), [Lightfoot & Wolfville](https://lightfootandwolfville.com/) | Впечатление + встроенное бронирование |
+| Приоритет       | Где смотреть                                                                                      | Приём                                                                                            |
+| --------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Продажа вина    | Jordan, Silver Oak, [Sweet Heart Winery](https://sweetheartwinery.com/)                           | Магазин вплетён в контент, а не отдельный «каталог»; карточка вина = история + награды + купить  |
+| Награды         | [Duckhorn](https://duckhorn.com/), Jordan                                                         | Медали на карточке вина и в hero, но дозированно — 2–3 самые сильные, остальное на странице вина |
+| Семья / история | [Frog's Leap](https://frogsleap.com/), Silver Oak, [Soter Vineyards](https://sotervineyards.com/) | Таймлайн, портреты, рассказ от первого лица; «Our Story» — второй пункт меню                     |
+| Отзывы          | [Rombauer](https://rombauer.com/)                                                                 | Цитаты гостей рядом с бронированием дегустаций, не отдельной страницей                           |
+| Дегустации      | Epoch («Experience»), [Lightfoot & Wolfville](https://lightfootandwolfville.com/)                 | Впечатление + встроенное бронирование                                                            |
 
 ## Ещё смотреть (длинный список)
 
