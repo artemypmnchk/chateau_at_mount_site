@@ -218,7 +218,12 @@ export function VineSpine() {
     const main = wrap?.parentElement;
     if (!wrap || !main) return;
     const build = () => {
-      const h = main.scrollHeight;
+      // На узких экранах лоза стартует не от нуля, а из-под шапки (CSS даёт
+      // .ab-spine отступ сверху) — иначе побег прорастал прямо из логотипа.
+      // Вычитаем этот отступ из высоты, чтобы низ лозы по-прежнему сходился
+      // с низом страницы, а не уезжал за неё.
+      const topOff = parseFloat(getComputedStyle(wrap).top) || 0;
+      const h = Math.max(1, main.scrollHeight - topOff);
       // Ширину полосы задаёт CSS (--ab-band по брейкпоинтам) — там же, где
       // страница отводит под лозу левое поле. Так вёрстка и рисунок не могут
       // разъехаться, и до гидрации поле уже правильной ширины: без скачка.
