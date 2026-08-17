@@ -203,11 +203,13 @@ export function VineSpine() {
   const tipRef = useRef<SVGGElement>(null);
   const [geo, setGeo] = useState<{
     h: number;
+    top: number;
     band: number;
     d: string;
     placed: Placed[];
   }>({
     h: 0,
+    top: 0,
     band: BAND,
     d: "",
     placed: [],
@@ -248,7 +250,11 @@ export function VineSpine() {
         nx: +xAt(dc.t * h, k).toFixed(1),
         ny: +(dc.t * h).toFixed(1),
       }));
-      setGeo((g) => (g.h === h && g.band === band ? g : { h, band, d, placed }));
+      setGeo((g) =>
+        g.h === h && g.band === band && g.top === topOff
+          ? g
+          : { h, top: topOff, band, d, placed }
+      );
     };
     build();
     const ro = new ResizeObserver(build);
@@ -299,7 +305,13 @@ export function VineSpine() {
       // всё время происходит в поле зрения, а не выше или ниже него.
       const maxScroll = Math.max(1, rect.height - window.innerHeight);
       const readP = Math.min(1, Math.max(0, viewed / maxScroll));
-      const p0 = Math.min(0.5, (window.innerHeight * 0.55) / rect.height);
+      // Стартовая доля считается от собственной высоты лозы и с поправкой на
+      // отступ сверху: без неё кончик на узких экранах вставал на 64 % первого
+      // экрана вместо задуманных 55 % — ровно на величину отступа под шапку.
+      const p0 = Math.min(
+        0.5,
+        Math.max(0, (window.innerHeight * 0.55 - geo.top) / geo.h)
+      );
       const p = p0 + (1 - p0) * readP;
       cane.style.strokeDashoffset = String(1 - p);
       // Раскрытие занимает узкую полоску прогресса (0.025), поэтому в любой
@@ -346,7 +358,7 @@ export function VineSpine() {
       window.removeEventListener("resize", onScroll);
       cancelAnimationFrame(raf);
     };
-  }, [geo.d]);
+  }, [geo.d, geo.h, geo.top]);
 
   return (
     <>
