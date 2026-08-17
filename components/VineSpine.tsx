@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
  * прорастает сверху вниз по скроллу (stroke-dashoffset); по всей ветке —
  * частые крупные грозди и множество курчавых усиков с обеих сторон,
  * растущих прямо из ветки. Всё «распускается», когда до него дорастает
- * лоза. Заодно ведёт «свет за скроллом» (--ab-warm на <html>).
+ * лоза. Заодно ведёт «свет за скроллом» (--ab-warm на самом слое света).
  * Декоративно (aria-hidden); при reduced-motion всё раскрыто статично.
  */
 
@@ -201,6 +201,7 @@ export function VineSpine() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const caneRef = useRef<SVGPathElement>(null);
   const tipRef = useRef<SVGGElement>(null);
+  const warmRef = useRef<HTMLDivElement>(null);
   const [geo, setGeo] = useState<{
     h: number;
     top: number;
@@ -236,10 +237,16 @@ export function VineSpine() {
       const k = band / BAND;
       const orn = ornScale(k);
       // Чем мельче орнамент, тем чаще грозди — так шаг между ними ужимается
-      // вместе с ними и плотность рисунка держится одинаковой на всех
-      // экранах. Потолок в 70 — чтобы на очень длинной странице не разносить
-      // в DOM лишние тысячи ягод ради разницы, которой не видно.
-      const n = Math.min(70, Math.round(CLUSTER_N / orn));
+      // вместе с ними и плотность рисунка держится одинаковой на всех экранах.
+      //
+      // Потолок в 44 стоит ради скорости, и цена ему известна. Каждая гроздь —
+      // это около сорока узлов SVG, а весь рисунок браузер растрирует, пока
+      // страницу листают. Замерено на телефоне с процессором ×6: 58 гроздей
+      // (2207 узлов) дают 18.6 к/с, 38 гроздей (1505 узлов) — 25.4 к/с,
+      // а ниже 38 прирост прекращается. То есть выигрыш весь в этом отрезке,
+      // и 44 берут большую его часть, не разрежая орнамент до «проволоки
+      // с крапинами», ради которой всё и затевалось.
+      const n = Math.min(44, Math.round(CLUSTER_N / orn));
       // Толщину линий считает CSS, но множитель знает только здесь
       wrap.style.setProperty("--ab-orn", orn.toFixed(3));
       let d = `M ${xAt(0, k).toFixed(1)} 0`;
@@ -288,13 +295,14 @@ export function VineSpine() {
         el.style.opacity = "1";
       });
       if (tipRef.current) tipRef.current.style.opacity = "0";
-      document.documentElement.style.setProperty("--ab-warm", "0.4");
+      warmRef.current?.style.setProperty("--ab-warm", "0.4");
       return;
     }
 
     let raf = 0;
     // Последнее применённое раскрытие каждой грозди; -1 — «ещё не писали»
     const lastGe = new Float32Array(decos.length).fill(-1);
+    let lastWarm = -1;
     const update = () => {
       raf = 0;
       const rect = main.getBoundingClientRect();
@@ -344,8 +352,17 @@ export function VineSpine() {
         );
         tipRef.current.style.opacity = p > 0.01 && p < 0.995 ? "1" : "0";
       }
-      // Тёплый свет идёт за фактическим чтением, а не за кончиком лозы
-      document.documentElement.style.setProperty("--ab-warm", readP.toFixed(3));
+      // Тёплый свет идёт за фактическим чтением, а не за кончиком лозы.
+      // Пишем на сам слой, а не на <html>: переменная нужна одному правилу,
+      // а запись в корень заставляла браузер пересчитывать стили всему
+      // дереву каждый кадр — на телефоне это съедало больше половины
+      // времени листания. И округляем до сотых: свет меняется от 0 до 1 на
+      // всю страницу, разницы в 0.001 не видно, а запись стоит пересчёта.
+      const warm = Math.round(readP * 100) / 100;
+      if (warm !== lastWarm) {
+        lastWarm = warm;
+        warmRef.current?.style.setProperty("--ab-warm", String(warm));
+      }
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);
@@ -360,9 +377,15 @@ export function VineSpine() {
     };
   }, [geo.d, geo.h, geo.top]);
 
+  /* Прожилки листа рисуются только там, где их видно. При узкой полосе штрих
+     жилки выходит около 0.4px — на экране это ничто, а в разметку добавляется
+     по семь отрезков на каждый лист: на телефоне это сотни лишних узлов в
+     SVG, который браузер растрирует при каждой прокрутке. */
+  const fine = geo.band >= 90;
+
   return (
     <>
-      <div className="ab-warm-layer" aria-hidden />
+      <div className="ab-warm-layer" aria-hidden ref={warmRef} />
       <div className="ab-spine" aria-hidden ref={wrapRef}>
         <svg
           width={geo.band}
@@ -417,7 +440,7 @@ export function VineSpine() {
                   {n.leaves.map(([rot, sc], j) => (
                     <g key={j} transform={`rotate(${rot}) scale(${sc})`}>
                       <path className="ab-vine-leaf" d={LEAF_D} />
-                      <path className="ab-vine-vein" d={LEAF_VEINS} />
+                      {fine && <path className="ab-vine-vein" d={LEAF_VEINS} />}
                     </g>
                   ))}
                   <g
