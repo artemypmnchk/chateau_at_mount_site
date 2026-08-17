@@ -39,7 +39,10 @@ function Chapter({
   children,
 }: {
   eyebrow: string;
-  title: string;
+  /** Необязателен: у главы «История» заголовка нет, блок открывается
+   *  микролейблом и сразу текстом. Пустой <h2> в таком случае не выводим —
+   *  он ломал бы структуру заголовков страницы. */
+  title?: string;
   media: string;
   image?: StaticImageData;
   imagePosition?: string;
@@ -82,7 +85,7 @@ function Chapter({
           <span className="eyebrow">{eyebrow}</span>
           <span className="ab-row-rule" />
         </div>
-        <h2>{title}</h2>
+        {title && <h2>{title}</h2>}
         {children}
       </div>
     </div>
@@ -132,7 +135,6 @@ export default function AboutPage() {
         <div className="container">
           <Chapter
             eyebrow={L(ch.story.eyebrow)}
-            title={L(ch.story.title)}
             media={L(ch.story.media)}
             image={founderImg}
             caption={L(ch.story.caption)}

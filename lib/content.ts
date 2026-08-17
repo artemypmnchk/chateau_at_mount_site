@@ -1579,11 +1579,9 @@ export const t = {
     chapters: {
       story: {
         eyebrow: { ru: "История", en: "Story", ro: "Istorie" },
-        title: {
-          ru: "Зов предков",
-          en: "The call of our ancestors",
-          ro: "Chemarea strămoșilor",
-        },
+        /* Заголовка у главы намеренно нет (решение владельца 17.08.2026):
+           блок открывается микролейблом «История» и сразу текстом. Chapter
+           умеет обходиться без title — см. components/AboutPage.tsx. */
         media: {
           ru: "Николай, основатель винодельни, открывает бутылку в поле у виноградников",
           en: "Nikolai, the winery's founder, opening a bottle in the field by the vineyards",
@@ -1595,7 +1593,7 @@ export const t = {
           ro: "Nicolae — fondatorul cramei",
         },
         p1: {
-          ru: "Мы — семейный проект, выросший из «зова предков». Chateau At Mount — детище гагаузской семьи, и её традиции слышны в характере и вкусе вина.",
+          ru: "Мы — семейный проект, выросший из зова предков. Chateau At Mount — детище гагаузской семьи, и её традиции слышны в характере и вкусе вина.",
           en: "We are a family project that grew out of the call of our ancestors. Chateau At Mount is the work of a Gagauz family, and its traditions can be heard in the character and taste of the wine.",
           ro: "Suntem un proiect de familie născut din chemarea strămoșilor. Chateau At Mount este opera unei familii găgăuze, iar tradițiile ei se aud în caracterul și gustul vinului.",
         },
