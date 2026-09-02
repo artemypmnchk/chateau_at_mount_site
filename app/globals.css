@@ -3165,20 +3165,9 @@ a.info-row:hover .info-value {
   line-height: 1;
   margin: 0;
 }
-.wine-c-sub {
-  display: block;
-  margin: -4px 0 9px;
-  font-size: 10.5px;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-  color: rgba(243, 237, 226, 0.42);
-}
 /* Светлая глава: те же карточки, цвета из светлой палитры */
-.wines-ch-light .wines-ch-light .wine-c-meta {
+.wines-ch-light .wine-c-meta {
   color: rgba(36, 26, 28, 0.55);
-}
-.wines-ch-light .wine-c-sub {
-  color: rgba(36, 26, 28, 0.5);
 }
 .wines-ch-light .wine-c-desc {
   color: #4d4143;
