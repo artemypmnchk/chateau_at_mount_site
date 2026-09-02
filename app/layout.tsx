@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Piazzolla, Oranienbaum } from "next/font/google";
+import "./fonts.css";
 import "./globals.css";
 import { site } from "@/lib/site";
 import { WinerySchema } from "@/components/WinerySchema";
@@ -10,32 +10,8 @@ import Footer from "@/components/Footer";
 import AgeGate from "@/components/AgeGate";
 import Metrika from "@/components/Metrika";
 
-const inter = Inter({
-  subsets: ["latin", "cyrillic"],
-  display: "swap",
-  variable: "--font-inter",
-});
-
-// Заголовочная антиква — узкий акцидентный дидон с сильным авторским
-// характером и родной кириллицей. Одно начертание (400); вес 500 в стилях
-// не синтезируем (font-synthesis-weight: none), чтобы держать чистый рисунок.
-const oranienbaum = Oranienbaum({
-  subsets: ["latin", "cyrillic", "latin-ext"],
-  weight: "400",
-  display: "swap",
-  variable: "--font-serif",
-});
-
-// Piazzolla оставлена только курсивом — «голос семьи»: тэглайны, цитаты
-// отзывов, декоративные номера. У Oranienbaum курсива нет, поэтому наклон
-// несёт настоящий италик Piazzolla, а не фейковый.
-const piazzolla = Piazzolla({
-  subsets: ["latin", "cyrillic", "latin-ext"],
-  style: ["italic"],
-  axes: ["opsz"],
-  display: "swap",
-  variable: "--font-serif-italic",
-});
+// Шрифты — локальные @font-face в app/fonts.css (Inter, Oranienbaum,
+// Piazzolla italic); CSS-переменные --font-* задаются там же.
 
 // viewport-fit=cover: без него Chrome на Android 15+ рисует под жестовой
 // панелью непрозрачную плашку цвета фона страницы — кремовый обрубок под
@@ -113,7 +89,6 @@ export default function RootLayout({
     <html
       lang="ru"
       suppressHydrationWarning
-      className={`${inter.variable} ${oranienbaum.variable} ${piazzolla.variable}`}
     >
       <body>
         {/* Единственный <html> живёт в корневом layout, а он не знает пути —
