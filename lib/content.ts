@@ -2,6 +2,8 @@ export type Locale = "ru" | "en" | "ro";
 
 export const locales: Locale[] = ["ru", "en", "ro"];
 
+export type WineLine = "classic" | "rare" | "experimental";
+
 export interface Wine {
   /** URL-сегмент страницы вина: /wines/<slug> */
   slug: string;
@@ -31,6 +33,16 @@ export interface Wine {
     art?: string;
     proofUrl?: string;
   }[];
+  /** Линейка — главы страницы /wines: classic — семь сортов (они же в ленте
+   *  на главной), rare — красные малым тиражом, experimental — игристое,
+   *  оранж и купажи PONI. */
+  line: WineLine;
+  /** Цвет/жанр — порядок внутри главы: sparkling → white → rose → orange → red. */
+  colour: "sparkling" | "white" | "rose" | "orange" | "red";
+  /** Состав купажа словами, без долей — подстрока карточки. */
+  blend?: string;
+  /** Особенность выпуска — подстрока карточки (Rare: «малый тираж · low sulfite»). */
+  edition?: Record<Locale, string>;
   desc: Record<Locale, string>;
   /** 2–3 слова-ноты для карточки ленты (выводятся курсивом): «вишня ·
    *  ежевика · дуб». Короткий сканируемый слой, не дубль desc. */
@@ -49,11 +61,14 @@ export interface Wine {
   seo: { title: string; description: string };
 }
 
-// Порядок бутылок — как в оригинальном слайдере.
-// ⚠️ Крепость заполнена ориентировочно — уточните у винодельни.
+// Порядок массива = порядок показа на /wines: главы Classic → Rare → Experimental,
+// внутри главы по цвету (игристое → белое → розе → оранж → красное), Viorica первой.
+// Крепость — по техфишкам винодельни (сентябрь 2026).
 export const wines: Wine[] = [
   {
     slug: "merlot",
+    line: "classic",
+    colour: "red",
     name: "Merlot",
     image: "/images/wine-merlot.png",
     accent: "#d09a83", // терракота заката с этикетки
@@ -125,6 +140,8 @@ export const wines: Wine[] = [
   },
   {
     slug: "cabernet-rose",
+    line: "classic",
+    colour: "rose",
     name: "Cabernet Rose",
     image: "/images/wine-cabernet-rose.png",
     accent: "#d5a2b4", // пыльная роза с этикетки
@@ -182,6 +199,8 @@ export const wines: Wine[] = [
   },
   {
     slug: "viorica",
+    line: "classic",
+    colour: "white",
     name: "Viorica",
     image: "/images/wine-viorica.png",
     accent: "#9ec4b5", // морская зелень волос с этикетки
@@ -277,6 +296,8 @@ export const wines: Wine[] = [
   },
   {
     slug: "feteasca-neagra",
+    line: "classic",
+    colour: "red",
     name: "Fetească neagră",
     image: "/images/wine-feteasca-neagra.png",
     accent: "#d8a778", // охра холмов с этикетки
@@ -294,7 +315,7 @@ export const wines: Wine[] = [
       ro: ["fructe de pădure", "zmeură", "smochine"],
     },
     type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
-    alcohol: { ru: "13,5 % об.", en: "13.5% ABV", ro: "13,5% vol." },
+    alcohol: { ru: "14,5 % об.", en: "14.5% ABV", ro: "14,5% vol." },
     servingTemp: "16–18 °C",
     pairings: {
       ru: [
@@ -334,6 +355,8 @@ export const wines: Wine[] = [
   },
   {
     slug: "cabernet-sauvignon",
+    line: "classic",
+    colour: "red",
     name: "Cabernet Sauvignon",
     image: "/images/wine-cabernet-sauvignon.png",
     accent: "#cbaa7e", // янтарь камней с этикетки
@@ -403,6 +426,8 @@ export const wines: Wine[] = [
   },
   {
     slug: "feteasca-alba",
+    line: "classic",
+    colour: "white",
     name: "Fetească albă",
     image: "/images/wine-feteasca-alba.png",
     accent: "#dcaaa0", // коралл рук с этикетки
@@ -421,7 +446,7 @@ export const wines: Wine[] = [
       ro: ["flori de câmp", "măr verde", "citrice"],
     },
     type: { ru: "Сухое белое", en: "Dry white", ro: "Alb sec" },
-    alcohol: { ru: "12 % об.", en: "12% ABV", ro: "12% vol." },
+    alcohol: { ru: "12,5 % об.", en: "12.5% ABV", ro: "12,5% vol." },
     servingTemp: "8–12 °C",
     pairings: {
       ru: [
@@ -461,6 +486,8 @@ export const wines: Wine[] = [
   },
   {
     slug: "shiraz",
+    line: "classic",
+    colour: "red",
     name: "Shiraz",
     image: "/images/wine-shiraz.png",
     accent: "#a3b4cf", // дымчатая синева бокала с этикетки
@@ -527,7 +554,318 @@ export const wines: Wine[] = [
         "Сухое красное вино Shiraz от семейной винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и история сорта.",
     },
   },
+
+  /* ===================== RARE — красные малым тиражом ===================== */
+  {
+    slug: "rare-feteasca-neagra-merlot",
+    line: "rare",
+    colour: "red",
+    name: "Fetească Neagră & Merlot",
+    image: "/images/wine-rare-feteasca-neagra-merlot.png",
+    accent: "#bfaeb2", // пипетка: капсула #524043 / светлый узор капсулы; полотно — тёмный мов капсулы
+    accentDark: "#5e2a33",
+    band: "#4a3a3e",
+    edition: { ru: "Малый тираж · low sulfite", en: "Small batch · low sulfite", ro: "Serie mică · low sulfite" },
+    desc: {
+      ru: "Чёрные фрукты и ягоды, специи и травы. Плотное и самобытное",
+      en: "Black fruit and berries, spices and herbs. Dense and distinctive",
+      ro: "Fructe negre și de pădure, condimente și ierburi. Dens și autentic",
+    },
+    notes: { ru: ["чёрные фрукты", "специи", "травы"], en: ["black fruit", "spices", "herbs"], ro: ["fructe negre", "condimente", "ierburi"] },
+    type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
+    alcohol: { ru: "14,5 % об.", en: "14.5% ABV", ro: "14,5% vol." },
+    servingTemp: "16–18 °C",
+    pairings: {
+      ru: ["Ягнёнок и дичь", "Мясо на углях", "Выдержанные твёрдые сыры", "Тушёные блюда с травами"],
+      en: ["Lamb and game", "Charcoal-grilled meat", "Aged hard cheeses", "Herb-braised dishes"],
+      ro: ["Miel și vânat", "Carne la jar", "Brânzeturi tari maturate", "Tocănițe cu ierburi"],
+    },
+    story: {
+      ru: "Линейка Rare — красные вина малым тиражом и с минимумом сульфитов, в тёмном стекле под восковой печатью. Этот купаж соединяет автохтонную Fetească Neagră с Merlot: первая даёт характер и специи, второй — плотность и мягкость.",
+      en: "The Rare line is small-batch reds with minimal sulfites, in dark glass under a wax seal. This blend joins the native Fetească Neagră with Merlot: the first brings character and spice, the second density and softness.",
+      ro: "Linia Rare înseamnă vinuri roșii în serii mici, cu minimum de sulfiți, în sticlă închisă sub sigiliu de ceară. Acest cupaj unește Fetească Neagră autohtonă cu Merlot: prima dă caracter și condimente, al doilea densitate și rotunjime.",
+    },
+    seo: {
+      title: "Fetească Neagră & Merlot Rare — красное вино малым тиражом",
+      description: "Купаж Fetească Neagră и Merlot из линейки Rare винодельни Chateau At Mount (Гагаузия, Молдова): малый тираж, минимум сульфитов, крепость и подача.",
+    },
+  },
+  {
+    slug: "rare-cabernet-merlot",
+    line: "rare",
+    colour: "red",
+    name: "Cabernet Sauvignon & Merlot",
+    image: "/images/wine-rare-cabernet-merlot.png", // ⚠️ временная заглушка (бутылка FN&Merlot) — заменить на вырезанное фото
+    accent: "#d4b46a", // золотая капсула (по снимку из чата; пересэмплировать с файла) — полотно тёмная бронза
+    accentDark: "#7a5c1e",
+    band: "#5f4a22",
+    edition: { ru: "Малый тираж · low sulfite", en: "Small batch · low sulfite", ro: "Serie mică · low sulfite" },
+    desc: {
+      ru: "Вишня и ежевика, шоколад, чёрный перец и дымные ноты",
+      en: "Cherry and blackberry, chocolate, black pepper and smoky notes",
+      ro: "Cireșe și mure, ciocolată, piper negru și note afumate",
+    },
+    notes: { ru: ["вишня", "шоколад", "чёрный перец"], en: ["cherry", "chocolate", "black pepper"], ro: ["cireșe", "ciocolată", "piper negru"] },
+    type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
+    alcohol: { ru: "14 % об.", en: "14% ABV", ro: "14% vol." },
+    servingTemp: "16–18 °C",
+    pairings: {
+      ru: ["Стейк", "Ростбиф", "Выдержанные сыры", "Тёмный шоколад"],
+      en: ["Steak", "Roast beef", "Aged cheeses", "Dark chocolate"],
+      ro: ["Friptură", "Roast beef", "Brânzeturi maturate", "Ciocolată neagră"],
+    },
+    story: {
+      ru: "Классическая бордоская пара в линейке Rare: Cabernet Sauvignon даёт структуру и чёрную смородину, Merlot — округлость и вишню. Малый тираж, минимум сульфитов, тёмное стекло и восковая печать.",
+      en: "The classic Bordeaux pair in the Rare line: Cabernet Sauvignon brings structure and blackcurrant, Merlot roundness and cherry. Small batch, minimal sulfites, dark glass and a wax seal.",
+      ro: "Perechea clasică bordeleză în linia Rare: Cabernet Sauvignon dă structură și coacăze negre, Merlot rotunjime și cireșe. Serie mică, minimum de sulfiți, sticlă închisă și sigiliu de ceară.",
+    },
+    seo: {
+      title: "Cabernet Sauvignon & Merlot Rare — красный купаж малым тиражом",
+      description: "Купаж Cabernet Sauvignon и Merlot из линейки Rare винодельни Chateau At Mount (Гагаузия, Молдова): малый тираж, минимум сульфитов, крепость и подача.",
+    },
+  },
+  {
+    slug: "rare-merlot",
+    line: "rare",
+    colour: "red",
+    name: "Merlot",
+    image: "/images/wine-rare-merlot.png", // ⚠️ временная заглушка — заменить на вырезанное фото
+    accent: "#d09a83", // как у классического Merlot (решение владельца): терракота этикетки, гранатовое полотно
+    accentDark: "#a25a41",
+    band: "#5b090e",
+    edition: { ru: "Малый тираж · low sulfite", en: "Small batch · low sulfite", ro: "Serie mică · low sulfite" },
+    desc: {
+      ru: "Плотный аромат чёрной сливы с оттенками вишни и табака",
+      en: "A dense aroma of black plum with hints of cherry and tobacco",
+      ro: "Aromă densă de prune negre cu nuanțe de cireșe și tutun",
+    },
+    notes: { ru: ["чёрная слива", "вишня", "табак"], en: ["black plum", "cherry", "tobacco"], ro: ["prune negre", "cireșe", "tutun"] },
+    type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
+    alcohol: { ru: "14 % об.", en: "14% ABV", ro: "14% vol." },
+    servingTemp: "16–18 °C",
+    pairings: {
+      ru: ["Утка и дичь", "Мясо на гриле", "Грибные блюда", "Выдержанные сыры"],
+      en: ["Duck and game", "Grilled meat", "Mushroom dishes", "Aged cheeses"],
+      ro: ["Rață și vânat", "Carne la grătar", "Preparate cu ciuperci", "Brânzeturi maturate"],
+    },
+    story: {
+      ru: "Merlot из линейки Rare — тот же сорт, что и в классике, но малым тиражом и с минимумом сульфитов. Больше плотности и тёмных фруктов, табачная нота, тёмное стекло и восковая печать.",
+      en: "The Rare-line Merlot is the same variety as in the Classic line, but in a small batch with minimal sulfites. More density and dark fruit, a tobacco note, dark glass and a wax seal.",
+      ro: "Merlot din linia Rare este același soi ca în linia clasică, dar în serie mică și cu minimum de sulfiți. Mai multă densitate și fructe închise, o notă de tutun, sticlă închisă și sigiliu de ceară.",
+    },
+    seo: {
+      title: "Merlot Rare — красное вино малым тиражом из Молдовы",
+      description: "Merlot из линейки Rare винодельни Chateau At Mount (Гагаузия, Молдова): малый тираж, минимум сульфитов, крепость, подача и история сорта.",
+    },
+  },
+  {
+    slug: "rare-cabernet-sauvignon",
+    line: "rare",
+    colour: "red",
+    name: "Cabernet Sauvignon",
+    image: "/images/wine-rare-cabernet-sauvignon.png", // ⚠️ временная заглушка — заменить на вырезанное фото
+    accent: "#cbaa7e", // как у классического Cabernet: янтарный акцент; полотно — его кофейный тон, чуть поднят, чтобы чёрная бутылка не тонула
+    accentDark: "#8d6a3f",
+    band: "#2b1b13",
+    edition: { ru: "Малый тираж · low sulfite", en: "Small batch · low sulfite", ro: "Serie mică · low sulfite" },
+    desc: {
+      ru: "Насыщенная чёрная смородина с нотами ежевики, кожи и специй",
+      en: "Rich blackcurrant with notes of blackberry, leather and spice",
+      ro: "Coacăze negre intense cu note de mure, piele și condimente",
+    },
+    notes: { ru: ["чёрная смородина", "кожа", "специи"], en: ["blackcurrant", "leather", "spice"], ro: ["coacăze negre", "piele", "condimente"] },
+    type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
+    alcohol: { ru: "14 % об.", en: "14% ABV", ro: "14% vol." },
+    servingTemp: "16–18 °C",
+    pairings: {
+      ru: ["Стейк и ягнёнок", "Мясо на углях", "Твёрдые выдержанные сыры", "Блюда с розмарином"],
+      en: ["Steak and lamb", "Charcoal-grilled meat", "Hard aged cheeses", "Rosemary dishes"],
+      ro: ["Friptură și miel", "Carne la jar", "Brânzeturi tari maturate", "Preparate cu rozmarin"],
+    },
+    story: {
+      ru: "Cabernet Sauvignon из линейки Rare — малый тираж и минимум сульфитов. Сорт с плотными танинами здесь раскрывается чёрной смородиной, кожей и специями. Тёмное стекло, восковая печать.",
+      en: "The Rare-line Cabernet Sauvignon: a small batch with minimal sulfites. A firmly tannic variety that here opens with blackcurrant, leather and spice. Dark glass, a wax seal.",
+      ro: "Cabernet Sauvignon din linia Rare: serie mică și minimum de sulfiți. Un soi cu taninuri ferme, care aici se deschide cu coacăze negre, piele și condimente. Sticlă închisă, sigiliu de ceară.",
+    },
+    seo: {
+      title: "Cabernet Sauvignon Rare — красное вино малым тиражом из Молдовы",
+      description: "Cabernet Sauvignon из линейки Rare винодельни Chateau At Mount (Гагаузия, Молдова): малый тираж, минимум сульфитов, крепость, подача и история сорта.",
+    },
+  },
+  /* ============ EXPERIMENTAL — игристое, оранж, купажи PONI ============ */
+  {
+    slug: "extra-brut-alb",
+    line: "experimental",
+    colour: "sparkling",
+    name: "Extra Brut Alb",
+    image: "/images/wine-extra-brut-alb.png",
+    accent: "#c9c6bb", // пипетка: серебро мазка; полотно — графит этикетки #242b31
+    accentDark: "#5f5b53",
+    band: "#2a3034",
+    desc: {
+      ru: "Яркое и свежее, с ароматом цветов и белых фруктов",
+      en: "Bright and fresh, with aromas of flowers and white fruit",
+      ro: "Luminos și proaspăt, cu arome de flori și fructe albe",
+    },
+    notes: { ru: ["цветы", "белые фрукты"], en: ["flowers", "white fruit"], ro: ["flori", "fructe albe"] },
+    type: { ru: "Игристое экстра брют", en: "Sparkling, extra brut", ro: "Spumant extra brut" },
+    alcohol: { ru: "12,5 % об.", en: "12.5% ABV", ro: "12,5% vol." },
+    servingTemp: "6–8 °C",
+    pairings: {
+      ru: ["Аперитив", "Устрицы и морепродукты", "Лёгкие закуски", "Козий сыр"],
+      en: ["Aperitif", "Oysters and seafood", "Light starters", "Goat cheese"],
+      ro: ["Aperitiv", "Stridii și fructe de mare", "Gustări ușoare", "Brânză de capră"],
+    },
+    story: {
+      ru: "Игристое из Fetească Albă. Экстра брют — самая сухая категория: сахара почти нет, и вино остаётся прямым и свежим, с цветочным ароматом сорта и тонким перляжем.",
+      en: "A sparkling wine from Fetească Albă. Extra brut is the driest category: almost no sugar, so the wine stays direct and fresh, with the variety's floral aroma and a fine bead.",
+      ro: "Un spumant din Fetească Albă. Extra brut este cea mai seacă categorie: aproape fără zahăr, vinul rămâne direct și proaspăt, cu aroma florală a soiului și un perlaj fin.",
+    },
+    seo: {
+      title: "Extra Brut Alb — игристое из Fetească Albă, Молдова",
+      description: "Белое игристое экстра брют из Fetească Albă от винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и гастрономические пары.",
+    },
+  },
+  {
+    slug: "extra-brut-rose",
+    line: "experimental",
+    colour: "sparkling",
+    name: "Extra Brut Rosé",
+    image: "/images/wine-extra-brut-rose.png",
+    accent: "#dfc165", // пипетка: золото мазка #dfc165; полотно — маджента логотипа, затемнена
+    accentDark: "#8a6a2e",
+    band: "#6e2f4a",
+    desc: {
+      ru: "Свежее и яркое, с нотами красных ягод и бриоши",
+      en: "Fresh and bright, with notes of red berries and brioche",
+      ro: "Proaspăt și luminos, cu note de fructe roșii și brioșă",
+    },
+    notes: { ru: ["красные ягоды", "бриошь"], en: ["red berries", "brioche"], ro: ["fructe roșii", "brioșă"] },
+    type: { ru: "Игристое розовое экстра брют", en: "Sparkling rosé, extra brut", ro: "Spumant rosé extra brut" },
+    alcohol: { ru: "12,6 % об.", en: "12.6% ABV", ro: "12,6% vol." },
+    servingTemp: "6–8 °C",
+    pairings: {
+      ru: ["Аперитив", "Рыба и морепродукты на гриле", "Мягкие сыры", "Ягодные десерты"],
+      en: ["Aperitif", "Grilled fish and seafood", "Soft cheeses", "Berry desserts"],
+      ro: ["Aperitiv", "Pește și fructe de mare la grătar", "Brânzeturi moi", "Deserturi cu fructe de pădure"],
+    },
+    story: {
+      ru: "Розовое игристое из Shiraz. Сорт, который в классике даёт плотное красное, здесь снят рано и коротко настоян на кожице: отсюда цвет и ягодность, а выдержка на осадке добавляет бриошь.",
+      en: "A rosé sparkling from Shiraz. The variety that gives a dense red in the Classic line is picked early here and briefly macerated on the skins: hence the colour and berry fruit, while ageing on the lees adds brioche.",
+      ro: "Un spumant rosé din Shiraz. Soiul care în linia clasică dă un roșu dens este cules aici devreme și macerat scurt pe pielițe: de aici culoarea și fructul, iar maturarea pe drojdii adaugă brioșa.",
+    },
+    seo: {
+      title: "Extra Brut Rosé — розовое игристое из Shiraz, Молдова",
+      description: "Розовое игристое экстра брют из Shiraz от винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и гастрономические пары.",
+    },
+  },
+  {
+    slug: "poni-white",
+    line: "experimental",
+    colour: "white",
+    name: "PONI White",
+    image: "/images/wine-poni-white.png",
+    accent: "#e8cbb7", // пипетка: кремово-розовая этикетка; полотно — тёплая терракота этикетки #997b6b
+    accentDark: "#9b5b49",
+    band: "#7d5f50",
+    heroTone: "#7d5f50",
+    blend: "Viorica · Fetească Albă",
+    desc: {
+      ru: "Купаж двух автохтонов: цветочная Viorica и хрустящая Fetească Albă",
+      en: "A blend of two native varieties: floral Viorica and crisp Fetească Albă",
+      ro: "Un cupaj din două soiuri autohtone: Viorica florală și Fetească Albă crocantă",
+    },
+    notes: { ru: ["полевые цветы", "зелёное яблоко", "цитрус"], en: ["wildflowers", "green apple", "citrus"], ro: ["flori de câmp", "măr verde", "citrice"] },
+    type: { ru: "Сухое белое", en: "Dry white", ro: "Alb sec" },
+    alcohol: { ru: "12,5 % об.", en: "12.5% ABV", ro: "12,5% vol." },
+    servingTemp: "8–10 °C",
+    pairings: {
+      ru: ["Салаты и зелень", "Рыба на пару", "Молодые сыры", "Летние закуски"],
+      en: ["Salads and greens", "Steamed fish", "Young cheeses", "Summer starters"],
+      ro: ["Salate și verdețuri", "Pește la abur", "Brânzeturi tinere", "Gustări de vară"],
+    },
+    story: {
+      ru: "PONI — наши купажи с рисованными этикетками, вино без строгих правил. Белый PONI собран из двух молдавских автохтонов: Viorica даёт цветы и пряность, Fetească Albă — яблоко и свежесть.",
+      en: "PONI is our line of blends with illustrated labels, wine without strict rules. The white PONI is made from two Moldovan natives: Viorica brings flowers and spice, Fetească Albă apple and freshness.",
+      ro: "PONI sunt cupajele noastre cu etichete desenate, vin fără reguli stricte. PONI alb este făcut din două soiuri autohtone moldovenești: Viorica dă flori și condiment, Fetească Albă măr și prospețime.",
+    },
+    seo: {
+      title: "PONI White — белый купаж Viorica и Fetească Albă",
+      description: "PONI White — сухой белый купаж автохтонных сортов Viorica и Fetească Albă от винодельни Chateau At Mount (Гагаузия, Молдова): крепость, подача и пары.",
+    },
+  },
+  {
+    slug: "amber",
+    line: "experimental",
+    colour: "orange",
+    name: "Amber at Mount",
+    image: "/images/wine-amber.png",
+    accent: "#d3b69c", // пипетка: светлая медь этикетки; полотно — медь капсулы #945f33
+    accentDark: "#7b421c",
+    band: "#84552f",
+    heroTone: "#84552f",
+    desc: {
+      ru: "Viorica на кожице: сухофрукты, специи, цитрус и мёд",
+      en: "Viorica on the skins: dried fruit, spices, citrus and honey",
+      ro: "Viorica pe pielițe: fructe uscate, condimente, citrice și miere",
+    },
+    notes: { ru: ["сухофрукты", "специи", "мёд"], en: ["dried fruit", "spices", "honey"], ro: ["fructe uscate", "condimente", "miere"] },
+    type: { ru: "Оранжевое сухое", en: "Orange, dry", ro: "Oranj sec" },
+    alcohol: { ru: "12,5 % об.", en: "12.5% ABV", ro: "12,5% vol." },
+    servingTemp: "10–12 °C",
+    pairings: {
+      ru: ["Пряная и восточная кухня", "Птица с специями", "Грибы", "Выдержанные сыры"],
+      en: ["Spicy and Eastern dishes", "Spiced poultry", "Mushrooms", "Aged cheeses"],
+      ro: ["Bucătărie condimentată și orientală", "Pasăre cu mirodenii", "Ciuperci", "Brânzeturi maturate"],
+    },
+    story: {
+      ru: "Оранжевое вино делают из белого винограда по красной технологии: сок бродит вместе с кожицей. Amber — это Viorica, настоянная на кожице: янтарный цвет, лёгкие танины и аромат сухофруктов, специй и мёда.",
+      en: "Orange wine is made from white grapes the way reds are: the juice ferments with the skins. Amber is Viorica macerated on its skins: amber colour, light tannins and aromas of dried fruit, spices and honey.",
+      ro: "Vinul oranj se face din struguri albi după tehnologia roșiilor: mustul fermentează împreună cu pielițele. Amber este Viorica macerată pe pielițe: culoare de chihlimbar, taninuri ușoare și arome de fructe uscate, condimente și miere.",
+    },
+    seo: {
+      title: "Amber at Mount — оранжевое вино из Viorica, Молдова",
+      description: "Оранжевое сухое вино Amber из Viorica на кожице от винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и гастрономические пары.",
+    },
+  },
+  {
+    slug: "poni-red",
+    line: "experimental",
+    colour: "red",
+    name: "PONI Red",
+    image: "/images/wine-poni-red.png",
+    accent: "#e39a6b", // пипетка: огонь этикетки; полотно — тёмный кармин сургуча #7e1719
+    accentDark: "#9a4a2a",
+    band: "#7a2a26",
+    blend: "Fetească Neagră · Merlot · Pinot Noir",
+    desc: {
+      ru: "Три сорта в одном купаже: сочный, прямой, с мягкими танинами",
+      en: "Three varieties in one blend: juicy, direct, with soft tannins",
+      ro: "Trei soiuri într-un cupaj: suculent, direct, cu taninuri moi",
+    },
+    notes: { ru: ["вишня", "красные ягоды", "специи"], en: ["cherry", "red berries", "spice"], ro: ["cireșe", "fructe roșii", "condimente"] },
+    type: { ru: "Сухое красное", en: "Dry red", ro: "Roșu sec" },
+    alcohol: { ru: "13,5 % об.", en: "13.5% ABV", ro: "13,5% vol." },
+    servingTemp: "14–16 °C",
+    pairings: {
+      ru: ["Пицца и паста", "Бургеры", "Мясо на гриле", "Полутвёрдые сыры"],
+      en: ["Pizza and pasta", "Burgers", "Grilled meat", "Semi-hard cheeses"],
+      ro: ["Pizza și paste", "Burgeri", "Carne la grătar", "Brânzeturi semitari"],
+    },
+    story: {
+      ru: "Красный PONI — купаж Fetească Neagră, Merlot и Pinot Noir. Автохтон даёт характер, Merlot — тело, Pinot Noir — лёгкость и ягодность. Вино на каждый день, без строгих правил.",
+      en: "The red PONI is a blend of Fetească Neagră, Merlot and Pinot Noir. The native variety brings character, Merlot the body, Pinot Noir lightness and berry fruit. An everyday wine without strict rules.",
+      ro: "PONI roșu este un cupaj de Fetească Neagră, Merlot și Pinot Noir. Soiul autohton dă caracter, Merlot corp, Pinot Noir lejeritate și fruct. Un vin de zi cu zi, fără reguli stricte.",
+    },
+    seo: {
+      title: "PONI Red — красный купаж Fetească Neagră, Merlot и Pinot Noir",
+      description: "PONI Red — сухой красный купаж Fetească Neagră, Merlot и Pinot Noir от винодельни Chateau At Mount (Гагаузия, Молдова): крепость, подача и пары.",
+    },
+  },
 ];
+
+/** Классическая линейка — лента вин на главной и «7 сортов» в текстах. */
+export const classicWines = wines.filter((w) => w.line === "classic");
 
 /**
  * Отзывы гостей для блока «Что говорят гости» на главной.
@@ -727,6 +1065,13 @@ export const t = {
     },
   },
   winesPage: {
+    /* Главы страницы /wines: только названия линеек, по-английски (решение
+       владельца). Подписи-описания сняты — разницу показывают сами вина. */
+    chapters: {
+      classic: { title: "Classic" },
+      rare: { title: "Rare" },
+      experimental: { title: "Experimental" },
+    },
     wholesaleCta: {
       ru: "Запросить оптовый прайс",
       en: "Request wholesale prices",
