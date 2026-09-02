@@ -2,7 +2,7 @@
 
 import Image, { getImageProps } from "next/image";
 import { useRef } from "react";
-import { t, wines, links } from "@/lib/content";
+import { t, classicWines, links } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
 import { useReveal } from "./useReveal";
@@ -46,7 +46,7 @@ export default function Site() {
   useReveal();
   useHorizontalScroll(bandWrapRef, bandTrackRef, {
     bgRef: bandBgRef,
-    colors: wines.map((w) => w.band),
+    colors: classicWines.map((w) => w.band),
   });
 
   return (
@@ -116,7 +116,7 @@ export default function Site() {
         <div
           className="band-pinwrap"
           ref={bandWrapRef}
-          style={{ "--slides": wines.length } as React.CSSProperties}
+          style={{ "--slides": classicWines.length } as React.CSSProperties}
         >
           <div className="band-sticky">
             <div className="band-bg" ref={bandBgRef} aria-hidden />
@@ -131,7 +131,7 @@ export default function Site() {
               </a>
             </div>
             <div className="band-track" ref={bandTrackRef}>
-              {wines.map((w, i) => (
+              {classicWines.map((w, i) => (
                 <a
                   className="band-slide"
                   href={lp(`/wines/${w.slug}`)}
@@ -149,7 +149,7 @@ export default function Site() {
                   <div className="band-meta">
                     <span className="wine-no">
                       {String(i + 1).padStart(2, "0")} /{" "}
-                      {String(wines.length).padStart(2, "0")}
+                      {String(classicWines.length).padStart(2, "0")}
                     </span>
                     <h3>{w.name}</h3>
                     {/* Награды — сдержанная строка-кредит (конкурсы через

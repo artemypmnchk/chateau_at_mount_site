@@ -19,7 +19,10 @@ export default function WinePage({ wine }: { wine: Wine }) {
   const { L, lp } = useLocale();
   const { openBooking } = useBookingModal();
   const w = t.winePage;
-  const others = wines.filter((x) => x.slug !== wine.slug);
+  // «Другие вина» — только из той же линейки: Rare рядом с Rare, PONI с игристым.
+  const others = wines.filter(
+    (x) => x.slug !== wine.slug && x.line === wine.line,
+  );
 
   return (
     <main
@@ -52,7 +55,10 @@ export default function WinePage({ wine }: { wine: Wine }) {
           </div>
           <div className="wine-hero-body">
             <span className="eyebrow">
-              {L(t.winesSection.eyebrow)} · {L(wine.type)}
+              {wine.line === "classic"
+                ? L(t.winesSection.eyebrow)
+                : t.winesPage.chapters[wine.line].title}{" "}
+              · {L(wine.type)}
             </span>
             <h1>{wine.name}</h1>
             <p className="lead">{L(wine.desc)}</p>

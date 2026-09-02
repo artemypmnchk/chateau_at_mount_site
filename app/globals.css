@@ -3096,3 +3096,148 @@ a.info-row:hover .info-value {
 .age-gate-denied {
   font-size: 17px;
 }
+
+/* ========== /wines — главы линеек (Classic / Rare / Experimental) ==========
+   Хиро → текстовые переходы → три главы. Линейка = глава, никаких бейджей:
+   имя главы и одна фактическая строка. Rare — тёмные бутылки, поэтому её
+   полотно светлое (известняк): смена полотна и отделяет линейку, и даёт
+   бутылке контраст без подсветок. Зерно и на светлом полотне то же. */
+.wines-idx {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px 40px;
+  margin-top: 36px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+.wines-idx a {
+  color: rgba(243, 237, 226, 0.85);
+  border-bottom: 1px solid rgba(243, 237, 226, 0.3);
+  padding: 8px 0 7px;
+  transition: border-color 0.2s ease;
+}
+.wines-idx a:hover,
+.wines-idx a:focus-visible {
+  border-color: var(--accent);
+}
+.wines-page .wines-ch {
+  padding: 64px 0 48px;
+  scroll-margin-top: 80px; /* фиксированная шапка не накрывает заголовок главы */
+}
+/* ПРОБА «лист на столе»: светлая глава не во всю ширину, а плитой с полями —
+   тёмное полотно страницы видно по краям, стык становится краем предмета,
+   а не разрезом страницы. Радиус 3px по правилу 6. Убрать margin/radius —
+   вернётся full-bleed с чистым стыком. */
+.wines-page {
+  background: var(--dark);
+}
+.wines-ch-light {
+  position: relative;
+  background: var(--bg);
+  color: var(--ink);
+  margin: 0 clamp(16px, 3vw, 40px);
+  border-radius: 3px;
+}
+.wines-ch-light > .container {
+  position: relative;
+  z-index: 1;
+}
+.wines-ch-light::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+.wines-chap {
+  padding-bottom: 18px;
+}
+.wines-chap h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(36px, 4.8vw, 56px);
+  line-height: 1;
+  margin: 0;
+}
+.wine-c-sub {
+  display: block;
+  margin: -4px 0 9px;
+  font-size: 10.5px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: rgba(243, 237, 226, 0.42);
+}
+/* Светлая глава: те же карточки, цвета из светлой палитры */
+.wines-ch-light .wines-ch-light .wine-c-meta {
+  color: rgba(36, 26, 28, 0.55);
+}
+.wines-ch-light .wine-c-sub {
+  color: rgba(36, 26, 28, 0.5);
+}
+.wines-ch-light .wine-c-desc {
+  color: #4d4143;
+}
+/* «Подробнее» на /wines — один цвет у всех вин (решение владельца):
+   на тёмных главах пыльная роза, на светлом листе Rare — тёмный винный. */
+.wines-page .wine-c-more {
+  color: var(--accent);
+}
+.wines-page .wine-c:hover .wine-c-more,
+.wines-page .wine-c:focus-visible .wine-c-more {
+  border-color: var(--accent);
+}
+.wines-ch-light .wine-c-more {
+  color: var(--accent-dark);
+}
+.wines-ch-light .wine-c:hover .wine-c-more,
+.wines-ch-light .wine-c:focus-visible .wine-c-more {
+  border-color: var(--accent-dark);
+}
+/* Опора под бутылкой на светлом: плотная мягкая тень + тёмная «лужица» у
+   донышка (тень от стола). Бутылка стоит на полотне, а не парит. */
+.wines-ch-light .wine-c-media img {
+  z-index: 1;
+  filter: drop-shadow(0 22px 26px rgba(36, 26, 28, 0.42))
+    drop-shadow(0 4px 6px rgba(36, 26, 28, 0.18));
+}
+.wines-ch-light .wine-c-media::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: -10px;
+  height: 30px;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(36, 26, 28, 0.34),
+    rgba(36, 26, 28, 0) 68%
+  );
+}
+@media (prefers-reduced-motion: no-preference) {
+  .wines-ch-light .wine-c:hover .wine-c-media img,
+  .wines-ch-light .wine-c:focus-visible .wine-c-media img {
+    filter: drop-shadow(0 30px 32px rgba(36, 26, 28, 0.44))
+      drop-shadow(0 6px 8px rgba(36, 26, 28, 0.16));
+  }
+}
+@media (max-width: 719px) {
+  .wines-idx {
+    gap: 12px 24px;
+    margin-top: 28px;
+  }
+  .wines-page .wines-ch {
+    padding: 48px 0 32px;
+  }
+  .wines-chap {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  }
