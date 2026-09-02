@@ -1682,7 +1682,16 @@ section {
   .contact-actions .btn,
   .final-cta .btn {
     flex: 1 1 100%;
-  }
+      /* Длинные подписи («Запросить оптовый прайс») на 360px не влезают в
+       nowrap-кнопку: даём перенос, высоту по контенту, разрядку чуть меньше */
+    white-space: normal;
+    height: auto;
+    min-height: 60px;
+    padding: 18px 20px;
+    line-height: 1.35;
+    letter-spacing: 0.18em;
+    text-align: center;
+}
   .feature-card {
     min-height: 460px;
   }
