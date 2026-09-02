@@ -41,8 +41,6 @@ export interface Wine {
   colour: "sparkling" | "white" | "rose" | "orange" | "red";
   /** Состав купажа словами, без долей — подстрока карточки. */
   blend?: string;
-  /** Особенность выпуска — подстрока карточки (Rare: «малый тираж · low sulfite»). */
-  edition?: Record<Locale, string>;
   desc: Record<Locale, string>;
   /** 2–3 слова-ноты для карточки ленты (выводятся курсивом): «вишня ·
    *  ежевика · дуб». Короткий сканируемый слой, не дубль desc. */
@@ -565,7 +563,6 @@ export const wines: Wine[] = [
     accent: "#bfaeb2", // пипетка: капсула #524043 / светлый узор капсулы; полотно — тёмный мов капсулы
     accentDark: "#5e2a33",
     band: "#4a3a3e",
-    edition: { ru: "Малый тираж · low sulfite", en: "Small batch · low sulfite", ro: "Serie mică · low sulfite" },
     desc: {
       ru: "Чёрные фрукты и ягоды, специи и травы. Плотное и самобытное",
       en: "Black fruit and berries, spices and herbs. Dense and distinctive",
@@ -599,7 +596,6 @@ export const wines: Wine[] = [
     accent: "#d4b46a", // золотая капсула (по снимку из чата; пересэмплировать с файла) — полотно тёмная бронза
     accentDark: "#7a5c1e",
     band: "#5f4a22",
-    edition: { ru: "Малый тираж · low sulfite", en: "Small batch · low sulfite", ro: "Serie mică · low sulfite" },
     desc: {
       ru: "Вишня и ежевика, шоколад, чёрный перец и дымные ноты",
       en: "Cherry and blackberry, chocolate, black pepper and smoky notes",
@@ -633,7 +629,6 @@ export const wines: Wine[] = [
     accent: "#d09a83", // как у классического Merlot (решение владельца): терракота этикетки, гранатовое полотно
     accentDark: "#a25a41",
     band: "#5b090e",
-    edition: { ru: "Малый тираж · low sulfite", en: "Small batch · low sulfite", ro: "Serie mică · low sulfite" },
     desc: {
       ru: "Плотный аромат чёрной сливы с оттенками вишни и табака",
       en: "A dense aroma of black plum with hints of cherry and tobacco",
@@ -667,7 +662,6 @@ export const wines: Wine[] = [
     accent: "#cbaa7e", // как у классического Cabernet: янтарный акцент; полотно — его кофейный тон, чуть поднят, чтобы чёрная бутылка не тонула
     accentDark: "#8d6a3f",
     band: "#2b1b13",
-    edition: { ru: "Малый тираж · low sulfite", en: "Small batch · low sulfite", ro: "Serie mică · low sulfite" },
     desc: {
       ru: "Насыщенная чёрная смородина с нотами ежевики, кожи и специй",
       en: "Rich blackcurrant with notes of blackberry, leather and spice",
