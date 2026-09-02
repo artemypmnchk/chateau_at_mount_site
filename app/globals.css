@@ -2868,13 +2868,15 @@ a.info-row:hover .info-value {
 }
 .wine-c-desc {
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  /* Мобайл: колонка текста узкая, 2 строки по 14px обрезали описание на
+     полуслове — чуть мельче и три строки, влезает целиком. Десктоп ниже. */
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  font-size: 14px;
+  font-size: 13px;
   color: rgba(243, 237, 226, 0.68);
   margin: 0 0 12px;
-  line-height: 1.5;
+  line-height: 1.45;
 }
 .wine-c-honors {
   list-style: none;
@@ -2940,7 +2942,9 @@ a.info-row:hover .info-value {
     font-size: 30px;
   }
   .wine-c-desc {
+    -webkit-line-clamp: 2;
     font-size: 15px;
+    line-height: 1.5;
   }
   .wine-c-honors li {
     font-size: 11.5px;
