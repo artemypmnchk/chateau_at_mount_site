@@ -2851,6 +2851,7 @@ a.info-row:hover .info-value {
 .wine-c h3 {
   font-family: var(--serif);
   font-weight: 500;
+  overflow-wrap: anywhere;
   font-size: 24px;
   line-height: 1.06;
   margin: 0 0 9px;
@@ -2915,9 +2916,6 @@ a.info-row:hover .info-value {
 /* → десктоп: две колонки, но карточка крупная и заметная —
    бутылка-этикетка тянет на себя внимание. */
 @media (min-width: 720px) {
-  .wines-list {
-    grid-template-columns: 1fr 1fr;
-  }
   .wine-c {
     grid-template-columns: 184px 1fr;
     gap: clamp(28px, 3vw, 44px);
@@ -2937,6 +2935,13 @@ a.info-row:hover .info-value {
   }
   .wine-c-honors li {
     font-size: 11.5px;
+  }
+}
+/* Две колонки — только от 1000px: на планшете (720–999px) при бутылке 184px
+   тексту оставалось ~120px, имена ломались в столбик и вылезали за лист. */
+@media (min-width: 1000px) {
+  .wines-list {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
