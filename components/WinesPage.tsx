@@ -80,9 +80,6 @@ export default function WinesPage() {
                     </div>
                     <div className="wine-c-body">
                       <span className="wine-c-meta">{L(w.type)}</span>
-                      {w.blend && (
-                        <span className="wine-c-sub">{w.blend}</span>
-                      )}
                       <h3>{w.name}</h3>
                       <p className="wine-c-desc">{L(w.desc)}</p>
                       {w.awards && w.awards.length > 0 && (

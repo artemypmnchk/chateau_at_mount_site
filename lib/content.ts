@@ -39,7 +39,8 @@ export interface Wine {
   line: WineLine;
   /** Цвет/жанр — порядок внутри главы: sparkling → white → rose → orange → red. */
   colour: "sparkling" | "white" | "rose" | "orange" | "red";
-  /** Состав купажа словами, без долей — подстрока карточки. */
+  /** Состав купажа словами, без долей (в карточке не показывается —
+   *  у всех вин одна строка типа; пригодится для страницы вина). */
   blend?: string;
   desc: Record<Locale, string>;
   /** 2–3 слова-ноты для карточки ленты (выводятся курсивом): «вишня ·
@@ -702,7 +703,7 @@ export const wines: Wine[] = [
       ro: "Luminos și proaspăt, cu arome de flori și fructe albe",
     },
     notes: { ru: ["цветы", "белые фрукты"], en: ["flowers", "white fruit"], ro: ["flori", "fructe albe"] },
-    type: { ru: "Игристое экстра брют", en: "Sparkling, extra brut", ro: "Spumant extra brut" },
+    type: { ru: "Игристое белое, экстра брют", en: "Sparkling white, extra brut", ro: "Spumant alb, extra brut" },
     alcohol: { ru: "12,5 % об.", en: "12.5% ABV", ro: "12,5% vol." },
     servingTemp: "6–8 °C",
     pairings: {
@@ -735,7 +736,7 @@ export const wines: Wine[] = [
       ro: "Proaspăt și luminos, cu note de fructe roșii și brioșă",
     },
     notes: { ru: ["красные ягоды", "бриошь"], en: ["red berries", "brioche"], ro: ["fructe roșii", "brioșă"] },
-    type: { ru: "Игристое розовое экстра брют", en: "Sparkling rosé, extra brut", ro: "Spumant rosé extra brut" },
+    type: { ru: "Игристое розовое, экстра брют", en: "Sparkling rosé, extra brut", ro: "Spumant rosé, extra brut" },
     alcohol: { ru: "12,6 % об.", en: "12.6% ABV", ro: "12,6% vol." },
     servingTemp: "6–8 °C",
     pairings: {
@@ -804,7 +805,7 @@ export const wines: Wine[] = [
       ro: "Viorica pe pielițe: fructe uscate, condimente, citrice și miere",
     },
     notes: { ru: ["сухофрукты", "специи", "мёд"], en: ["dried fruit", "spices", "honey"], ro: ["fructe uscate", "condimente", "miere"] },
-    type: { ru: "Оранжевое сухое", en: "Orange, dry", ro: "Oranj sec" },
+    type: { ru: "Сухое оранжевое", en: "Dry orange", ro: "Oranj sec" },
     alcohol: { ru: "12,5 % об.", en: "12.5% ABV", ro: "12,5% vol." },
     servingTemp: "10–12 °C",
     pairings: {
