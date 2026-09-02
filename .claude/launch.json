@@ -4,9 +4,23 @@
     {
       "name": "chateau",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 3005,
       "autoPort": true
+    },
+    {
+      "name": "chateau-build",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "next",
+        "start",
+        "-p",
+        "3005"
+      ],
+      "port": 3005
     }
   ]
 }

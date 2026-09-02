@@ -102,19 +102,19 @@ const pageMeta: Record<PageKey, Record<Locale, { title: string; description: str
   },
   wines: {
     ru: {
-      title: "Наши вина — 7 сортов из Гагаузии",
+      title: "Наши вина — Classic, Rare и Experimental",
       description:
-        "Вина семейной винодельни Chateau At Mount (Гагаузия, Молдова): Merlot, Cabernet Sauvignon, Shiraz, Cabernet Rose, Viorica, Fetească Albă и Fetească Neagră. Сухие вина с собственных виноградников.",
+        "Вина семейной винодельни Chateau At Mount (Гагаузия, Молдова): семь классических сортов, линейка Rare малым тиражом, игристое экстра брют, оранж и купажи PONI. Сухие вина с собственных виноградников.",
     },
     en: {
-      title: "Our Wines — 7 Varieties from Gagauzia",
+      title: "Our Wines — Classic, Rare and Experimental",
       description:
-        "Wines from the Chateau At Mount family winery (Gagauzia, Moldova): Merlot, Cabernet Sauvignon, Shiraz, Cabernet Rosé, Viorica, Fetească Albă and Fetească Neagră. Dry wines from our own vineyards.",
+        "Wines from the Chateau At Mount family winery (Gagauzia, Moldova): seven classic varieties, the small-batch Rare line, extra brut sparkling, orange wine and the PONI blends. Dry wines from our own vineyards.",
     },
     ro: {
-      title: "Vinurile noastre — 7 soiuri din Găgăuzia",
+      title: "Vinurile noastre — Classic, Rare și Experimental",
       description:
-        "Vinuri de la crama de familie Chateau At Mount (Găgăuzia, Moldova): Merlot, Cabernet Sauvignon, Shiraz, Cabernet Rosé, Viorica, Fetească Albă și Fetească Neagră. Vinuri seci din viile proprii.",
+        "Vinuri de la crama de familie Chateau At Mount (Găgăuzia, Moldova): șapte soiuri clasice, linia Rare în serii mici, spumant extra brut, vin oranj și cupajele PONI. Vinuri seci din viile proprii.",
     },
   },
   visit: {

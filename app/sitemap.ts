@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Дата последнего содержательного обновления контента — поднимать вручную
   // при заметных правках текстов/страниц. new Date() здесь нельзя: каждый
   // деплой помечал бы все страницы «обновлёнными», обесценивая сигнал.
-  const lastModified = new Date("2026-07-17");
+  const lastModified = new Date("2026-09-02");
 
   // Приоритеты «голых» ru-путей; языковые версии наследуют.
   const paths: { path: string; priority: number }[] = [
