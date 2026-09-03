@@ -12,6 +12,15 @@ export function WinerySchema() {
     // Product/Review-разметки и внешние источники (Knowledge Graph).
     "@id": `${site.url}/#winery`,
     name: site.name,
+    // Другие написания бренда: домен atmountwinery.com, соцсети
+    // at_mount_chateau, русская транскрипция. Связывают имена в одну
+    // сущность — по запросу «at mount winery» поиск должен находить нас.
+    alternateName: [
+      "At Mount Winery",
+      "At Mount Chateau",
+      "AtMount Winery",
+      "Шато Эт Маунт",
+    ],
     description: site.description,
     url: site.url,
     image: `${site.url}${site.ogImage}`,
