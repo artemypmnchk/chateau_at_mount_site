@@ -33,9 +33,9 @@ export interface Wine {
     art?: string;
     proofUrl?: string;
   }[];
-  /** Линейка — главы страницы /wines: classic — семь сортов (они же в ленте
-   *  на главной), rare — красные малым тиражом, experimental — игристое,
-   *  оранж и купажи PONI. */
+  /** Линейка — главы на /wines и на главной (lib/lines.ts): classic — семь
+   *  сортов, rare — красные малым тиражом, experimental — игристое, оранж
+   *  и купажи PONI. */
   line: WineLine;
   /** Цвет/жанр — порядок внутри главы: sparkling → white → rose → orange → red. */
   colour: "sparkling" | "white" | "rose" | "orange" | "red";
@@ -593,7 +593,7 @@ export const wines: Wine[] = [
     line: "rare",
     colour: "red",
     name: "Cabernet Sauvignon & Merlot",
-    image: "/images/wine-rare-cabernet-merlot.png", // ⚠️ временная заглушка (бутылка FN&Merlot) — заменить на вырезанное фото
+    image: "/images/wine-rare-cabernet-merlot.png",
     accent: "#d4b46a", // золотая капсула (по снимку из чата; пересэмплировать с файла) — полотно тёмная бронза
     accentDark: "#7a5c1e",
     band: "#5f4a22",
@@ -626,7 +626,7 @@ export const wines: Wine[] = [
     line: "rare",
     colour: "red",
     name: "Merlot",
-    image: "/images/wine-rare-merlot.png", // ⚠️ временная заглушка — заменить на вырезанное фото
+    image: "/images/wine-rare-merlot.png",
     accent: "#d09a83", // как у классического Merlot (решение владельца): терракота этикетки, гранатовое полотно
     accentDark: "#a25a41",
     band: "#5b090e",
@@ -659,7 +659,7 @@ export const wines: Wine[] = [
     line: "rare",
     colour: "red",
     name: "Cabernet Sauvignon",
-    image: "/images/wine-rare-cabernet-sauvignon.png", // ⚠️ временная заглушка — заменить на вырезанное фото
+    image: "/images/wine-rare-cabernet-sauvignon.png",
     accent: "#cbaa7e", // как у классического Cabernet: янтарный акцент; полотно — его кофейный тон, чуть поднят, чтобы чёрная бутылка не тонула
     accentDark: "#8d6a3f",
     band: "#2b1b13",
@@ -860,7 +860,6 @@ export const wines: Wine[] = [
 ];
 
 /** Классическая линейка — лента вин на главной и «7 сортов» в текстах. */
-export const classicWines = wines.filter((w) => w.line === "classic");
 
 /**
  * Отзывы гостей для блока «Что говорят гости» на главной.

@@ -1,13 +1,12 @@
 "use client";
 
 import Image, { getImageProps } from "next/image";
-import { useRef } from "react";
-import { t, classicWines, links } from "@/lib/content";
+import { t, links } from "@/lib/content";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
 import { useReveal } from "./useReveal";
-import { useHorizontalScroll } from "./useHorizontalScroll";
 import { HighlightOnScroll } from "./HighlightOnScroll";
+import WineLines from "./WineLines";
 
 // Статические импорты больших фото → next/image сам генерирует размеры
 // и blur-заглушку, отдаёт AVIF/WebP и ленивую загрузку.
@@ -33,6 +32,11 @@ const { props: heroMobileProps } = getImageProps({
   sizes: "100vw",
 });
 const heroMobileSrcSet = heroMobileProps.srcSet;
+/* Кастомный <picture> не выдаёт <link rel=preload>, как <Image priority>:
+   браузер находил хиро только при парсинге body. React поднимает <link>
+   в <head> при SSR; media-условия те же, что у <source>, грузится один кадр */
+const HERO_MOBILE_MEDIA = "(max-aspect-ratio: 6/5)";
+const HERO_DESKTOP_MEDIA = "(min-aspect-ratio: 6/5)";
 import harvestImg from "@/public/images/harvest.jpg";
 import vatsImg from "@/public/images/cellar-vats-2.jpg";
 import familyImg from "@/public/images/family.jpeg";
@@ -40,14 +44,7 @@ import familyImg from "@/public/images/family.jpeg";
 export default function Site() {
   const { L, lp } = useLocale();
   const { openBooking } = useBookingModal();
-  const bandWrapRef = useRef<HTMLDivElement>(null);
-  const bandTrackRef = useRef<HTMLDivElement>(null);
-  const bandBgRef = useRef<HTMLDivElement>(null);
   useReveal();
-  useHorizontalScroll(bandWrapRef, bandTrackRef, {
-    bgRef: bandBgRef,
-    colors: classicWines.map((w) => w.band),
-  });
 
   return (
     <main id="top">
@@ -55,12 +52,28 @@ export default function Site() {
       {/* hero-melt: низ кадра растворяется в цвет манифеста — единое
           тёмное полотно хиро → манифест → лента вин, без швов */}
       <section className="hero hero-melt" data-header-theme="dark">
+        <link
+          rel="preload"
+          as="image"
+          imageSrcSet={heroMobileSrcSet}
+          imageSizes="100vw"
+          media={HERO_MOBILE_MEDIA}
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          imageSrcSet={heroDesktopProps.srcSet}
+          imageSizes="100vw"
+          media={HERO_DESKTOP_MEDIA}
+          fetchPriority="high"
+        />
         <div className="hero-bg">
           {/* Арт-дирекшн по соотношению сторон: в портретные и почти
               квадратные окна (телефон, планшет, пол-экрана на десктопе)
               панорама не влезает — им вертикальный кадр */}
           <picture>
-            <source media="(max-aspect-ratio: 6/5)" srcSet={heroMobileSrcSet} />
+            <source media={HERO_MOBILE_MEDIA} srcSet={heroMobileSrcSet} />
             <img
               {...heroDesktopProps}
               alt="Винодельня Chateau At Mount"
@@ -111,67 +124,9 @@ export default function Site() {
         </div>
       </section>
 
-      {/* ---------- Wines — глиняное полотно, горизонтальный проезд ---------- */}
-      <section id="wines" className="wines-band" data-header-theme="dark">
-        <div
-          className="band-pinwrap"
-          ref={bandWrapRef}
-          style={{ "--slides": classicWines.length } as React.CSSProperties}
-        >
-          <div className="band-sticky">
-            <div className="band-bg" ref={bandBgRef} aria-hidden />
-            <div className="container band-head" data-reveal>
-              <div>
-                <span className="eyebrow">{L(t.winesSection.eyebrow)}</span>
-                <h2>{L(t.winesSection.title)}</h2>
-                <span className="band-medals">{L(t.winesSection.medals)}</span>
-              </div>
-              <a href={lp("/wines")} className="band-all">
-                {L(t.winesSection.all)} →
-              </a>
-            </div>
-            <div className="band-track" ref={bandTrackRef}>
-              {classicWines.map((w, i) => (
-                <a
-                  className="band-slide"
-                  href={lp(`/wines/${w.slug}`)}
-                  key={w.slug}
-                >
-                  <div className="band-bottle-v">
-                    <Image
-                      src={w.image}
-                      alt={w.name}
-                      fill
-                      sizes="(max-width: 900px) 60vw, 300px"
-                      style={{ objectFit: "contain" }}
-                    />
-                  </div>
-                  <div className="band-meta">
-                    <span className="wine-no">
-                      {String(i + 1).padStart(2, "0")} /{" "}
-                      {String(classicWines.length).padStart(2, "0")}
-                    </span>
-                    <h3>{w.name}</h3>
-                    {/* Награды — сдержанная строка-кредит (конкурсы через
-                        точку), высота слота фиксирована, чтобы бутылки во всех
-                        карточках оставались одного размера. Полный текст медалей
-                        с годами — на странице вина. */}
-                    <p className="band-award-line">
-                      {w.awards
-                        ?.map((a) => a.competition)
-                        .filter(Boolean)
-                        .join("  ·  ")}
-                    </p>
-                    <span className="band-more">
-                      {L(t.winesSection.more)} →
-                    </span>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ---------- Wines — три главы линеек: коллаж ↔ лента без пина
+           (components/WineLines.tsx, DESIGN.md п.7) ---------- */}
+      <WineLines />
 
       {/* ---------- Proof — светлая глава-доказательство: развеска двух
            кадров + цифры (спека: docs/spec-features-block.md) ---------- */}

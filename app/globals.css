@@ -1052,84 +1052,23 @@ section {
   }
 }
 
-/* ---------- Wines band — глиняное полотно, горизонтальный проезд ----------
-   Обёртка задаёт «пробег» по вертикали, панель прилипает на 100svh,
-   трек едет влево по мере прокрутки (JS: useHorizontalScroll). */
-.wines-band {
-  background: #171114; /* в тон сцене — без глиняных зазоров вокруг панели */
+/* ---------- Wine lines — три главы линеек: коллаж ↔ лента без пина ----------
+   Блок вин на главной (DESIGN.md, правило 7; компоненты WineLines + LineRow).
+   Сцена тёмная, в тон манифесту. Шапка блока (.band-head, .band-all,
+   .band-medals) и подписи слайда (.band-more, .band-award-line) — общий
+   язык с прежней лентой. */
+.wine-lines {
+  background: #171114;
   color: #f6efe7;
-  padding: 0; /* секционные отступы ломают sticky-раскладку */
+  padding: 0 0 clamp(40px, 6vw, 80px);
 }
-.wines-band .eyebrow {
+.wine-lines .eyebrow {
   color: rgba(246, 239, 231, 0.72);
 }
-.band-pinwrap {
-  /* Пин-проезд — только колесо/клавиатура (десктоп): пробег на слайд
-     длиннее — горизонтальная скорость ниже, проезд мягче. На таче и при
-     reduced-motion пина нет — нативный свайп со snap (блок ниже).
-     svh, а не dvh: адресная строка мобильных браузеров прячется прямо
-     во время проезда, dvh-пробег растягивался на лету — прогресс прыгал */
-  height: calc(100svh + (var(--slides, 7) - 1) * 96svh);
-}
-.band-sticky {
-  position: sticky;
-  top: 0;
-  /* dvh, а не svh: пока идёт пин-проезд, нижняя панель Safari прячется,
-     и при svh секция оставалась короче экрана — под контентом зияла тёмная
-     полоса. dvh тянет панель ровно на видимую высоту, без дыры снизу */
-  height: 100dvh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  /* Тёмная сцена; цвет сорта живёт в центре, за бутылкой */
-  background: #171114;
-}
-/* Лента-градиент: стопы под центрами слайдов, едет синхронно с треком
-   (ширину и градиент задаёт useHorizontalScroll) */
-.band-bg {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 100%;
-  will-change: transform;
-  pointer-events: none;
-}
-/* Верхняя кромка сцены: виньетка на краю пропускает ~13% ленты-градиента,
-   и цветной отлив стыковался швом с плоским низом манифеста (#171114).
-   Полоса доводит кромку ровно до цвета манифеста. z-index 1 — поверх
-   ленты и виньетки, но под контентом (band-head/track тоже z1, позже в DOM) */
-.band-sticky::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: clamp(100px, 16vh, 200px);
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(to bottom, #171114 0%, rgba(23, 17, 20, 0) 100%);
-}
-/* Виньетка: цвет дышит только в центре, края уходят в тёмное */
-.band-sticky::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse 56% 64% at 50% 52%,
-    rgba(23, 17, 20, 0) 0%,
-    rgba(23, 17, 20, 0.35) 48%,
-    rgba(23, 17, 20, 0.85) 78%,
-    rgba(23, 17, 20, 0.97) 100%
-  );
-}
-.band-head,
-.band-track,
-.band-cta {
-  position: relative;
-  z-index: 1;
-}
 .band-head {
-  /* Под фиксированной шапкой (68px) + воздух. svh — чтобы шапка сцены
-     не «дышала» при скрытии адресной строки на мобиле */
+  /* Верхний воздух блока после манифеста + шапка глав */
   padding-top: clamp(92px, 14svh, 128px);
+  padding-bottom: clamp(16px, 3vw, 40px);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -1139,14 +1078,14 @@ section {
 .band-head h2 {
   font-size: clamp(32px, 5vw, 56px);
 }
-/* Тихая строка-пруф под заголовком: сколько медалей у вин ленты */
+/* Тихая строка-пруф под заголовком блока */
 .band-medals {
   display: inline-block;
   margin-top: 12px;
   font-size: 13px;
   color: rgba(246, 239, 231, 0.66);
 }
-/* «Смотреть все вина» — тихая ссылка в шапке блока, вне зоны слайдов */
+/* «Смотреть все вина» — тихая ссылка в шапке блока */
 .band-all {
   display: inline-flex;
   padding: 13px 0 12px; /* тач-таргет ≥44px */
@@ -1163,67 +1102,15 @@ section {
 .band-all:hover {
   border-color: #f6efe7;
 }
-.band-track {
-  display: flex;
-  align-items: stretch;
-  flex: 1;
-  min-height: 0;
-  will-change: transform;
-  /* Воздух сверху от заголовка и снизу от кромки панели */
-  padding-top: clamp(16px, 3svh, 32px);
-  padding-bottom: clamp(36px, 7svh, 72px);
-}
-/* Слайд на весь вьюпорт: контент прижат к низу, бутылка при нехватке
-   высоты ужимается — не наезжает на заголовок блока */
-.band-slide {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  text-align: center;
-  gap: 22px;
-  flex: 0 0 auto;
-  width: 100vw;
-  min-height: 0;
-}
-.band-meta .wine-no {
-  position: static;
-  display: block;
-  margin-bottom: 10px;
-  /* 0.78, а не 0.65: на светлых полотнах (rose #ac4c6b, coral #bc4052)
-     0.65 не дотягивал до 4.5:1 из DESIGN.md */
-  color: rgba(246, 239, 231, 0.78);
-}
-.band-meta h3 {
-  font-size: clamp(28px, 3.2vw, 44px);
-}
-.band-more {
-  display: inline-block;
-  margin-top: 16px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(246, 239, 231, 0.85);
-  transition: color 0.2s ease;
-}
-.band-slide:hover .band-more {
-  color: #fff;
-}
 /* Награды вина под названием — не бейдж, а издательская строка-кредит:
    тонкая золотая черта-хэйрлайн, сериф курсивом, названия конкурсов через
-   точку. Слот фиксированной высоты (2 строки) — так бутылка в каждой карточке
-   остаётся одного размера независимо от числа наград. */
+   точку. Слот фиксированной высоты — бутылка в каждой карточке остаётся
+   одного размера независимо от числа наград. */
 .band-award-line {
-  /* Жёстко фиксированная высота слота (хэйрлайн + одна строка) — одинаковая
-     у всех карточек, даже пустых. Так бутылки не «пляшут» и остаются крупными:
-     на десктопе строка конкурсов помещается в одну линию (см. white-space). */
   height: 2.4em;
   overflow: hidden;
   margin: 11px auto 0;
   white-space: nowrap;
-  /* Длинный список конкурсов (3+) на узком экране не влезает в строку —
-     честное многоточие вместо обрезанного полуслова у кромки */
   max-width: 100%;
   text-overflow: ellipsis;
   font-family: var(--serif-italic);
@@ -1233,7 +1120,6 @@ section {
   letter-spacing: 0.01em;
   color: #d8b466; /* тёплое золото медали */
 }
-/* Черта-хэйрлайн над строкой — только когда награды есть (строка непустая) */
 .band-award-line:not(:empty)::before {
   content: "";
   display: block;
@@ -1242,156 +1128,332 @@ section {
   margin: 0 auto 9px;
   background: rgba(216, 180, 102, 0.55);
 }
-.band-bottle-v {
+
+/* Глава линейки: текст и подвал слева, ряд справа во всю высоту, ряд
+   выезжает за колонку до кромки экрана (в чётных главах — зеркально) */
+.wl-ch {
   position: relative;
-  /* svh: dvh-высота пересчитывалась при скрытии адресной строки —
-     бутылка меняла размер прямо во время скролла */
-  height: min(56svh, 620px);
-  width: clamp(220px, 30vw, 400px);
-  /* При нехватке высоты бутылка ужимается первой — без нижнего предела:
-     жёсткий min-height на низких экранах выталкивал её вверх, поверх
-     заголовка и «Смотреть все вина» */
-  flex-shrink: 1;
-  min-height: 0;
+  padding: clamp(48px, 6vw, 88px) 0;
+  /* Режем только по горизонтали (ряд выезжает за кромку экрана): по
+     вертикали ореол свободно гаснет, не упираясь в границу главы */
+  overflow-x: clip;
 }
-.band-meta {
-  flex: 0 0 auto;
+.wl-ch h2 {
+  font-size: clamp(44px, 6vw, 76px);
+  margin-bottom: 28px;
 }
-.band-bottle-v img {
-  filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.38));
-  transition: transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+/* Текст и подвал — один компактный блок напротив середины сцены: крайние
+   fr-дорожки делят свободную высоту поровну (ряд тянется через все четыре
+   строки и на размер auto-дорожек не влияет). Решение владельца 03.09.2026:
+   до этого подвал прижимался к низу, между заголовком и лидом было ~380px. */
+.wl-ch-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  grid-template-areas:
+    ". media"
+    "text media"
+    "foot media"
+    ". media";
+  grid-template-rows: 1fr auto auto 1fr;
+  align-items: start;
+  column-gap: clamp(24px, 4vw, 64px);
+  --bleed: calc((100vw - min(100vw, var(--maxw))) / 2 + 24px);
 }
-.band-slide:hover .band-bottle-v img {
-  transform: translateY(-8px);
+.wl-ch.reverse .wl-ch-grid {
+  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-areas:
+    "media ."
+    "media text"
+    "media foot"
+    "media .";
 }
-
-/* Десктоп: слайд уже вьюпорта — бутылки ближе друг к другу, соседние
-   заглядывают в кадр приглушёнными. Боковой отступ трека центрирует
-   крайние слайды: пробег между бутылками = ширине слайда */
-@media (min-width: 901px) {
-  .band-track {
-    --slide-w: min(56vw, 760px);
-    padding-left: calc((100vw - var(--slide-w)) / 2);
-    padding-right: calc((100vw - var(--slide-w)) / 2);
-  }
-  .band-slide {
-    width: var(--slide-w);
-  }
+.wl-ch-text {
+  grid-area: text;
 }
-
-/* Узкие экраны. Реальные телефоны (pointer: coarse) едут нативным
-   свайпом — см. блок ниже; пин здесь остаётся только узким окнам
-   с мышью (пол-экрана на десктопе) */
-@media (max-width: 900px) {
-  /* Пробег на слайд короче — секция ~3.6 экрана вместо 5.8 */
-  .band-pinwrap {
-    height: calc(100svh + (var(--slides, 7) - 1) * 60svh);
-  }
-  .band-bottle-v {
-    /* Высота не из flex-остатка, а из стабильного svh: панель (100dvh)
-       растёт и сжимается вместе с адресной строкой браузера, и бутылка,
-       занимая остаток, «скакала» размером при каждой смене направления
-       скролла. ~500px — шапка сцены + подпись + отступы на узком экране;
-       переполнение при нестандартных шрифтах страхует flex-shrink выше. */
-    height: clamp(120px, calc(100svh - 500px), 480px);
-    width: 62vw;
-  }
-  /* Узкий экран — каждый вертикальный пиксель дорог: меньше воздуха
-     под треком и между бутылкой и подписью, бутылке остаётся больше */
-  .band-track {
-    padding-bottom: clamp(24px, 5svh, 48px);
-  }
-  .band-slide {
-    gap: 14px;
-  }
+.wl-ch-foot {
+  grid-area: foot;
 }
-
-/* Совсем низкие экраны (SE-класс, 5xx px): шапка сцены съедала больше
-   половины высоты, бутылке оставался огрызок. Ужимаем воздух и прячем
-   строку-пруф — медали остаются в золотых кредитах под каждым вином */
-@media (max-width: 900px) and (max-height: 600px) {
-  .band-head {
-    padding-top: 78px;
-  }
-  .band-head h2 {
-    font-size: 27px;
-  }
-  .band-medals {
-    display: none;
-  }
-  .band-meta h3 {
-    font-size: 24px;
-  }
-  .band-bottle-v {
-    height: clamp(120px, calc(100svh - 390px), 480px);
-  }
+.wl-ch-media {
+  grid-area: media;
+  min-width: 0;
+  margin-right: calc(-1 * var(--bleed));
 }
-
-/* Тач и reduced-motion: без пина и инерции — нативный свайп со snap.
-   Палец делает одно движение — экран отвечает тем же: свайп вбок листает
-   вино, свайп вниз скроллит страницу, никто скролл не отбирает.
-   JS-часть (лента-градиент за scrollLeft) — в useHorizontalScroll */
-@media (prefers-reduced-motion: reduce), (pointer: coarse) {
-  .band-pinwrap {
-    height: auto;
-  }
-  .band-sticky {
-    /* Не static: лента .band-bg позиционируется от панели и режется ею */
-    position: relative;
-    height: auto;
-    overflow: hidden;
-  }
-  .band-track {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    /* Только вертикальные отступы: боковые (центрирующие крайние слайды
-       на широких экранах) приходят из блока min-width: 901px */
-    padding-top: clamp(28px, 6vw, 48px);
-    padding-bottom: clamp(40px, 9vw, 64px);
-  }
-  .band-track::-webkit-scrollbar {
-    display: none;
-  }
-  .band-slide {
-    scroll-snap-align: center;
-  }
+.wl-ch.reverse .wl-ch-media {
+  margin-right: 0;
+  margin-left: calc(-1 * var(--bleed));
 }
-/* Тач на узком экране: секция больше не зажата в один вьюпорт (нет пина),
-   бутылке можно вернуть нормальный рост */
-@media (pointer: coarse) and (max-width: 900px) {
-  .band-bottle-v {
-    height: min(44svh, 480px);
-  }
-  /* Peek: слайд заметно уже вьюпорта, у кромок выглядывает стекло
-     соседних бутылок — мгновенная подсказка «листается вбок».
-     Бутылки узкие (1:3.7), при бо́льшем шаге в кадр попадало бы
-     пустое поле соседнего слайда, а не сама бутылка */
-  .band-track {
-    padding-left: 24vw;
-    padding-right: 24vw;
-  }
-  .band-slide {
-    width: 52vw;
-  }
-  /* Подпись шире слайда — названию и строке конкурсов нужен почти весь
-     экран; подписи соседей полностью гасит кроссфейд в useHorizontalScroll,
-     поэтому друг на друга они не накладываются */
-  .band-meta {
-    width: 92vw;
-  }
-}
-.wine-no {
-  position: absolute;
-  top: 22px;
-  left: 4px;
+.wl-lead {
   font-family: var(--serif-italic);
   font-style: italic;
-  font-size: 17px;
-  color: var(--accent);
-  opacity: 0.85;
+  font-size: clamp(17px, 1.5vw, 21px);
+  line-height: 1.5;
+  color: rgba(246, 239, 231, 0.78);
+  max-width: 36ch;
+  margin-bottom: 22px;
 }
+
+/* LineRow: коллаж ↔ лента. Размеры: слайд, высота бутылки в ленте, шаг
+   стягивания в коллаже. Высота сцены одинакова в обоих состояниях:
+   бутылка + резерв подписи — страница при раскрытии не прыгает. */
+.wl-row {
+  --slide-w: 250px;
+  --bottle-h: 360px;
+  --meta-h: 136px;
+  /* Масштаб коллажа в покое: --k задаёт LineRow от числа бутылок (четыре
+     бутылки Rare +18%, пять +12%, семь — 1), чтобы короткий ряд не выглядел
+     мелким рядом с Classic. Шаг нахлёста и ярус растут вместе с ним. */
+  --kk: var(--k, 1);
+  --pull: calc(var(--slide-w) - 70px * var(--kk));
+  /* Подъём задних бутылок на шаг глубины: группа стоит «ярусами», как на
+     натюрморте, — горлышки и капсулы задних видны над передними */
+  --rise: calc(16px * var(--kk));
+  /* Дыхание на ховере (десктоп): разъезд соседей на ярус и подъём центра */
+  --hx: 0px;
+  --hy: 0px;
+  position: relative;
+}
+/* Цвет линейки (в покое) или центральной бутылки (раскрыто) дышит за рядом.
+   Ореол в полтора раза шире сцены бутылок; коробка с запасом сверху и снизу,
+   чтобы градиент гас внутри неё, а не резался кромкой ряда. */
+.wl-row-glow {
+  position: absolute;
+  inset: -14% -6% -24% -6%;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 50% 64% at 50% 50%,
+    var(--c) 0%,
+    rgba(23, 17, 20, 0) 72%
+  );
+  transition: filter 0.6s ease;
+}
+.wl-row-vp {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  outline: none;
+  /* Покой: вертикальный жест остаётся странице, горизонтальный — наш */
+  touch-action: pan-y;
+  scrollbar-width: none;
+  /* Любой слайд можно поставить в центр: боковые поля в полвьюпорта */
+  padding: 0 calc(50% - var(--slide-w) / 2);
+  cursor: pointer;
+}
+.wl-row-vp::-webkit-scrollbar {
+  display: none;
+}
+.wl-row.is-open .wl-row-vp {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  touch-action: pan-x pan-y;
+  cursor: grab;
+}
+.wl-row.is-open .wl-row-vp.is-dragging,
+.wl-row.is-open.is-settling .wl-row-vp {
+  scroll-snap-type: none;
+}
+.wl-row.is-open .wl-row-vp.is-dragging {
+  cursor: grabbing;
+}
+/* Фокус с клавиатуры (стрелки после клика тоже включают :focus-visible):
+   не рамка по ленте — Chrome рисует inset-тень скролл-контейнера по краям
+   всей прокрутки, и она ездит вместе со слайдами — а хэйрлайн полки в цвет
+   акцента */
+.wl-row-vp:focus-visible {
+  box-shadow: none;
+}
+/* Слайд-ссылка после клика тоже в фокусе: глобальная рамка outline обводила
+   весь слайд по краям ленты. Вместо неё — подчёркнутое имя и хэйрлайн полки */
+.wl-slide:focus-visible {
+  outline: none;
+}
+.wl-slide:focus-visible .wl-slide-meta h3 {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+}
+.wl-row:has(.wl-row-vp:focus-visible) .wl-row-shelf,
+.wl-row:has(.wl-slide:focus-visible) .wl-row-shelf {
+  background-image: linear-gradient(
+    90deg,
+    rgba(208, 160, 155, 0),
+    rgba(208, 160, 155, 0.9) 50%,
+    rgba(208, 160, 155, 0)
+  );
+}
+.wl-row-track {
+  display: flex;
+  width: max-content;
+}
+.wl-slide {
+  flex: 0 0 var(--slide-w);
+  width: var(--slide-w);
+  min-width: 0; /* подпись шире слайда не растягивает его — иначе шаг стягивания уезжал */
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: calc(var(--bottle-h) + var(--meta-h) + 40px);
+  padding-top: 40px; /* воздух над коллажем: центральная бутылка крупнее */
+  position: relative;
+  z-index: var(--z, 1);
+  transform-origin: 50% calc(40px + var(--bottle-h));
+  /* Раскрытие и дыхание: мягкий старт без рывка (владелец, 03.09.2026 —
+     прежняя кривая 0.65s easeOutCubic ощущалась резкой) */
+  transition:
+    transform 0.9s cubic-bezier(0.25, 0.1, 0.25, 1),
+    opacity 0.6s ease;
+}
+/* Покой: стянуть к центру, центральная спереди и крупнее, соседи назад и
+   мельче. translateY: коллаж опущен в середину сцены (зона подписей пуста),
+   при раскрытии группа чуть приподнимается, уступая место подписям */
+.wl-row:not(.is-open) .wl-slide {
+  transform: translateY(
+      calc(
+        var(--meta-h) / 2 - var(--ad) * var(--rise) -
+          max(0px, var(--hy) * (1 - var(--ad)))
+      )
+    )
+    translateX(
+      calc(
+        var(--d) * -1 * (var(--pull) - var(--hx)) + var(--shift, 0) *
+          var(--slide-w)
+      )
+    )
+    scale(calc((1.14 - var(--ad) * 0.075) * var(--kk)));
+}
+/* Ховер по коллажу — намёк, что ряд раскрывается: соседи чуть расходятся,
+   центр приподнимается, ореол теплеет, подсказка «листать» светлеет.
+   Кривая мягче, чем у раскрытия, без резкого старта. */
+@media (hover: hover) {
+  .wl-row:not(.is-open):hover {
+    --hx: 6px;
+    --hy: 4px;
+  }
+  .wl-row:not(.is-open):hover .wl-row-glow {
+    filter: brightness(1.15);
+  }
+  .wl-row:not(.is-open):hover .wl-row-hint {
+    color: #f6efe7;
+  }
+}
+.wl-slide-bottle {
+  position: relative;
+  width: var(--slide-w);
+  height: var(--bottle-h);
+}
+.wl-slide-bottle img {
+  filter: drop-shadow(0 22px 26px rgba(0, 0, 0, 0.4));
+}
+.wl-slide-meta {
+  flex: none;
+  width: min(
+    92vw,
+    300px
+  ); /* шире слайда, выступает симметрично; соседи погашены */
+  margin-top: 34px; /* имя ниже бутылки, с воздухом (владелец, 03.09.2026) */
+  opacity: 0;
+  /* Быстро: подпись не должна догонять бутылку полсекунды */
+  transition: opacity 0.3s ease;
+}
+.wl-row.is-open .wl-slide-meta {
+  transition-delay: 0.12s;
+}
+.wl-slide-meta h3 {
+  font-size: clamp(22px, 2vw, 28px);
+}
+/* Строка наград в ленте переносится, а не режется многоточием: подпись
+   шире слайда, а под ней ничего нет (счётчик и «Подробнее» убраны —
+   бутылка целиком ссылка, листание показывают стрелки на полке) */
+.wl-slide-meta .band-award-line {
+  font-size: 12.5px;
+  height: auto;
+  max-height: 3.6em;
+  white-space: normal;
+  padding: 0 8px;
+}
+/* Полка: хэйрлайн; подсказка «листать» в покое, стрелки раскрыто */
+.wl-row-shelf {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  margin: 8px 0 0;
+  padding-top: 12px;
+  background: linear-gradient(
+      90deg,
+      rgba(246, 239, 231, 0),
+      rgba(246, 239, 231, 0.28) 50%,
+      rgba(246, 239, 231, 0)
+    )
+    top / 100% 1px no-repeat;
+  min-height: 44px;
+}
+.wl-row-hint,
+.wl-row-arrow {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: rgba(246, 239, 231, 0.62);
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-size: 15px;
+  padding: 8px 10px;
+  transition: color 0.25s ease;
+}
+.wl-row-hint:hover,
+.wl-row-arrow:hover {
+  color: #f6efe7;
+}
+.wl-row-arrow {
+  font-family: var(--font);
+  font-style: normal;
+  font-size: 18px;
+}
+.wl-row-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+@media (max-width: 900px) {
+  .wl-row {
+    --slide-w: 52vw;
+    --bottle-h: 250px;
+    --kk: calc((var(--k, 1) + 1) / 2);
+    --pull: calc(var(--slide-w) - 48px * var(--kk));
+    --rise: calc(10px * var(--kk));
+  }
+  .wl-ch h2 {
+    margin-bottom: 18px; /* на мобиле под заголовком сразу ряд */
+  }
+  .wl-ch-grid,
+  .wl-ch.reverse .wl-ch-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "text"
+      "media"
+      "foot";
+    grid-template-rows: auto auto auto;
+    row-gap: 8px;
+  }
+  .wl-ch-media,
+  .wl-ch.reverse .wl-ch-media {
+    margin: 0 -24px; /* сцена во всю ширину экрана */
+  }
+  .wl-ch-foot {
+    margin-top: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wl-slide,
+  .wl-slide-meta {
+    transition: none;
+  }
+}
+
 /* Тон точки-маркера = достоинство медали */
 .wine-awards li.medal-gold::before {
   background: #cfa84a;
@@ -1682,7 +1744,7 @@ section {
   .contact-actions .btn,
   .final-cta .btn {
     flex: 1 1 100%;
-      /* Длинные подписи («Запросить оптовый прайс») на 360px не влезают в
+    /* Длинные подписи («Запросить оптовый прайс») на 360px не влезают в
        nowrap-кнопку: даём перенос, высоту по контенту, разрядку чуть меньше */
     white-space: normal;
     height: auto;
@@ -1691,7 +1753,7 @@ section {
     line-height: 1.35;
     letter-spacing: 0.18em;
     text-align: center;
-}
+  }
   .feature-card {
     min-height: 460px;
   }
@@ -2264,8 +2326,7 @@ a.info-row:hover .info-value {
   align-self: center;
   max-width: 620px;
   padding-block: clamp(40px, 5vw, 72px);
-  padding-inline: clamp(32px, 5vw, 72px)
-    max(24px, env(safe-area-inset-right));
+  padding-inline: clamp(32px, 5vw, 72px) max(24px, env(safe-area-inset-right));
 }
 /* Флагман тёмный: цвета по палитре section-dark */
 .flagship-body h3 {
@@ -2487,8 +2548,8 @@ a.info-row:hover .info-value {
   }
   .flagship-body {
     max-width: none;
-    padding: clamp(32px, 8vw, 52px) max(24px, env(safe-area-inset-right))
-      0 max(24px, env(safe-area-inset-left));
+    padding: clamp(32px, 8vw, 52px) max(24px, env(safe-area-inset-right)) 0
+      max(24px, env(safe-area-inset-left));
   }
   /* Полка вин листается нативным свайпом — без переносов */
   .shelf-row {
@@ -3242,4 +3303,4 @@ a.info-row:hover .info-value {
     grid-template-columns: 1fr;
     gap: 12px;
   }
-  }
+}
