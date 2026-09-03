@@ -1082,9 +1082,14 @@ export const t = {
     // 03.09.2026 (docs/brief-manifesto-copy.md): без брендов и без чисел,
     // которые меняются (сорта, вина, медали). en/ro — черновики к вычитке.
     manifesto: {
-      ru: "*Семейная* винодельня в Чадыр-Лунге, на юге Молдовы. С 2019 года выращиваем *свой* виноград и делаем из него *сухие вина*, которые получают *медали* международных конкурсов",
-      en: "A *family* winery in Ceadîr-Lunga, southern Moldova. Since 2019 we've been growing *our own* grapes and making *dry wines* that win *medals* at international competitions",
-      ro: "O cramă *de familie* din Ceadîr-Lunga, în sudul Moldovei. Din 2019 cultivăm *propriii* noștri struguri și facem din ei *vinuri seci* care câștigă *medalii* la concursuri internaționale",
+      //   после предлогов и союзов — чтобы они не висели в конце строки
+      // (HighlightOnScroll режет только по обычным пробелам). Перед акцентным
+      // словом со звёздочкой тоже можно: парсер разбирает связку по словам.
+      // В «Чадыр-Лунге» после дефиса стоит word joiner U+2060: на десктопе
+      // город рвался по дефису.
+      ru: "*Семейная* винодельня в Чадыр-⁠Лунге, на юге Молдовы. С 2019 года выращиваем *свой* виноград и делаем из него *сухие вина*, которые получают *медали* международных конкурсов",
+      en: "A *family* winery in Ceadîr-⁠Lunga, southern Moldova. Since 2019 we've been growing *our own* grapes and making *dry wines* that win *medals* at international competitions",
+      ro: "O cramă *de familie* din Ceadîr-⁠Lunga, în sudul Moldovei. Din 2019 cultivăm *propriii* noștri struguri și facem din ei *vinuri seci* care câștigă *medalii* la concursuri internaționale",
     },
     cta: {
       ru: "Приехать в гости",

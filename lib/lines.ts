@@ -21,9 +21,10 @@ export const LINE_COPY: Record<
     count: { ru: "семь вин", en: "seven wines", ro: "șapte vinuri" },
     lead: {
       // ru согласован владельцем 03.09.2026: без чисел, без терминов.
-      ru: "Основная линейка вин: каждое только из одного сорта. От французской классики до местного молдавского винограда.",
-      en: "Our main line: each wine is made from a single grape variety. From the French classics to local Moldovan grapes.",
-      ro: "Linia noastră principală: fiecare vin e făcut dintr-un singur soi. De la clasicele soiuri franțuzești la strugurii locali din Moldova.",
+      //   после предлогов и союзов — не висят в конце строки.
+      ru: "Основная линейка вин: каждое только из одного сорта. От французской классики до местного молдавского винограда.",
+      en: "Our main line: each wine is made from a single grape variety. From the French classics to local Moldovan grapes.",
+      ro: "Linia noastră principală: fiecare vin e făcut dintr-un singur soi. De la clasicele soiuri franțuzești la strugurii locali din Moldova.",
     },
     glow: "#0f4c45",
   },
@@ -32,9 +33,9 @@ export const LINE_COPY: Record<
     count: { ru: "четыре вина", en: "four wines", ro: "patru vinuri" },
     lead: {
       // ru согласован владельцем 03.09.2026.
-      ru: "Красные вина небольшими партиями. Те же сорта, что в основной линейке, но плотнее и глубже.",
-      en: "Small-batch reds. The same grapes as our main line, only fuller and deeper.",
-      ro: "Vinuri roșii în loturi mici. Aceleași soiuri ca în linia principală, dar mai pline și mai profunde.",
+      ru: "Красные вина небольшими партиями. Те же сорта, что в основной линейке, но плотнее и глубже.",
+      en: "Small-batch reds. The same grapes as our main line, only fuller and deeper.",
+      ro: "Vinuri roșii în loturi mici. Aceleași soiuri ca în linia principală, dar mai pline și mai profunde.",
     },
     // чуть светлее band-тона: тёмные бутылки на тёмной сцене нужно отделить
     glow: "#5c474d",
@@ -44,9 +45,9 @@ export const LINE_COPY: Record<
     count: { ru: "пять вин", en: "five wines", ro: "cinci vinuri" },
     lead: {
       // ru согласован владельцем 03.09.2026.
-      ru: "Здесь мы пробуем новое: игристые, оранжевое вино и PONI — вино без строгих правил.",
-      en: "This is where we try new things: sparkling wines, orange wine and PONI — a wine with no strict rules.",
-      ro: "Aici încercăm lucruri noi: vinuri spumante, vin oranj și PONI — un vin fără reguli stricte.",
+      ru: "Здесь мы пробуем новое: игристые, оранжевое вино и PONI — вино без строгих правил.",
+      en: "This is where we try new things: sparkling wines, orange wine and PONI — a wine with no strict rules.",
+      ro: "Aici încercăm lucruri noi: vinuri spumante, vin oranj și PONI — un vin fără reguli stricte.",
     },
     glow: "#6f4527",
   },

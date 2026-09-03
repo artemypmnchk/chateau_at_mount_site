@@ -29,20 +29,30 @@ function parseWords(src: string): { words: Word[]; total: number } {
   const words: Word[] = [];
   let open = false;
   let start = 0;
-  for (const raw of src.split(/\s+/)) {
+  // Режем только по обычным пробелам: неразрывный ( ) после предлогов
+  // и союзов остаётся внутри «слова», чтобы «в», «и», «на» не висели в конце
+  // строки. Слова склеиваются обычным пробелом, поэтому \s+ здесь нельзя.
+  // Внутри связки слова разбираем по отдельности (у каждого свой акцент:
+  // «that win *medals*»), а неразрывный пробел оставляем хвостом
+  // предыдущего слова — рендер тогда не вставляет обычный пробел.
+  for (const raw of src.split(/[ \t\r\n]+/)) {
     if (!raw) continue;
-    let accent = open;
-    let text = raw;
-    if (text.includes("*")) {
-      accent = true;
-      const stars = (text.match(/\*/g) ?? []).length;
-      if (stars % 2 === 1) open = !open;
-      text = text.replace(/\*/g, "");
-    }
-    if (text) {
-      words.push({ text, accent, start });
-      start += [...text].length;
-    }
+    const parts = raw.split(" ");
+    parts.forEach((part, pi) => {
+      let accent = open;
+      let text = part;
+      if (text.includes("*")) {
+        accent = true;
+        const stars = (text.match(/\*/g) ?? []).length;
+        if (stars % 2 === 1) open = !open;
+        text = text.replace(/\*/g, "");
+      }
+      if (pi < parts.length - 1) text += " ";
+      if (text) {
+        words.push({ text, accent, start });
+        start += [...text].length;
+      }
+    });
   }
   return { words, total: start };
 }
@@ -132,7 +142,7 @@ export function HighlightOnScroll({ text }: { text: string }) {
                 {ch}
               </span>
             ))}
-            {wi < words.length - 1 ? " " : ""}
+            {wi < words.length - 1 && !w.text.endsWith(" ") ? " " : ""}
           </span>
         ))}
       </p>
