@@ -1078,11 +1078,13 @@ export const t = {
     // Фраза-манифест под хиро (docs/spec-manifesto-block.md). Слова в
     // *звёздочках* — акцентные: курсив + пыльная роза при подсветке
     // (components/HighlightOnScroll.tsx). При переписывании текста
-    // разметку звёздочками сохранять. Текущий текст — плейсхолдер.
+    // разметку звёздочками сохранять. Русский текст согласован владельцем
+    // 03.09.2026 (docs/brief-manifesto-copy.md): без брендов и без чисел,
+    // которые меняются (сорта, вина, медали). en/ro — черновики к вычитке.
     manifesto: {
-      ru: "Лучшее вино получается там же, где *вырос* виноград. На этом *стоит* наша винодельня",
-      en: "The best wine is made where the grapes *grew*. Our winery is *built* on that",
-      ro: "Cel mai bun vin se face acolo unde au *crescut* strugurii. Pe asta e *construită* crama noastră",
+      ru: "Семейная винодельня в Чадыр-Лунге, на юге Молдовы. С 2019 года выращиваем *свой* виноград и делаем из него сухие вина, которые получают *медали* международных конкурсов",
+      en: "A family winery in Ceadîr-Lunga, southern Moldova. Since 2019 we've been growing *our own* grapes and making dry wines that win *medals* at international competitions",
+      ro: "O cramă de familie din Ceadîr-Lunga, în sudul Moldovei. Din 2019 cultivăm *propriii* noștri struguri și facem din ei vinuri seci care câștigă *medalii* la concursuri internaționale",
     },
     cta: {
       ru: "Приехать в гости",

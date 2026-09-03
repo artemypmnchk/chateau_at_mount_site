@@ -20,9 +20,10 @@ export const LINE_COPY: Record<
     title: "Classic",
     count: { ru: "семь вин", en: "seven wines", ro: "șapte vinuri" },
     lead: {
-      ru: "Семь сортов, среди них автохтоны Viorica и Fetească. Шесть медалей.",
-      en: "Seven varieties, including the native Viorica and Fetească. Six medals.",
-      ro: "Șapte soiuri, printre care autohtonele Viorica și Fetească. Șase medalii.",
+      // ru согласован владельцем 03.09.2026: без чисел, без терминов.
+      ru: "Основная линейка вин: каждое только из одного сорта. От французской классики до местного молдавского винограда.",
+      en: "Our main line: each wine is made from a single grape variety. From the French classics to local Moldovan grapes.",
+      ro: "Linia noastră principală: fiecare vin e făcut dintr-un singur soi. De la clasicele soiuri franțuzești la strugurii locali din Moldova.",
     },
     glow: "#0f4c45",
   },
@@ -30,9 +31,10 @@ export const LINE_COPY: Record<
     title: "Rare",
     count: { ru: "четыре вина", en: "four wines", ro: "patru vinuri" },
     lead: {
-      ru: "Красные малым тиражом и с минимумом сульфитов, в тёмном стекле под сургучом.",
-      en: "Small-batch reds with minimal sulfites, in dark glass under a wax seal.",
-      ro: "Roșii în serii mici, cu minimum de sulfiți, în sticlă închisă sub sigiliu de ceară.",
+      // ru согласован владельцем 03.09.2026.
+      ru: "Красные вина небольшими партиями. Те же сорта, что в основной линейке, но плотнее и глубже.",
+      en: "Small-batch reds. The same grapes as our main line, only fuller and deeper.",
+      ro: "Vinuri roșii în loturi mici. Aceleași soiuri ca în linia principală, dar mai pline și mai profunde.",
     },
     // чуть светлее band-тона: тёмные бутылки на тёмной сцене нужно отделить
     glow: "#5c474d",
@@ -41,9 +43,10 @@ export const LINE_COPY: Record<
     title: "Experimental",
     count: { ru: "пять вин", en: "five wines", ro: "cinci vinuri" },
     lead: {
-      ru: "Два экстра-брюта, оранж на кожице Viorica и купажи PONI.",
-      en: "Two extra bruts, a skin-contact Viorica and the PONI blends.",
-      ro: "Două extra brut, un orange pe pieliță din Viorica și cupajele PONI.",
+      // ru согласован владельцем 03.09.2026.
+      ru: "Здесь мы пробуем новое: игристые, оранжевое вино и PONI — вино без строгих правил.",
+      en: "This is where we try new things: sparkling wines, orange wine and PONI — a wine with no strict rules.",
+      ro: "Aici încercăm lucruri noi: vinuri spumante, vin oranj și PONI — un vin fără reguli stricte.",
     },
     glow: "#6f4527",
   },
