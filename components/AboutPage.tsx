@@ -109,7 +109,7 @@ export default function AboutPage() {
         <div className="container ab-hero-inner">
           <div className="ab-hero-id">
             <h1 className="ab-hero-name" aria-label="Chateau At Mount">
-              <span className="l1">Chateau</span>
+              <span className="l1">Chateau</span>{" "}
               <span className="l2">
                 At <span className="ab-ink">Mount</span>
               </span>

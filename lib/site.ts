@@ -10,6 +10,11 @@ export const site = {
   url: "https://atmountwinery.com",
   name: "Chateau At Mount",
   shortName: "Chateau At Mount",
+  // Юрлицо — как в реестре Kompass (md.kompass.com, CHATEAU AT MOUNT SRL).
+  legalName: "Chateau At Mount SRL",
+  founder: "Николай",
+  // Часы работы для схемы (владелец, 2026-09-03); визиты по записи.
+  hours: { opens: "08:00", closes: "23:00" },
   description:
     "Семейная винодельня Chateau At Mount (At Mount Winery) в Гагаузии, Молдова: 15 га виноградников, 7 сортов винограда, авторские вина с характером.",
   locale: "ru_RU",
@@ -33,7 +38,9 @@ export const site = {
     latitude: 46.08644,
     longitude: 28.79706,
   },
-  social: [links.instagram, links.telegram, links.tiktok],
+  // Профили бренда для sameAs: соцсети + Vivino (страница винодельни,
+  // 5 вин). Без трекинг-хвостов — поисковику нужен канонический URL.
+  social: [links.instagram, links.telegram, links.tiktok, links.vivino],
   // Контактные данные (из оригинальной страницы /contacts).
   contacts: {
     email: "chateauatmount@gmail.com",

@@ -99,70 +99,70 @@ const pageMeta: Record<
     en: {
       title: "Chateau At Mount — Family Winery in Gagauzia, Moldova",
       description:
-        "Chateau At Mount (At Mount Winery), a family winery in Gagauzia, southern Moldova: 15 ha of vineyards, 7 grape varieties and characterful wines from our own estate.",
+        "Chateau At Mount (At Mount Winery), family winery in Gagauzia, southern Moldova: 15 ha of vineyards, 7 grape varieties and characterful estate wines.",
     },
     ro: {
       title: "Chateau At Mount — Cramă de familie în Găgăuzia, Moldova",
       description:
-        "Chateau At Mount (At Mount Winery), cramă de familie în Găgăuzia, sudul Moldovei: 15 ha de viță de vie, 7 soiuri de struguri și vinuri de autor din viile proprii.",
+        "Chateau At Mount (At Mount Winery), cramă de familie în Găgăuzia, sudul Moldovei: 15 ha de vii, 7 soiuri de struguri și vinuri de autor din viile proprii.",
     },
   },
   about: {
     ru: {
-      title: "О винодельне Chateau At Mount — Чадыр-Лунга, Гагаузия",
+      title: "О винодельне — Чадыр-Лунга, Гагаузия",
       description:
-        "Семейная гагаузская винодельня Chateau At Mount на самой высокой точке холма в Чадыр-Лунге: 15 га своих виноградников, 7 сортов, солнечная энергия, выдержка в дубовых барриках и международные награды.",
+        "Семейная гагаузская винодельня Chateau At Mount на холме в Чадыр-Лунге: 15 га своих виноградников, 7 сортов, выдержка в дубовых барриках, международные награды.",
     },
     en: {
       title: "About the Winery — Ceadîr-Lunga, Gagauzia",
       description:
-        "Chateau At Mount, a Gagauz family winery on the highest point of the hill in Ceadîr-Lunga: 15 hectares of our own vineyards, 7 varieties, solar power, ageing in oak barriques and international awards.",
+        "Chateau At Mount, a Gagauz family winery on the hill in Ceadîr-Lunga: 15 ha of our own vineyards, 7 varieties, ageing in oak barriques and international awards.",
     },
     ro: {
       title: "Despre cramă — Ceadîr-Lunga, Găgăuzia",
       description:
-        "Chateau At Mount, cramă de familie găgăuză pe cel mai înalt punct al dealului din Ceadîr-Lunga: 15 ha de vii proprii, 7 soiuri, energie solară, maturare în baricuri de stejar și premii internaționale.",
+        "Chateau At Mount, cramă de familie găgăuză pe dealul din Ceadîr-Lunga: 15 ha de vii proprii, 7 soiuri, maturare în baricuri de stejar și premii internaționale.",
     },
   },
   wines: {
     ru: {
       title: "Наши вина — Classic, Rare и Experimental",
       description:
-        "Вина семейной винодельни Chateau At Mount (Гагаузия, Молдова): семь классических сортов, линейка Rare малым тиражом, игристое экстра брют, оранж и купажи PONI. Сухие вина с собственных виноградников.",
+        "Вина Chateau At Mount (Гагаузия, Молдова): семь классических сортов, Rare малым тиражом, экстра брют, оранж и купажи PONI. Сухие вина со своих виноградников.",
     },
     en: {
-      title: "Our Wines — Classic, Rare and Experimental",
+      title: "Our Wines — Classic, Rare, Experimental",
       description:
-        "Wines from the Chateau At Mount family winery (Gagauzia, Moldova): seven classic varieties, the small-batch Rare line, extra brut sparkling, orange wine and the PONI blends. Dry wines from our own vineyards.",
+        "Chateau At Mount wines (Gagauzia, Moldova): seven classic varieties, a small-batch Rare line, extra brut sparkling, orange wine and PONI blends. All dry.",
     },
     ro: {
-      title: "Vinurile noastre — Classic, Rare și Experimental",
+      title: "Vinuri — Classic, Rare și Experimental",
       description:
-        "Vinuri de la crama de familie Chateau At Mount (Găgăuzia, Moldova): șapte soiuri clasice, linia Rare în serii mici, spumant extra brut, vin oranj și cupajele PONI. Vinuri seci din viile proprii.",
+        "Vinurile Chateau At Mount (Găgăuzia, Moldova): șapte soiuri clasice, linia Rare în serii mici, spumant extra brut, vin oranj și cupajele PONI. Toate seci.",
     },
   },
   events: {
     ru: {
-      title: "Мероприятия на винодельне — пикники, свидания, аренда",
+      title: "Мероприятия — пикники, свидания, аренда",
       description:
-        "Мероприятия на винодельне Chateau At Mount в Чадыр-Лунге, Гагаузия: пикники среди лоз, мастер-классы, кино под открытым небом, романтические вечера, девичники и аренда территории.",
+        "Мероприятия на винодельне Chateau At Mount в Чадыр-Лунге: пикники среди лоз, мастер-классы, кино под открытым небом, свидания, девичники и аренда территории.",
     },
     en: {
-      title: "Events at the Winery — Picnics, Dates, Estate Hire",
+      title: "Events — Picnics, Dates, Estate Hire",
       description:
-        "Events at Chateau At Mount in Ceadîr-Lunga, Gagauzia: picnics among the vines, creative workshops, open-air cinema, romantic evenings, hen parties and hire of the estate.",
+        "Events at Chateau At Mount in Ceadîr-Lunga, Gagauzia: picnics among the vines, workshops, open-air cinema, romantic evenings, hen parties and estate hire.",
     },
     ro: {
-      title: "Evenimente la cramă — picnicuri, întâlniri, închiriere",
+      title: "Evenimente — picnicuri și închiriere",
       description:
-        "Evenimente la Chateau At Mount în Ceadîr-Lunga, Găgăuzia: picnicuri printre vii, ateliere creative, cinema sub cerul liber, seri romantice, petreceri ale burlăcițelor și închirierea domeniului.",
+        "Evenimente la Chateau At Mount în Ceadîr-Lunga: picnicuri printre vii, ateliere, cinema în aer liber, seri romantice, petreceri ale burlăcițelor și închiriere.",
     },
   },
   visit: {
     ru: {
       title: "Дегустации и визиты на винодельню",
       description:
-        "Дегустации вин на винодельне Chateau At Mount в Чадыр-Лунге, Гагаузия: экскурсия по винодельне и виноградникам, 3–7 вин, закуски и закаты. Визиты по предварительной записи.",
+        "Дегустации на винодельне Chateau At Mount в Чадыр-Лунге, Гагаузия: экскурсия по винодельне и виноградникам, 4–7 вин, закуски. Визиты по предварительной записи.",
     },
     en: {
       title: "Tastings and Winery Visits",
@@ -179,7 +179,7 @@ const pageMeta: Record<
     ru: {
       title: "Контакты и сотрудничество",
       description:
-        "Сотрудничество с винодельней Chateau At Mount: поставки вина для магазинов, баров и ресторанов, дегустации и мероприятия. Оставьте заявку — свяжемся в течение 30 минут.",
+        "Сотрудничество с Chateau At Mount: поставки вина для магазинов, баров и ресторанов, дегустации и мероприятия. Оставьте заявку — ответим в течение 30 минут.",
     },
     en: {
       title: "Contacts and Partnership",
@@ -227,7 +227,7 @@ export function wineMetadata(wine: Wine, locale: Locale): Metadata {
   const title =
     locale === "ru"
       ? wine.seo.title
-      : `${wine.name} — ${wine.type[locale]} · Chateau At Mount`;
+      : withBrand(`${wine.name} — ${wine.type[locale]}`);
   const description =
     locale === "ru"
       ? wine.seo.description
@@ -246,6 +246,12 @@ export function wineMetadata(wine: Wine, locale: Locale): Metadata {
       images: ogImages,
     },
   };
+}
+
+/** Хвост с брендом, пока title влезает в 60 символов (обрезка Google). */
+function withBrand(title: string): string {
+  const full = `${title} · Chateau At Mount`;
+  return full.length <= 60 ? full : title;
 }
 
 function trim(s: string, max: number): string {

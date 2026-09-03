@@ -78,10 +78,52 @@ function WineBreadcrumbSchema({
   );
 }
 
-// Product-разметка (@type Product) намеренно НЕ используется: Google требует
-// у неё offers/review/aggregateRating, а на сайте нет ни цен, ни отзывов —
-// такая разметка даёт критическую ошибку в Search Console и всё равно не даёт
-// rich-карточку. Вернуть вместе с offers, если начнём публиковать цены.
+/**
+ * JSON-LD Product без offers: цен на сайте нет, поэтому rich-карточки товара
+ * не будет, а в отчёте Search Console «Товары» возможна пометка «нет
+ * offers/review/aggregateRating» — она не влияет на ранжирование. Цель
+ * разметки — связать вино с сущностью винодельни (brand/manufacturer → @id)
+ * и отдать награды полем award. Добавить offers, когда появятся цены.
+ */
+function WineProductSchema({ wine, locale }: { wine: Wine; locale: Locale }) {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "@id": `${site.url}/wines/${wine.slug}#product`,
+    name: wine.name,
+    image: `${site.url}${wine.image}`,
+    description:
+      locale === "ru"
+        ? wine.seo.description
+        : (wine.about?.[locale] ?? wine.desc[locale]),
+    category: wine.type[locale],
+    brand: { "@type": "Brand", name: site.name },
+    manufacturer: { "@id": `${site.url}/#winery` },
+    url: `${site.url}${localizePath(locale, `/wines/${wine.slug}`)}`,
+    ...(wine.awards?.length
+      ? { award: wine.awards.map((a) => a.text[locale]) }
+      : {}),
+    additionalProperty: [
+      {
+        "@type": "PropertyValue",
+        name: "alcohol",
+        value: wine.alcohol[locale],
+      },
+      {
+        "@type": "PropertyValue",
+        name: "servingTemperature",
+        value: wine.servingTemp,
+      },
+    ],
+  };
+  return (
+    <script
+      type="application/ld+json"
+      // eslint-disable-next-line react/no-danger
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
 
 /** Список вин + ItemList. */
 export function WinesRoute({ locale }: { locale: Locale }) {
@@ -101,6 +143,7 @@ export function WineRoute({ slug, locale }: { slug: string; locale: Locale }) {
     <>
       <WinePage wine={wine} />
       <WineBreadcrumbSchema wine={wine} locale={locale} />
+      <WineProductSchema wine={wine} locale={locale} />
     </>
   );
 }

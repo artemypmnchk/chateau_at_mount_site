@@ -132,7 +132,7 @@ export const wines: Wine[] = [
       ro: "Merlot provine din Bordeaux și este astăzi unul dintre cele mai răspândite soiuri roșii din lume. Numele îi este legat de „merle” — mierla, pasărea iubitoare de fructe dulci și închise la culoare. Soiul este apreciat pentru taninurile moi și fructul generos. Pe pantele calde ale Găgăuziei, Merlot se coace deplin și dă un vin rotund, cu arome de cireșe coapte, mure și note de stejar.",
     },
     seo: {
-      title: "Вино Мерло (Merlot) из Молдовы — сухое красное",
+      title: "Мерло (Merlot) — сухое красное, Молдова",
       description:
         "Сухое красное вино Merlot от семейной винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и история сорта.",
     },
@@ -191,7 +191,7 @@ export const wines: Wine[] = [
       ro: "Rozéul din Cabernet Sauvignon se face prin metoda „scurtă”: mustul stă doar câteva ore pe pielițe, preluând culoarea delicată și aromele de fructe, dar nu și taninurile. Astfel, severul soi de Bordeaux își arată o latură neașteptată — proaspătă și estivală. Rozéul nostru păstrează aciditatea caracteristică vinurilor Chateau At Mount și aroma de căpșuni cu nuanțe de zmeură și afine.",
     },
     seo: {
-      title: "Розовое вино Cabernet Rose из Молдовы — сухое розе",
+      title: "Cabernet Rosé — сухое розе, Молдова",
       description:
         "Сухое розовое вино Cabernet Rose от семейной винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и история вина.",
     },
@@ -288,9 +288,9 @@ export const wines: Wine[] = [
       ro: "Viorica este un soi aromat rar, creat de selecționerii moldoveni la mijlocul secolului XX și botezat cu un nume de femeie. În afara Moldovei aproape că nu se cultivă, așa că fiecare sticlă este o ocazie de a gusta ceva ce nu există nicăieri altundeva. Soiul dă vinuri ușoare, cu arome de flori de câmp, busuioc și citrice — o carte de vizită a vinificației moldovenești moderne.",
     },
     seo: {
-      title: "Вино Виорика (Viorica) — редкое молдавское белое вино",
+      title: "Виорика (Viorica) — редкое белое, Молдова",
       description:
-        "Viorica (Виорика) — сухое белое вино из редкого ароматного сорта, который выращивают почти только в Молдове. Крепость, температура подачи и история сорта. Винодельня Chateau At Mount, Гагаузия.",
+        "Viorica (Виорика) — сухое белое из редкого ароматного сорта, который растёт почти только в Молдове. Крепость, подача, история сорта. Chateau At Mount, Гагаузия.",
     },
   },
   {
@@ -347,9 +347,9 @@ export const wines: Wine[] = [
       ro: "Fetească Neagră este unul dintre cele mai vechi soiuri ale acestor locuri: era cultivat între Prut și Nistru cu mult înainte de sosirea soiurilor internaționale. În secolul XX aproape a dispărut și abia recent a revenit în podgoriile Moldovei și României. Soiul dă vinuri profunde, de culoarea granatului, cu arome de fructe de pădure, zmeură și smochine — un gust în care se aude istoria ținutului.",
     },
     seo: {
-      title: "Вино Фетяска Нягрэ (Fetească Neagră) — красное вино из Молдовы",
+      title: "Фетяска Нягрэ — красное вино, Молдова",
       description:
-        "Fetească Neagră (Фетяска Нягрэ) — сухое красное вино из древнего молдавского сорта. Крепость, температура подачи и история сорта. Семейная винодельня Chateau At Mount, Гагаузия, Молдова.",
+        "Fetească Neagră (Фетяска Нягрэ) — сухое красное из древнего молдавского сорта. Крепость, подача и история сорта. Винодельня Chateau At Mount, Гагаузия.",
     },
   },
   {
@@ -418,7 +418,7 @@ export const wines: Wine[] = [
       ro: "Cabernet Sauvignon este numit regele soiurilor roșii. A apărut în Bordeaux în secolul XVII ca o încrucișare naturală între Cabernet Franc și Sauvignon Blanc — și de atunci a cucerit toate regiunile viticole ale lumii. Soiul este prețuit pentru structura fermă, taninurile nobile și potențialul de învechire. În sudul Moldovei, Cabernet Sauvignon se coace deplin și dă un vin cu arome de vișine negre, prune coapte și condimente.",
     },
     seo: {
-      title: "Вино Каберне Совиньон (Cabernet Sauvignon) из Молдовы",
+      title: "Каберне Совиньон — сухое красное, Молдова",
       description:
         "Сухое красное вино Cabernet Sauvignon от семейной винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и история сорта.",
     },
@@ -478,9 +478,9 @@ export const wines: Wine[] = [
       ro: "Fetească Albă este unul dintre cele mai vechi soiuri albe ale Moldovei și României, cultivat aici de sute de ani. La fel ca „sora” sa Fetească Neagră, face parte din familia soiurilor „fete” — ușoare, elegante și fine. Vinurile de Fetească Albă se recunosc după aroma delicată de flori de câmp, cu note de măr verde și citrice — o clasică a vinificației albe moldovenești.",
     },
     seo: {
-      title: "Вино Фетяска Албэ (Fetească Albă) — белое вино из Молдовы",
+      title: "Фетяска Албэ — белое вино, Молдова",
       description:
-        "Fetească Albă (Фетяска Албэ) — сухое белое вино из старинного молдавского сорта. Крепость, температура подачи и история сорта. Винодельня Chateau At Mount, Гагаузия.",
+        "Fetească Albă (Фетяска Албэ) — сухое белое из старинного молдавского сорта. Крепость, подача и история сорта. Винодельня Chateau At Mount, Гагаузия.",
     },
   },
   {
@@ -548,7 +548,7 @@ export const wines: Wine[] = [
       ro: "Shiraz (cunoscut și ca Syrah) este un soi din Valea Rhônului, Franța. Multă vreme s-a crezut că a fost adus din orașul persan Shiraz, însă analiza ADN i-a dovedit originea franceză — dar legenda frumoasă a rămas. Soiul iubește soarele și căldura, așa că în Găgăuzia se simte ca acasă: dă vinuri intense, cu arome de vișine negre, prune coapte și rodie.",
     },
     seo: {
-      title: "Вино Шираз (Shiraz) из Молдовы — сухое красное",
+      title: "Шираз (Shiraz) — сухое красное, Молдова",
       description:
         "Сухое красное вино Shiraz от семейной винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и история сорта.",
     },
@@ -603,7 +603,7 @@ export const wines: Wine[] = [
       ro: "Linia Rare înseamnă vinuri roșii în serii mici, cu minimum de sulfiți, în sticlă închisă sub sigiliu de ceară. Acest cupaj unește Fetească Neagră autohtonă cu Merlot: prima dă caracter și condimente, al doilea densitate și rotunjime.",
     },
     seo: {
-      title: "Fetească Neagră & Merlot Rare — красное вино малым тиражом",
+      title: "Fetească Neagră & Merlot Rare — купаж",
       description:
         "Купаж Fetească Neagră и Merlot из линейки Rare винодельни Chateau At Mount (Гагаузия, Молдова): малый тираж, минимум сульфитов, крепость и подача.",
     },
@@ -641,7 +641,7 @@ export const wines: Wine[] = [
       ro: "Perechea clasică bordeleză în linia Rare: Cabernet Sauvignon dă structură și coacăze negre, Merlot rotunjime și cireșe. Serie mică, minimum de sulfiți, sticlă închisă și sigiliu de ceară.",
     },
     seo: {
-      title: "Cabernet Sauvignon & Merlot Rare — красный купаж малым тиражом",
+      title: "Cabernet Sauvignon & Merlot Rare — купаж",
       description:
         "Купаж Cabernet Sauvignon и Merlot из линейки Rare винодельни Chateau At Mount (Гагаузия, Молдова): малый тираж, минимум сульфитов, крепость и подача.",
     },
@@ -684,7 +684,7 @@ export const wines: Wine[] = [
       ro: "Merlot din linia Rare este același soi ca în linia clasică, dar în serie mică și cu minimum de sulfiți. Mai multă densitate și fructe închise, o notă de tutun, sticlă închisă și sigiliu de ceară.",
     },
     seo: {
-      title: "Merlot Rare — красное вино малым тиражом из Молдовы",
+      title: "Merlot Rare — красное малым тиражом",
       description:
         "Merlot из линейки Rare винодельни Chateau At Mount (Гагаузия, Молдова): малый тираж, минимум сульфитов, крепость, подача и история сорта.",
     },
@@ -737,7 +737,7 @@ export const wines: Wine[] = [
       ro: "Cabernet Sauvignon din linia Rare: serie mică și minimum de sulfiți. Un soi cu taninuri ferme, care aici se deschide cu coacăze negre, piele și condimente. Sticlă închisă, sigiliu de ceară.",
     },
     seo: {
-      title: "Cabernet Sauvignon Rare — красное вино малым тиражом из Молдовы",
+      title: "Cabernet Sauvignon Rare — малый тираж",
       description:
         "Cabernet Sauvignon из линейки Rare винодельни Chateau At Mount (Гагаузия, Молдова): малый тираж, минимум сульфитов, крепость, подача и история сорта.",
     },
@@ -785,7 +785,7 @@ export const wines: Wine[] = [
       ro: "Un spumant din Fetească Albă. Extra brut este cea mai seacă categorie: aproape fără zahăr, vinul rămâne direct și proaspăt, cu aroma florală a soiului și un perlaj fin.",
     },
     seo: {
-      title: "Extra Brut Alb — игристое из Fetească Albă, Молдова",
+      title: "Extra Brut Alb — белое игристое, Молдова",
       description:
         "Белое игристое экстра брют из Fetească Albă от винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и гастрономические пары.",
     },
@@ -842,7 +842,7 @@ export const wines: Wine[] = [
       ro: "Un spumant rosé din Shiraz. Soiul care în linia clasică dă un roșu dens este cules aici devreme și macerat scurt pe pielițe: de aici culoarea și fructul, iar maturarea pe drojdii adaugă brioșa.",
     },
     seo: {
-      title: "Extra Brut Rosé — розовое игристое из Shiraz, Молдова",
+      title: "Extra Brut Rosé — розовое игристое",
       description:
         "Розовое игристое экстра брют из Shiraz от винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и гастрономические пары.",
     },
@@ -892,7 +892,7 @@ export const wines: Wine[] = [
       ro: "PONI sunt cupajele noastre cu etichete desenate, vin fără reguli stricte. PONI alb este făcut din două soiuri autohtone moldovenești: Viorica dă flori și condiment, Fetească Albă măr și prospețime.",
     },
     seo: {
-      title: "PONI White — белый купаж Viorica и Fetească Albă",
+      title: "PONI White — Viorica и Fetească Albă",
       description:
         "PONI White — сухой белый купаж автохтонных сортов Viorica и Fetească Albă от винодельни Chateau At Mount (Гагаузия, Молдова): крепость, подача и пары.",
     },
@@ -946,7 +946,7 @@ export const wines: Wine[] = [
       ro: "Vinul oranj se face din struguri albi după tehnologia roșiilor: mustul fermentează împreună cu pielițele. Amber este Viorica macerată pe pielițe: culoare de chihlimbar, taninuri ușoare și arome de fructe uscate, condimente și miere.",
     },
     seo: {
-      title: "Amber at Mount — оранжевое вино из Viorica, Молдова",
+      title: "Amber — оранжевое вино из Viorica",
       description:
         "Оранжевое сухое вино Amber из Viorica на кожице от винодельни Chateau At Mount (Гагаузия, Молдова): крепость, температура подачи и гастрономические пары.",
     },
@@ -990,7 +990,7 @@ export const wines: Wine[] = [
       ro: "PONI roșu este un cupaj de Fetească Neagră, Merlot și Pinot Noir. Soiul autohton dă caracter, Merlot corp, Pinot Noir lejeritate și fruct. Un vin de zi cu zi, fără reguli stricte.",
     },
     seo: {
-      title: "PONI Red — красный купаж Fetească Neagră, Merlot и Pinot Noir",
+      title: "PONI Red — купаж Fetească Neagră и Merlot",
       description:
         "PONI Red — сухой красный купаж Fetească Neagră, Merlot и Pinot Noir от винодельни Chateau At Mount (Гагаузия, Молдова): крепость, подача и пары.",
     },
@@ -1019,10 +1019,10 @@ export const reviews: {
 }[] = [];
 
 export const links = {
-  instagram:
-    "https://www.instagram.com/at_mount_chateau.md?igsh=MXM5MTVnem83c2luOQ==",
+  instagram: "https://www.instagram.com/at_mount_chateau.md",
   telegram: "https://t.me/nelliviktorovna",
-  tiktok: "https://www.tiktok.com/@at_mount_chateau?_t=ZM-8yHuqHVsAGG&_r=1",
+  tiktok: "https://www.tiktok.com/@at_mount_chateau",
+  vivino: "https://www.vivino.com/en/wineries/chateau-at-mount",
 };
 
 export const t = {
@@ -1382,9 +1382,9 @@ export const t = {
       ro: "Un tur al cramei, o plimbare prin podgorii și o degustare de vinuri cu vedere spre Ceadîr-Lunga — totul de pe cel mai înalt punct al dealului.",
     },
     packagesTitle: {
-      ru: "Форматы дегустаций",
-      en: "Tasting formats",
-      ro: "Formate de degustare",
+      ru: "Дегустации на винодельне в Чадыр-Лунге",
+      en: "Tastings at the winery in Ceadîr-Lunga",
+      ro: "Degustări la crama din Ceadîr-Lunga",
     },
     packagesIntro: {
       ru: "Три формата — от первого знакомства с винодельней до гагаузского стола. Меню адаптируем под вашу компанию.",
@@ -2109,9 +2109,9 @@ export const t = {
       terroir: {
         eyebrow: { ru: "Терруар", en: "Terroir", ro: "Teroir" },
         title: {
-          ru: "Солнце, ветер и виноград",
-          en: "Sun, wind and vines",
-          ro: "Soare, vânt și viță de vie",
+          ru: "Терруар Гагаузии: солнце, ветер и виноград",
+          en: "Gagauzia terroir: sun, wind and vines",
+          ro: "Teroirul Găgăuziei: soare, vânt și viță de vie",
         },
         media: {
           ru: "Ряды лозы на склоне и степной горизонт до самого края",
