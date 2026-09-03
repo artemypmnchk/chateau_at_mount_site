@@ -1,4 +1,4 @@
-export type Locale = "ru" | "en" | "ro";
+﻿export type Locale = "ru" | "en" | "ro";
 
 export const locales: Locale[] = ["ru", "en", "ro"];
 
@@ -1142,6 +1142,13 @@ export const t = {
       en: "Tastings & visits",
       ro: "Degustări și vizite",
     },
+    /* Секция на главной осталась под якорем #events (на него ведут старые
+       ссылки), но теперь это анонс — ведёт на отдельную страницу. */
+    ctaEvents: {
+      ru: "Что мы устраиваем",
+      en: "What we host",
+      ro: "Ce organizăm",
+    },
   },
   reviews: {
     eyebrow: { ru: "Отзывы", en: "Reviews", ro: "Recenzii" },
@@ -1481,6 +1488,271 @@ export const t = {
       },
     ],
   },
+  /**
+   * Страница «Мероприятия». Порядок предложений — от дневных к вечерним: он
+   * задаёт световую дугу страницы (день → золотой час → вечер), фон
+   * светлеет и темнеет вслед за ним. Менять порядок — значит ломать дугу.
+   * `href` есть только у дегустаций: они живут отдельной страницей.
+   */
+  eventsPage: {
+    eyebrow: { ru: "Мероприятия", en: "Events", ro: "Evenimente" },
+    /* Заголовок разрезан надвое намеренно: половины встают по сторонам кадра,
+       и фраза буквально обнимает место, о котором говорит. Тире на конце
+       первой половины показывает на кадр. */
+    titleA: {
+      ru: "Ваш повод",
+      en: "Your occasion",
+      ro: "Motivul vostru",
+    },
+    titleB: {
+      ru: "наше место",
+      en: "our place",
+      ro: "locul nostru",
+    },
+    intro: {
+      ru: "Дегустации, пикники среди лоз, кино под открытым небом и территория, на которой можно организовать свой праздник.",
+      en: "Tastings, picnics among the vines, open-air cinema and an estate where you can host a celebration of your own.",
+      ro: "Degustări, picnicuri printre vii, cinema sub cerul liber și un domeniu unde vă puteți organiza propria sărbătoare.",
+    },
+    /* Верхняя кнопка ведёт в телеграм, нижняя пара — телеграм + форма */
+    heroCta: {
+      ru: "Забронировать мероприятие",
+      en: "Book an event",
+      ro: "Rezervați un eveniment",
+    },
+    offersEyebrow: {
+      ru: "Что мы предлагаем",
+      en: "What we offer",
+      ro: "Ce oferim",
+    },
+    offersTitle: {
+      ru: "Восемь способов провести у нас время",
+      en: "Eight ways to spend time with us",
+      ro: "Opt feluri de a petrece timpul la noi",
+    },
+    offerMore: { ru: "Подробнее", en: "Learn more", ro: "Detalii" },
+    offerCta: {
+      ru: "Забронировать мероприятие",
+      en: "Book an event",
+      ro: "Rezervați un eveniment",
+    },
+    offers: [
+      {
+        name: {
+          ru: "Дегустация и экскурсия",
+          en: "Tasting and tour",
+          ro: "Degustare și tur",
+        },
+        blurb: {
+          ru: "Три пакета на выбор — от лёгкого знакомства до полноценного винного путешествия.",
+          en: "Three packages to choose from — from a light introduction to a full wine journey.",
+          ro: "Trei pachete la alegere — de la o cunoștință ușoară până la o adevărată călătorie a vinului.",
+        },
+        media: {
+          ru: "Дегустация вин на винодельне",
+          en: "A wine tasting at the winery",
+          ro: "O degustare de vinuri la cramă",
+        },
+        href: "/visit",
+      },
+      {
+        name: {
+          ru: "Творческие мастер-классы",
+          en: "Creative workshops",
+          ro: "Ateliere creative",
+        },
+        /* Роспись и живопись вином — не одно и то же, поэтому идут
+           отдельными строками, а не через запятую в одном предложении.
+           Подводки нет намеренно: строки говорят сами за себя. */
+        items: [
+          {
+            ru: "Роспись винных бутылок",
+            en: "Painting wine bottles",
+            ro: "Pictură pe sticle de vin",
+          },
+          {
+            ru: "Написание картины вином",
+            en: "Painting a picture with wine",
+            ro: "Pictarea unui tablou cu vin",
+          },
+        ],
+        media: {
+          ru: "Мастер-класс по росписи бутылок",
+          en: "A bottle-painting workshop",
+          ro: "Un atelier de pictură pe sticle",
+        },
+        price: {
+          ru: "450 лей с человека",
+          en: "450 MDL per person",
+          ro: "450 MDL de persoană",
+        },
+      },
+      {
+        name: {
+          ru: "Пикники в виноградниках",
+          en: "Picnics in the vineyards",
+          ro: "Picnicuri în podgorii",
+        },
+        blurb: {
+          ru: "Уютный отдых среди лоз с бутылкой вина, красивой сервировкой и приятной атмосферой полного спокойствия.",
+          en: "A cosy break among the vines with a bottle of wine, a beautifully laid table and complete calm.",
+          ro: "O pauză tihnită printre vii, cu o sticlă de vin, o masă frumos aranjată și liniște deplină.",
+        },
+        media: {
+          ru: "Пикник среди виноградных лоз",
+          en: "A picnic among the vines",
+          ro: "Un picnic printre vițele de vie",
+        },
+        price: {
+          ru: "200 лей за двоих",
+          en: "200 MDL for two",
+          ro: "200 MDL pentru doi",
+        },
+        includes: {
+          ru: ["Бутылка вина", "Плед и подушки", "Корзинка для пикника"],
+          en: ["A bottle of wine", "A blanket and cushions", "A picnic basket"],
+          ro: ["O sticlă de vin", "O pătură și perne", "Un coș de picnic"],
+        },
+      },
+      {
+        name: {
+          ru: "Фотозоны для съёмок",
+          en: "Photo settings",
+          ro: "Zone foto",
+        },
+        blurb: {
+          ru: "Лавандовое поле, большие качели и закаты — всё для вашего самого красивого кадра.",
+          en: "A lavender field, big swings and sunsets — everything for your most beautiful shot.",
+          ro: "Un câmp de lavandă, leagăne mari și apusuri — totul pentru cel mai frumos cadru al vostru.",
+        },
+        media: {
+          ru: "Качели и лавандовое поле",
+          en: "Swings and the lavender field",
+          ro: "Leagănele și câmpul de lavandă",
+        },
+        price: {
+          ru: "90 лей с человека",
+          en: "90 MDL per person",
+          ro: "90 MDL de persoană",
+        },
+      },
+      {
+        name: {
+          ru: "Девичники",
+          en: "Hen parties",
+          ro: "Petreceri ale burlăcițelor",
+        },
+        blurb: {
+          ru: "Накрытый стол, вино и вечер только для вашей компании.",
+          en: "A laid table, wine and an evening just for your group.",
+          ro: "O masă pregătită, vin și o seară doar pentru compania voastră.",
+        },
+        media: {
+          ru: "Девичник за длинным столом на закате",
+          en: "A hen party at a long table at sunset",
+          ro: "O petrecere a burlăcițelor la o masă lungă, la apus",
+        },
+        price: {
+          ru: "550 лей с человека",
+          en: "550 MDL per person",
+          ro: "550 MDL de persoană",
+        },
+        includes: {
+          ru: ["Декор", "Вино", "Мастер-класс", "Закуски"],
+          en: ["Decor", "Wine", "A workshop", "Snacks"],
+          ro: ["Decor", "Vin", "Un atelier", "Gustări"],
+        },
+      },
+      {
+        name: {
+          ru: "Аренда территории",
+          en: "Hire of the estate",
+          ro: "Închirierea domeniului",
+        },
+        blurb: {
+          ru: "Дни рождения, корпоративы, семейные праздники и любые другие мероприятия по вашему запросу.",
+          en: "Birthdays, company days, family celebrations and any other occasion you have in mind.",
+          ro: "Zile de naștere, evenimente corporative, sărbători de familie și orice altă ocazie doriți.",
+        },
+        media: {
+          ru: "Накрытый стол для праздника",
+          en: "A table laid for a celebration",
+          ro: "O masă pregătită pentru sărbătoare",
+        },
+        price: {
+          ru: "Цена индивидуальная",
+          en: "Priced individually",
+          ro: "Preț individual",
+        },
+      },
+      {
+        name: {
+          ru: "Кинотеатр под открытым небом",
+          en: "Open-air cinema",
+          ro: "Cinema sub cerul liber",
+        },
+        blurb: {
+          ru: "Просмотр фильмов среди виноградников, в уютном мягком кресле, с бокалом вина и любимыми закусками.",
+          en: "Films among the vineyards, in a soft armchair, with a glass of wine and your favourite snacks.",
+          ro: "Filme printre podgorii, într-un fotoliu moale, cu un pahar de vin și gustările preferate.",
+        },
+        media: {
+          ru: "Экран и кресла среди виноградников",
+          en: "A screen and armchairs among the vineyards",
+          ro: "Un ecran și fotolii printre podgorii",
+        },
+        /* Две ступени в одной строке: отдельного поля под детский тариф
+           заводить не стали — он есть только здесь. */
+        price: {
+          ru: "Взрослый 90 лей, детский 50 лей",
+          en: "Adults 90 MDL, children 50 MDL",
+          ro: "Adulți 90 MDL, copii 50 MDL",
+        },
+      },
+      {
+        name: {
+          ru: "Романтические свидания",
+          en: "Romantic evenings",
+          ro: "Seri romantice",
+        },
+        blurb: {
+          ru: "Организуем предложение руки и сердца, годовщину или просто особенный вечер. Берём на себя всё — от декора до фотографа и музыкантов.",
+          en: "We arrange a proposal, an anniversary or simply a special evening. We take care of everything — from the decor to the photographer and the musicians.",
+          ro: "Organizăm o cerere în căsătorie, o aniversare sau pur și simplu o seară deosebită. Ne ocupăm de tot — de la decor până la fotograf și muzicanți.",
+        },
+        media: {
+          ru: "Свечи и накрытый стол на двоих",
+          en: "Candles and a table for two",
+          ro: "Lumânări și o masă pentru doi",
+        },
+        price: {
+          ru: "900 лей за двоих",
+          en: "900 MDL for two",
+          ro: "900 MDL pentru doi",
+        },
+        includes: {
+          ru: ["Бутылка вина", "Декор", "Сырное плато"],
+          en: ["A bottle of wine", "Decor", "A cheese board"],
+          ro: ["O sticlă de vin", "Decor", "Un platou de brânzeturi"],
+        },
+      },
+    ],
+    finalTitle: {
+      ru: "Задайте интересующий вас вопрос или оставьте свои контакты — мы обязательно свяжемся с вами",
+      en: "Ask us anything you need to know, or leave your contacts — we will get back to you",
+      ro: "Puneți-ne orice întrebare sau lăsați-vă datele de contact — vă vom răspunde negreșit",
+    },
+    finalForm: {
+      ru: "Оставить заявку",
+      en: "Make a request",
+      ro: "Lăsați o cerere",
+    },
+    finalTg: {
+      ru: "Связаться с нами",
+      en: "Get in touch",
+      ro: "Contactați-ne",
+    },
+  },
   contactsPage: {
     eyebrow: { ru: "Контакты", en: "Contacts", ro: "Contacte" },
     title: {
@@ -1623,6 +1895,155 @@ export const t = {
       ro: "Arătați pe hartă",
     },
     backHome: { ru: "На главную", en: "Back home", ro: "Pagina principală" },
+  },
+  /* Страница «О винодельне» (components/AboutPage.tsx).
+     Вступление разбито на три части: винное «пятно» лежит только на названии
+     города, одной строкой его не удержать. Манифест — с разметкой звёздочками
+     (акцентные слова), при переводе её сохранять. */
+  aboutPage: {
+    tagline: {
+      ru: "Семейная гагаузская винодельня",
+      en: "A Gagauz family winery",
+      ro: "Cramă de familie găgăuză",
+    },
+    statement: {
+      before: {
+        ru: "Наша винодельня находится на юге Молдовы, у въезда в солнечную ",
+        en: "Our winery stands in southern Moldova, at the entrance to sunny ",
+        ro: "Crama noastră se află în sudul Moldovei, la intrarea în însoritul ",
+      },
+      ink: {
+        ru: "Чадыр-Лунгу",
+        en: "Ceadîr-Lunga",
+        ro: "Ceadîr-Lunga",
+      },
+      after: {
+        ru: ", на самой высокой точке холма.",
+        en: ", on the highest point of the hill.",
+        ro: ", pe cel mai înalt punct al dealului.",
+      },
+    },
+    chapters: {
+      story: {
+        eyebrow: { ru: "История", en: "Story", ro: "Istorie" },
+        /* Заголовка у главы намеренно нет (решение владельца 17.08.2026):
+           блок открывается микролейблом «История» и сразу текстом. Chapter
+           умеет обходиться без title — см. components/AboutPage.tsx. */
+        media: {
+          ru: "Николай, основатель винодельни, открывает бутылку в поле у виноградников",
+          en: "Nikolai, the winery's founder, opening a bottle in the field by the vineyards",
+          ro: "Nicolae, fondatorul cramei, deschide o sticlă pe câmp, lângă vii",
+        },
+        caption: {
+          ru: "Николай — основатель винодельни",
+          en: "Nikolai — founder of the winery",
+          ro: "Nicolae — fondatorul cramei",
+        },
+        p1: {
+          ru: "Мы — семейный проект, выросший из зова предков. Chateau At Mount — детище гагаузской семьи, и её традиции слышны в характере и вкусе вина.",
+          en: "We are a family project that grew out of the call of our ancestors. Chateau At Mount is the work of a Gagauz family, and its traditions can be heard in the character and taste of the wine.",
+          ro: "Suntem un proiect de familie născut din chemarea strămoșilor. Chateau At Mount este opera unei familii găgăuze, iar tradițiile ei se aud în caracterul și gustul vinului.",
+        },
+        p2: {
+          ru: "Вино здесь делали задолго до нас — по-домашнему, для себя и для гостей. Основатель вырос на этом вкусе и, повзрослев, вернулся на землю родителей: из уважения к тем, кто был до него, и ради тех, кто будет после. Вкус из детства он повторил в своих винах — и рад разделить его с каждым гостем.",
+          en: "Wine was made here long before us — at home, for the family and for guests. The founder grew up on that taste and, once grown, returned to his parents' land: out of respect for those who came before him, and for the sake of those who will come after. He recreated the taste of his childhood in his own wines — and is glad to share it with every guest.",
+          ro: "Vinul se făcea aici cu mult înaintea noastră — în casă, pentru familie și pentru oaspeți. Fondatorul a crescut cu acest gust și, la maturitate, s-a întors pe pământul părinților: din respect pentru cei dinaintea lui și de dragul celor care vor veni după. Gustul copilăriei l-a repetat în vinurile sale — și se bucură să îl împartă cu fiecare oaspete.",
+        },
+      },
+      vineyards: {
+        eyebrow: { ru: "Виноградники", en: "Vineyards", ro: "Podgorii" },
+        title: {
+          ru: "От первой лозы до бутылки",
+          en: "From the first vine to the bottle",
+          ro: "De la prima viță la sticlă",
+        },
+        media: {
+          ru: "Грозди белого винограда и бутылки вина на столе в день урожая",
+          en: "Bunches of white grapes and bottles of wine on a table on harvest day",
+          ro: "Ciorchini de struguri albi și sticle de vin pe masă în ziua recoltei",
+        },
+        p1: {
+          ru: "Первые лозы посадили в 2019-м, а уже в 2020-м собрали первый урожай. Сегодня семья развивает 15 га виноградников — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz и другие сорта. В будущем — расширение ещё на 3–5 га и выпуск до 150 000 бутылок в год.",
+          en: "The first vines were planted in 2019, and the first harvest came in 2020. Today the family tends 15 hectares of vineyards — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz and other varieties. Ahead lie another 3–5 hectares and an output of up to 150,000 bottles a year.",
+          ro: "Primele vițe au fost plantate în 2019, iar prima recoltă a venit în 2020. Astăzi familia îngrijește 15 ha de vie — Cabernet Sauvignon, Merlot, Fetească Neagră, Fetească Albă, Viorica, Shiraz și alte soiuri. Urmează încă 3–5 ha și o producție de până la 150 000 de sticle pe an.",
+        },
+      },
+      terroir: {
+        eyebrow: { ru: "Терруар", en: "Terroir", ro: "Teroir" },
+        title: {
+          ru: "Солнце, ветер и виноград",
+          en: "Sun, wind and vines",
+          ro: "Soare, vânt și viță de vie",
+        },
+        media: {
+          ru: "Ряды лозы на склоне и степной горизонт до самого края",
+          en: "Rows of vines on the slope and the steppe horizon stretching to the edge",
+          ro: "Rânduri de viță pe pantă și orizontul de stepă până departe",
+        },
+        p1: {
+          ru: "Участок — в 100 метрах от шато: виноград доставляется максимально свежим, а контролируемая ферментация и минимум сульфитов сохраняют натуральный вкус и кислотность.",
+          en: "The plot lies 100 metres from the château: the grapes arrive as fresh as they can be, while controlled fermentation and minimal sulphites preserve the natural taste and acidity.",
+          ro: "Parcela se află la 100 de metri de cramă: strugurii ajung cât se poate de proaspeți, iar fermentația controlată și sulfiții minimi păstrează gustul natural și aciditatea.",
+        },
+        p2: {
+          ru: "Континентальный климат юга — жаркие сухие лета, много солнца и заметные перепады дневных и ночных температур к концу сезона — даёт ягоде и сахар, и живую кислотность.",
+          en: "The continental climate of the south — hot dry summers, abundant sun and marked day-to-night temperature swings towards the end of the season — gives the berry both sugar and lively acidity.",
+          ro: "Clima continentală a sudului — veri calde și uscate, soare din belșug și diferențe însemnate între temperaturile de zi și de noapte spre finalul sezonului — dă boabei și zahăr, și o aciditate vie.",
+        },
+      },
+      making: {
+        eyebrow: { ru: "Виноделие", en: "Winemaking", ro: "Vinificație" },
+        title: {
+          ru: "Три дуба, три характера",
+          en: "Three oaks, three characters",
+          ro: "Trei stejari, trei caractere",
+        },
+        media: {
+          ru: "Ряд ёмкостей из нержавеющей стали в цехе винодельни",
+          en: "A row of stainless steel tanks in the winery hall",
+          ro: "Un șir de cisterne de inox în hala cramei",
+        },
+        p1: {
+          ru: "За вином стоит простая философия: как можно меньше вмешательства. Виноград приходит свежим, ферментация под контролем, сульфитов — минимум.",
+          en: "A simple philosophy stands behind the wine: as little intervention as possible. The grapes arrive fresh, fermentation is controlled, sulphites are kept to a minimum.",
+          ro: "În spatele vinului stă o filosofie simplă: cât mai puțină intervenție. Strugurii ajung proaspeți, fermentația este controlată, sulfiții — la minimum.",
+        },
+        p2: {
+          ru: "Дальше выдержка: где-то в нержавеющей стали, чтобы сберечь фрукт, где-то в барриках из молдавского, карпатского и французского дуба, чтобы добавить глубины. Три дуба, три характера — бочку подбираем под каждое вино.",
+          en: "Then comes ageing: some wines in stainless steel to keep the fruit, others in barriques of Moldovan, Carpathian and French oak to add depth. Three oaks, three characters — we choose the barrel to suit each wine.",
+          ro: "Urmează maturarea: unele vinuri în inox, pentru a păstra fructul, altele în baricuri de stejar moldovenesc, carpatin și francez, pentru a adăuga profunzime. Trei stejari, trei caractere — alegem butoiul potrivit fiecărui vin.",
+        },
+      },
+    },
+    manifesto: {
+      ru: "Мы работаем, чтобы дать вам ощутить *многолетнюю историю* и традиции нашего народа — в каждом *бокале* нашего вина",
+      en: "We work to let you feel the *long history* and traditions of our people — in every *glass* of our wine",
+      ro: "Lucrăm pentru a vă face să simțiți *istoria de veacuri* și tradițiile poporului nostru — în fiecare *pahar* de vin al nostru",
+    },
+    winesCta: {
+      ru: "Наши вина",
+      en: "Our wines",
+      ro: "Vinurile noastre",
+    },
+    invite: {
+      title: {
+        ru: "Рады вам в любой день",
+        en: "We're glad to see you any day",
+        ro: "Vă așteptăm cu drag în orice zi",
+      },
+      lead: {
+        ru: "Купите вино прямо у шато, приезжайте на дегустацию или отметьте у нас событие — с видом на Чадыр-Лунгу, за столом прямо у лоз.",
+        en: "Buy wine right at the château, come for a tasting or celebrate an occasion with us — overlooking Ceadîr-Lunga, at a table set among the vines.",
+        ro: "Cumpărați vin chiar la cramă, veniți la o degustare sau sărbătoriți un eveniment la noi — cu vedere spre Ceadîr-Lunga, la o masă chiar lângă vie.",
+      },
+      /* Фраза намеренно не закончена — её договаривает кнопка ниже
+         (about.cta). При переводе многоточие сохранять. */
+      finale: {
+        ru: "Бокал уже налит, осталось только…",
+        en: "The glass is poured — all that's left is to…",
+        ro: "Paharul e turnat, mai rămâne doar să…",
+      },
+    },
   },
   footer: {
     brandCol: { ru: "Винодельня", en: "Winery", ro: "Crama" },

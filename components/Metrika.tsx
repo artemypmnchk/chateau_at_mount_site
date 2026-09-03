@@ -26,16 +26,18 @@ export default function Metrika() {
         (window, document, "script", "https://mc.yandex.ru/metrika/tag.js?id=${id}", "ym");
         ym(${id}, "init", { ssr:true, webvisor:true, clickmap:true, accurateTrackBounce:true, trackLinks:true });`}
       </Script>
-      <noscript>
-        <div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={`https://mc.yandex.ru/watch/${id}`}
-            style={{ position: "absolute", left: "-9999px" }}
-            alt=""
-          />
-        </div>
-      </noscript>
+      {/* Пиксель для посетителей без JS. Разметка отдаётся строкой намеренно:
+          React (float в Next 14) видит настоящий <img> даже внутри <noscript>
+          и поднимает в <head> «<link rel=preload as=image>» на mc.yandex.ru.
+          Тогда запрос к Яндексу уходит у всех при загрузке — при том что сам
+          пиксель нужен лишь тем, у кого JS выключен, а остальным хит и так
+          пришлёт tag.js. Строкой React содержимое не разбирает, preload не
+          появляется, а поведение без JS остаётся прежним. */}
+      <noscript
+        dangerouslySetInnerHTML={{
+          __html: `<div><img src="https://mc.yandex.ru/watch/${id}" style="position:absolute;left:-9999px" alt="" /></div>`,
+        }}
+      />
     </>
   );
 }

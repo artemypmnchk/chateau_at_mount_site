@@ -24,9 +24,11 @@ export default function Footer() {
           </div>
           <div className="footer-col">
             <h4>{L(t.footer.brandCol)}</h4>
-            <a href={lp("/#about")}>{L(t.nav.about)}</a>
+            {/* Раньше вёл на якорь #about главной — пункт меню ведёт на
+                отдельную страницу, подвал должен вести туда же */}
+            <a href={lp("/about")}>{L(t.nav.about)}</a>
             <a href={lp("/wines")}>{L(t.nav.wines)}</a>
-            <a href={lp("/#events")}>{L(t.nav.events)}</a>
+            <a href={lp("/events")}>{L(t.nav.events)}</a>
           </div>
           <div className="footer-col">
             <h4>{L(t.footer.socialCol)}</h4>
@@ -49,7 +51,7 @@ export default function Footer() {
             <h4>{L(t.footer.contactsCol)}</h4>
             <a href={site.contacts.phoneHref}>{site.contacts.phone}</a>
             <a href={`mailto:${site.contacts.email}`}>{site.contacts.email}</a>
-            <p className="footer-address">{site.contacts.addressLine}</p>
+            <p className="footer-address">{L(site.contacts.addressLine)}</p>
             <a
               href={site.contacts.mapUrl}
               target="_blank"

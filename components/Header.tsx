@@ -7,11 +7,15 @@ import { switchLocalePath } from "@/lib/i18n";
 import { useLocale } from "./locale";
 import { useBookingModal } from "./BookingModal";
 
+// Страницы, у которых верх страницы светлый (известняк, а не фото/тёмное
+// полотно) — на них шапка набирается тёмным текстом.
+const LIGHT_HERO_PAGES = ["/about", "/events"];
+
 const navItems = [
-  { href: "/#about", label: t.nav.about },
+  { href: "/about", label: t.nav.about },
   { href: "/wines", label: t.nav.wines },
   { href: "/visit", label: t.nav.visit },
-  { href: "/#events", label: t.nav.events },
+  { href: "/events", label: t.nav.events },
   { href: "/contacts", label: t.nav.contacts },
 ];
 
@@ -50,6 +54,14 @@ export default function Header() {
   // разметки), хамелеон гаснет и шапка возвращается к обычному виду.
   const [chameleon, setChameleon] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  // Страницы со светлым хиро: текст шапки тёмный поверх известняка. Но пока
+  // под шапкой тёмное полотно, командует хамелеон — иначе на странице «О нас»
+  // тёмный текст оставался бы поверх чёрного блока вин и пропадал.
+  // Список, а не одна страница: страниц со светлым верхом уже две, и каждая
+  // забытая здесь получает белый текст шапки на известняке.
+  const onLight =
+    LIGHT_HERO_PAGES.some((p) => pathname.endsWith(p)) &&
+    !(chameleon && theme === "dark");
 
   useEffect(() => {
     // Линия, по которой «читаем» полотно — примерно на уровне навигации
@@ -85,7 +97,7 @@ export default function Header() {
       <header
         className={`header${scrolled ? " scrolled" : ""}${
           chameleon ? " chameleon" : ""
-        }`}
+        }${onLight ? " on-light" : ""}`}
         data-theme={chameleon ? theme : undefined}
       >
         <div className="container header-inner">

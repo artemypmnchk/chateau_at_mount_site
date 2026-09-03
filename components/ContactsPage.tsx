@@ -109,7 +109,9 @@ export default function ContactsPage() {
               </a>
               <div className="info-row">
                 <span className="info-label">{L(c.addressLabel)}</span>
-                <span className="info-value">{site.contacts.addressLine}</span>
+                <span className="info-value">
+                  {L(site.contacts.addressLine)}
+                </span>
                 <a
                   className="map-link"
                   href={site.contacts.mapUrl}

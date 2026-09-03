@@ -228,9 +228,11 @@ export default function Site() {
               <h2>{L(t.memories.title)}</h2>
               <p>{L(t.memories.text)}</p>
               {/* Секция рассказывала и обрывалась — до финального CTA
-                  далеко, даём путь сразу (аудит, F-08) */}
-              <a href={lp("/visit")} className="split-link">
-                {L(t.memories.cta)} →
+                  далеко, даём путь сразу (аудит, F-08). Теперь это анонс
+                  отдельной страницы «Мероприятия»; якорь #events сохранён,
+                  на него ведут старые ссылки. */}
+              <a href={lp("/events")} className="split-link">
+                {L(t.memories.ctaEvents)} →
               </a>
             </div>
           </div>

@@ -1,0 +1,17 @@
+# В репозитории и в рабочей копии — только LF: этого требует Prettier
+# (endOfLine: "lf" в .prettierrc). Без этого файла Windows-клон с
+# core.autocrlf=true раскладывает файлы с CRLF и `npm run check` падает
+# на форматировании во всех 69 файлах, хотя содержимое не менялось.
+* text=auto eol=lf
+
+# Бинарники не трогаем
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.mp4 binary
+*.pdf binary

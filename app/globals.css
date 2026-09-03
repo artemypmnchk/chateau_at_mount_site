@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --bg: #f4f1ea; /* известняк — светлый камень, холоднее крема */
   --bg-soft: #eae5da;
   --ink: #241a1c; /* почти-чёрный со сливовым подтоном */
@@ -3303,4 +3303,993 @@ a.info-row:hover .info-value {
     grid-template-columns: 1fr;
     gap: 12px;
   }
+}
+/* ============ About page ============ */
+/* Тёмный текст шапки на странице со светлым хиро */
+/* Переключатель языков размечен ссылками (см. .lang a выше), а не кнопками:
+   селекторы на button тут ни к чему не приводили, и на светлом хиро языки
+   оставались белыми по известняку — видно их становилось только после
+   прокрутки, когда подхватывал .header.scrolled. */
+.header.on-light .brand-name,
+.header.on-light .nav-links a,
+.header.on-light .lang a.active,
+.header.on-light .burger {
+  color: var(--ink);
+}
+.header.on-light .lang a {
+  color: var(--ink-soft);
+}
+
+/* ===================== About v2 — «вино на известняке» ===================== */
+.about-v2 {
+  position: relative;
+  isolation: isolate;
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: clip;
+
+  /* Масштаб лозы. Единственная ручка: от неё считается и ширина полосы,
+     и левое поле под неё, и толщина всех линий рисунка. Раньше лоза просто
+     пряталась ниже 1480px — то есть отсутствовала на телефонах, планшетах и
+     большинстве ноутбуков. Теперь она ужимается: на широких экранах живёт
+     в поле за контейнером в полную величину, на узких — в собственном
+     левом поле страницы и мельче.
+     Вертикаль не масштабируется никогда: побег идёт во всю высоту страницы,
+     иначе он перестанет быть хребтом текста. */
+  --ab-vk: 1;
+  --ab-band: calc(130px * var(--ab-vk));
+}
+/* Поле под лозу нужно только там, где её негде положить снаружи контейнера.
+   Добираем ровно недостающее: сколько-то поля слева даёт сам центрированный
+   контейнер, и пока его хватает на полосу с зазором, отступ остаётся
+   обычным — иначе текст уезжал бы вправо там, где место и так есть.
+   max(0px, …) обязателен: при узком окне контейнер идёт во всю ширину и
+   «своего» поля у него нет, а разность (100vw − maxw)/2 уходит в минус. */
+@media (max-width: 1479px) {
+  .about-v2 {
+    --ab-vk: 0.72;
+    --ab-gutter: calc(
+      var(--ab-band) + 16px - max(0px, (100vw - var(--maxw)) / 2)
+    );
+  }
+  .about-v2 .container {
+    padding-left: max(max(24px, env(safe-area-inset-left)), var(--ab-gutter));
+  }
+  /* Тёмный манифест поле получает наравне со всеми: лоза идёт сквозь него
+     насквозь (винным по почти чёрному — приглушённо, как и задумано), и без
+     поля побег ложился бы прямо на первые буквы фразы. Набранная по центру
+     фраза при этом центруется в суженной колонке, то есть смещается вправе
+     на половину поля — заметно меньше, чем наезд рисунка на текст. */
+}
+@media (max-width: 1239px) {
+  .about-v2 {
+    --ab-vk: 0.6;
+  }
+}
+@media (max-width: 899px) {
+  .about-v2 {
+    --ab-vk: 0.46;
+  }
+}
+@media (max-width: 420px) {
+  .about-v2 {
+    --ab-vk: 0.4;
+  }
+}
+
+/* Линия-хребет + свет за скроллом (см. LineSpine.tsx) */
+/* Путь света: прохладное утро вверху → золотой час к финалу. Тёмные секции
+   (манифест и вина) непрозрачны и сами прорезают этот градиент — после них
+   свет продолжается с того же места, где прервался. */
+.ab-warm-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    #f1efe8 0%,
+    #f5edde 34%,
+    #f1e3c6 66%,
+    #e9cfa6 100%
+  );
+}
+/* Живой блик: к низу золото чуть набирает силу по мере чтения.
+   --ab-warm живёт на самом слое, а не на <html>. Раньше VineSpine писал её
+   в корень документа каждый кадр прокрутки, и браузер на каждый кадр
+   пересчитывал стили всему дереву: замер на телефоне (процессор ×6) дал
+   7265 мс пересчёта стилей из 13225 мс всего листания — больше половины.
+   Переменная нужна ровно одному правилу, поэтому и ставится на один элемент.
+   will-change держит блик отдельным слоем: смена прозрачности тогда идёт
+   композитором и градиент во всю страницу не перерисовывается. */
+.ab-warm-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 55% at 50% 100%, #e3bf88, transparent 72%);
+  opacity: calc(var(--ab-warm, 0) * 0.4);
+  will-change: opacity;
+}
+.ab-spine {
+  position: absolute;
+  top: 0;
+  left: calc((100% - 1200px) / 2 - 140px);
+  width: var(--ab-band);
+  z-index: 4;
+  pointer-events: none;
+}
+.ab-spine svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+/* Ниже 1480px поля за контейнером нет — лоза встаёт в собственное левое поле
+   страницы (его отводит .about-v2 .container выше) */
+@media (max-width: 1479px) {
+  .ab-spine {
+    left: 0;
+    /* У этой же кромки висит логотип в шапке, и от нулевого старта побег
+       прорастал прямо из монограммы. Опускаем начало под шапку: 68px её
+       высоты (.header-inner) плюс вырез экрана плюс воздух.
+       Высоту лозы VineSpine уменьшает на этот же отступ — читает его из
+       computed style, поэтому низ по-прежнему совпадает с низом страницы.
+       На широких экранах лоза лежит в поле за контейнером, логотипа не
+       касается, и правило не нужно. */
+    top: calc(68px + env(safe-area-inset-top) + 18px);
+  }
+}
+.ab-vine-cane,
+.ab-vine-stem,
+.ab-vine-tendril {
+  fill: none;
+  stroke: var(--wine);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* Толщины линий идут через --ab-orn, а не --ab-vk: viewBox лозы совпадает с
+   её размером в пикселях один к одному, поэтому нескорректированный штрих на
+   мелком рисунке выглядел бы вдвое жирнее задуманного. Множитель именно
+   орнаментный (см. ornScale в VineSpine): по ширине полосы линии выходили
+   волосяными под крупными гроздьями. Значение проставляет JS — до него
+   работает запасная единица, но лоза в этот момент ещё свёрнута и невидима. */
+.ab-vine-cane {
+  stroke-width: calc(2.6 * var(--ab-orn, 1));
+  /* Побег свёрнут ещё до того, как отработает JS: у пути pathLength="1", так
+     что длина нормирована и стартовое состояние задаётся статикой. Иначе
+     первый кадр успевал отрисовать лозу проросшей на всю страницу. */
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.ab-vine-stem {
+  stroke-width: calc(1.6 * var(--ab-orn, 1));
+}
+.ab-vine-tendril {
+  stroke-width: calc(1.2 * var(--ab-orn, 1));
+}
+.ab-vine-leaf {
+  /* тёплый кремовый — держит контраст и на утреннем, и на золотом фоне */
+  fill: #f5eddd;
+  stroke: var(--wine);
+  stroke-width: calc(1.2 * var(--ab-orn, 1));
+  stroke-linejoin: round;
+}
+.ab-vine-vein {
+  fill: none;
+  stroke: var(--accent-dark);
+  stroke-width: calc(0.7 * var(--ab-orn, 1));
+  opacity: 0.7;
+}
+.ab-vine-berry {
+  fill: #5b1520;
+  stroke: #340f18;
+  stroke-width: calc(0.6 * var(--ab-orn, 1));
+}
+/* Блик на каждой ягоде — единственное, что отделяет её от соседних:
+   обводка тут не годится, от светлого ободка гроздь перестаёт читаться
+   как виноград. */
+.ab-vine-hi {
+  fill: #e0b48f;
+  opacity: 0.75;
+}
+.ab-vine-tip circle {
+  fill: var(--wine);
+}
+
+/* ——— 02 · Название + розлив ——— */
+.ab-hero {
+  padding: clamp(112px, 17vh, 210px) 0 clamp(22px, 3.6vh, 46px);
+}
+/* Имя слева, гравюрный пейзаж справа — правая половина была пустой.
+   Колонка имени урезана до необходимого: самой длинной строке нужно ~0.93 её
+   ширины, остаток отдан пейзажу, иначе он не перекрывает пустоту справа. */
+.ab-hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+  align-items: center;
+  gap: clamp(20px, 2.6vw, 40px);
+}
+.ab-hill {
+  align-self: center;
+}
+/* Пейзаж выходит за поле страницы вправо: зазор до кромки окна вдвое меньше
+   обычного. Только там, где под это есть запас, — на узких экранах поле
+   страницы и так минимально. */
+@media (min-width: 1240px) {
+  .ab-hill {
+    margin-right: calc(-1 * ((100vw - var(--maxw)) / 4 + 4px));
+  }
+}
+.ab-hill-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* ряды намеренно шире кадра — обрезаем по рамке, иначе лезут на заголовок */
+  overflow: hidden;
+}
+/* Заливка — цвет фона в этом месте страницы. Нужна только для перекрытия:
+   возвышенность прячет за собой горизонт, ближний объём здания — дальний. */
+/* Непрозрачная подложка под тонированные плоскости */
+.ab-hill-mask {
+  fill: #f1efe8;
+  stroke: none;
+}
+.ab-hill-solid {
+  fill: #f1efe8;
+  stroke: var(--wine);
+  stroke-width: 0.9;
+  stroke-linejoin: miter;
+  stroke-linecap: butt;
+}
+.ab-hill-solid.is-thin {
+  stroke-width: 0.7;
+  opacity: 0.6;
+}
+/* Кровля тёмная — в оригинале это единственное тёмное пятно здания,
+   на нём оно и узнаётся */
+.ab-hill-solid.is-roof {
+  fill: var(--wine);
+  fill-opacity: 0.28;
+}
+/* Полог лозы: масса чуть плотнее фона, края мягкие */
+.ab-hill-solid.is-leaf {
+  fill: var(--wine);
+  fill-opacity: 0.1;
+  stroke-linejoin: round;
+}
+/* Стекло: слабая заливка, чтобы читался ритм окон, но не спорил с линией */
+.ab-hill-glass {
+  fill: var(--wine);
+  fill-opacity: 0.2;
+  stroke: none;
+}
+/* Глухой поясок в остеклении башни — сплошная тёмная полоса, не окна */
+.ab-hill-band {
+  fill: var(--wine);
+  fill-opacity: 0.72;
+  stroke: none;
+}
+/* Ягода. Обводка тоньше обычной: при радиусе ~0.6 штатные 0.9 съедают ягоду
+   целиком. Заливка полупрозрачная — на перекрытиях тон сгущается, и кисть
+   получает объём даром. */
+.ab-hill-berry {
+  fill: var(--wine);
+  fill-opacity: 0.24;
+  stroke: var(--wine);
+  stroke-width: 0.42;
+}
+/* Пейзаж проявляется мягко, слоями: горизонт → ряды → здание → солнце */
+.ab-hill-far,
+.ab-hill-rows,
+.ab-hill-bld,
+.ab-hill-sun {
+  opacity: 0;
+  animation: abHillIn 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+}
+.ab-hill-far {
+  animation-delay: 0.15s;
+}
+.ab-hill-rows {
+  animation-delay: 0.45s;
+}
+.ab-hill-bld {
+  animation-delay: 0.6s;
+}
+.ab-hill-sun {
+  animation-delay: 0.85s;
+}
+@keyframes abHillIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Лучи еле заметно дышат — солнце живое, но не мельтешит */
+.ab-hill-rays {
+  transform-box: view-box;
+  transform-origin: 318px 90px;
+  animation: abSunBreathe 14s ease-in-out infinite;
+}
+@keyframes abSunBreathe {
+  0%,
+  100% {
+    opacity: 0.32;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.06);
+  }
+}
+@media (max-width: 900px) {
+  .ab-hero-inner {
+    grid-template-columns: 1fr;
+  }
+  /* В одну колонку пейзаж уезжал вниз: между тэглайном и первой линией
+     рисунка набегал 81px, из которых 43 — пустое небо внутри самого SVG
+     (солнце начинается не от верхней кромки). Подтягиваем кадр вверх на
+     величину этого запаса — перекрывать нечего, там пусто, — и зазор
+     становится ~40px. Запас растёт вместе с кадром, поэтому величина
+     во vw; max() ставит предел у самого брейкпоинта.
+     Правило живёт только внутри @media (max-width: 900px) — на ПК, где
+     пейзаж стоит второй колонкой, оно не действует. */
+  .ab-hill {
+    max-width: 420px;
+    margin-top: max(-52px, -6vw);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ab-hill-far,
+  .ab-hill-rows,
+  .ab-hill-bld,
+  .ab-hill-sun {
+    animation: none;
+    opacity: 1;
+  }
+  .ab-hill-rays {
+    animation: none;
+    opacity: 0.4;
+  }
+}
+.ab-hero-name {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+}
+.ab-hero-name .l1,
+.ab-hero-name .l2 {
+  display: block;
+  font-size: clamp(52px, 13vw, 168px);
+}
+/* Отступ второй строки задан в em, а не в vw: «Chateau» шире «At Mount» ровно
+   на 0.6em, поэтому обе строки встают вровень по правому краю на любом кегле.
+   При отступе в vw края расходились на десяток пикселей — почти совпадали, и
+   это читалось не как ступенька, а как кривизна. */
+.ab-hero-name .l2 {
+  padding-left: 0.6em;
+}
+.ab-hero-tag {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 40px);
+  flex-wrap: wrap;
+  margin: clamp(22px, 3.4vw, 40px) 0 0;
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-size: clamp(16px, 2.2vw, 25px);
+  color: var(--ink-soft);
+}
+.ab-pour {
+  display: inline-flex;
+  line-height: 0;
+}
+.ab-pour-svg {
+  width: clamp(168px, 21vw, 248px);
+  height: auto;
+  overflow: visible;
+}
+
+/* Винное «пятно на бумаге» под акцентным словом */
+.ab-ink {
+  position: relative;
+  z-index: 0;
+  color: var(--wine);
+  white-space: nowrap;
+}
+.ab-ink::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -0.12em;
+  right: -0.12em;
+  top: 0.08em;
+  bottom: 0.05em;
+  background: var(--accent);
+  opacity: 0.3;
+  border-radius: 58% 42% 55% 45% / 52% 58% 42% 48%;
+}
+
+/* Гравюрная сцена розлива. Толщины линий разные: силуэт плотнее,
+   детали тоньше, разметка этикетки — волосяная. Торцы прямые, стыки острые —
+   рисунок резцом, а не фломастером. Движется жидкость, посуда почти нет. */
+.ab-ln,
+.ab-ln-fine,
+.ab-ln-hair {
+  fill: none;
+  stroke: var(--wine);
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+}
+.ab-ln {
+  stroke-width: 1.3;
+}
+.ab-ln-fine {
+  stroke-width: 0.9;
+}
+.ab-ln-hair {
+  stroke-width: 0.7;
+  opacity: 0.4;
+}
+.ab-meniscus {
+  fill: none;
+  stroke: #3d1a21;
+  stroke-width: 0.9;
+}
+/* Исходный кадр: бутылка полна, бокал пуст, струи нет */
+.ab-pour-bottle {
+  transform-box: view-box;
+  transform-origin: 34px 100px;
+}
+.ab-bottle-wine {
+  fill: var(--wine);
+  transform-box: view-box;
+  transform-origin: 34px 100px;
+}
+.ab-glass-wine {
+  fill: var(--wine);
+  transform: translateY(34px);
+}
+.ab-pour-stream {
+  fill: none;
+  stroke: var(--wine);
+  stroke-width: 1.5;
+  stroke-linecap: butt;
+  /* Длина пути струи — 25.4, dash чуть длиннее, чтобы покрыть её целиком */
+  stroke-dasharray: 26;
+  stroke-dashoffset: 26;
+  opacity: 0;
+}
+[data-reveal].is-in .ab-pour-bottle {
+  animation: abBottle 6.2s cubic-bezier(0.33, 0, 0.2, 1) 0.3s both;
+}
+[data-reveal].is-in .ab-bottle-wine {
+  animation: abBottleWine 6.2s cubic-bezier(0.33, 0, 0.2, 1) 0.3s both;
+}
+[data-reveal].is-in .ab-glass-wine {
+  animation: abGlassFill 6.2s cubic-bezier(0.32, 0, 0.25, 1) 0.3s both;
+}
+[data-reveal].is-in .ab-pour-stream {
+  animation: abStream 6.2s linear 0.3s both;
+}
+/* Бутылка почти не переезжает — только кренится над бокалом. Подъём на 26px
+   обязателен: при меньшем горлышко на 44° опускается ниже кромки (y=34) и
+   силуэт бутылки пересекается с бокалом — она «проходит сквозь» стекло.
+   На 26px просвет между контурами держится ~2.4 ед. на всём проходе. */
+@keyframes abBottle {
+  0%,
+  10% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  26%,
+  62% {
+    transform: translate(-5px, -26px) rotate(44deg);
+  }
+  80%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+@keyframes abBottleWine {
+  0%,
+  10% {
+    transform: rotate(0deg) translateY(0);
+  }
+  26%,
+  32% {
+    transform: rotate(-44deg) translateY(0);
+  }
+  58%,
+  62% {
+    transform: rotate(-44deg) translateY(16px);
+  }
+  80%,
+  100% {
+    transform: rotate(0deg) translateY(16px);
+  }
+}
+/* Уровень поднимается и мягко оседает — как настоящая жидкость */
+@keyframes abGlassFill {
+  0%,
+  30% {
+    transform: translateY(34px);
+  }
+  58% {
+    transform: translateY(8.5px);
+  }
+  66%,
+  100% {
+    transform: translateY(10px);
+  }
+}
+@keyframes abStream {
+  0%,
+  28% {
+    stroke-dashoffset: 26;
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  35%,
+  56% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  61% {
+    stroke-dashoffset: -26;
+    opacity: 1;
+  }
+  62%,
+  100% {
+    stroke-dashoffset: -26;
+    opacity: 0;
+  }
+}
+
+/* ——— 03 · Рассказ ——— */
+.ab-statement {
+  padding: clamp(24px, 3.6vw, 52px) 0 clamp(16px, 2vw, 30px);
+}
+.ab-statement p {
+  margin: 0;
+  max-width: 900px;
+  font-family: var(--serif);
+  font-size: clamp(26px, 4.4vw, 54px);
+  line-height: 1.16;
+}
+.ab-story {
+  padding: clamp(8px, 2vw, 24px) 0;
+}
+.ab-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(28px, 5vw, 72px);
+  align-items: center;
+  padding: clamp(40px, 6vw, 84px) 0;
+}
+.ab-row.reverse .ab-row-media-col {
+  order: 2;
+}
+/* figure — обнуляем браузерные отступы, колонка держит кадр и подпись */
+.ab-row-media-col {
+  margin: 0;
+}
+.ab-row-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 3px;
+  overflow: hidden;
+}
+/* Подпись под кадром — тише основного текста, не спорит с заголовком блока */
+.ab-row-caption {
+  margin-top: 12px;
+  font-size: clamp(12px, 1.1vw, 13px);
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  opacity: 0.62;
+}
+.ab-ph {
+  position: absolute;
+  inset: 0;
+  /* тёплая заглушка — холодный серый выпадал из «золотого часа» */
+  background: #d9cdb6;
+}
+.section-dark .ab-ph {
+  background: #2c2226;
+}
+/* Микролейбл и тонкая линейка до края колонки — она обозначает начало блока */
+.ab-row-head {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 18px);
+  margin-bottom: 22px;
+}
+.ab-row-head .eyebrow {
+  margin-bottom: 0;
+}
+.ab-row-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--accent-dark);
+  opacity: 0.2;
+}
+.ab-row-body h2 {
+  margin: 0.35em 0 0.5em;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(28px, 3.6vw, 46px);
+  line-height: 1.08;
+}
+.ab-row-body p {
+  margin: 0 0 1em;
+  max-width: 48ch;
+  font-size: clamp(15px, 1.5vw, 18px);
+  line-height: 1.72;
+  color: var(--ink-soft);
+}
+
+/* ——— 04 · Манифест + витрина вин ——— */
+.ab-manifesto {
+  text-align: center;
+}
+/* Базовая фраза манифеста имеет max-width: 13em и прижата влево — на «О нас»
+   она идёт по центру, поэтому колонку тоже центрируем, иначе центрированные
+   строки висят в левом краю секции. */
+.ab-manifesto .manifesto-phrase {
+  margin-inline: auto;
+}
+/* Нижний мост базового манифеста уводит цвет в #171114 — это оттенок ленты
+   вин на главной. Здесь под манифестом такое же полотно --dark, и мост
+   рисовал лишнюю тёмную ступеньку. */
+.ab-manifesto::after {
+  display: none;
+}
+/* Переход к странице вин под манифестом. Кнопка — фирменная «уголёк»
+   (.btn-accent), на тёмном полотне она светлая по правилу 2 DESIGN.md;
+   инверсий заливки на ховере система не допускает, поэтому «креатив» здесь
+   в самой дуге-угольке, что ходит по кромке. */
+.ab-manifesto-foot {
+  margin-top: clamp(28px, 4.5vw, 56px);
+  display: flex;
+  justify-content: center;
+}
+.ab-wines-cta {
+  letter-spacing: 0.16em;
+}
+
+/* ——— 05 · Приглашение ——— */
+.ab-invite {
+  padding: clamp(24px, 3.1vw, 44px) 0 clamp(28px, 2.8vw, 40px);
+}
+.ab-invite-head {
+  max-width: 760px;
+  margin: 0 auto clamp(36px, 5vw, 60px);
+  text-align: center;
+}
+.ab-invite-head h2 {
+  margin: 0.25em 0 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(28px, 4vw, 52px);
+  line-height: 1.08;
+}
+@media (max-width: 900px) {
+  .ab-row {
+    grid-template-columns: 1fr;
+  }
+  .ab-row.reverse .ab-row-media-col {
+    order: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ab-pour-bottle,
+  .ab-bottle-wine,
+  .ab-glass-wine,
+  .ab-pour-stream {
+    animation: none;
+  }
+  /* Финальный кадр: бутылка на месте, бокал налит, струи нет */
+  .ab-bottle-wine {
+    transform: translateY(16px);
+  }
+  .ab-glass-wine {
+    transform: translateY(10px);
+  }
+  .ab-pour-stream {
+    opacity: 0;
+  }
+}
+
+/* ——— Финал: единственный призыв в венке лозы ——— */
+.ab-invite-lead {
+  max-width: 620px;
+  margin: 0.9em auto 0;
+  font-size: clamp(16px, 1.7vw, 19px);
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+/* ——— Финал: бокал наливается на глазах ——— */
+.ab-finale {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 4vw, 56px);
+  margin-top: clamp(26px, 4vw, 52px);
+}
+.ab-finale-body {
+  display: flex;
+  flex-direction: column;
+  /* кнопка договаривает фразу — стоит по центру под ней */
+  align-items: center;
+  text-align: center;
+  gap: clamp(14px, 2vw, 22px);
+}
+.ab-finale-line {
+  margin: 0;
+  max-width: 14ch;
+  font-family: var(--serif);
+  font-size: clamp(26px, 3.4vw, 44px);
+  line-height: 1.06;
+  color: var(--ink);
+}
+.ab-cta-btn {
+  white-space: nowrap;
+}
+@media (max-width: 600px) {
+  .ab-finale {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .ab-finale-body {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* ===================================================================
+   Страница «Мероприятия»
+   ===================================================================
+   Страницу организует свет. Сверху известняковый день, к низу фон уводится
+   в золотой час, финал — тёмное полотно. Дуга сделана длинным градиентом на
+   секции предложений, а не скролл-анимацией: свет привязан к месту на
+   странице, поэтому результат тот же, но без зависимости от поддержки
+   animation-timeline и без оговорок про prefers-reduced-motion.
+   Нижняя точка дуги намеренно светлее «глины»: на #e6cfa8 вторичный текст
+   (--ink-soft) держит ~4.9:1, а на более тёмном фоне провалился бы. */
+
+/* Верх страницы набран как оттиск малым тиражом: две краски — золото
+   и вино — печатаются одна поверх другой через multiply, и на пересечении
+   проступает третий тон. Новых цветов в палитру не добавляется: третий
+   не подобран, а вычислен наложением.
+   Полоса идёт во всю ширину от самого верха (шапка position: fixed и лежит
+   поверх), а низ отбит волосяной линией — она и разграничивает оттиск
+   со световой дугой, которая начинается ниже.
+   Краски уведены к левому и правому краю: по центру, где стоит текст,
+   поле остаётся чистым, поэтому контраст не страдает. */
+.ev-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(104px, 12vw, 172px) 0 clamp(56px, 7vw, 96px);
+  background: #f2ead9;
+  border-bottom: 1px solid rgba(109, 52, 64, 0.22);
+}
+.ev-hero::before,
+.ev-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+/* Золото — левый верх */
+.ev-hero::before {
+  background: radial-gradient(
+    54% 68% at 10% 6%,
+    rgba(227, 191, 136, 0.82),
+    rgba(227, 191, 136, 0) 70%
+  );
+}
+/* Вино — правый край, чуть выше середины. Гаснет, не доходя до низа:
+   иначе нижняя кромка полосы приходила бы к линии разного тона.
+   Смещение приводки на 2px — как у настоящего ризографа, где слои
+   никогда не совпадают идеально. */
+.ev-hero::after {
+  background: radial-gradient(
+    48% 60% at 92% 46%,
+    rgba(94, 42, 51, 0.26),
+    rgba(94, 42, 51, 0) 66%
+  );
+  transform: translate(2px, -2px);
+}
+
+.ev-invite {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* Линейка обрамляет заголовок, а не делит страницу, — потому короткая */
+.ev-rule {
+  display: block;
+  width: clamp(64px, 12vw, 130px);
+  height: 1px;
+  background: var(--accent-dark);
+  opacity: 0.32;
+}
+.ev-hero-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: clamp(20px, 3vw, 34px) 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(36px, 6.6vw, 86px);
+  line-height: 1.03;
+}
+.ev-t-line {
+  display: block;
+  white-space: nowrap;
+}
+/* Висячая пунктуация: тире не участвует в ширине строки, поэтому строки
+   центруются по словам. Иначе первая перевешивает на ширину « —» и вся
+   открытка выглядит сдвинутой влево. */
+.ev-t-dash {
+  display: inline-block;
+  width: 0;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+.ev-hero-lead {
+  margin: clamp(22px, 3.4vw, 36px) 0 clamp(24px, 3.6vw, 38px);
+  max-width: 42ch;
+  font-size: clamp(15px, 1.6vw, 19px);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.ev-ph {
+  position: absolute;
+  inset: 0;
+  background: #d9cdb6;
+}
+
+/* Тело дуги */
+.ev-offers {
+  /* Земля тут теплеет, поэтому вторичный текст переопределяется на более
+     тёмный и тёплый: штатный --ink-soft на нижнем стопе дуги давал 4.15:1 —
+     ниже нормы. Приём тот же, что с --accent на страницах вин: токен
+     переопределяется под другую подложку, а не правится каждое правило. */
+  --ink-soft: #57484a;
+  padding: clamp(28px, 4vw, 56px) 0 clamp(56px, 8vw, 104px);
+  /* Дуга подхватывает тон оттиска (#f2ead9), а не начинается со светлого
+     --bg: иначе после полосы свет проваливался бы назад и теплел заново. */
+  background: linear-gradient(
+    180deg,
+    #f2ead9 0%,
+    #f0e6cf 26%,
+    #ebdec0 62%,
+    #e6cfa8 100%
+  );
+}
+.ev-offers-head {
+  margin-bottom: clamp(28px, 4vw, 56px);
+}
+.ev-offers-head h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(28px, 4vw, 50px);
+  line-height: 1.08;
+  margin-top: 0.3em;
+}
+.ev-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 6vw, 88px);
+}
+
+/* Раскладка нарочно асимметричная, а не 50/50 как на «О винодельне» — иначе
+   две страницы читаются одинаково. Колонки 5/7: текст шире фото.
+   Сначала было наоборот (7/5, фото шире), но весь присланный материал
+   оказался вертикальным — в широкой рамке такие кадры резались наполовину. */
+.ev-row {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: clamp(24px, 4vw, 60px);
+  align-items: center;
+}
+/* В зеркальных блоках меняем местами сами колонки, а не только порядок:
+   иначе фото уезжает в широкую колонку и рамка гуляет от блока к блоку
+   (459px против 642px). Медиа обязано оставаться узким всегда. */
+.ev-row.reverse {
+  grid-template-columns: 7fr 5fr;
+}
+.ev-row.reverse .ev-row-media {
+  order: 2;
+}
+/* 4:5 — под вертикальные кадры. У снимков 3:4 (телефон) обрезается ~6 %
+   высоты, у 2:3 — 17 %; в прежней рамке 3:2 уходило 44–50 %. */
+.ev-row-media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.ev-num {
+  display: block;
+  font-family: var(--serif-italic);
+  font-size: clamp(15px, 1.6vw, 18px);
+  /* Без прозрачности: на тёплом низу дуги 0.75 сажали контраст до 3.67:1 */
+  color: var(--accent-dark);
+  margin-bottom: 0.5em;
+}
+.ev-row-body h3 {
+  margin: 0 0 0.42em;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(23px, 2.9vw, 36px);
+  line-height: 1.1;
+}
+/* Цвет и кегль абзацев здесь НЕ задаём: текст и цена набраны классами
+   .exp-text и .exp-price, общими с карточками дегустаций, и приносят свои.
+   Правило `.ev-row-body p` перебивало их по специфичности — цена и описание
+   гасли до вторичного тона вместо насыщенного. */
+.ev-row-body p {
+  max-width: 44ch;
+}
+
+/* Финал — тёмный край дуги */
+.ev-final {
+  padding: clamp(56px, 8vw, 108px) 0;
+  text-align: center;
+}
+.ev-final h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(25px, 3.4vw, 42px);
+  line-height: 1.16;
+  max-width: 22ch;
+  margin: 0 auto clamp(26px, 3.6vw, 40px);
+}
+.ev-final .contact-actions {
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  /* .reverse тоже сбрасываем: у него своя перестановка колонок (7fr 5fr),
+     и по специфичности она перебивала бы это правило — зеркальные блоки
+     оставались бы двухколоночными и рамка схлопывалась до сотни пикселей */
+  .ev-row,
+  .ev-row.reverse {
+    grid-template-columns: 1fr;
+  }
+  .ev-row.reverse .ev-row-media {
+    order: 0;
+  }
+  .ev-final h2 {
+    max-width: none;
+  }
+}
+
+/* Этикетка на бутылке в сцене розлива: поле между волосяными линиями,
+   которые размечали её зону изначально.
+   Тон тёплый бежевый, а не белый: белый выпадал из «золотого часа» холодом.
+   При этом он заметно отличается от фона страницы (ΔE 10.2) — в наклоне
+   часть этикетки приходится не на вино, а на пустой корпус, где просвечивает
+   --bg, и на белом она там почти сливалась (ΔE 3.2).
+   Контраст с вином внутри бутылки — 9.4:1, монограмма читается уверенно. */
+.ab-label {
+  fill: #f5e9d0;
 }

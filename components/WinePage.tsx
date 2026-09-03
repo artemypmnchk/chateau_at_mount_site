@@ -148,9 +148,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
                   />
                 </div>
                 <div className="wine-c-body">
-                  <span className="wine-c-meta">
-                    {L(o.type)}
-                  </span>
+                  <span className="wine-c-meta">{L(o.type)}</span>
                   <h3>{o.name}</h3>
                   <p className="wine-c-desc">{L(o.desc)}</p>
                   {o.awards && o.awards.length > 0 && (

@@ -38,7 +38,10 @@ export function localizePath(locale: Locale, path: string): string {
 }
 
 /** Снимает языковой префикс, возвращая «голый» ru-путь (для канонизации/свитча). */
-export function stripLocale(pathname: string): { locale: Locale; path: string } {
+export function stripLocale(pathname: string): {
+  locale: Locale;
+  path: string;
+} {
   const m = pathname.match(/^\/(en|ro)(\/.*|$)/);
   if (m) {
     const locale = m[1] as Locale;
@@ -71,19 +74,23 @@ export function alternatesFor(
 }
 
 /** Локализованные подписи «хлебных крошек» для JSON-LD BreadcrumbList. */
-export const breadcrumbLabels: Record<Locale, { home: string; wines: string }> = {
-  ru: { home: "Главная", wines: "Вина" },
-  en: { home: "Home", wines: "Wines" },
-  ro: { home: "Acasă", wines: "Vinuri" },
-};
+export const breadcrumbLabels: Record<Locale, { home: string; wines: string }> =
+  {
+    ru: { home: "Главная", wines: "Вина" },
+    en: { home: "Home", wines: "Wines" },
+    ro: { home: "Acasă", wines: "Vinuri" },
+  };
 
-type PageKey = "home" | "wines" | "visit" | "contacts";
+type PageKey = "home" | "about" | "wines" | "visit" | "events" | "contacts";
 
 /**
  * SEO title/description по страницам на трёх языках.
  * ⚠️ en/ro — черновики, ждут вычитки переводов вместе с телом сайта.
  */
-const pageMeta: Record<PageKey, Record<Locale, { title: string; description: string }>> = {
+const pageMeta: Record<
+  PageKey,
+  Record<Locale, { title: string; description: string }>
+> = {
   home: {
     ru: {
       title: "Chateau At Mount — Винодельня в Гагаузии, Молдова",
@@ -98,6 +105,23 @@ const pageMeta: Record<PageKey, Record<Locale, { title: string; description: str
       title: "Chateau At Mount — Cramă de familie în Găgăuzia, Moldova",
       description:
         "Chateau At Mount, cramă de familie în Găgăuzia, sudul Moldovei: 15 ha de viță de vie, 7 soiuri de struguri și vinuri de autor din viile proprii.",
+    },
+  },
+  about: {
+    ru: {
+      title: "О винодельне Chateau At Mount — Чадыр-Лунга, Гагаузия",
+      description:
+        "Семейная гагаузская винодельня Chateau At Mount на самой высокой точке холма в Чадыр-Лунге: 15 га своих виноградников, 7 сортов, солнечная энергия, выдержка в дубовых барриках и международные награды.",
+    },
+    en: {
+      title: "About the Winery — Ceadîr-Lunga, Gagauzia",
+      description:
+        "Chateau At Mount, a Gagauz family winery on the highest point of the hill in Ceadîr-Lunga: 15 hectares of our own vineyards, 7 varieties, solar power, ageing in oak barriques and international awards.",
+    },
+    ro: {
+      title: "Despre cramă — Ceadîr-Lunga, Găgăuzia",
+      description:
+        "Chateau At Mount, cramă de familie găgăuză pe cel mai înalt punct al dealului din Ceadîr-Lunga: 15 ha de vii proprii, 7 soiuri, energie solară, maturare în baricuri de stejar și premii internaționale.",
     },
   },
   wines: {
@@ -115,6 +139,23 @@ const pageMeta: Record<PageKey, Record<Locale, { title: string; description: str
       title: "Vinurile noastre — Classic, Rare și Experimental",
       description:
         "Vinuri de la crama de familie Chateau At Mount (Găgăuzia, Moldova): șapte soiuri clasice, linia Rare în serii mici, spumant extra brut, vin oranj și cupajele PONI. Vinuri seci din viile proprii.",
+    },
+  },
+  events: {
+    ru: {
+      title: "Мероприятия на винодельне — пикники, свидания, аренда",
+      description:
+        "Мероприятия на винодельне Chateau At Mount в Чадыр-Лунге, Гагаузия: пикники среди лоз, мастер-классы, кино под открытым небом, романтические вечера, девичники и аренда территории.",
+    },
+    en: {
+      title: "Events at the Winery — Picnics, Dates, Estate Hire",
+      description:
+        "Events at Chateau At Mount in Ceadîr-Lunga, Gagauzia: picnics among the vines, creative workshops, open-air cinema, romantic evenings, hen parties and hire of the estate.",
+    },
+    ro: {
+      title: "Evenimente la cramă — picnicuri, întâlniri, închiriere",
+      description:
+        "Evenimente la Chateau At Mount în Ceadîr-Lunga, Găgăuzia: picnicuri printre vii, ateliere creative, cinema sub cerul liber, seri romantice, petreceri ale burlăcițelor și închirierea domeniului.",
     },
   },
   visit: {

@@ -1,0 +1,239 @@
+"use client";
+
+import Image, { type StaticImageData } from "next/image";
+import { t, links } from "@/lib/content";
+import { useLocale } from "./locale";
+import { useReveal } from "./useReveal";
+import { useBookingModal } from "./BookingModal";
+
+import tastingImg from "@/public/images/event-tasting.jpg";
+import workshopImg from "@/public/images/event-workshop.jpg";
+import picnicImg from "@/public/images/event-picnic.jpg";
+import photoImg from "@/public/images/event-photo.jpg";
+import henImg from "@/public/images/event-hen.jpg";
+import hireImg from "@/public/images/event-hire.jpg";
+import cinemaImg from "@/public/images/event-cinema.jpg";
+import dateImg from "@/public/images/event-date.jpg";
+
+const e = t.eventsPage;
+
+/**
+ * Кадры по предложениям. Ключ — русское название из lib/content.ts, а не
+ * индекс: порядок предложений задаёт световую дугу и может меняться, а
+ * привязка по индексу тихо разъехалась бы. Чего нет в карте — остаётся
+ * с заглушкой.
+ *
+ * `position` — точка кадрирования. Рамка 4:5 подобрана под вертикальный
+ * материал, поэтому обрезка небольшая и почти всем подходит центр; отклонения
+ * заданы там, где сюжет смещён от середины.
+ */
+const OFFER_MEDIA: Record<string, { img: StaticImageData; position?: string }> =
+  {
+    // Стол уходит вглубь: верх кадра держит и сервировку, и перспективу
+    "Дегустация и экскурсия": { img: tastingImg, position: "center 20%" },
+    // Кадр 9:16, сверху много неба — опускаем на стол, гирлянда остаётся в кадре
+    "Творческие мастер-классы": { img: workshopImg, position: "center 60%" },
+    "Пикники в виноградниках": { img: picnicImg },
+    // Съёмка идёт в нижней половине кадра, вверху пустое небо
+    "Фотозоны для съёмок": { img: photoImg, position: "center 60%" },
+    Девичники: { img: henImg },
+    // Люди и закат в нижней трети — центр показал бы одно небо
+    "Аренда территории": { img: hireImg, position: "center 65%" },
+    // Экран и стол со свечами — ниже середины, сверху чернота
+    "Кинотеатр под открытым небом": { img: cinemaImg, position: "center 70%" },
+    "Романтические свидания": { img: dateImg },
+  };
+
+/**
+ * Страница «Мероприятия».
+ *
+ * Страницу организует свет: сверху известняковый день, к середине фон уводится
+ * в золотой час, внизу — тёмный вечер, где живёт единственное действие. Дуга
+ * сделана длинным градиентом на секции предложений, а не скролл-анимацией:
+ * визуально результат тот же (свет привязан к месту на странице), но без
+ * зависимости от поддержки браузером и без оговорок про reduced-motion.
+ *
+ * Порядок предложений в lib/content.ts идёт от дневных к ночным и совпадает с
+ * дугой — от дегустации при свете дня до свидания при свечах. Это же порядок
+ * владельца.
+ *
+ * Сейчас кадр есть у каждого предложения; заглушка остаётся страховкой на
+ * случай нового блока, фото для которого ещё не прислали.
+ */
+function Ph({ label }: { label: string }) {
+  return <div className="ev-ph" role="img" aria-label={label} />;
+}
+
+export default function EventsPage() {
+  const { L, lp, locale } = useLocale();
+  const { openBooking } = useBookingModal();
+  useReveal();
+
+  return (
+    <main className="events">
+      {/* ======= Хиро — светлый край дуги, набран как пригласительный:
+           симметрия, короткие волосяные линейки, много воздуха. Страница про
+           приглашение сделана в форме приглашения — отсюда и центр, который
+           на остальных страницах сайта не используется. Изображения нет
+           намеренно: на открытке его и не бывает. ======= */}
+      <section className="ev-hero">
+        <div className="container">
+          <div className="ev-invite" data-reveal>
+            <span className="ev-rule" aria-hidden="true" />
+            {/* Тире вынесено в разметку и «висит» за краем строки: если
+                считать его шириной, первая строка перевешивает и композиция
+                по оси перестаёт быть симметричной. Классическая висячая
+                пунктуация — центрируем по словам, а не по коробкам. */}
+            <h1 className="ev-hero-title">
+              <span className="ev-t-line">
+                {L(e.titleA)}
+                <span className="ev-t-dash">&nbsp;—</span>
+              </span>{" "}
+              <span className="ev-t-line">{L(e.titleB)}</span>
+            </h1>
+            <span className="ev-rule" aria-hidden="true" />
+            <p className="ev-hero-lead">{L(e.intro)}</p>
+            <a
+              href={links.telegram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-accent"
+            >
+              <span>{L(e.heroCta)}</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ======= Предложения — тело дуги: свет теплеет к низу ======= */}
+      <section className="ev-offers">
+        <div className="container">
+          <div className="ev-offers-head" data-reveal>
+            <span className="eyebrow">{L(e.offersEyebrow)}</span>
+            <h2>{L(e.offersTitle)}</h2>
+          </div>
+
+          <div className="ev-list">
+            {e.offers.map((o, i) => {
+              // Ссылка есть только у дегустаций — у остальных ключа нет вовсе,
+              // поэтому сужаем союз через `in`, а не приводим тип
+              const href = "href" in o ? o.href : undefined;
+              const media = OFFER_MEDIA[o.name.ru];
+              return (
+                <article
+                  key={o.name.ru}
+                  className={`ev-row${i % 2 ? " reverse" : ""}`}
+                  data-reveal
+                >
+                  <div className="ev-row-media">
+                    {media ? (
+                      <Image
+                        src={media.img}
+                        alt={L(o.media)}
+                        fill
+                        placeholder="blur"
+                        /* 65 вместо стандартных 75. Сравнивалось на выдаче
+                         оптимизатора: в натуральную ширину показа (459px)
+                         разницы нет, среднее расхождение по пикселям 1–4
+                         из 255. Восемь кадров страницы: 450 → 310 КБ. */
+                        quality={65}
+                        /* Замерено по вёрстке, а не на глаз: до 900px кадр
+                         занимает 90–94vw (колонка минус поля), выше — 38vw
+                         пятой доли сетки 5fr/7fr, а с 1248px контейнер
+                         упирается в максимум и кадр застывает на 460px.
+                         Прежние «42vw» завышали ширину на всех экранах —
+                         браузер брал ступень srcset крупнее нужной. */
+                        sizes="(max-width: 900px) 94vw, (max-width: 1248px) 39vw, 460px"
+                        style={{
+                          objectFit: "cover",
+                          objectPosition: media.position ?? "center",
+                        }}
+                      />
+                    ) : (
+                      <Ph label={L(o.media)} />
+                    )}
+                  </div>
+                  <div className="ev-row-body">
+                    {/* Номер — не украшение: предложения идут по ходу дня,
+                      от дегустации при свете до вечера при свечах */}
+                    <span className="ev-num">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3>{L(o.name)}</h3>
+                    {/* Порядок и классы — те же, что у карточек дегустаций
+                      (.exp-*): цена сразу под заголовком, текст, состав
+                      строками таблицы, ссылка-штрих внизу. Классы
+                      переиспользуются, а не копируются, — иначе два блока
+                      начнут расходиться при первой же правке.
+                      У дегустаций своей цены тут нет: у них отдельная
+                      страница с тремя пакетами, дублировать одну нечестно. */}
+                    {"price" in o && <p className="exp-price">{L(o.price)}</p>}
+                    {"blurb" in o && <p className="exp-text">{L(o.blurb)}</p>}
+                    {"items" in o && (
+                      <ul className="exp-list">
+                        {o.items.map((it) => (
+                          <li key={it.ru}>{L(it)}</li>
+                        ))}
+                      </ul>
+                    )}
+                    {"includes" in o && (
+                      <ul className="exp-list">
+                        {o.includes[locale].map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    )}
+                    {href ? (
+                      <a href={lp(href)} className="hero-link exp-cta">
+                        {L(e.offerMore)}
+                      </a>
+                    ) : (
+                      /* Метка источника — русское название предложения: по ней
+                       владелец видит, из какого блока пришла заявка */
+                      <button
+                        onClick={() =>
+                          openBooking(`Мероприятия · ${o.name.ru}`)
+                        }
+                        className="hero-link exp-cta"
+                      >
+                        {L(e.offerCta)}
+                      </button>
+                    )}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ======= Финал — тёмный край дуги. Метка темы обязательна: без неё
+           шапка-хамелеон светлеет поверх тёмного фона ======= */}
+      <section className="section-dark ev-final" data-header-theme="dark">
+        <div className="container">
+          <h2 data-reveal>{L(e.finalTitle)}</h2>
+          <div
+            className="contact-actions"
+            data-reveal
+            style={{ "--reveal-delay": "120ms" } as React.CSSProperties}
+          >
+            <a
+              href={links.telegram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-accent"
+            >
+              <span>{L(e.finalTg)}</span>
+            </a>
+            <button
+              onClick={() => openBooking("Мероприятия · финал")}
+              className="btn btn-outline"
+            >
+              {L(e.finalForm)}
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
