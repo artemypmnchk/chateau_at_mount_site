@@ -112,7 +112,10 @@ export default function WinesPage() {
       >
         <div className="container">
           <h2 data-reveal>{L(t.finalCta.title)}</h2>
-          <p data-reveal style={{ "--reveal-delay": "0.08s" } as React.CSSProperties}>
+          <p
+            data-reveal
+            style={{ "--reveal-delay": "0.08s" } as React.CSSProperties}
+          >
             {L(t.finalCta.subtitle)}
           </p>
           <div

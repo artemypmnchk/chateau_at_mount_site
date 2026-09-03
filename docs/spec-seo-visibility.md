@@ -1,6 +1,6 @@
 # Видимость сайта: бренд «Chateau At Mount» и органика — план
 
-Дата: 2026-09-03. Статус: **черновик, ждёт «ок» владельца по волнам 2–4.**
+Дата: 2026-09-03. Статус: **волны 2–3 внедрены 03.09.2026 (коммит 52d2afa), волна 1 — у владельца, волна 4 ждёт «ок» по каждой странице.**
 Основа: три исследования (сущность бренда, внешние каналы и AI-поиск, аудит
 живого сайта + подсказки Google/Яндекса). Предыдущий аудит — `spec-seo-audit.md`.
 
@@ -33,19 +33,19 @@
 
 Всё в одном написании **«Chateau At Mount»** и с сайтом **atmountwinery.com**.
 
-| # | Что | Где |
-|---|-----|-----|
-| 1 | Ссылка на сайт в био Instagram, TikTok, Telegram | профили |
-| 2 | Клейм винодельни на Vivino, заполнить поле сайта, ответить на отзывы | vivino.com/en/wineries-signup |
-| 3 | Письмо в Wine of Moldova / ONVV: карточка винодельни в каталоге (поля Website, phone, email) | office@wineofmoldova.com, 022 105 560 |
-| 4 | Tripadvisor: добавить как Winery в Ceadîr-Lunga | tripadvisor.com/Owners |
-| 5 | Facebook-страница (источник для локального AI-поиска и `sameAs`) | facebook.com/pages/create |
-| 6 | GBP: фото, «Продукты» (вина), первый пост, вопросы-ответы | Google Business Profile |
-| 7 | Попросить ссылку у Vincuvin, Vinador, Wine Republic/iTicket (в описании события) | письма |
-| 8 | В кабинете Mundus Vini (meininger.de) проверить, что указан сайт производителя | кабинет участника |
-| 9 | Search Console: «Проверка URL» → «Запросить индексирование» для `/`, `/en`, `/ro`, `/about`, `/wines` | GSC |
-| 10 | Wine-Searcher: профиль производителя (после п. 3) | wine-searcher.com/trade/producer |
-| 11 | Питч в locals.md / wine-and-spirits.md: «семейная гагаузская винодельня, 6 медалей, оранж» | locals@locals.md |
+| #   | Что                                                                                                   | Где                                   |
+| --- | ----------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| 1   | Ссылка на сайт в био Instagram, TikTok, Telegram                                                      | профили                               |
+| 2   | Клейм винодельни на Vivino, заполнить поле сайта, ответить на отзывы                                  | vivino.com/en/wineries-signup         |
+| 3   | Письмо в Wine of Moldova / ONVV: карточка винодельни в каталоге (поля Website, phone, email)          | office@wineofmoldova.com, 022 105 560 |
+| 4   | Tripadvisor: добавить как Winery в Ceadîr-Lunga                                                       | tripadvisor.com/Owners                |
+| 5   | Facebook-страница (источник для локального AI-поиска и `sameAs`)                                      | facebook.com/pages/create             |
+| 6   | GBP: фото, «Продукты» (вина), первый пост, вопросы-ответы                                             | Google Business Profile               |
+| 7   | Попросить ссылку у Vincuvin, Vinador, Wine Republic/iTicket (в описании события)                      | письма                                |
+| 8   | В кабинете Mundus Vini (meininger.de) проверить, что указан сайт производителя                        | кабинет участника                     |
+| 9   | Search Console: «Проверка URL» → «Запросить индексирование» для `/`, `/en`, `/ro`, `/about`, `/wines` | GSC                                   |
+| 10  | Wine-Searcher: профиль производителя (после п. 3)                                                     | wine-searcher.com/trade/producer      |
+| 11  | Питч в locals.md / wine-and-spirits.md: «семейная гагаузская винодельня, 6 медалей, оранж»            | locals@locals.md                      |
 
 Не делать: Яндекс Бизнес (для Молдовы нет локализованного кабинета), Wikipedia
 (не пройдём по значимости), llms.txt (ноль корреляции с цитированием по трём

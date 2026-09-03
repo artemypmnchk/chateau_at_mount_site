@@ -21,7 +21,7 @@ export default function WinePage({ wine }: { wine: Wine }) {
   const w = t.winePage;
   // «Другие вина» — только из той же линейки: Rare рядом с Rare, PONI с игристым.
   const others = wines.filter(
-    (x) => x.slug !== wine.slug && x.line === wine.line,
+    (x) => x.slug !== wine.slug && x.line === wine.line
   );
 
   return (
