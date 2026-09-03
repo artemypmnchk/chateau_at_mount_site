@@ -99,12 +99,12 @@ const pageMeta: Record<
     en: {
       title: "Chateau At Mount — Family Winery in Gagauzia, Moldova",
       description:
-        "Chateau At Mount, a family winery in Gagauzia, southern Moldova: 15 ha of vineyards, 7 grape varieties and characterful wines from our own estate.",
+        "Chateau At Mount (At Mount Winery), a family winery in Gagauzia, southern Moldova: 15 ha of vineyards, 7 grape varieties and characterful wines from our own estate.",
     },
     ro: {
       title: "Chateau At Mount — Cramă de familie în Găgăuzia, Moldova",
       description:
-        "Chateau At Mount, cramă de familie în Găgăuzia, sudul Moldovei: 15 ha de viță de vie, 7 soiuri de struguri și vinuri de autor din viile proprii.",
+        "Chateau At Mount (At Mount Winery), cramă de familie în Găgăuzia, sudul Moldovei: 15 ha de viță de vie, 7 soiuri de struguri și vinuri de autor din viile proprii.",
     },
   },
   about: {
