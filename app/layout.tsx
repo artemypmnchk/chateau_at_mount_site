@@ -86,10 +86,33 @@ export default function RootLayout({
   return (
     // suppressHydrationWarning: инлайн-скрипт ниже меняет lang на en/ro до
     // гидрации, React не должен ругаться на расхождение атрибута.
-    <html
-      lang="ru"
-      suppressHydrationWarning
-    >
+    <html lang="ru" suppressHydrationWarning>
+      <head>
+        {/* Шрифты первого экрана: H1 «Chateau At Mount» — Oranienbaum latin,
+            меню и CTA — Inter cyrillic (ru) / latin. Без preload заголовок
+            (LCP-элемент) сначала рисуется fallback-шрифтом и подменяется. */}
+        <link
+          rel="preload"
+          href="/fonts/oranienbaum-latin.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/inter-cyrillic.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/inter-latin.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         {/* Единственный <html> живёт в корневом layout, а он не знает пути —
             поэтому для /en и /ro атрибут lang правим до гидрации. Серверный
@@ -98,7 +121,7 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              '(function(){var m=location.pathname.match(/^\\/(en|ro)(\\/|$)/);if(m)document.documentElement.lang=m[1];})()',
+              "(function(){var m=location.pathname.match(/^\\/(en|ro)(\\/|$)/);if(m)document.documentElement.lang=m[1];})()",
           }}
         />
         <LocaleProvider>

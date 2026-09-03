@@ -43,6 +43,10 @@ const nextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
+    // Кеш оптимизированных картинок 30 дней (по умолчанию 60 с): AVIF
+    // кодируется медленно, и холодный кеш = ожидание для первого посетителя.
+    // При замене картинки менять имя файла.
+    minimumCacheTTL: 2592000,
   },
   // www → apex: канонический хост один — atmountwinery.com. Без этого
   // www-вариант отдаёт 200 и плодит дубли в индексе.
@@ -61,6 +65,27 @@ const nextConfig = {
       {
         source: "/:path*",
         headers: securityHeaders,
+      },
+      // Статика из /public по умолчанию отдаётся с max-age=0 — каждый визит
+      // перепроверяет 12 файлов шрифтов. Шрифты неизменяемы (при замене —
+      // новое имя), картинки — сутки + неделя stale-while-revalidate.
+      {
+        source: "/fonts/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/images/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=86400, stale-while-revalidate=604800",
+          },
+        ],
       },
       {
         source: "/(.*).avif",
