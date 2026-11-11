@@ -23,7 +23,7 @@ export default function Footer() {
             <p>{L(t.about.line1)}</p>
           </div>
           <div className="footer-col">
-            <h4>{L(t.footer.brandCol)}</h4>
+            <h3>{L(t.footer.brandCol)}</h3>
             {/* Раньше вёл на якорь #about главной — пункт меню ведёт на
                 отдельную страницу, подвал должен вести туда же */}
             <a href={lp("/about")}>{L(t.nav.about)}</a>
@@ -31,7 +31,7 @@ export default function Footer() {
             <a href={lp("/events")}>{L(t.nav.events)}</a>
           </div>
           <div className="footer-col">
-            <h4>{L(t.footer.socialCol)}</h4>
+            <h3>{L(t.footer.socialCol)}</h3>
             <a href={links.instagram} target="_blank" rel="noopener noreferrer">
               Instagram
             </a>
@@ -43,12 +43,12 @@ export default function Footer() {
             </a>
           </div>
           <div className="footer-col">
-            <h4>{L(t.footer.extraCol)}</h4>
+            <h3>{L(t.footer.extraCol)}</h3>
             <a href={lp("/visit")}>{L(t.nav.visit)}</a>
             <a href={lp("/contacts")}>{L(t.nav.contacts)}</a>
           </div>
           <div className="footer-col">
-            <h4>{L(t.footer.contactsCol)}</h4>
+            <h3>{L(t.footer.contactsCol)}</h3>
             <a href={site.contacts.phoneHref}>{site.contacts.phone}</a>
             <a href={`mailto:${site.contacts.email}`}>{site.contacts.email}</a>
             <p className="footer-address">{L(site.contacts.addressLine)}</p>

@@ -1651,7 +1651,11 @@ section {
   font-size: 15px;
   max-width: 300px;
 }
-.footer-col h4 {
+.footer-col h3 {
+  /* h3, не h4: после h2 уровень не пропускаем (структура для агентов).
+     Глобальный serif для h1–h3 здесь не нужен — колонки подвала в Inter */
+  font-family: inherit;
+  line-height: inherit;
   font-size: 12px;
   letter-spacing: 0.22em;
   text-transform: uppercase;

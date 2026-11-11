@@ -29,7 +29,9 @@ const alternateNames = [
 export function WinerySchema() {
   const winery = {
     "@context": "https://schema.org",
-    "@type": "Winery",
+    // Winery — подтип Organization; Organization указан явно для парсеров,
+    // которые не знают иерархию schema.org (ИИ-агенты, проверки готовности).
+    "@type": ["Winery", "Organization"],
     // Стабильный идентификатор сущности — на него ссылаются Product-разметки
     // страниц вин и смогут ссылаться внешние источники (Knowledge Graph).
     "@id": `${site.url}/#winery`,

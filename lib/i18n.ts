@@ -37,6 +37,14 @@ export function localizePath(locale: Locale, path: string): string {
   return hash ? `${base}#${hash}` : base;
 }
 
+/** Адрес Markdown-версии страницы (главная — /index.md, /en/index.md). */
+export function markdownPath(locale: Locale, path: string): string {
+  const p = localizePath(locale, path);
+  if (p === "/") return "/index.md";
+  if (path === "/") return `${p}/index.md`;
+  return `${p}.md`;
+}
+
 /** Снимает языковой префикс, возвращая «голый» ru-путь (для канонизации/свитча). */
 export function stripLocale(pathname: string): {
   locale: Locale;
@@ -70,7 +78,12 @@ export function alternatesFor(
     "x-default": localizePath("ru", path),
   };
   for (const l of i18nLocales) languages[l] = localizePath(l, path);
-  return { canonical: localizePath(locale, path), languages };
+  return {
+    canonical: localizePath(locale, path),
+    languages,
+    // Markdown-версия той же страницы — для ИИ-агентов (см. lib/markdown.ts)
+    types: { "text/markdown": markdownPath(locale, path) },
+  };
 }
 
 /** Локализованные подписи «хлебных крошек» для JSON-LD BreadcrumbList. */
@@ -208,6 +221,7 @@ export function pageMetadata(
     description: m.description,
     alternates,
     openGraph: {
+      type: "website",
       title: m.title,
       description: m.description,
       url: alternates.canonical as string,
@@ -237,6 +251,7 @@ export function wineMetadata(wine: Wine, locale: Locale): Metadata {
     description,
     alternates,
     openGraph: {
+      type: "website",
       title: `${wine.name} | Chateau At Mount`,
       description,
       url: alternates.canonical as string,
